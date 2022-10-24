@@ -1,7 +1,27 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>鍾明光 on Tutorial for CIoT Open Data Applications</title><link>https://LearnCIOT.github.io/zh-tw/author/%E9%8D%BE%E6%98%8E%E5%85%89/</link><description>Recent content in 鍾明光 on Tutorial for CIoT Open Data Applications</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><atom:link href="https://LearnCIOT.github.io/zh-tw/author/%E9%8D%BE%E6%98%8E%E5%85%89/index.xml" rel="self" type="application/rss+xml"/><item><title>5.1. 地理空間篩選</title><link>https://LearnCIOT.github.io/zh-tw/ch5/ch5.1/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://LearnCIOT.github.io/zh-tw/ch5/ch5.1/</guid><description>Table Of Contents 交集 (Intersect) 緩衝區 (Buffer) 多重緩衝區 (Multi-ring buffer) 距離矩陣 (Distance Matrix) 小結 民生公共物聯網的測站都有其空間位置，由於同一區域內常有類似的環境因子，所以它們的感測數值也會具有類似的起伏趨勢，而這也就是地理學的第一定律：“All things are related, but nearby things are more related than distant things.” (Waldo R. Tobler)
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>鍾明光 on Tutorial for CIoT Open Data Applications</title>
+    <link>https://LearnCIOT.github.io/zh-tw/author/%E9%8D%BE%E6%98%8E%E5%85%89/</link>
+    <description>Recent content in 鍾明光 on Tutorial for CIoT Open Data Applications</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-tw</language><atom:link href="https://LearnCIOT.github.io/zh-tw/author/%E9%8D%BE%E6%98%8E%E5%85%89/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>5.1. 地理空間篩選</title>
+      <link>https://LearnCIOT.github.io/zh-tw/ch5/ch5.1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://LearnCIOT.github.io/zh-tw/ch5/ch5.1/</guid>
+      <description>Table Of Contents 交集 (Intersect) 緩衝區 (Buffer) 多重緩衝區 (Multi-ring buffer) 距離矩陣 (Distance Matrix) 小結 民生公共物聯網的測站都有其空間位置，由於同一區域內常有類似的環境因子，所以它們的感測數值也會具有類似的起伏趨勢，而這也就是地理學的第一定律：“All things are related, but nearby things are more related than distant things.” (Waldo R. Tobler)
 此外，單一測站的感測數據有可能因為局部干擾因子的影響，而產生較大的起伏，所以為進一步確認數據的可信度，我們會需要以單一測站為中心，依照其所屬的行政區或是指定距離 (半徑)，選取鄰近的測站ID與數值，並將其以表單或地圖的方式呈現，以便進行比對。
 這個章節中，我們會利用環保署的空品測站、氣象局的局屬測站以及水利署在各縣市佈建的淹水感測器，示範如何利用地理空間篩選測站，並以其「位置」與「數值」為基礎，轉化成可利用的空間資訊。
-!pip install geopandas !pip install pyCIOT import matplotlib.pyplot as plt import seaborn as sns import geopandas as gpd import pandas as pd import numpy as np import urllib.request import ssl import json import pyCIOT.data as CIoT # 取得資料 wa = CIoT.</description></item><item><title>7.1. QGIS 應用</title><link>https://LearnCIOT.github.io/zh-tw/ch7/ch7.1/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://LearnCIOT.github.io/zh-tw/ch7/ch7.1/</guid><description>Table Of Contents 章節目標 QGIS操作說明 範例一：空品測站分佈圖 資料匯入 產生 GeoJSON 檔案 篩選資料與改變資料點位顏色 將成果輸出成主題式地圖 範例二：避難所分佈圖 QGIS總結 Reference QGIS 是一套免費的地圖資料管理系統，除了可以將使用者蒐集到的資料以地理資續的方式呈現外，使用者也可透過 QGIS 來處理、分析及整合地理空間資料，並繪製主題地圖。在這個章節中，我們將利用 QGIS 來協助我們分析並呈現從民生公共物聯網上所得到的 PM2.5 資料，並在分析完成後將其結果輸出成主題式地圖以供判讀。我們同時也示範如何結合民生公共物聯網的災防資料，透過 QGIS 系統繪製防災避難所分佈圖，方便民眾自行查詢離家最近的防災避難所。
+!pip install geopandas !pip install pyCIOT import matplotlib.pyplot as plt import seaborn as sns import geopandas as gpd import pandas as pd import numpy as np import urllib.request import ssl import json import pyCIOT.data as CIoT # 取得資料 wa = CIoT.</description>
+    </item>
+    <item>
+      <title>7.1. QGIS 應用</title>
+      <link>https://LearnCIOT.github.io/zh-tw/ch7/ch7.1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://LearnCIOT.github.io/zh-tw/ch7/ch7.1/</guid>
+      <description>Table Of Contents 章節目標 QGIS操作說明 範例一：空品測站分佈圖 資料匯入 產生 GeoJSON 檔案 篩選資料與改變資料點位顏色 將成果輸出成主題式地圖 範例二：避難所分佈圖 QGIS總結 Reference QGIS 是一套免費的地圖資料管理系統，除了可以將使用者蒐集到的資料以地理資續的方式呈現外，使用者也可透過 QGIS 來處理、分析及整合地理空間資料，並繪製主題地圖。在這個章節中，我們將利用 QGIS 來協助我們分析並呈現從民生公共物聯網上所得到的 PM2.5 資料，並在分析完成後將其結果輸出成主題式地圖以供判讀。我們同時也示範如何結合民生公共物聯網的災防資料，透過 QGIS 系統繪製防災避難所分佈圖，方便民眾自行查詢離家最近的防災避難所。
 註釋 本文所操作之 QGIS 版本為 3.16.8，惟本文所使用之功能皆為該軟體之基本功能，若使用其他版本軟體，應仍可正常操作。
 章節目標 如何將取得的資料導入 QGIS 在 QGIS 使用前面章節所介紹的地理空間分析功能 (Intersection、Buffer) 將結果輸出成一張主題地圖供別人觀賞 QGIS操作說明 在執行 QGIS 軟體後，可以看到下方的操作介面，除了中間區域的資料框外，上方為標準工具列，提供各式不同的基本操作工具與功能；左方有兩個子區域，分別為資料目錄視窗與圖層；右邊則為分析工具列，提供各式不同的分析工具。
 以下，我們將使用兩個簡單的範例，透過民生公共物聯網的空品資料與災防資料，介紹 QGIS 的基本操作。
@@ -9,11 +29,35 @@
 在這個部分會先介紹如何將資料成功導入到 QGIS 內。由於有些資料在儲存時，會把一張資料表拆開成多張不同的資料表，因此我們在進行分析時，必須要特別留意是否手邊的資料是否有這種情況，並將資料重新結合成原來的一張資料表，以下介紹資料結合的方法：
 資料導入
 首先，我們要先介紹如何將從民生公共物聯網歷史資料直接下載下來的 csv 檔導入到 QGIS。由於資料中有中文，導入時會顯示亂碼，所以採用導入方法為 Layer（位於最上方選單） &amp;gt; Add Layer &amp;gt; Add Delimited Text Layer，匯入介面如下圖： 資料結合 (Join)
-由於原始資料將 PM2.</description></item><item><title>5.2. 地理空間分析</title><link>https://LearnCIOT.github.io/zh-tw/ch5/ch5.2/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://LearnCIOT.github.io/zh-tw/ch5/ch5.2/</guid><description>Table Of Contents 勢力分佈圖 (Voronoi diagram) 最小範圍多邊形/凸包 (Convex hull) 空間群聚 (Clustering) 密度 (Kernel density) 空間內插 (Spatial interpolation) 反距離加權法 (Inverse Distance Weighting) 克力金法 (Kriging) 最近鄰居插值 (Nearest neighbor Interpolation) 空間內插後的資料處理 擷取等值線資料 (contour) 擷取橫切面的資料 (Profile) 參考資源 廣布在生活環境中的微型測站，協助我們掌握細緻的環境變化，並可據以決策跟行動。所以，清楚地掌握測站間的分布和數據特性，也是我們在分析測站數據時的重要基礎。這些測站除了本身的位置可能會形成某種幾何結構或空間群聚。同時，我們也可以依照測站位置與數值的差異，去推估沒有測站的區域的數值，從而獲得一個更為全面的數值分佈狀況，並從中探索感測數值與環境因子間的相關性。在這一個段落中，我們會利用水利署在不同縣市的淹水感測器與地下水位站資料，來進行一些簡單的空間分析。
+由於原始資料將 PM2.</description>
+    </item>
+    <item>
+      <title>5.2. 地理空間分析</title>
+      <link>https://LearnCIOT.github.io/zh-tw/ch5/ch5.2/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://LearnCIOT.github.io/zh-tw/ch5/ch5.2/</guid>
+      <description>Table Of Contents 勢力分佈圖 (Voronoi diagram) 最小範圍多邊形/凸包 (Convex hull) 空間群聚 (Clustering) 密度 (Kernel density) 空間內插 (Spatial interpolation) 反距離加權法 (Inverse Distance Weighting) 克力金法 (Kriging) 最近鄰居插值 (Nearest neighbor Interpolation) 空間內插後的資料處理 擷取等值線資料 (contour) 擷取橫切面的資料 (Profile) 參考資源 廣布在生活環境中的微型測站，協助我們掌握細緻的環境變化，並可據以決策跟行動。所以，清楚地掌握測站間的分布和數據特性，也是我們在分析測站數據時的重要基礎。這些測站除了本身的位置可能會形成某種幾何結構或空間群聚。同時，我們也可以依照測站位置與數值的差異，去推估沒有測站的區域的數值，從而獲得一個更為全面的數值分佈狀況，並從中探索感測數值與環境因子間的相關性。在這一個段落中，我們會利用水利署在不同縣市的淹水感測器與地下水位站資料，來進行一些簡單的空間分析。
 勢力分佈圖 (Voronoi diagram) 首先，我們可能需要釐清個別測站的服務/防守範圍，並以此範圍中的測站數據來代表該區的現況。這個時候，我們可以利用沃羅諾伊圖（voronoi diagram）的方法去找尋這個範圍。沃羅諾伊圖的原理是在兩個相鄰測站間建立一條垂直平分線段，並藉由整合這些線段以構成一個多邊形；每個多邊形範圍的中心點就是測站，而該測站的數值則約可代表這個範圍內的數值。在這個範例中，我們嘗試利用嘉義縣、嘉義市的淹水感測器資料，去練習建立沃羅諾伊圖，這樣我們就可以初略知道這些淹水感測器的勢力分佈範圍。
-# 以水利署淹水感測器資料為例，資料集 gpd 為感測器數值與位置資料、basemap為台灣縣市地理邊界 shp file import matplotlib.pyplot as plt import seaborn as sns import geopandas as gpd import pandas as pd import numpy as np import urllib.request import ssl import json import pyCIOT.</description></item><item><title>7.2. Tableau 應用</title><link>https://LearnCIOT.github.io/zh-tw/ch7/ch7.2/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://LearnCIOT.github.io/zh-tw/ch7/ch7.2/</guid><description>Table Of Contents 章節目標 資料來源 Tableau 基本操作說明 資料導入 工作表 (Worksheet) 簡介 Tableau 應用範例ㄧ：空品資料時空分佈圖 繪製空間分布圖 (地理資訊地圖) 繪製時間分布圖(折線圖) Tableau 應用範例二：災情通報資料儀表板 (Dashboard) 災情資料格式轉換 儀錶板大小設定 將工作表加入儀錶板 加入互動式按鈕 讓同一個互動按鈕作用於多個工作表 加入其他資訊 文本 (Story) 總結 參考資料 在資料分析中，將資料視覺化往往可以協助我們對資料有更進一步的理解。而在將資料圖像化時，不同的資料類型在進行資料圖像化時所使用的圖表類型也有所不同，例如在呈現有經緯度座標的資料時，多半會使用地圖類的圖表，而在呈現時間序列資料時，則可以使用折線圖、直方圖等。然而，許多的資料常常具備不只一種特性，如民生公共物聯網的感測器資料就同時具備了經緯座標及時間序列，因此在呈現時，往往需要用到不只一種圖表才能呈現資料的意涵。而本章節要來介紹一款十分方便的軟體 Tableau，來幫助我們呈現上述複雜的資料型態。
+# 以水利署淹水感測器資料為例，資料集 gpd 為感測器數值與位置資料、basemap為台灣縣市地理邊界 shp file import matplotlib.pyplot as plt import seaborn as sns import geopandas as gpd import pandas as pd import numpy as np import urllib.request import ssl import json import pyCIOT.</description>
+    </item>
+    <item>
+      <title>7.2. Tableau 應用</title>
+      <link>https://LearnCIOT.github.io/zh-tw/ch7/ch7.2/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://LearnCIOT.github.io/zh-tw/ch7/ch7.2/</guid>
+      <description>Table Of Contents 章節目標 資料來源 Tableau 基本操作說明 資料導入 工作表 (Worksheet) 簡介 Tableau 應用範例ㄧ：空品資料時空分佈圖 繪製空間分布圖 (地理資訊地圖) 繪製時間分布圖(折線圖) Tableau 應用範例二：災情通報資料儀表板 (Dashboard) 災情資料格式轉換 儀錶板大小設定 將工作表加入儀錶板 加入互動式按鈕 讓同一個互動按鈕作用於多個工作表 加入其他資訊 文本 (Story) 總結 參考資料 在資料分析中，將資料視覺化往往可以協助我們對資料有更進一步的理解。而在將資料圖像化時，不同的資料類型在進行資料圖像化時所使用的圖表類型也有所不同，例如在呈現有經緯度座標的資料時，多半會使用地圖類的圖表，而在呈現時間序列資料時，則可以使用折線圖、直方圖等。然而，許多的資料常常具備不只一種特性，如民生公共物聯網的感測器資料就同時具備了經緯座標及時間序列，因此在呈現時，往往需要用到不只一種圖表才能呈現資料的意涵。而本章節要來介紹一款十分方便的軟體 Tableau，來幫助我們呈現上述複雜的資料型態。
 Tableau 是一個提供使用者容易上手的視覺化分析平台，除了可以用其來快速製作各式圖表外，其 Dashboard 更是可以讓使用者更加方便地呈現不同的圖表資料；此外，Dashboard 還可以讓讀者與圖表進行互動，除了可以幫助讀者更加輕鬆快速地理解資料外，同時也讓資料分析變得更加地容易。Tableau 原本是一款付費的商業軟體，不過它也有提供免費版的 Tableau Public，來供大家使用。然而要注意的是，因為是 &amp;ldquo;Public&amp;rdquo; 所以利用它所製作出來的成果均會被公開。
 註釋 本文所操作之 Tableau Public 版本為 Tableau Desktop Public Edition (2022.2.2 (20222.22.0916.1526) 64 位)，惟本文所使用之功能皆為該軟體之基本功能，若使用其他版本軟體，應仍可正常操作。
-章節目標 知道如何將資料導入 Tableau 進行圖像化呈現 利用工作表 (Worksheet) 來繪製出分析圖表 利用儀錶板 (Dashboard) 及文本 (Story) 來設計出互動式圖表/簡報 資料來源 民生公共物聯網歷史資料 - 空品資料 - 中研院_校園空品微型感測 (https://history.</description></item><item><title>7.3. Leafmap 應用</title><link>https://LearnCIOT.github.io/zh-tw/ch7/ch7.3/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://LearnCIOT.github.io/zh-tw/ch7/ch7.3/</guid><description>Table Of Contents 套件安裝與引用 讀取資料 Leafmap 基本操作 資料基本呈現方法 資料叢集呈現方法 更改 Leafmap 底圖 整合 OSM 資源 Heatmap 應用 分割視窗功能 Leafmap 成果網頁化 小結 參考資料 我們在之前的章節中，已經示範了如何使用程式語言針對地理屬性的資料進行分析，同時也示範了如何使用 GIS 軟體進行簡易的地理資料分析與呈現，接下來我們介紹如何使用 Python 語言中的 GIS 套件 Leafmap，以及網頁製作套件 Streamlit，自行製作簡單的網頁 GIS 系統，並將資料處理與分析後的結果，透過網頁方式來呈現。
+章節目標 知道如何將資料導入 Tableau 進行圖像化呈現 利用工作表 (Worksheet) 來繪製出分析圖表 利用儀錶板 (Dashboard) 及文本 (Story) 來設計出互動式圖表/簡報 資料來源 民生公共物聯網歷史資料 - 空品資料 - 中研院_校園空品微型感測 (https://history.</description>
+    </item>
+    <item>
+      <title>7.3. Leafmap 應用</title>
+      <link>https://LearnCIOT.github.io/zh-tw/ch7/ch7.3/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://LearnCIOT.github.io/zh-tw/ch7/ch7.3/</guid>
+      <description>Table Of Contents 套件安裝與引用 讀取資料 Leafmap 基本操作 資料基本呈現方法 資料叢集呈現方法 更改 Leafmap 底圖 整合 OSM 資源 Heatmap 應用 分割視窗功能 Leafmap 成果網頁化 小結 參考資料 我們在之前的章節中，已經示範了如何使用程式語言針對地理屬性的資料進行分析，同時也示範了如何使用 GIS 軟體進行簡易的地理資料分析與呈現，接下來我們介紹如何使用 Python 語言中的 GIS 套件 Leafmap，以及網頁製作套件 Streamlit，自行製作簡單的網頁 GIS 系統，並將資料處理與分析後的結果，透過網頁方式來呈現。
 套件安裝與引用 在本章節中，我們將會使用到 pandas, geopandas, leafmap, ipyleaflet, osmnx, streamlit, geocoder 及 pyCIOT 等套件，這些套件除了 pandas 外，在我們使用的開發平台 Colab 上皆沒有預先提供，因此我們需要先自行安裝。由於本次安裝的套件數量較多，為了避免指令在執行後產生大量的文字輸出訊息，因此我們在安裝的指令中，增加了 ‘-q’ 的參數，可以讓畫面的輸出更精簡。
-!pip install -q geopandas !pip install -q leafmap !pip install -q ipyleaflet !pip install -q osmnx !pip install -q streamlit !</description></item></channel></rss>
+!pip install -q geopandas !pip install -q leafmap !pip install -q ipyleaflet !pip install -q osmnx !pip install -q streamlit !</description>
+    </item>
+  </channel>
+</rss>

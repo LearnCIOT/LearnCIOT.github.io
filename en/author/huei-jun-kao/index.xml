@@ -1,2 +1,32 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Huei-Jun Kao on Tutorial for CIoT Open Data Applications</title><link>https://LearnCIOT.github.io/en/author/huei-jun-kao/</link><description>Recent content in Huei-Jun Kao on Tutorial for CIoT Open Data Applications</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><atom:link href="https://LearnCIOT.github.io/en/author/huei-jun-kao/index.xml" rel="self" type="application/rss+xml"/><item><title>1. Introduction</title><link>https://LearnCIOT.github.io/en/ch1/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://LearnCIOT.github.io/en/ch1/</guid><description>1. Introduction Table Of Contents Environment Perception Open Data Civil IoT Taiwan Civil IoT Taiwan Data Service Platform References Environment Perception Human beings are full of curiosity about the changes in the natural world, which can probably trace back to the activities of ancient agricultural civilizations, looking up at the stars and stargazing at night. By the Renaissance in the 16th century AD, Copernicus deduced the &amp;ldquo;heliocentric theory&amp;rdquo; based on the existing astronomical data.</description></item><item><title>2.1. Material Architecture</title><link>https://LearnCIOT.github.io/en/ch2/ch2.1/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://LearnCIOT.github.io/en/ch2/ch2.1/</guid><description>This set of materials includes seven themes including &amp;ldquo;Introduction&amp;rdquo;, &amp;ldquo;Overview of the Materials&amp;rdquo;, &amp;ldquo;Data Access Method&amp;rdquo;, &amp;ldquo;Data Analysis in Time Dimension&amp;rdquo;, &amp;ldquo;Data Analysis in Space Dimension&amp;rdquo;, &amp;ldquo;Data Applications&amp;rdquo; and &amp;ldquo;System Applications&amp;rdquo;. The major themes are described as follows:
-Introduction: We introduce the core of the entire project - &amp;ldquo;Civil IoT Taiwan Project&amp;rdquo;, including various achievements of the project in the past few years, as well as its open data, covering water resources, air quality, earthquakes, and disaster prevention and relief fields, which can bring daily life various applications and services in.</description></item><item><title>2.2. Material Tools</title><link>https://LearnCIOT.github.io/en/ch2/ch2.2/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://LearnCIOT.github.io/en/ch2/ch2.2/</guid><description>Table Of Contents Programming Language - Python Development Platform – Google Colab References Programming Language - Python The subject of this material is the data application of Civil IoT Taiwan. This set of articles will use Python, a programming language commonly used in the data science community, as the main programming language, and adopt an easy-to-understand demonstration method to guide you to read while doing it, step-by-step into the content of each chapter of the topic, and obtain first-hand experience with Civil IoT Taiwan data applications, and the ability to draw inferences from other data science topics in the future.</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Huei-Jun Kao on Tutorial for CIoT Open Data Applications</title>
+    <link>https://LearnCIOT.github.io/en/author/huei-jun-kao/</link>
+    <description>Recent content in Huei-Jun Kao on Tutorial for CIoT Open Data Applications</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-tw</language><atom:link href="https://LearnCIOT.github.io/en/author/huei-jun-kao/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>1. Introduction</title>
+      <link>https://LearnCIOT.github.io/en/ch1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://LearnCIOT.github.io/en/ch1/</guid>
+      <description>1. Introduction Table Of Contents Environment Perception Open Data Civil IoT Taiwan Civil IoT Taiwan Data Service Platform References Environment Perception Human beings are full of curiosity about the changes in the natural world, which can probably trace back to the activities of ancient agricultural civilizations, looking up at the stars and stargazing at night. By the Renaissance in the 16th century AD, Copernicus deduced the &amp;ldquo;heliocentric theory&amp;rdquo; based on the existing astronomical data.</description>
+    </item>
+    <item>
+      <title>2.1. Material Architecture</title>
+      <link>https://LearnCIOT.github.io/en/ch2/ch2.1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://LearnCIOT.github.io/en/ch2/ch2.1/</guid>
+      <description>This set of materials includes seven themes including &amp;ldquo;Introduction&amp;rdquo;, &amp;ldquo;Overview of the Materials&amp;rdquo;, &amp;ldquo;Data Access Method&amp;rdquo;, &amp;ldquo;Data Analysis in Time Dimension&amp;rdquo;, &amp;ldquo;Data Analysis in Space Dimension&amp;rdquo;, &amp;ldquo;Data Applications&amp;rdquo; and &amp;ldquo;System Applications&amp;rdquo;. The major themes are described as follows:
+Introduction: We introduce the core of the entire project - &amp;ldquo;Civil IoT Taiwan Project&amp;rdquo;, including various achievements of the project in the past few years, as well as its open data, covering water resources, air quality, earthquakes, and disaster prevention and relief fields, which can bring daily life various applications and services in.</description>
+    </item>
+    <item>
+      <title>2.2. Material Tools</title>
+      <link>https://LearnCIOT.github.io/en/ch2/ch2.2/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://LearnCIOT.github.io/en/ch2/ch2.2/</guid>
+      <description>Table Of Contents Programming Language - Python Development Platform – Google Colab References Programming Language - Python The subject of this material is the data application of Civil IoT Taiwan. This set of articles will use Python, a programming language commonly used in the data science community, as the main programming language, and adopt an easy-to-understand demonstration method to guide you to read while doing it, step-by-step into the content of each chapter of the topic, and obtain first-hand experience with Civil IoT Taiwan data applications, and the ability to draw inferences from other data science topics in the future.</description>
+    </item>
+  </channel>
+</rss>

@@ -1,1 +1,24 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Learning Civil IoT Taiwan Open Data and Its Applications on Tutorial for CIoT Open Data Applications</title><link>https://LearnCIOT.github.io/en/</link><description>Recent content in Learning Civil IoT Taiwan Open Data and Its Applications on Tutorial for CIoT Open Data Applications</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><atom:link href="https://LearnCIOT.github.io/en/index.xml" rel="self" type="application/rss+xml"/><item><title>1. Introduction</title><link>https://LearnCIOT.github.io/en/ch1/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://LearnCIOT.github.io/en/ch1/</guid><description>1. Introduction Table Of Contents Environment Perception Open Data Civil IoT Taiwan Civil IoT Taiwan Data Service Platform References Environment Perception Human beings are full of curiosity about the changes in the natural world, which can probably trace back to the activities of ancient agricultural civilizations, looking up at the stars and stargazing at night. By the Renaissance in the 16th century AD, Copernicus deduced the &amp;ldquo;heliocentric theory&amp;rdquo; based on the existing astronomical data.</description></item><item><title>2. Overview of the Materials</title><link>https://LearnCIOT.github.io/en/ch2/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://LearnCIOT.github.io/en/ch2/</guid><description>2. Overview of the Materials In this topic, we will introduce the overall structure of the developed materials of Civil IoT Taiwan Open Data, as well as the programming language Python and the development platform Google Colab used in the materials. In addition to conceptual descriptions, we also provide a large number of extended learning resources from shallow to deep, so that interested readers can further explore and learn according to their own needs.</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Learning Civil IoT Taiwan Open Data and Its Applications on Tutorial for CIoT Open Data Applications</title>
+    <link>https://LearnCIOT.github.io/en/</link>
+    <description>Recent content in Learning Civil IoT Taiwan Open Data and Its Applications on Tutorial for CIoT Open Data Applications</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-tw</language><atom:link href="https://LearnCIOT.github.io/en/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>1. Introduction</title>
+      <link>https://LearnCIOT.github.io/en/ch1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://LearnCIOT.github.io/en/ch1/</guid>
+      <description>1. Introduction Table Of Contents Environment Perception Open Data Civil IoT Taiwan Civil IoT Taiwan Data Service Platform References Environment Perception Human beings are full of curiosity about the changes in the natural world, which can probably trace back to the activities of ancient agricultural civilizations, looking up at the stars and stargazing at night. By the Renaissance in the 16th century AD, Copernicus deduced the &amp;ldquo;heliocentric theory&amp;rdquo; based on the existing astronomical data.</description>
+    </item>
+    <item>
+      <title>2. Overview of the Materials</title>
+      <link>https://LearnCIOT.github.io/en/ch2/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://LearnCIOT.github.io/en/ch2/</guid>
+      <description>2. Overview of the Materials In this topic, we will introduce the overall structure of the developed materials of Civil IoT Taiwan Open Data, as well as the programming language Python and the development platform Google Colab used in the materials. In addition to conceptual descriptions, we also provide a large number of extended learning resources from shallow to deep, so that interested readers can further explore and learn according to their own needs.</description>
+    </item>
+  </channel>
+</rss>

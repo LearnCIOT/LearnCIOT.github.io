@@ -1,1 +1,87 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Author on Tutorial for CIoT Open Data Applications</title><link>https://LearnCIOT.github.io/zh-tw/author/</link><description>Recent content in Author on Tutorial for CIoT Open Data Applications</description><generator>Hugo -- gohugo.io</generator><language>zh-tw</language><atom:link href="https://LearnCIOT.github.io/zh-tw/author/index.xml" rel="self" type="application/rss+xml"/><item><title>吳姃家</title><link>https://LearnCIOT.github.io/zh-tw/author/%E5%90%B3%E5%A7%83%E5%AE%B6/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://LearnCIOT.github.io/zh-tw/author/%E5%90%B3%E5%A7%83%E5%AE%B6/</guid><description/></item><item><title>沈姿雨</title><link>https://LearnCIOT.github.io/zh-tw/author/%E6%B2%88%E5%A7%BF%E9%9B%A8/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://LearnCIOT.github.io/zh-tw/author/%E6%B2%88%E5%A7%BF%E9%9B%A8/</guid><description/></item><item><title>洪軾凱</title><link>https://LearnCIOT.github.io/zh-tw/author/%E6%B4%AA%E8%BB%BE%E5%87%B1/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://LearnCIOT.github.io/zh-tw/author/%E6%B4%AA%E8%BB%BE%E5%87%B1/</guid><description/></item><item><title>高慧君</title><link>https://LearnCIOT.github.io/zh-tw/author/%E9%AB%98%E6%85%A7%E5%90%9B/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://LearnCIOT.github.io/zh-tw/author/%E9%AB%98%E6%85%A7%E5%90%9B/</guid><description/></item><item><title>陳伶志</title><link>https://LearnCIOT.github.io/zh-tw/author/%E9%99%B3%E4%BC%B6%E5%BF%97/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://LearnCIOT.github.io/zh-tw/author/%E9%99%B3%E4%BC%B6%E5%BF%97/</guid><description/></item><item><title>陳宏穎</title><link>https://LearnCIOT.github.io/zh-tw/author/%E9%99%B3%E5%AE%8F%E7%A9%8E/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://LearnCIOT.github.io/zh-tw/author/%E9%99%B3%E5%AE%8F%E7%A9%8E/</guid><description/></item><item><title>彭昱齊</title><link>https://LearnCIOT.github.io/zh-tw/author/%E5%BD%AD%E6%98%B1%E9%BD%8A/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://LearnCIOT.github.io/zh-tw/author/%E5%BD%AD%E6%98%B1%E9%BD%8A/</guid><description/></item><item><title>黃仁暐</title><link>https://LearnCIOT.github.io/zh-tw/author/%E9%BB%83%E4%BB%81%E6%9A%90/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://LearnCIOT.github.io/zh-tw/author/%E9%BB%83%E4%BB%81%E6%9A%90/</guid><description/></item><item><title>鄭宇伸</title><link>https://LearnCIOT.github.io/zh-tw/author/%E9%84%AD%E5%AE%87%E4%BC%B8/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://LearnCIOT.github.io/zh-tw/author/%E9%84%AD%E5%AE%87%E4%BC%B8/</guid><description/></item><item><title>鍾明光</title><link>https://LearnCIOT.github.io/zh-tw/author/%E9%8D%BE%E6%98%8E%E5%85%89/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://LearnCIOT.github.io/zh-tw/author/%E9%8D%BE%E6%98%8E%E5%85%89/</guid><description/></item><item><title>羅泉恆</title><link>https://LearnCIOT.github.io/zh-tw/author/%E7%BE%85%E6%B3%89%E6%81%86/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://LearnCIOT.github.io/zh-tw/author/%E7%BE%85%E6%B3%89%E6%81%86/</guid><description/></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Author on Tutorial for CIoT Open Data Applications</title>
+    <link>https://LearnCIOT.github.io/zh-tw/author/</link>
+    <description>Recent content in Author on Tutorial for CIoT Open Data Applications</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-tw</language><atom:link href="https://LearnCIOT.github.io/zh-tw/author/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>吳姃家</title>
+      <link>https://LearnCIOT.github.io/zh-tw/author/%E5%90%B3%E5%A7%83%E5%AE%B6/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://LearnCIOT.github.io/zh-tw/author/%E5%90%B3%E5%A7%83%E5%AE%B6/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>沈姿雨</title>
+      <link>https://LearnCIOT.github.io/zh-tw/author/%E6%B2%88%E5%A7%BF%E9%9B%A8/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://LearnCIOT.github.io/zh-tw/author/%E6%B2%88%E5%A7%BF%E9%9B%A8/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>洪軾凱</title>
+      <link>https://LearnCIOT.github.io/zh-tw/author/%E6%B4%AA%E8%BB%BE%E5%87%B1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://LearnCIOT.github.io/zh-tw/author/%E6%B4%AA%E8%BB%BE%E5%87%B1/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>高慧君</title>
+      <link>https://LearnCIOT.github.io/zh-tw/author/%E9%AB%98%E6%85%A7%E5%90%9B/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://LearnCIOT.github.io/zh-tw/author/%E9%AB%98%E6%85%A7%E5%90%9B/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>陳伶志</title>
+      <link>https://LearnCIOT.github.io/zh-tw/author/%E9%99%B3%E4%BC%B6%E5%BF%97/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://LearnCIOT.github.io/zh-tw/author/%E9%99%B3%E4%BC%B6%E5%BF%97/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>陳宏穎</title>
+      <link>https://LearnCIOT.github.io/zh-tw/author/%E9%99%B3%E5%AE%8F%E7%A9%8E/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://LearnCIOT.github.io/zh-tw/author/%E9%99%B3%E5%AE%8F%E7%A9%8E/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>彭昱齊</title>
+      <link>https://LearnCIOT.github.io/zh-tw/author/%E5%BD%AD%E6%98%B1%E9%BD%8A/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://LearnCIOT.github.io/zh-tw/author/%E5%BD%AD%E6%98%B1%E9%BD%8A/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>黃仁暐</title>
+      <link>https://LearnCIOT.github.io/zh-tw/author/%E9%BB%83%E4%BB%81%E6%9A%90/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://LearnCIOT.github.io/zh-tw/author/%E9%BB%83%E4%BB%81%E6%9A%90/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>鄭宇伸</title>
+      <link>https://LearnCIOT.github.io/zh-tw/author/%E9%84%AD%E5%AE%87%E4%BC%B8/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://LearnCIOT.github.io/zh-tw/author/%E9%84%AD%E5%AE%87%E4%BC%B8/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>鍾明光</title>
+      <link>https://LearnCIOT.github.io/zh-tw/author/%E9%8D%BE%E6%98%8E%E5%85%89/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://LearnCIOT.github.io/zh-tw/author/%E9%8D%BE%E6%98%8E%E5%85%89/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>羅泉恆</title>
+      <link>https://LearnCIOT.github.io/zh-tw/author/%E7%BE%85%E6%B3%89%E6%81%86/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://LearnCIOT.github.io/zh-tw/author/%E7%BE%85%E6%B3%89%E6%81%86/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>
