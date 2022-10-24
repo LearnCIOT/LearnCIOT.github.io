@@ -86,11 +86,11 @@ th {
     margin-top: 1rem;
 }
 
-.searchbox > i {
+.searchbox label {
     color: rgba( 255, 255, 255, .8 );
     position: absolute;
     left: 10px;
-    top: 6px;
+    top: 3px;
 }
 
 .searchbox span {
@@ -133,7 +133,7 @@ th {
     z-index: 100;
 }
 
-#sidebar .padding {
+#sidebar a.padding {
     padding: 0 1rem;
 }
 
@@ -163,7 +163,12 @@ th {
     display: block;
 }
 
-#sidebar ul.collapsible-menu > li > .toggle,
+#sidebar ul.topics input.toggle,
+#sidebar ul.topics label {
+    display: none;
+}
+
+#sidebar ul.topics > li > label,
 #sidebar ul.topics > li > a {
     font-size: 1.1rem;
     line-height: 2rem;
@@ -287,19 +292,10 @@ th {
 }
 
 #body img,
-#body img.center,
 #body .video-container {
     display: block;
     margin: 1.5rem auto;
     text-align: center;
-}
-
-#body img.left {
-    margin-left: 0;
-}
-
-#body img.right {
-    margin-right: 0;
 }
 
 #body img.border,
@@ -980,10 +976,6 @@ option {
     width: .6rem;
 }
 
-.expand-content {
-    margin-top: .5rem;
-}
-
 /* expander collapsed, default */
 .expand > .expand-label > .fa-chevron-down {
     display: none;
@@ -1143,7 +1135,7 @@ option {
 }
 
 #TableOfContents {
-    font-size: 13px !important;
+    font-size: 16px !important;
     max-height: 90vh;
     overflow: hidden;
     padding: 15px 5px !important;
@@ -1279,40 +1271,9 @@ h6 a {
 }
 
 rapi-doc {
-    /* adjust rapi-doc internals to fill out available space with render-style=view */
+    /* adjust rapi-doc internals to fill out available space */
     margin-left: calc( -8px - 24px );
     width: calc( 100% + 8px + 24px + 8px );
-}
-@media (max-width: 767px) {
-    rapi-doc {
-        margin-left: calc( -12px );
-        width: calc( 100% + 12px + 4px );
-    }
-}
-
-rapi-doc::part(section-main-content) {
-    /* override variables for adapting rapidoc design to theme */
-    --font-mono: var(--INTERNAL-CODE-font);
-    --font-size-mono: 15px;
-    --font-regular: var(--INTERNAL-MAIN-font);
-    --font-size-regular: 16.25px;
-    font-weight: 300 !important;
-}
-
-rapi-doc::part(section-overview-title) {
-    color: var(--INTERNAL-MAIN-TITLES-H2-color);
-    font-size: 2.55rem;
-    font-weight: 500;
-}
-
-rapi-doc::part(btn) {
-    /* makes download button large enough to not overflow default text */
-    width: unset !important;
-}
-
-rapi-doc::part(section-endpoint-head-method) {
-    /* makes method marker large enough to not overflow on text DELETE */
-    font-size: 11px;
 }
 
 .select-container i {
@@ -1395,43 +1356,44 @@ input[type="search"]::-webkit-search-results-button,
 input[type="search"]::-webkit-search-results-decoration { display: none; }
 
 #sidebar ul.collapsible-menu input.toggle {
-    -webkit-appearance: none;
-    appearance: none;
+	cursor: pointer;
+    display: block;
+	left: -1rem;
+	opacity: 0;
+    overflow: hidden;
+	position: absolute;
+	top: 0;
+}
+
+#sidebar ul.collapsible-menu label {
     cursor: pointer;
-    height: 2rem;
-    left: 1rem;
-    padding-top: .35rem;
-    position: absolute;
-    width: 1px;
+    display: inline;
+    height: 1rem;
+    left: 0;
+    margin-top: .2em;
+	position: absolute;
+    width: 1rem;
 }
 
-#sidebar ul.collapsible-menu > li > input.toggle {
-    padding-top: .25rem;
-}
-
-#sidebar .collapsible-menu input.toggle:before {
+#sidebar .collapsible-menu input.toggle + label:after {
     content: "\f054";
     font-family: "Font Awesome 5 Free";
     font-size: .8rem;
     font-weight: 900;
-    margin-left: -1rem;
-    padding-bottom: .65rem;
-    padding-left: .2rem;
-    padding-right: .2rem;
-    padding-top: .6rem;
 }
 
-#sidebar .collapsible-menu input.toggle:checked:before {
+#sidebar .collapsible-menu input.toggle:checked + label:after {
     content: "\f078";
-    padding-left: .1rem;
-    padding-right: .1rem;
+    font-family: "Font Awesome 5 Free";
+    font-size: .8rem;
+    font-weight: 900;
 }
 
-#sidebar .collapsible-menu input.toggle + label.toggle + a + ul {
+#sidebar .collapsible-menu input.toggle + label + a + ul {
     display: none;
 }
 
-#sidebar .collapsible-menu input.toggle:checked + label.toggle + a + ul {
+#sidebar .collapsible-menu input.toggle:checked + label + a + ul {
 	display: inline;
 }
 
@@ -1456,54 +1418,119 @@ input[type="search"]::-webkit-search-results-decoration { display: none; }
 	top: -9999px;
 }
 
-.a11y-only {
-    /* idea taken from https://www.filamentgroup.com/lab/a11y-form-labels.html */
-    clip: rect(1px,1px,1px,1px);
-    overflow: hidden;
-    position: absolute;
-    height: 1px;
-    transform: translateY(-100%);
-    transition: transform .5s cubic-bezier(.18,.89,.32,1.28);
-    white-space: nowrap;
-    width: 1px;
+
+/************
+SocialShare
+************/
+.social-share {
+	position: relative;
+	position: fixed;
+	right: 20px;
+	top: -0.5em;
+	top: 48px;
+}
+ 
+.social-share ul {
+	margin: 0;
+}
+ 
+.social-share ul li p {
+	display: none;
+}
+ 
+.social-share .share-icons li {
+	padding: 0 !important;
+	padding-bottom: 2px !important;
+}
+ 
+.social-share .share-btn {
+	padding: 0.25em;
+	width: 3em;
+}
+ 
+.social-share-nav .share-btn h3{
+	color: #ffffff;
 }
 
-/* filament style for making action visible on focus - not adepted yet
-.a11y-only:focus {
-    position: fixed;
-    height: auto;
-    overflow: visible;
-    clip: auto;
-    white-space: normal;
-    margin: 0 0 0 -100px;
-    top: -.3em;
-    left: 50%;
-    text-align: center;
-    width: 200px;
-    background: #fff;
-    color: #368512;
-    padding: .8em 0 .7em;
-    font-size: 16px;
-    z-index: 5000;
-    text-decoration: none;
-    border-bottom-right-radius: 8px;
-    border-bottom-left-radius: 8px;
-    outline: 0;
-    transform: translateY(0%);
+ul.share-icons {
+	cursor: default;
+	list-style: none;
+	padding-left: 0;
+	margin-top: 1em;
 }
+
+ul.share-icons li {
+	//display: inline-block;
+	padding: 0 1em 0 0;
+	padding: 0 0 0 0;
+}
+
+ul.share-icons li:last-child {
+	padding-right: 0;
+}
+
+ul.share-icons li > * {
+	text-decoration: none;
+	border: 0;
+}
+
+ul.share-icons li > *:before {
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
+	font-family: FontAwesome;
+	font-style: normal;
+	font-weight: normal;
+	text-transform: none !important;
+}
+
+ul.share-icons li > * .label {
+	display: none;
+}
+ 
+.share-btn {
+	display: inline-block;
+	color: #ffffff;
+	border: none;
+	border-radius: 4px;
+//	box-shadow: 0 2px 0 0 rgba(0,0,0,0.2);
+	outline: none;
+	text-align: center;
+	text-decoration: none;
+}
+ 
+.share-btn:hover {
+	color: #ffffff !important;
+}
+
+.share-btn:active {
+	position: relative;
+	top: 2px;
+	box-shadow: none;
+	color: #e2e2e2;
+	outline: none;
+}
+.share-btn .widget-social__link-icon {
+	margin: 0;
+}
+ 
+/*
+.share-btn.twitter     { background: #55acee; }
+.share-btn.google-plus { background: #dd4b39; }
+.share-btn.facebook    { background: #3B5998; }
+.share-btn.linkedin    { background: #4875B4; }
+.share-btn.stumbleupon { background: #EB4823; }
+.share-btn.pinterest   { background: #BD081C; }
+.share-btn.reddit      { background: #ff5700; }
+.share-btn.email       { background: #444444; }
+.share-btn.whatsapp    { background: #25d366; }
 */
 
-.align-right {
-    display: flex;
-    justify-content: right;
-}
-
-.align-center {
-    display: flex;
-    justify-content: center;
-}
-
-.align-left {
-    display: flex;
-    justify-content: left;
-}
+.share-btn.twitter:hover     { background: #2c7ab6; }
+.share-btn.google-plus:hover { background: #c64333; }
+.share-btn.facebook:hover    { background: #2f4779; }
+.share-btn.linkedin:hover    { background: #4069a2; }
+.share-btn.stumbleupon:hover { background: #d3401f; }
+.share-btn.pinterest:hover   { background: #AD0000; }
+.share-btn.reddit:hover      { background: #e54e00; }
+.share-btn.email:hover       { background: #364579; }
+.share-btn.whatsapp:hover    { background: #15d346; }
