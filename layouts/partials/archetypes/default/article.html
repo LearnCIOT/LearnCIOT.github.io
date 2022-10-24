@@ -1,0 +1,14 @@
+{{- $page := .page }}
+{{- $content := .content }}
+{{- with $page }}
+          <article class="default">
+{{ partial "heading-pre.html" . }}<h1>{{ .Title }}</h1>{{ partial "heading-post.html" . }}
+
+{{ $content | safeHTML }}
+            <footer class="footline">
+              {{- partial "content-footer.html" . }}
+            </footer>
+          </article>
+
+<hr><div class="fb-comments" data-href="{{ .Permalink | absURL   }}" data-width="100%" data-numposts="5"></div>
+{{- end }}

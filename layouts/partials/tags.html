@@ -1,0 +1,24 @@
+<div class="tags">
+{{- if .Params.levels }}
+{{- range sort .Params.levels }}
+  <a class="level-link" href="{{ "/levels/" | relLangURL }}{{ . | urlize }}">
+  <b>
+    {{- if eq . "beginner" }}
+	&starf;&star;&star;&star;&star;
+    {{- else if eq . "intermediate"}}
+	&starf;&starf;&starf;&star;&star;
+    {{- else if eq . "advanced"}}
+	&starf;&starf;&starf;&starf;&starf;
+    {{- else}}
+	&star;&star;&star;&star;&star;
+    {{- end }}
+  </b>
+  </a>
+{{- end }}
+{{- end }}
+{{- if .Params.tags }}
+{{- range sort .Params.tags }}
+  <a class="tag-link" href="{{ "/tags/" | relLangURL }}{{ . | urlize }}">{{ . }}</a>
+{{- end }}
+{{- end }}
+</div>
