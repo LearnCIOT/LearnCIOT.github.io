@@ -31,6 +31,16 @@
   </url>
   <url>
     <loc>https://LearnCIOT.github.io/zh-tw/ch4/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://LearnCIOT.github.io/en/ch4/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-tw"
+                href="https://LearnCIOT.github.io/zh-tw/ch4/"
+                />
   </url>
   <url>
     <loc>https://LearnCIOT.github.io/zh-tw/ch5/</loc>
