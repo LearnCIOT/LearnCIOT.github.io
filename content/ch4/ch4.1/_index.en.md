@@ -1,11 +1,11 @@
 ---
-title : "4.1. 時間序列資料處理"
+title : "4.1. Time Series Data Processing"
 weight : 10
 socialshare: true
-description : "我們使用民生公共物聯網資料平台的感測資料，引導讀者了解移動式平均 (Moving Average) 的使用方法，以及進行時序資料的週期性分析，並進而將時序資料拆解出長期趨勢、季節變動、循環變動與殘差波動，同時套用既有的 Python 語言套件，進行變點檢測 (Change Point Detection) 與異常值檢測 (Outlier Detection)，用以檢視現有民生公共物聯網資料，並探討其背後所可能隱含的意義。"
-tags: ["Python", "水", "空" ]
+description : "We use the sensing data of Civil IoT Taiwan Data Service Platform to guide readers to understand the use of moving average, perform periodic analysis of time series data, and then disassemble the time series data into long-term trends, seasonal changes and residual fluctuations. At the same time, we apply the existing Python language suites to perform change point detection and outlier detection to check the existing Civil IoT Taiwan data, and discuss potential implications of such values detected."
+tags: ["Python", "Water", "Air" ]
 levels: ["beginner" ]
-author: ["彭昱齊"]
+author: ["Yu-Chi Peng"]
 ---
 
 
@@ -14,17 +14,17 @@ author: ["彭昱齊"]
 
 {{< toc >}}
 
-時間序列資料是依照時間上發生的先後順序形成的資料，通常在資料上的時間間隔會一樣（例如：五分鐘一筆資料、一小時一筆資料），應用的領域相當廣泛，如：金融資訊、太空工程、訊號處理等，在分析上也有許多統計相關的工具可以使用。 同時也可以發現時序資料是很貼近日常生活的，隨著全球氣候變遷的日益加劇，這幾年全球的平均氣溫越來越高，在夏天時更是讓人熱到非常有感，也越來越難以忍受；又或是在一年中某些季節的空氣品質往往特別差，或者某些時間的空氣品質往往比其他時間來的差等。如果想要更加了解這些生活環境的改變，以及其對應的感測器數值是如何變化的，就會運用到時間序列資料的分析，也就是觀察資料與時間的關係，進而得出結果。本章節將會使用三種資料（空氣品質、水資源、氣象）示範。
+Time series data is data formed in the order of appearance in time. Usually, the time interval in the data will be the same (for example, one data every five minutes, or one data per hour), and the application fields are quite wide, such as financial information, space engineering, signal processing, etc. There are also many statistical related tools that can used in analysis. In addition, time series data is very close to everyday life. For example, with the intensification of global climate change, the global average temperature has become higher and higher in recent years, and the summer is unbearably hot. Also, certain seasons of the year tend to have particularly poor air quality, or certain times of the year tend to have worse air quality than others. If you want to know more about these changes in living environment, and how the corresponding sensor values change, you will need to use time series data analysis, which is to observe the relationship between data and time, and then get the results. This chapter will demonstrate using three types of data (air quality, water resources, weather) in the Civil IoT Taiwan Data Service Platform.
 
-## 章節目標
+## Goal
 
-- 使用作圖工具觀察時序資料
-- 檢測與處理時序資料
-- 分解時序資料得到趨勢與週期性
+- observe time series data using visualization tools
+- check and process time series data
+- decompose time series data to investigate its trend and seasonality
 
-## 套件安裝與引用
+## Package Installation and Importing
 
-在本章節中，我們將會使用到 pandas, matplotlib, numpy, seaborn, statsmodels, warnings 等套件，這些套件由於在我們使用的開發平台 Colab 上皆已預先安裝好，因此不需要再另行安裝。然而，我們還會另外使用兩個 Colab 並未預先安裝好的套件：kats 和 calplot，需使用下列的方式自行安裝：
+In this article, we will use the pandas, matplotlib, numpy, seaborn, statsmodels, and warnings packages, which are pre-installed on our development platform, Google Colab, and do not need to be installed manually. However, we will also use two additional packages that Colab does not have pre-installed: kats and calplot, which need to be installed by :
 
 ```python
 !pip install --upgrade pip
@@ -36,7 +36,7 @@ author: ["彭昱齊"]
 !pip install calplot
 ```
 
-待安裝完畢後，即可使用下列的語法先行引入相關的套件，完成本章節的準備工作：
+After the installation is complete, we can use the following syntax to import the relevant packages to complete the preparations in this article.
 
 ```python
 import warnings
@@ -58,17 +58,17 @@ from kats.consts import TimeSeriesData, TimeSeriesIterator
 from IPython.core.pylabtools import figsize
 ```
 
-## 讀取資料
+## Data Access
 
-我們使用 pandas 進行資料的處理，pandas 是 Python 語言常使用到的資料科學套件，也可以想成是程式語言中類似 Microsoft Excel 的試算表，而 pandas 所提供的 dataframe 物件，更可以想成是一種二維的資料結構，可以用行、列的方式儲存資料，方便各式的資料處理與運算。
+We use pandas for data processing. Pandas is a data science suite commonly used in Python language. It can also be thought of as a spreadsheet similar to Microsoft Excel in a programming language, and its Dataframe object provided by pandas can be thought of as a two-dimensional data structure. The dimensional data structure can store data in rows and columns, which is convenient for various data processing and operations.
 
-本章節的探討主題為時序資料 (time series data) 的分析處理，因此我們將分別以民生公共物聯網資料平台上的空品、水位和氣象資料進行資料讀取的演示，接著再使用空品資料進行更進一步的資料分析。其中，每一類別的資料處理都將使用其中一個測站長期以來觀測到的資料作為資料集，而在 dataframe 的時間欄位名稱則設為 `timestamp`，由於時間欄位的數值具有唯一性，因此我們也將使用此欄位作為 dataframe 的索引 (index)。
+The topic of this paper is the analysis and processing of time series data. We will use the air quality, water level and meteorological data on the Civil IoT Taiwan Data Service Platform for data access demonstration, and then use the air quality data for further data analysis. Among them, each type of data is the data observed by a collection of stations for a long time, and the time field name in the dataframe is set to `timestamp`. Because the value of the time field is unique, we also use this field as the index of the dataframe.
 
-### 空品資料
+### Air Quality Data
 
-由於我們這次要使用的是長時間的歷史資料，因此我們不直接使用 pyCIOT 套件的讀取資料功能，而直接從民生公共物聯網資料平台的歷史資料庫下載「中研院校園空品微型感測器」的歷史資料，並存入 Air 資料夾中。
+Since we want to use long-term historical data in this article, we do not directly use the data access methods of the pyCIOT package, but directly download the data archive of "Academia Sinica - Micro Air Quality Sensors" from the historical database of the Civil IoT Taiwan Data Service Platform and store in the `Air` folder.
 
-同時，由於所下載的資料是 zip 壓縮檔案的格式，我們需要先逐一將其解壓縮，產生每日資料的壓縮檔案，接著再將每日資料的壓縮檔案解壓縮，存入 CSV_Air 資料夾中。
+At the same time, since the downloaded data is in the format of a zip compressed file, we need to decompress it to generate a number of compressed daily file, and then decompress the compressed daily file and store it in the `CSV_Air` folder.
 
 ```python
 !mkdir Air CSV_Air
@@ -115,7 +115,7 @@ for subfolder in os.listdir(folder):
             os.rename(path2, f'CSV_Air/{item}')
 ```
 
-現在 CSV_Air 資料夾中即有每日所有感測器資料的 csv 格式檔案，為了將單一測站 (例如代碼為 `74DA38C7D2AC` 的測站) 的資料過濾出來，我們需要讀取每個 csv 檔案，並將檔案中該測站的資料存入名叫 `air` 的 dataframe 中。最後我們將所有下載的資料與解壓縮後產生的資料移除，以節省雲端的儲存空間。
+The CSV_Air folder now contains all daily sensor data in CSV format. To filter out data for a single station (such as the station with code `74DA38C7D2AC`), we need to read each CSV file and put the data for that station into a dataframe called `air`. Finally, we delete all downloaded data and data generated after decompression to save storage space in the cloud.
 
 ```python
 folder = 'CSV_Air'
@@ -141,7 +141,7 @@ air.set_index('timestamp', inplace=True)
 !rm -rf Air CSV_Air
 ```
 
-最後，我們重新整理該測站的資料，將不需要用到的欄位資訊刪除，並且依照時間進行排序如下：
+Finally, we rearrange the data in the site, delete unnecessary field information, and sort them by time as follows:
 
 ```python
 air.drop(columns=['device_id', 'SiteName'], inplace=True)
@@ -168,11 +168,11 @@ timestamp
 2018-08-01 01:30:44  22.0
 ```
 
-### 水位資料
+### Water Level Data
 
-和空品資料的範例一樣，由於我們這次要使用的是長時間的歷史資料，因此我們不直接使用 pyCIOT 套件的讀取資料功能，而直接從民生公共物聯網資料平台的歷史資料庫下載「水利署地下水位站」的歷史資料，並存入 Water 資料夾中。
+Like the example of air quality data, since we are going to use long-term historical data this time, we do not directly use the data access methods of the pyCIOT suite, but directly download the data archive of "Water Resources Agency - Groundwater Level Station" from the historical database of the Civil IoT Taiwan Data Service Platform and store in the `Water` folder.
 
-同時，由於所下載的資料是 zip 壓縮檔案的格式，我們需要先逐一將其解壓縮，產生每日資料的壓縮檔案，接著再將每日資料的壓縮檔案解壓縮，存入 CSV_Water 資料夾中。
+At the same time, since the downloaded data is in the format of a zip compressed file, we need to decompress it to generate a number of compressed daily file, and then decompress the compressed daily file and store it in the `CSV_Water` folder.
 
 ```python
 !mkdir Water CSV_Water
@@ -218,7 +218,7 @@ for subfolder in os.listdir(folder):
             os.rename(path2, f'CSV_Water/{item}')
 ```
 
-現在 CSV_Water 資料夾中即有每日所有感測器資料的 csv 格式檔案，為了將單一測站 (例如代碼為 `338c9c1c-57d8-41d7-9af2-731fb86e632c` 的測站) 的資料過濾出來，我們需要讀取每個 csv 檔案，並將檔案中該測站的資料存入名叫 `water` 的 dataframe 中。最後我們將所有下載的資料與解壓縮後產生的資料移除，以節省雲端的儲存空間。
+The CSV_Water folder now contains all daily sensor data in CSV format. To filter out data for a single station (such as the station with code `338c9c1c-57d8-41d7-9af2-731fb86e632c`), we need to read each CSV file and put the data for that station into a dataframe called `water`. Finally, we delete all downloaded data and data generated after decompression to save storage space in the cloud.
 
 ```python
 folder = 'CSV_Water'
@@ -244,7 +244,7 @@ water.set_index('timestamp', inplace=True)
 !rm -rf Water CSV_Water
 ```
 
-最後，我們重新整理該測站的資料，將不需要用到的欄位資訊刪除，並且依照時間進行排序如下：
+Finally, we rearrange the data in the site, delete unnecessary field information, and sort them by time as follows:
 
 ```python
 water.drop(columns=['station_id', 'ciOrgname', 'ciCategory', 'Organize_Name', 'CategoryInfos_Name', 'PQ_name', 'PQ_fullname', 'PQ_description', 'PQ_unit', 'PQ_id'], inplace=True)
@@ -271,11 +271,11 @@ timestamp
 2018-01-01 00:40:00  49.130001
 ```
 
-### 氣象資料
+### Meteorological Data
 
-我們從民生公共物聯網資料平台的歷史資料庫下載「中央氣象局自動氣象站」的歷史資料，並存入 Weather 資料夾中。
+We download the data archive of "Central Weather Bureau - Automatic Weather Station" from the historical database of the Civil IoT Taiwan Data Service Platform and store in the `Weather` folder.
 
-同時，由於所下載的資料是 zip 壓縮檔案的格式，我們需要先逐一將其解壓縮，產生每日資料的壓縮檔案，接著再將每日資料的壓縮檔案解壓縮，存入 CSV_Weather 資料夾中。
+At the same time, since the downloaded data is in the format of a zip compressed file, we need to decompress it to generate a number of compressed daily file, and then decompress the compressed daily file and store it in the `CSV_Weather` folder.
 
 ```python
 !mkdir Weather CSV_Weather
@@ -321,7 +321,7 @@ for subfolder in os.listdir(folder):
             os.rename(path2, f'CSV_Weather/{item}')
 ```
 
-現在 CSV_Weather 資料夾中即有每日所有感測器資料的 csv 格式檔案，為了將單一測站 (例如代碼為 `C0U750` 的測站) 的資料過濾出來，我們需要讀取每個 csv 檔案，並將檔案中該測站的資料存入名叫 weather 的 dataframe 中。最後我們將所有下載的資料與解壓縮後產生的資料移除，以節省雲端的儲存空間。
+The CSV_Weather folder now contains all daily sensor data in CSV format. To filter out data for a single station (such as the station with code `C0U750`), we need to read each CSV file and put the data for that station into a dataframe called `weather`. Finally, we delete all downloaded data and data generated after decompression to save storage space in the cloud.
 
 ```python
 folder = 'CSV_Weather'
@@ -348,7 +348,7 @@ weather.set_index('timestamp', inplace=True)
 !rm -rf Weather CSV_Weather
 ```
 
-最後，我們重新整理該測站的資料，將不需要用到的欄位資訊刪除，並且依照時間進行排序如下：
+Finally, we rearrange the data in the site, delete unnecessary field information, and sort them by time as follows:
 
 ```python
 weather.drop(columns=['station_id'], inplace=True)
@@ -397,11 +397,11 @@ timestamp
 2019-01-01 04:00:00  39.0   NaN  14.1   NaN  13.5   NaN
 ```
 
-以上我們已經成功示範空品資料 (air)、水位資料 (water) 和氣象資料 (weather) 的讀取範例，在接下來的探討中，我們將以空品資料示範初步的時間序列資料處理，相同的方法也可以輕易改成使用水位資料或氣象資料而得到類似的結果，大家可以自行嘗試看看。
+Above, we have successfully demonstrated the reading example of air quality data (air), water level data (water) and meteorological data (weather). In the following discussion, we will use air quality data to demonstrate basic time series data processing. The same methods can also be easily applied to water level data or meteorological data and obtain similar results. You are encouraged to try it yourself.
 
-## 資料視覺化 (Visualization)
+## Data Visualization
 
-時間序列資料處理的第一個步驟，不外乎就是將資料依照時間順序一筆一筆的呈現出來，讓使用者可以看到整體資料的變化，並且衍生更多資料分析的想法與概念，其中使用折線圖進行資料的展示，是最常使用的一種資料視覺化方法。例如若以空品資料為例：
+The first step in the processing of time series data is nothing more than to present the information one by one in chronological order so that users can see the changes in the overall data and derive more ideas and concepts for data analysis. Among them, using line charts to display data is the most commonly used data visualization method. For example, take the air quality data as an example:
 
 ```python
 plt.figure(figsize=(15, 10), dpi=60)
@@ -418,14 +418,14 @@ plt.show()
 
 ![Python output](figures/4-1-3-1.png)
 
-### 重新採樣 (resample)
+### Data Resample
 
-從上圖空品資料的時序圖中，可以看到其實資料的分佈是很密集的，同時資料數值的變化有時很小有時卻很劇烈，這是因為目前空品資料的採樣頻率約略是每五分鐘一筆，同時採集的環境是生活中的周遭環境資訊，因此資料密集與起伏不定其實是必然的。由於每五分鐘一筆資料的採樣過於頻繁，不易呈現環境空品的整體變化趨勢，因此我們採用重新採樣的方法，在固定的時間間隔內計算資料的平均值，便能呈現資料資料在不同時間尺度的整體變化狀況。例如我們根據現有空品資料的特性，利用下列的語法以較大尺度 (小時、日、月) 的採樣率重新取樣：
+As can be seen from the air quality data sequence diagram in the above figure, the distribution of data is actually very dense, and the changes in data values are sometimes small and violent. This is because the current sampling frequency of air quality data is about once every five minutes, and the collected environment is the surrounding environment information in life, so data density and fluctuation are inevitable. Because sampling every 5 minutes is too frequent, it is difficult to show general trends in ambient air pollution. Therefore, we adopt the method of resampling to calculate the average value of the data in a fixed time interval, so as to present the data of different time scales. For example, we use the following syntax to resample at a larger scale (hour, day, month) sampling rate according to the characteristics of the existing air quality data:
 
 ```python
-air_hour = air.resample('H').mean() #每小時的平均
-air_day = air.resample('D').mean()  #每日的平均
-air_month = air.resample('M').mean()  #每月的平均
+air_hour = air.resample('H').mean() # hourly average
+air_day = air.resample('D').mean()  # daily average
+air_month = air.resample('M').mean()  # monthly average
 
 print(air_hour.head())
 print(air_day.head())
@@ -455,7 +455,7 @@ timestamp
 2018-11-30  43.228939
 ```
 
-接著我們使用每小時平均的重新採樣後資料再次進行作圖，可以看到線條曲線變得較為清晰，但曲線的波動還是很大。
+Then we plot again with the hourly averaged resampling data, and we can see that the curve becomes clearer, but the fluctuation of the curve is still very large.
 
 ```python
 plt.figure(figsize=(15, 10), dpi=60)
@@ -473,9 +473,11 @@ plt.show()
 ![Python output](figures/4-1-3-2.png)
 
 
-### 移動平均 (moving average)
+### Moving Average
 
-針對原始資料的變化圖，如果想看到更平滑的曲線變化趨勢圖，可以套用移動平均的方法，其中最主要的觀念就是在原始資料的時間軸上設定一個取樣窗 (window)，並在取樣窗內計算所有數值的平均數，並且用平滑移動的方式滑動取樣窗的位置，計算當下資料與窗內前幾筆資料的平均值。例如，若取樣窗的大小為 10，就代表每次要將當下的資料和前面 9 次的資料做平均，經過這樣的處理後每筆資料所代表的意義就不只是某一個時間點，而是原本時間點加上前幾個時間點的平均，如此一來，可以消除突發的變化讓整體曲線的呈現更加圓滑，也更容易觀察整體的變化趨勢。
+For the chart of the original data, if you want to see a smoother change trend of the curve, you can apply the moving average method. The idea is to set a sampling window on the time axis of the original data, move the position of the sampling window smoothly, and calculate the average value of all values in the sampling window. 
+
+For example, if the size of the sampling window is 10, it means that the current data and the previous 9 data are averaged each time. After such processing, the meaning of each data is not only a certain time point, but the average value of the original time point and the previous time point. This removes abrupt changes and makes the overall curve smoother, thereby making it easier to observe overall trends.
 
 ```python
 # plt.figure(figsize=(15, 10), dpi=60)
@@ -488,11 +490,11 @@ MA.join(MA10.add_suffix('_mean_500')).plot(figsize=(20, 15))
 
 ![Python output](figures/4-1-3-3.png)
 
-上圖中的藍色線為原始資料，橘色線則是經過移動平均後的曲線，可以清楚發現橘色線更能代表整體數值的變化趨勢，同時也存在某種程度的規律起伏，值得後續進一步的分析。
+The blue line in the above figure is the original data, and the orange line is the curve after moving average. It can be clearly found that the orange line can better represent the change trend of the overall value, and there is also a certain degree of regular fluctuation, which is worthy of further analysis.
 
-### 多曲線圖
+### Multi-line Charts
 
-除了將原始資料用單純的折線圖方式呈現外，另一個常見的資料時覺化手法，則是依照時間維度上的週期性，將資料切割為數個連續的片段，分別繪製折線圖，並疊加在同一張多曲線圖中。例如，我們可以將前述的空品資料，依照年份的不同切割出 2019, 2020, 2021, 和 2022 四個子資料集，並分別繪製各自的折線圖於同一張多曲線圖中，如下圖所示。
+In addition to presenting the original data in the form of a simple line chart, another common data visualization method is to cut the data into several continuous segments periodically in the time dimension, draw line charts separately, and superimpose them on the same multi-line chart. For example, we can cut the above air quality data into four sub-data sets of 2019, 2020, 2021, and 2022 according to different years, and draw their respective line charts on the same multi-line chart, as shown in the figure below.
 
 ```python
 air_month.reset_index(inplace=True)
@@ -518,30 +520,30 @@ plt.show()
 
 ![Python output](figures/4-1-3-4.png)
 
-在這張多曲線圖中，我們可以發現 2019 年的資料有大片段的缺失值，2022 年的資料只記載到本文寫作時的七月份，同時也可以發現在這四個年份的折線圖中，不同年份的曲線皆在夏季時達到最低點，秋季時 PM2.5 數值則開始攀升，並且在冬季時達到最高點，呈現約略相同的變化趨勢。
+In this multi-line chart, we can see that the 2019 data has a significant portion of missing values, while the 2022 data was only recorded till July at the time of writing. At the same time, it can be found that in the four-year line chart, the curves of different years all reached the lowest point in summer, began to rise in autumn, and reached the highest point in winter, showing roughly the same trend of change.
 
-### 日曆熱力圖
+### Calendar Heatmap
 
-日曆熱力圖是一種結合日曆圖 (calendar map) 與熱力圖 (heat map) 的資料視覺化呈現方式，可以更直覺瀏覽資料的分佈狀況，並從中尋找不同時間尺度的規律性。我們使用 calplot 這個 Python 語言的日曆熱力圖套件，將每日的 PM2.5 平均值輸入後，再選擇搭配的顏色 (參數名稱為 `cmap`，在接下來的範例中，我們先設為 `GnBu`，詳細的顏色選項說明，可參閱參考資料)，便能得到下圖的效果，其中藍色代表數值較高，綠色或白色代表數值較低，如果沒有塗色或是數值為 0 則代表當天沒有資料。從產生的圖中，我們可以發現中間部分的月份（夏季）顏色較淡，左邊部分的月份（冬季）顏色#較深，恰與我們之前使用多曲線圖的觀察結果一致。
+The calendar heat map is a data visualization method that combines the calendar map and the heat map, which can more intuitively browse the distribution of the data and find the regularity of different time scales. We use calplot, a calendar heatmap suite for Python, and input the daily PM2.5 averages. Then we select the specified color (the parameter name is `cmap`, and we set it to `GnBu` in the following example. for detailed color options, please refer to the reference materials), and we can get the effect of the following figure, in which blue represents the greater value, green or white means lower values, if not colored or a value of 0 means there is no data for the day. From the resulting plot, we can see that the months in the middle part (summer) are lighter and the months in the left part (winter) are darker, just in line with our previous observations using the multi-line chart.
 
 ```python
-# cmap: 設定呈現的顏色色盤 (https://matplotlib.org/stable/gallery/color/colormap_reference.html)
-# textformat: 設定圖中數字呈現的樣式
+# cmap: color map (https://matplotlib.org/stable/gallery/color/colormap_reference.html)
+# textformat: specify the format of the text
 pl1 = calplot.calplot(data = air_day['PM25'], cmap = 'GnBu', textformat = '{:.0f}', 
 											figsize = (24, 12), suptitle = "PM25 by Month and Year")
 ```
 
 ![Python output](figures/4-1-3-5.png)
 
-## 資料品質檢測與處理
+## Data Quality Inspection
 
-在時序資料的基本視覺化呈現後，我們接下來介紹資料品質的檢測與基本處理方法，我們將使用 kats 這個 Python 語言的資料處理與分析套件，並依序進行離群值偵測、改變點偵測與缺失資料處理。
+After the basic visualization of time series data, we will introduce the basic detection and processing methods of data quality. We will use kats, a Python language data processing and analysis suite, to perform outlier detection, change point detection, and handling missing values in sequence.
 
-### 離群值偵測 (Outlier detection)
+### Outlier Detection
 
-離群值指的是資料中某些數值與其他數值存在顯著的差異，這些差異可能會影響我們對資料的判斷與分析結果，因此需要將離群值找出來後予以標示、刪除、或特別處理。
+Outliers are those values in the data that are significantly different from other values. These differences may affect our judgment and analysis of the data. Therefore, outliers need to be identified and then flagged, removed, or treated specially. .
 
-我們首先將原本使用 dataframe 資料格式的 `air_hour` 轉換成 kats 套件所使用的 `TimeSeriesData` 格式，並將轉換後的資料存成 `air_ts` 這個變數名稱。然後我們再次繪製原始時序資料的折線圖。
+We first convert the data stored in the variable `air_hour` from its original dataframe format to the `TimeSeriesData` format used by the kats package and save the converted data into a variable named `air_ts`. Then we re-plot the line chart of the time series data.
 
 ```python
 air_ts = TimeSeriesData(air_hour.reset_index(), time_col_name='timestamp')
@@ -550,7 +552,7 @@ air_ts.plot(cols=["PM25"])
 
 ![Python output](figures/4-1-4-1.png)
 
-接著我們使用 kats 套件中的 `OutlierDetector` 工具偵測時序資料中的離群值。其中，[離群值](https://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_summarizingdata/bs704_summarizingdata7.html)指的是小於第一四分位數 (Q1) 減 1.5 倍四分位距 (IQR) 或大於第三四分位數 (Q3) 加 1.5 倍四分位距的數值。
+We then used the `OutlierDetector` tool in the kats suite to detect outliers in the time series data, where outliers were less than 1.5 times the first quartile (Q1) minus the interquartile range (IQR) or greater than The third quartile (Q3) value plus 1.5 times the interquartile range.
 
 ```python
 outlierDetection = OutlierDetector(air_ts, 'additive')
@@ -836,7 +838,7 @@ outlierDetection.outliers
   Timestamp('2021-12-21 11:00:00')]]
 ```
 
-最後我們把偵測出來的離群值從原始資料中刪除，然後再次做圖並與一開始的折線圖進行比較，便可以很清楚地發現一些異常值（例如 2022-07 有一個異常的高峰) 都被移除了。
+Finally, we delete the detected outliers from the original data, and re-plot the chart to compare it with the original one. We can clearly find some outliers (for example, there is an abnormal peak in 2022-07) have been removed.
 
 ```
 outliers_removed = outlierDetection.remover(interpolate=False)
@@ -847,11 +849,11 @@ outliers_removed.plot(cols=['y_0'])
 ![Python output](figures/4-1-4-2.png)
 
 
-### 改變點偵測 (Change point detection)
+### Change Point Detection)
 
-改變點是資料中突然發生重大改變的時間點，代表的是事件的發生、資料狀態的轉變或資料分布的轉變，因此改變點偵測也常被視為資料分析與資料預測的重要前處理步驟。
+A change point is a point in time at which the data suddenly changes significantly, representing the occurrence of an event, a change in the state of the data, or a change in the distribution of the data. Therefore, change point detection is often regarded as an important preprocessing step for data analysis and data prediction.
 
-在以下的範例中，我們使用空品資料的日平均值來進行改變點偵測，同時也使用 kats 套件的 `TimeSeriesData` 資料格式來儲存資料，並使用 kats 提供的 `CUSUMDetector` 偵測器來進行偵測，並在作圖中用紅色的點來代表偵測到的改變點。很不湊巧的是，在本次的範例中一如肉眼觀察的結果，並無明顯的改變點存在，建議讀者可參考這次的範例，帶入其他的資料做更多的演練與偵測。
+In the following example, we use daily averages of air quality data for change point detection. We use the `TimeSeriesData` data format of the kats package to store the data and use the `CUSUMDetector` detector provided by kats for detection. We use red dots to represent detected change points in the plot. Unfortunately, in this example, no obvious point of change was observed. Readers are advised to refer to this example and bring in other data for more exercise and testing.
 
 ```python
 air_ts = TimeSeriesData(air_day.reset_index(), time_col_name='timestamp')
@@ -868,13 +870,12 @@ plt.show()
 
 ![Python output](figures/4-1-4-3.png)
 
-### 缺失資料 (missing data) 處理
+### Missing Data Handling
 
-在我們進行資料分析時，常常不免會遇上缺失資料的問題，這些缺失資料有的是在資料收取時便已經缺失
-（例如感測器故障、網路斷線等原因），有些則是在資料前處理時不得不把某些資料刪除（離群值或明顯異常值），但對於後續的資料處理與分析而言，我們又往往需要資料能維持固定的採樣率，以方便各項方法工具的套用，因此便衍生出各種不同的缺失資料填值方法。以下我們介紹三種常見的方法：
+Missing data is a common problem when conducting big data analysis. Some of these missing values are already missing at the time of data collection (such as sensor failure, network disconnection, etc.), and some are eliminated during data preprocessing (outliers or abnormality). However, for subsequent data processing and analysis, we often need the data to maintain a fixed sampling rate to facilitate the application of various methods and tools. Therefore, various methods for imputing missing data have been derived. Below we introduce three commonly used methods:
 
-1. 將該筆缺失資料標示為 Nan (Not a number)：Nan 代表非數，用來表示未定義或不可表示的值，如果已知後續的資料分析會額外處理這些 Nan 的特例，便可採用此方法以維護資料的真實性。
-2. Forward fill 法：如果 Nan 對後續的資料分析有困難，必須將缺失的值填補適當的數值資料，最簡單的方法就是 forward fill，亦即用前一個數值來填補當下的缺失值。
+1. Mark missing data as Nan (Not a number): Nan stands for not a number and is used to represent undefined or unrepresentable values. If it is known that subsequent data analysis will additionally deal with these special cases of Nan, this method can be adopted to maintain the authenticity of the information.
+2. Forward filling method: If Nan has difficulty in subsequent data analysis, missing values must be filled with appropriate numerical data. The easiest way to do this is forward fill, which uses the previous value to fill in the current missing value.
 ```python
 # forward fill
 df_ffill = air.ffill(inplace=False)
@@ -882,7 +883,7 @@ df_ffill = air.ffill(inplace=False)
 df_ffill.plot()
 ```
 ![Python output](figures/4-1-4-4.png)
-3. K-Nearest Neighbor (KNN) 法：顧名思義，KNN 的方法是尋找距離缺失值最近的 k 個數值進行平均，並用來填補這個缺失值。
+3. K-Nearest Neighbor (KNN) method: As the name suggests, the KNN method finds the k values that are closest to the missing value, and then fills the missing value with the average of these k values.
 ```python
 def knn_mean(ts, n):
     out = np.copy(ts)
@@ -903,11 +904,11 @@ df_knn.plot()
 ![Python output](figures/4-1-4-5.png)
 
 
-## 資料分解(Decomposition)
+## Data Decomposition
 
-在前面的基本資料處理範例中，我們已能約略觀察資料數值的變化趨勢，並且發現可能的規律變化，為了能更近一步深入探討時序資料的變化規律性，我們接著介紹時序資料所常使用的資料分解分法，將原本的時序資料拆解成趨勢波 (trend)、週期波 (seasonal) 及殘差波(residual)。
+In the previous example of basic data processing, we have been able to roughly observe the changing trend of data values and discover potential regular changes. In order to further explore the regularity of time series data changes, we introduce the data decomposition method. In this way, the original time series data can be disassembled into trend waves (trend), periodic waves (seasonal) and residual waves (residual).
 
-我們首先將空品資料的每日平均資料另外複製一份為 `air_process`，並採用 forward fill 方法進行缺失資料的處理，然後把原始資料直接用圖表的方式呈現。
+We first replicated the daily average data of air quality data as `air_process` and processed the missing data using forward filling. Then, we first presented the raw data directly in the form of a line chart.
 
 ```python
 air_process = air_day.copy()
@@ -918,7 +919,7 @@ air_process.plot()
 
 ![Python output](figures/4-1-5-1.png)
 
-接著我們使用 seasonal_decompose 方法對 `air_process` 資料進行分解，其中我們需要設定一個 period 參數，指的是資料被拆解的週期，我們先設定為 30天，接著在執行後便會依序產出四張圖：原始資料、趨勢圖、週期性圖與殘差圖。
+Then we use the `seasonal_decompose` method to decompose the `air_process` data, in which we need to set a period parameter, which refers to the period in which the data is decomposed. We first set it to 30 days, and then after execution, it will produce four pictures in sequence: raw data, trend chart, seasonal chart, and residual chart.
 
 ```python
 decompose = seasonal_decompose(air_process['PM25'],model='additive', period=30)
@@ -928,9 +929,9 @@ plt.show()
 
 ![Python output](figures/4-1-5-2.png)
 
-在趨勢圖 (trend) 中，我們也可以發現與原始資料的圖表有著十分雷同的特性，在一月附近的數值較高，七月附近的數值則較低；而在週期性圖 (Seasonal) 中，我們可以發現資料在每個週期 (30天) 內存在固定的週期變化，代表空品資料存在著以月為週期的變動。
+In the trend graph (trend), we can also find that the graph of the original data has very similar characteristics, with higher values around January and lower values around July; while in the seasonal graph (seasonal), we can find that the data has a fixed periodic change in each cycle (30 days), which means that the air quality data has a one-month change.
 
-倘若我們將 period 變數改為 365，亦即以較大的時間尺度 (一年) 來進行資料分解，我們可以從週期性圖中發現一月附近數值較高，而七月附近數值較低的趨勢，而且這個趨勢變化是規律地週期性發生的；同時，在趨勢圖中也可以看到整體緩降的趨勢，說明 PM2.5 的濃度在大趨勢下是逐漸好轉降低的，從這邊也可以理解到為什麼在尋找 change point 時無法成功，因為 PM2.5 的趨勢變化是平順的遞減，並沒有發生突如其來的變化。
+If we change the periodic variable to 365, i.e. decompose the data on a larger time scale (one year), we can see a trend of higher values around January and lower values around July from the seasonal plot, and this trend change occurs on a regular and regular basis. At the same time, it can be seen from the trend chart that the overall trend is slowing down, indicating that the concentration of PM2.5 is gradually decreasing under the overall trend. The results also confirmed our previous findings that no change points were detected, as the change trend of PM2.5 was a steady decline without abrupt changes.
 
 ```python
 decompose = seasonal_decompose(air_process['PM25'],model='additive', period=365)
@@ -940,10 +941,9 @@ plt.show()
 
 ![Python output](figures/4-1-5-3.png)
 
+## References
 
-## 參考資料
-
-- 民生公共物聯網歷史資料 ([https://history.colife.org.tw/](https://history.colife.org.tw/#/))
+- Civil IoT Taiwan: Historical Data ([https://history.colife.org.tw/](https://history.colife.org.tw/#/))
 - Matplotlib - Colormap reference ([https://matplotlib.org/stable/gallery/color/colormap_reference.html](https://matplotlib.org/stable/gallery/color/colormap_reference.html))
 - Decomposition of time series - Wikipedia ([https://en.wikipedia.org/wiki/Decomposition_of_time_series](https://en.wikipedia.org/wiki/Decomposition_of_time_series))
 - Kats: a Generalizable Framework to Analyze Time Series Data in Python | by Khuyen Tran | Towards Data Science ([https://towardsdatascience.com/kats-a-generalizable-framework-to-analyze-time-series-data-in-python-3c8d21efe057?gi=36d1c3d8372](https://towardsdatascience.com/kats-a-generalizable-framework-to-analyze-time-series-data-in-python-3c8d21efe057?gi=36d1c3d8372))
