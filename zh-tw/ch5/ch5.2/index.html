@@ -8,20 +8,19 @@
     <meta name="description" content="我們使用民生公共物聯網資料平台的感測資料，介紹較為進階的地理空間分析，利用測站資訊中的 GPS 位置座標，首先利用尋找最大凸多邊形 (Convex Hull) 的套件，框定感測器所涵蓋的地理區域；接著套用 Voronoi Diagram 的套件，將地圖上的區域依照感測器的分布狀況，切割出每個感測器的勢力範圍。針對感測器與感測器之間的區域，我們利用空間內插的方式，套用不同的空間內插演算法，根據感測器的數值，進行空間地圖上的填值，並產製相對應的圖片輸出。">
     <meta name="author" content="Ling-Jyh Chen">
     <title>5.2. 地理空間分析 :: Tutorial for CIoT Open Data Applications</title>
-    <link rel="alternate" type="application/rss&#43;xml" href="/zh-tw/ch5/ch5.2/index.xml" title="Tutorial for CIoT Open Data Applications" />
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="/css/fontawesome-all.min.css?1666681338" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1666681338" rel="stylesheet"></noscript>
-    <link href="/css/featherlight.min.css?1666681338" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1666681338" rel="stylesheet"></noscript>
-    <link href="/css/auto-complete.css?1666681338" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1666681338" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar.min.css?1666681338" rel="stylesheet">
-    <link href="/css/nucleus.css?1666681338" rel="stylesheet">
-    <link href="/css/fonts.css?1666681338" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1666681338" rel="stylesheet"></noscript>
-    <link href="/css/theme.css?1666681338" rel="stylesheet">
-    <link href="/css/theme-relearn-light.css?1666681338" rel="stylesheet" id="variant-style">
-    <link href="/css/ie.css?1666681338" rel="stylesheet">
-    <link href="/css/variant.css?1666681338" rel="stylesheet">
-    <link href="/css/print.css?1666681338" rel="stylesheet" media="print">
-    <script src="/js/variant.js?1666681338"></script>
+    <link href="/css/fontawesome-all.min.css?1666690179" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1666690179" rel="stylesheet"></noscript>
+    <link href="/css/featherlight.min.css?1666690179" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1666690179" rel="stylesheet"></noscript>
+    <link href="/css/auto-complete.css?1666690179" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1666690179" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar.min.css?1666690179" rel="stylesheet">
+    <link href="/css/nucleus.css?1666690179" rel="stylesheet">
+    <link href="/css/fonts.css?1666690179" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1666690179" rel="stylesheet"></noscript>
+    <link href="/css/theme.css?1666690179" rel="stylesheet">
+    <link href="/css/theme-relearn-light.css?1666690179" rel="stylesheet" id="variant-style">
+    <link href="/css/ie.css?1666690179" rel="stylesheet">
+    <link href="/css/variant.css?1666690179" rel="stylesheet">
+    <link href="/css/print.css?1666690179" rel="stylesheet" media="print">
+    <script src="/js/variant.js?1666690179"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -37,7 +36,7 @@
       var baseUriFull='https:\/\/LearnCIOT.github.io/';
       window.variants && variants.init( [ 'relearn-light' ] );
     </script>
-    <script src="/js/jquery.min.js?1666681338" defer></script>
+    <script src="/js/jquery.min.js?1666690179" defer></script>
 <meta property="fb:app_id" content="601826851395774" />
   </head>
   <body class="default-animation" data-url="/zh-tw/ch5/ch5.2/">
@@ -57,7 +56,7 @@
              <a class="nav nav-prev" href="/zh-tw/ch5/ch5.1/" title="5.1. 地理空間篩選"><i class="fas fa-chevron-left fa-fw"></i></a>
           </div>
           <div id="top-github-link">
-            <a class="github-link" title='編輯網頁' href="https://github.com/LearnCIOT/LearnCIOT.github.io/tree/main/content/ch5/ch5.2/_index.zh-tw.md" target="blank">
+            <a class="github-link" title='編輯網頁' href="https://github.com/LearnCIOT/LearnCIOT.github.io/tree/main/content/ch5/ch5.2/index.zh-tw.md" target="blank">
               <i class="fas fa-pen fa-fw"></i>
             </a>
           </div>
@@ -935,12 +934,12 @@
         <script>
           var contentLangs=['zh'];
         </script>
-        <script src="/js/auto-complete.js?1666681338" defer></script>
-        <script src="/js/lunr.min.js?1666681338" defer></script>
-        <script src="/js/lunr.stemmer.support.min.js?1666681338" defer></script>
-        <script src="/js/lunr.multi.min.js?1666681338" defer></script>
-        <script src="/js/lunr.zh.min.js?1666681338" defer></script>
-        <script src="/js/search.js?1666681338" defer></script>
+        <script src="/js/auto-complete.js?1666690179" defer></script>
+        <script src="/js/lunr.min.js?1666690179" defer></script>
+        <script src="/js/lunr.stemmer.support.min.js?1666690179" defer></script>
+        <script src="/js/lunr.multi.min.js?1666690179" defer></script>
+        <script src="/js/lunr.zh.min.js?1666690179" defer></script>
+        <script src="/js/search.js?1666690179" defer></script>
       </div>
       <div id="content-wrapper" class="highlightable">
         <ul class="topics">
@@ -966,7 +965,6 @@
           <li data-nav-id="/zh-tw/ch7/ch7.1/" title="7.1. QGIS 應用" class="dd-item"><a href="/zh-tw/ch7/ch7.1/">7.1. QGIS 應用<i class="fas fa-check read-icon"></i></a></li>
           <li data-nav-id="/zh-tw/ch7/ch7.2/" title="7.2. Tableau 應用" class="dd-item"><a href="/zh-tw/ch7/ch7.2/">7.2. Tableau 應用<i class="fas fa-check read-icon"></i></a></li>
           <li data-nav-id="/zh-tw/ch7/ch7.3/" title="7.3. Leafmap 應用" class="dd-item"><a href="/zh-tw/ch7/ch7.3/">7.3. Leafmap 應用<i class="fas fa-check read-icon"></i></a></li></ul></li>
-          <li data-nav-id="/zh-tw/upload/" title="附錄一：上傳文章" class="dd-item"><a href="/zh-tw/upload/">附錄一：上傳文章<i class="fas fa-check read-icon"></i></a></li>
         </ul>
         <div id="shortcuts">
           <div class="nav-title">其他連結</div>
@@ -1015,14 +1013,14 @@
       </div>
     </aside>
 
-    <script src="/js/clipboard.min.js?1666681338" defer></script>
-    <script src="/js/perfect-scrollbar.min.js?1666681338" defer></script>
-    <script src="/js/featherlight.min.js?1666681338" defer></script>
-    <script src="/js/jquery.svg.pan.zoom.js?1666681338" defer></script>
-    <script src="/js/mermaid.min.js?1666681338" defer></script>
+    <script src="/js/clipboard.min.js?1666690179" defer></script>
+    <script src="/js/perfect-scrollbar.min.js?1666690179" defer></script>
+    <script src="/js/featherlight.min.js?1666690179" defer></script>
+    <script src="/js/jquery.svg.pan.zoom.js?1666690179" defer></script>
+    <script src="/js/mermaid.min.js?1666690179" defer></script>
     <script>
       window.themeUseMermaid = JSON.parse("{}");
     </script>
-    <script src="/js/theme.js?1666681338" defer></script>
+    <script src="/js/theme.js?1666690179" defer></script>
   </body>
 </html>

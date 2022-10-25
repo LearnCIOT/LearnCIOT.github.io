@@ -75,16 +75,5 @@ JSON 格式的全名為 Javascript Object Notation，是一種輕量級的結構
 7.2. Tableau 應用我們示範如何利用拖拉點選的方式，導入民生公共物聯網資料平台中水、空、地、災四大面向的資料，並且針對數值資料進行簡單的圖表製作與相互比對，對於空間資料則結合地圖圖資進行套疊與製圖，對於時間序列資料則透過圖表方式顯示數值變化的趨勢。此外，透過外部資料源的介接，我們可以將多元且相異來源的資料集，整合在單一地圖製圖中，在極短的時間內產製精美的報表。
 7.3. Leafmap 應用我們示範導入民生公共物聯網資料平台中水、空、地、災四大面向的資料，藉由 leafmap 的地理資訊圖台與空間分析能力，搭配 Google Earth Engine 豐富的衛星影像，建構簡單的 GIS 資訊服務，同時借助 Streamlit 的友善介面操作，整合成網頁版的 GIS 資訊服務，擴展讀者對於資料分析與資訊服務的未來想像。</description>
     </item>
-    <item>
-      <title>附錄一：上傳文章</title>
-      <link>https://LearnCIOT.github.io/zh-tw/upload/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://LearnCIOT.github.io/zh-tw/upload/</guid>
-      <description>上傳文章 資訊 介紹如何上傳文章
-其他參考資料 相關開放網課 哈爸 自學政府開放資料應用實戰-以LASS 總統盃水專案為例
-本釋出幾乎包含整個課程的所有東西，含（投影片，錄影，相關文件/素材，範例程式碼，QGIS包，學習歷程以及教自學心得）
-哈爸 高中生自學用 python 寫遊戲
-本釋出幾乎包含整個課程的所有東西，含（投影片，錄影，相關文件/素材，範例程式碼，復刻遊戲專案）</description>
-    </item>
   </channel>
 </rss>
