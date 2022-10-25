@@ -21,5 +21,12 @@ Introduction: We introduce the core of the entire project - &amp;ldquo;Civil IoT
       <guid>https://LearnCIOT.github.io/en/ch2/ch2.2/</guid>
       <description>Table Of Contents Programming Language - Python Development Platform – Google Colab References Programming Language - Python The subject of this material is the data application of Civil IoT Taiwan. This set of articles will use Python, a programming language commonly used in the data science community, as the main programming language, and adopt an easy-to-understand demonstration method to guide you to read while doing it, step-by-step into the content of each chapter of the topic, and obtain first-hand experience with Civil IoT Taiwan data applications, and the ability to draw inferences from other data science topics in the future.</description>
     </item>
+    <item>
+      <title>7.3. Leafmap Applications</title>
+      <link>https://LearnCIOT.github.io/en/ch7/ch7.3/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://LearnCIOT.github.io/en/ch7/ch7.3/</guid>
+      <description>Table Of Contents Package Installation and Importing Data Access Leafmap Basics Basic Data Presentation Cluster Data Presentation Change Leafmap Basemap Integrate OSM Resources Heatmap Presentation Split Window Presentation Leafmap for Web Applications Conclusion References In the previous chapters, we have demonstrated how to use programming languages to analyze data on geographic attributes, and we have also demonstrated how to use GIS software for simple geographic data analysis and presentation. Next, we will introduce how to use the Leafmap suite in Python language for GIS applications, and the Streamlit suite for website development.</description>
+    </item>
   </channel>
 </rss>

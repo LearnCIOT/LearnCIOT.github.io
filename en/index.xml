@@ -28,5 +28,12 @@
       <description>4. Time Series Data Analysis In this topic, we will introduce time series data analysis methods for IoT data. We will develop the following three units for a more in-depth exploration by using the Civil IoT Taiwan Data Service Platform.
 4.1. Time Series Data ProcessingWe use the sensing data of Civil IoT Taiwan Data Service Platform to guide readers to understand the use of moving average, perform periodic analysis of time series data, and then disassemble the time series data into long-term trends, seasonal changes and residual fluctuations.</description>
     </item>
+    <item>
+      <title>Ch7s</title>
+      <link>https://LearnCIOT.github.io/en/ch7/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://LearnCIOT.github.io/en/ch7/</guid>
+      <description></description>
+    </item>
   </channel>
 </rss>

@@ -79,6 +79,32 @@
                 />
   </url>
   <url>
+    <loc>https://LearnCIOT.github.io/en/ch7/ch7.3/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-tw"
+                href="https://LearnCIOT.github.io/zh-tw/ch7/ch7.3/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://LearnCIOT.github.io/en/ch7/ch7.3/"
+                />
+  </url>
+  <url>
+    <loc>https://LearnCIOT.github.io/en/levels/advanced/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-tw"
+                href="https://LearnCIOT.github.io/zh-tw/levels/advanced/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://LearnCIOT.github.io/en/levels/advanced/"
+                />
+  </url>
+  <url>
     <loc>https://LearnCIOT.github.io/en/tags/air/</loc>
   </url>
   <url>
@@ -121,6 +147,19 @@
                 />
   </url>
   <url>
+    <loc>https://LearnCIOT.github.io/en/ch7/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-tw"
+                href="https://LearnCIOT.github.io/zh-tw/ch7/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://LearnCIOT.github.io/en/ch7/"
+                />
+  </url>
+  <url>
     <loc>https://LearnCIOT.github.io/en/author/huei-jun-kao/</loc>
   </url>
   <url>
@@ -156,6 +195,9 @@
     <loc>https://LearnCIOT.github.io/en/author/ling-jyh-chen/</loc>
   </url>
   <url>
+    <loc>https://LearnCIOT.github.io/en/author/ming-kuang-chung/</loc>
+  </url>
+  <url>
     <loc>https://LearnCIOT.github.io/en/tags/python/</loc>
     <xhtml:link
                 rel="alternate"
@@ -167,6 +209,9 @@
                 hreflang="en"
                 href="https://LearnCIOT.github.io/en/tags/python/"
                 />
+  </url>
+  <url>
+    <loc>https://LearnCIOT.github.io/en/tags/quake/</loc>
   </url>
   <url>
     <loc>https://LearnCIOT.github.io/en/tags/</loc>
@@ -186,5 +231,8 @@
   </url>
   <url>
     <loc>https://LearnCIOT.github.io/en/author/yu-chi-peng/</loc>
+  </url>
+  <url>
+    <loc>https://LearnCIOT.github.io/en/author/yu-shen-cheng/</loc>
   </url>
 </urlset>
