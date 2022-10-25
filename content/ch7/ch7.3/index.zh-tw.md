@@ -2,7 +2,7 @@
 title : "7.3. Leafmap 應用"
 weight : 30
 socialshare: true
-description : "我們示範導入民生公共物聯網資料平台中水、空、地、災四大面向的資料，藉由 leafmap 的地理資訊圖台與空間分析能力，搭配 Google Earth Engine 豐富的衛星影像，建構簡單的 GIS 資訊服務，同時借助 Streamlit 的友善介面操作，整合成網頁版的 GIS 資訊服務，擴展讀者對於資料分析與資訊服務的未來想像。"
+description : "我們介紹 leafmap 套件在 Civil IoT Taiwan Data Service Platform 中使用不同類型數據進行地理信息表示和空間分析的能力，並演示了 leafmap 和 streamlit 套件的結合共同構建 Web GIS 的應用。透過跨域與跨工具的資源整合，將能拓展讀者對數據分析和信息服務未來的想像。"
 tags: ["Python", "空" , "地"]
 levels: ["advanced" ]
 author: ["鄭宇伸", "鍾明光", "陳伶志"]
@@ -13,7 +13,7 @@ author: ["鄭宇伸", "鍾明光", "陳伶志"]
 
 {{< toc >}}
 
-我們在之前的章節中，已經示範了如何使用程式語言針對地理屬性的資料進行分析，同時也示範了如何使用 GIS 軟體進行簡易的地理資料分析與呈現，接下來我們介紹如何使用 Python 語言中的 GIS 套件 *Leafmap*，以及網頁製作套件 *Streamlit*，自行製作簡單的網頁 GIS 系統，並將資料處理與分析後的結果，透過網頁方式來呈現。
+我們在之前的章節中，已經示範了如何使用程式語言針對地理屬性的資料進行分析，同時也示範了如何使用 GIS 軟體進行簡易的地理資料分析與呈現。接下來我們介紹如何使用 Python 語言中的 Leafmap 套件進行 GIS 應用，以及 Streamlit 套件進行網站開發。最後，我們將結合 Leafmap 和 Streamlit，自行製作簡單的網頁 GIS 系統，並將資料處理與分析後的結果，透過網頁方式來呈現。
 
 ## 套件安裝與引用
 
