@@ -29,6 +29,14 @@
 4.1. Time Series Data ProcessingWe use the sensing data of Civil IoT Taiwan Data Service Platform to guide readers to understand the use of moving average, perform periodic analysis of time series data, and then disassemble the time series data into long-term trends, seasonal changes and residual fluctuations.</description>
     </item>
     <item>
+      <title>7. System Integration and Applications</title>
+      <link>https://LearnCIOT.github.io/en/ch7/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://LearnCIOT.github.io/en/ch7/</guid>
+      <description>7. System Integration and Applications In this theme, we will focus on the integration and application of the Civil IoTTaiwan Open Data and other application software, and through the professional functions of other application software, to further deepen and develop the value of the Civil IoT Taiwan Open Data.
+7.3. Leafmap ApplicationsWe introduce the capability of leafmap package to use different types of data for geographic information representation and spatial analysis in Civil IoT Taiwan Data Service Platform, and demonstrate the combination of leafmap and streamlit packages to build Web GIS applications.</description>
+    </item>
+    <item>
       <title>2.1. Material Architecture</title>
       <link>https://LearnCIOT.github.io/en/ch2/ch2.1/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
