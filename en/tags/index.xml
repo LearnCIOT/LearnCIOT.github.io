@@ -7,10 +7,31 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-tw</language><atom:link href="https://LearnCIOT.github.io/en/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Air</title>
+      <link>https://LearnCIOT.github.io/en/tags/air/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://LearnCIOT.github.io/en/tags/air/</guid>
+      <description></description>
+    </item>
+    <item>
       <title>Introduction</title>
       <link>https://LearnCIOT.github.io/en/tags/introduction/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://LearnCIOT.github.io/en/tags/introduction/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Python</title>
+      <link>https://LearnCIOT.github.io/en/tags/python/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://LearnCIOT.github.io/en/tags/python/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Water</title>
+      <link>https://LearnCIOT.github.io/en/tags/water/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://LearnCIOT.github.io/en/tags/water/</guid>
       <description></description>
     </item>
   </channel>

@@ -53,6 +53,19 @@
                 />
   </url>
   <url>
+    <loc>https://LearnCIOT.github.io/en/ch4/ch4.1/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-tw"
+                href="https://LearnCIOT.github.io/zh-tw/ch4/ch4.1/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://LearnCIOT.github.io/en/ch4/ch4.1/"
+                />
+  </url>
+  <url>
     <loc>https://LearnCIOT.github.io/en/ch2/ch2.2/</loc>
     <xhtml:link
                 rel="alternate"
@@ -64,6 +77,9 @@
                 hreflang="en"
                 href="https://LearnCIOT.github.io/en/ch2/ch2.2/"
                 />
+  </url>
+  <url>
+    <loc>https://LearnCIOT.github.io/en/tags/air/</loc>
   </url>
   <url>
     <loc>https://LearnCIOT.github.io/en/author/</loc>
@@ -140,6 +156,19 @@
     <loc>https://LearnCIOT.github.io/en/author/ling-jyh-chen/</loc>
   </url>
   <url>
+    <loc>https://LearnCIOT.github.io/en/tags/python/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-tw"
+                href="https://LearnCIOT.github.io/zh-tw/tags/python/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://LearnCIOT.github.io/en/tags/python/"
+                />
+  </url>
+  <url>
     <loc>https://LearnCIOT.github.io/en/tags/</loc>
     <xhtml:link
                 rel="alternate"
@@ -151,5 +180,11 @@
                 hreflang="en"
                 href="https://LearnCIOT.github.io/en/tags/"
                 />
+  </url>
+  <url>
+    <loc>https://LearnCIOT.github.io/en/tags/water/</loc>
+  </url>
+  <url>
+    <loc>https://LearnCIOT.github.io/en/author/yu-chi-peng/</loc>
   </url>
 </urlset>

@@ -72,6 +72,16 @@
   </url>
   <url>
     <loc>https://LearnCIOT.github.io/zh-tw/ch4/ch4.1/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://LearnCIOT.github.io/en/ch4/ch4.1/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-tw"
+                href="https://LearnCIOT.github.io/zh-tw/ch4/ch4.1/"
+                />
   </url>
   <url>
     <loc>https://LearnCIOT.github.io/zh-tw/ch5/ch5.1/</loc>
@@ -182,6 +192,16 @@
   </url>
   <url>
     <loc>https://LearnCIOT.github.io/zh-tw/tags/python/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://LearnCIOT.github.io/en/tags/python/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-tw"
+                href="https://LearnCIOT.github.io/zh-tw/tags/python/"
+                />
   </url>
   <url>
     <loc>https://LearnCIOT.github.io/zh-tw/tags/</loc>

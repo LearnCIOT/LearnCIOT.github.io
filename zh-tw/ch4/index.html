@@ -10,18 +10,18 @@
     <title>4. 時間維度資料分析 :: Tutorial for CIoT Open Data Applications</title>
     <link rel="alternate" type="application/rss&#43;xml" href="/zh-tw/ch4/index.xml" title="Tutorial for CIoT Open Data Applications" />
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="/css/fontawesome-all.min.css?1666626479" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1666626479" rel="stylesheet"></noscript>
-    <link href="/css/featherlight.min.css?1666626479" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1666626479" rel="stylesheet"></noscript>
-    <link href="/css/auto-complete.css?1666626479" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1666626479" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar.min.css?1666626479" rel="stylesheet">
-    <link href="/css/nucleus.css?1666626479" rel="stylesheet">
-    <link href="/css/fonts.css?1666626479" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1666626479" rel="stylesheet"></noscript>
-    <link href="/css/theme.css?1666626479" rel="stylesheet">
-    <link href="/css/theme-relearn-light.css?1666626479" rel="stylesheet" id="variant-style">
-    <link href="/css/ie.css?1666626479" rel="stylesheet">
-    <link href="/css/variant.css?1666626479" rel="stylesheet">
-    <link href="/css/print.css?1666626479" rel="stylesheet" media="print">
-    <script src="/js/variant.js?1666626479"></script>
+    <link href="/css/fontawesome-all.min.css?1666681338" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1666681338" rel="stylesheet"></noscript>
+    <link href="/css/featherlight.min.css?1666681338" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1666681338" rel="stylesheet"></noscript>
+    <link href="/css/auto-complete.css?1666681338" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1666681338" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar.min.css?1666681338" rel="stylesheet">
+    <link href="/css/nucleus.css?1666681338" rel="stylesheet">
+    <link href="/css/fonts.css?1666681338" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1666681338" rel="stylesheet"></noscript>
+    <link href="/css/theme.css?1666681338" rel="stylesheet">
+    <link href="/css/theme-relearn-light.css?1666681338" rel="stylesheet" id="variant-style">
+    <link href="/css/ie.css?1666681338" rel="stylesheet">
+    <link href="/css/variant.css?1666681338" rel="stylesheet">
+    <link href="/css/print.css?1666681338" rel="stylesheet" media="print">
+    <script src="/js/variant.js?1666681338"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -37,7 +37,7 @@
       var baseUriFull='https:\/\/LearnCIOT.github.io/';
       window.variants && variants.init( [ 'relearn-light' ] );
     </script>
-    <script src="/js/jquery.min.js?1666626479" defer></script>
+    <script src="/js/jquery.min.js?1666681338" defer></script>
 <meta property="fb:app_id" content="601826851395774" />
   </head>
   <body class="default-animation" data-url="/zh-tw/ch4/">
@@ -233,7 +233,7 @@
 <p>在這個主題中，我們針對物聯網資料所具備的時序特性，介紹一系列的時間維度資料分析方法。透過民生公共物聯網資料平台的使用，我們將發展下列三項單元，進行更深入的介紹。</p>
 
 <ul class="children children-li children-sort-">
-<li><a href="/zh-tw/ch4/ch4.1/" >4.1. 時間序列資料處理</a><p>我們使用民生公共物聯網資料平台的感測資料，引導讀者了解移動式平均 (Moving Average) 的使用方法，以及進行時序資料的週期性分析，並進而將時序資料拆解出長期趨勢、季節變動、循環變動與隨機波動四大部分，同時套用既有常見的 Python 語言套件，進行變點檢測 (Change Point Detection) 與異常值檢測 (Outlier Detection)，用以檢視現有民生公共物聯網資料中，有關變點檢測與異常值檢測，其背後所可能隱含的意義。</p></li>
+<li><a href="/zh-tw/ch4/ch4.1/" >4.1. 時間序列資料處理</a><p>我們使用民生公共物聯網資料平台的感測資料，引導讀者了解移動式平均 (Moving Average) 的使用方法，以及進行時序資料的週期性分析，並進而將時序資料拆解出長期趨勢、季節變動、循環變動與殘差波動，同時套用既有的 Python 語言套件，進行變點檢測 (Change Point Detection) 與異常值檢測 (Outlier Detection)，用以檢視現有民生公共物聯網資料，並探討其背後所可能隱含的意義。</p></li>
 <li><a href="/zh-tw/ch4/ch4.2/" >4.2. 時間序列資料預測</a><p>我們使用民生公共物聯網資料平台的感測資料，套用現有的 Python 資料科學套件 (例如 scikit-learn、Kats 等)，用動手實作的方式，比較各種套件所內建的不同資料預測模型的使用方法與預測結果，用製圖的方式進行資料呈現，並且探討不同的資料集與不同時間解析度的資料預測，在真實場域所代表的意義，以及可能衍生的應用。</p></li>
 <li><a href="/zh-tw/ch4/ch4.3/" >4.3. 時間序列屬性分群</a><p>我們介紹較為進階的資料分群分析。我們首先介紹兩種時間序列的特徵擷取方法，分別是傅立葉轉換 (Fourier Transform) 和小波轉換 (Wavelet Transform)，並且以簡要的方式說明兩種轉換方式之異同。我們介紹兩種不同的時間序列比較方法，分別是幾何距離 (Euclidean Distance) 與動態時間規整 (Dynamic Time Warping, DTW) 距離，並根據所使用的距離函數，套用既有的分群演算法套件，並且探討不同的資料集與不同時間解析度的資料分群，在真實場域所代表的意義，以及可能衍生的應用。</p></li>
 </ul>
@@ -311,12 +311,12 @@
         <script>
           var contentLangs=['zh'];
         </script>
-        <script src="/js/auto-complete.js?1666626479" defer></script>
-        <script src="/js/lunr.min.js?1666626479" defer></script>
-        <script src="/js/lunr.stemmer.support.min.js?1666626479" defer></script>
-        <script src="/js/lunr.multi.min.js?1666626479" defer></script>
-        <script src="/js/lunr.zh.min.js?1666626479" defer></script>
-        <script src="/js/search.js?1666626479" defer></script>
+        <script src="/js/auto-complete.js?1666681338" defer></script>
+        <script src="/js/lunr.min.js?1666681338" defer></script>
+        <script src="/js/lunr.stemmer.support.min.js?1666681338" defer></script>
+        <script src="/js/lunr.multi.min.js?1666681338" defer></script>
+        <script src="/js/lunr.zh.min.js?1666681338" defer></script>
+        <script src="/js/search.js?1666681338" defer></script>
       </div>
       <div id="content-wrapper" class="highlightable">
         <ul class="topics">
@@ -392,14 +392,14 @@
       </div>
     </aside>
 
-    <script src="/js/clipboard.min.js?1666626479" defer></script>
-    <script src="/js/perfect-scrollbar.min.js?1666626479" defer></script>
-    <script src="/js/featherlight.min.js?1666626479" defer></script>
-    <script src="/js/jquery.svg.pan.zoom.js?1666626479" defer></script>
-    <script src="/js/mermaid.min.js?1666626479" defer></script>
+    <script src="/js/clipboard.min.js?1666681338" defer></script>
+    <script src="/js/perfect-scrollbar.min.js?1666681338" defer></script>
+    <script src="/js/featherlight.min.js?1666681338" defer></script>
+    <script src="/js/jquery.svg.pan.zoom.js?1666681338" defer></script>
+    <script src="/js/mermaid.min.js?1666681338" defer></script>
     <script>
       window.themeUseMermaid = JSON.parse("{}");
     </script>
-    <script src="/js/theme.js?1666626479" defer></script>
+    <script src="/js/theme.js?1666681338" defer></script>
   </body>
 </html>

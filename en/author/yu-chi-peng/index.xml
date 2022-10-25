@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Yu-Chi Peng on Tutorial for CIoT Open Data Applications</title>
+    <link>https://LearnCIOT.github.io/en/author/yu-chi-peng/</link>
+    <description>Recent content in Yu-Chi Peng on Tutorial for CIoT Open Data Applications</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-tw</language><atom:link href="https://LearnCIOT.github.io/en/author/yu-chi-peng/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>4.1. Time Series Data Processing</title>
+      <link>https://LearnCIOT.github.io/en/ch4/ch4.1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://LearnCIOT.github.io/en/ch4/ch4.1/</guid>
+      <description>Table Of Contents Goal Package Installation and Importing Data Access Air Quality Data Water Level Data Meteorological Data Data Visualization Data Resample Moving Average Multi-line Charts Calendar Heatmap Data Quality Inspection Outlier Detection Change Point Detection) Missing Data Handling Data Decomposition References Time series data is data formed in the order of appearance in time. Usually, the time interval in the data will be the same (for example, one data every five minutes, or one data per hour), and the application fields are quite wide, such as financial information, space engineering, signal processing, etc.</description>
+    </item>
+  </channel>
+</rss>
