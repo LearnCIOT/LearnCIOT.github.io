@@ -1,7 +1,7 @@
 ---
 title : "7.1. QGIS 應用"
 weight : 10
-description : "我們示範導入民生公共物聯網資料平台中水、空、地、災四大面向的資料，利用 QGIS 的圖資進行套疊，用點擊拖拉的方式，進行在「地理空間篩選」與「地理空間分析」進行過的各種分析，並且討論 QGIS 軟體的優缺點與使用時機。"
+description : "我們介紹使用 QGIS 系統進行的地理資料呈現，並且以Civil IoT Taiwan 的資料當作範例，利用點擊拖拉的方式，進行地理空間分析。同時我們也討論 QGIS 軟體的優缺點與使用時機。"
 tags: ["空", "災" ]
 levels: ["beginner" ]
 author: ["鄭宇伸", "鍾明光"]
@@ -101,7 +101,7 @@ QGIS 是一套免費的地圖資料管理系統，除了可以將使用者蒐集
   2. Value 部分選 PM25
   3. 點擊下方 Classify 按鈕
   4. 在 Classes 設定顏色數目（註：建議設定類別不宜過多，以不超過7類為原則）
-  5. 到 Color ramp 設定個數值之顏色
+  5. 到 Color ramp 設定各數值之顏色
   6. 完成後點擊 OK
 ![](figures/7-1-2-11.png)
   當一切都設定完成後，將可以得到下圖，其中圓點的顏色會隨著PM 2.5數值的不同而改變，而右邊的 Layer 則顯示不同顏色所代表的 PM 2.5 數值。
@@ -161,5 +161,7 @@ QGIS 是一套免費的地圖資料管理系統，除了可以將使用者蒐集
 
 ## Reference
 
+- QGIS: A Free and Open Source Geographic Information System (https://qgis.org/)
 - YouTube：[GIS 網上小教室系列：第1集 — 從零開始學 QGIS](https://www.youtube.com/watch?v=rtmxj7ddm4w)
 - QGIS 英文說明：[QGIS Tutorials and Tips](https://www.qgistutorials.com/en/)
+- QGIS Documentation (https://www.qgis.org/en/docs/index.html)

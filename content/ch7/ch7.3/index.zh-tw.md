@@ -2,7 +2,7 @@
 title : "7.3. Leafmap 應用"
 weight : 30
 socialshare: true
-description : "我們介紹 leafmap 套件在 Civil IoT Taiwan Data Service Platform 中使用不同類型數據進行地理信息表示和空間分析的能力，並演示了 leafmap 和 streamlit 套件的結合共同構建 Web GIS 的應用。透過跨域與跨工具的資源整合，將能拓展讀者對數據分析和信息服務未來的想像。"
+description : "我們介紹 leafmap 套件在民生公共物聯網資料平台中使用不同類型數據進行地理信息表示和空間分析的能力，並演示了 leafmap 和 streamlit 套件的結合共同構建 Web GIS 的應用。透過跨域與跨工具的資源整合，將能拓展讀者對數據分析和信息服務未來的想像。"
 tags: ["Python", "空" , "地"]
 levels: ["advanced" ]
 author: ["鄭宇伸", "鍾明光", "陳伶志"]
