@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>intermediate on Tutorial for CIoT Open Data Applications</title>
+    <link>https://LearnCIOT.github.io/levels/intermediate/</link>
+    <description>Recent content in intermediate on Tutorial for CIoT Open Data Applications</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-tw</language><atom:link href="https://LearnCIOT.github.io/levels/intermediate/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>6.1. 機器學習初探</title>
+      <link>https://LearnCIOT.github.io/ch6/ch6.1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://LearnCIOT.github.io/ch6/ch6.1/</guid>
+      <description>Table Of Contents 基本介紹 分類問題 (Classification) 分群問題 (Clustering) 套件安裝與引用 案例一：空品資料的場所型態分類 資料清理 移除離群值 區別訓練資料與測試資料 使用 Sklearn 預建模型 案例二：空品資料的分群 資料下載與前處理 動態時間校正 (Dynamic Time Warping, DTW) 使用 K-Mean 分群演算法 探究資料分群與地理位置的關係 探究資料分群與風場風向的關係 案例三：結合氣象與水資源資料的分類與分群 資料下載與前處理 計算特定淹水感測器與雨量測站資料的相似度 資料分群並探究相關性高的雨量站 資料分類並由雨量計資料預測淹水可能性 參考資料 基本介紹 我們在之前的章節中，已經介紹民生公共物聯網豐富的開放資料內容，同時介紹從時間維度與空間維度的角度出發，進行各種不同的資料分析與處理，在這個章節中，我們將開進一步初探機器學習的應用，介紹兩個經典的機器學習問題，分別是分類問題 (Classification) 與分群問題 (Clustering)。
+分類問題 (Classification) 分類問題是機器學習理論中的一個經典問題，若用比較數學的方式來描述這個問題，我們可以假設有一組已經分類好的數據 X，以及每一筆資料在分類之後所得到的標籤集合 Y，而分類問題就是希望能透過這組分類好的數據與標籤，建構一個有效的分類器 (Classifier)，可以將尚未分類的數據 X’，並找到其中每一筆資料相對應得標籤 Y’。
+因此，分類問題的重點，就是要構造一個有效的分類器 (Classifier)，為了達到這個目的，我們會先建立一個模型，利用已經標籤好 (labeled) 的數據進行訓練，並且讓這個模型盡可能地貼近與適應 (fit) 這些數據分佈狀態，再使用最後成品的模型做為分類器，用來推測未知數據的標籤。
+這個建立分類器的過程，在機器學習中被稱為監督式學習 (supervised learning)，而常見的分類器模型有 Nearest Neighbors、SVM Classifier、Decision Tree、*Random Forest *****等，在我們稍後的文章中，我們並不會針對每一種模型進行深入的講解，只會把這些模型直接拿來當工具使用，對於這些模型有興趣的讀者，可以參考相關資源，自行再做更深入的探究。
+分群問題 (Clustering) 分群問題和分類問題非常相似，主要差異在於分類問題是用已知的標籤數據資料推論未知的數據資料，而分群問題則是完全「無中生有」，從數據資料中自行歸類出不同的群組。
+若以比較數學的方式來描述這個問題，我們可以假設有一組完全沒有標記的數據 X，而分類問題就是希望能透過某種的演算法，將 X 的資料區分為 k 個群組，其中每一個群組內的資料彼此相似度大，而不同群組的資料彼此相異度大。</description>
+    </item>
+    <item>
+      <title>3.2. 存取特定時空條件的資料</title>
+      <link>https://LearnCIOT.github.io/ch3/ch3.2/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://LearnCIOT.github.io/ch3/ch3.2/</guid>
+      <description>Table Of Contents 獲取特定時間序列之資料 獲取特定區域之資料 實作：所在地有比附近的空氣糟嗎？ 獲取檢測站資料 去除無效資料 計算距離 Pandas 函式庫 顯示結果 參考資料 本章節將以時間、空間的角度存取民生公共物聯網的資料，並以空氣品質監測作為題目進行簡易實作。
+本章節會涵蓋到的技術：
+datetime, math, numpy, pandas 等函式庫應用 json 資料格式處理 Pandas DataFrame 資料處理 獲取特定時間序列之資料 在 pyCIOT 中在執行 get_data() 時，能夠根據時間起始及結束時間獲取資料。格式以字典 (Dict) 傳入 time_range，分別為 start, end 及 num_of_data。
+start 與 end 指資料搜集的開始及結束時間，格式為 ISO8601 或 Datetime。num_of_data 則是會控制獲取資料的筆數不會超過此數字。若在範圍內的資料超過 num_of_data 則會隔一段時間搜集，使資料與資料之間的時間間隔趨於平均。
+以空氣資料為例，獲取之資料最多能夠回溯一天。因此當將 end 變數設定為一天之前不會獲得任何資料，請留意。此外，因為民生物聯網中各個感測器的更新頻率不同，所以不同感測器每「天」的資料筆數會有不同，詳可參閱：https://ci.taiwan.gov.tw/dsp/dataset_air.aspx
+from datetime import datetime, timedelta end_date = datetime.now() # 獲取現在時間 isodate_end = end_date.isoformat().split(&amp;#34;.&amp;#34;)[0]+&amp;#34;Z&amp;#34; # 將格式轉換為 ISO8601 格式 start_date = datetime.</description>
+    </item>
+    <item>
+      <title>4.2. 時間序列資料預測</title>
+      <link>https://LearnCIOT.github.io/ch4/ch4.2/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://LearnCIOT.github.io/ch4/ch4.2/</guid>
+      <description>Table Of Contents 章節目標 套件安裝與引用 讀取資料 空品資料 水位資料 氣象資料 資料預處理 (Preprocess) 平穩性 (Stationary) 檢查 資料預測(Data forecast) ARIMA SARIMAX auto_arima Prophet LSTM Holt-Winter 綜合比較 參考資料 前一章節介紹了各種處理時序資料的方法，有視覺化呈現資料、時序資料分解&amp;hellip;&amp;hellip;等，經過處理後的資料可以讓我們更進一步的運用，擁有過去的資料後，會想要預知未來，因此本章節將會判斷時序資料的特性以及使用多種預測模型找出資料的的模式，藉此預測未來。
+章節目標 時序資料特性的判斷：平穩性 學習各種預測模型並進行比較 使用時序資料進行訓練與預測 套件安裝與引用 在本章節中，我們將會使用到 pandas, matplotlib, numpy, statsmodels, warnings 等套件，這些套件由於在我們使用的開發平台 Colab 上皆已預先安裝好，因此不需要再另行安裝。然而，我們還會另外使用兩個 Colab 並未預先安裝好的套件：kats 和 pmdarima，需使用下列的方式自行安裝：
+!pip install --upgrade pip !pip install kats==0.1 ax-platform==0.2.3 statsmodels==0.12.2 !pip install pmdarima 待安裝完畢後，即可使用下列的語法先行引入相關的套件，完成本章節的準備工作：
+import warnings import numpy as np import pandas as pd import pmdarima as pm import statsmodels.</description>
+    </item>
+    <item>
+      <title>5.2. 地理空間分析</title>
+      <link>https://LearnCIOT.github.io/ch5/ch5.2/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://LearnCIOT.github.io/ch5/ch5.2/</guid>
+      <description>Table Of Contents 勢力分佈圖 (Voronoi diagram) 最小範圍多邊形/凸包 (Convex hull) 空間群聚 (Clustering) 密度 (Kernel density) 空間內插 (Spatial interpolation) 反距離加權法 (Inverse Distance Weighting) 克力金法 (Kriging) 最近鄰居插值 (Nearest neighbor Interpolation) 空間內插後的資料處理 擷取等值線資料 (contour) 擷取橫切面的資料 (Profile) 參考資源 廣布在生活環境中的微型測站，協助我們掌握細緻的環境變化，並可據以決策跟行動。所以，清楚地掌握測站間的分布和數據特性，也是我們在分析測站數據時的重要基礎。這些測站除了本身的位置可能會形成某種幾何結構或空間群聚。同時，我們也可以依照測站位置與數值的差異，去推估沒有測站的區域的數值，從而獲得一個更為全面的數值分佈狀況，並從中探索感測數值與環境因子間的相關性。在這一個段落中，我們會利用水利署在不同縣市的淹水感測器與地下水位站資料，來進行一些簡單的空間分析。
+勢力分佈圖 (Voronoi diagram) 首先，我們可能需要釐清個別測站的服務/防守範圍，並以此範圍中的測站數據來代表該區的現況。這個時候，我們可以利用沃羅諾伊圖（voronoi diagram）的方法去找尋這個範圍。沃羅諾伊圖的原理是在兩個相鄰測站間建立一條垂直平分線段，並藉由整合這些線段以構成一個多邊形；每個多邊形範圍的中心點就是測站，而該測站的數值則約可代表這個範圍內的數值。在這個範例中，我們嘗試利用嘉義縣、嘉義市的淹水感測器資料，去練習建立沃羅諾伊圖，這樣我們就可以初略知道這些淹水感測器的勢力分佈範圍。
+# 以水利署淹水感測器資料為例，資料集 gpd 為感測器數值與位置資料、basemap為台灣縣市地理邊界 shp file import matplotlib.pyplot as plt import seaborn as sns import geopandas as gpd import pandas as pd import numpy as np import urllib.request import ssl import json import pyCIOT.</description>
+    </item>
+  </channel>
+</rss>

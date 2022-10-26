@@ -1534,3 +1534,35 @@ ul.share-icons li > * .label {
 .share-btn.reddit:hover      { background: #e54e00; }
 .share-btn.email:hover       { background: #364579; }
 .share-btn.whatsapp:hover    { background: #15d346; }
+
+
+.box {
+   width:200px;height:300px;
+   position:relative;
+   border:1px solid #BBB;
+   background:#eee;
+}
+.ribbon {
+   position: absolute;
+   right: -20px; top: -20px;
+   z-index: 999;
+   overflow: hidden;
+   width: 200px; height: 200px; 
+   text-align: right;
+}
+.ribbon span {
+   font-size: 20px;
+   color: #fff; 
+   text-transform: uppercase; 
+   text-align: center;
+   font-weight: bold; line-height: 40px;
+   transform: rotate(45deg);
+   -webkit-transform: rotate(45deg); /* Needed for Safari */
+   width: 200px; display: block;
+   background: #790AA7;
+   background: linear-gradient(#9B0DC9 0%, #790AA7 100%);
+   box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
+   position: absolute;
+   top: 19px; right: -21px;
+}
+
