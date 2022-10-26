@@ -1,11 +1,12 @@
 baseURL = 'https://LearnCIOT.github.io/'
-#languageCode = "en-US"
 languageCode = "zh-tw"
 defaultContentLanguage = "zh-tw"
 title = 'Learn CIoT'
 theme = "relearn"
 metaDataFormat = "yaml"
-defaultContentLanguageInSubdir= true
+# required for official documentation served from subfolder
+relativeURLs = false
+defaultContentLanguageInSubdir= false
 
 [Params]
   editURL = "https://github.com/LearnCIOT/LearnCIOT.github.io/tree/main/content/"
