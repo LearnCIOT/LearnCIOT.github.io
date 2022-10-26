@@ -7,6 +7,13 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-tw</language><atom:link href="https://LearnCIOT.github.io/en/author/ming-kuang-chung/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>7.1. QGIS Application</title>
+      <link>https://LearnCIOT.github.io/en/ch7/ch7.1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://LearnCIOT.github.io/en/ch7/ch7.1/</guid>
+      <description>Table Of Contents Goal QGIS Basic Operation Data Preparation GeoJSON Output Data Filter and Change Colors Export Thematic Maps Example 2: Distribution of Emergency Shelters Conclusion References QGIS is a free geographic information system. In addition to presenting the data collected by users in the form of geographic data, users can also process, analyze and integrate geospatial data through QGIS, and draw thematic maps. In this article, we will use QGIS to assist in the analysis and presentation of PM2.</description>
+    </item>
+    <item>
       <title>7.3. Leafmap Applications</title>
       <link>https://LearnCIOT.github.io/en/ch7/ch7.3/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>

@@ -34,7 +34,7 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://LearnCIOT.github.io/en/ch7/</guid>
       <description>7. System Integration and Applications In this theme, we will focus on the integration and application of the Civil IoTTaiwan Open Data and other application software, and through the professional functions of other application software, to further deepen and develop the value of the Civil IoT Taiwan Open Data.
-7.3. Leafmap ApplicationsWe introduce the capability of leafmap package to use different types of data for geographic information representation and spatial analysis in Civil IoT Taiwan Data Service Platform, and demonstrate the combination of leafmap and streamlit packages to build Web GIS applications.</description>
+7.1. QGIS ApplicationWe introduce the presentation of geographic data using the QGIS system, and use the data from Civil IoT Taiwan as an example to perform geospatial analysis by clicking and dragging.</description>
     </item>
     <item>
       <title>2.1. Material Architecture</title>
@@ -50,6 +50,13 @@ Introduction: We introduce the core of the entire project - &amp;ldquo;Civil IoT
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://LearnCIOT.github.io/en/ch4/ch4.1/</guid>
       <description>Table Of Contents Goal Package Installation and Importing Data Access Air Quality Data Water Level Data Meteorological Data Data Visualization Data Resample Moving Average Multi-line Charts Calendar Heatmap Data Quality Inspection Outlier Detection Change Point Detection) Missing Data Handling Data Decomposition References Time series data is data formed in the order of appearance in time. Usually, the time interval in the data will be the same (for example, one data every five minutes, or one data per hour), and the application fields are quite wide, such as financial information, space engineering, signal processing, etc.</description>
+    </item>
+    <item>
+      <title>7.1. QGIS Application</title>
+      <link>https://LearnCIOT.github.io/en/ch7/ch7.1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://LearnCIOT.github.io/en/ch7/ch7.1/</guid>
+      <description>Table Of Contents Goal QGIS Basic Operation Data Preparation GeoJSON Output Data Filter and Change Colors Export Thematic Maps Example 2: Distribution of Emergency Shelters Conclusion References QGIS is a free geographic information system. In addition to presenting the data collected by users in the form of geographic data, users can also process, analyze and integrate geospatial data through QGIS, and draw thematic maps. In this article, we will use QGIS to assist in the analysis and presentation of PM2.</description>
     </item>
     <item>
       <title>2.2. Material Tools</title>

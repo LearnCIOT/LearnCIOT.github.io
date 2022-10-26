@@ -101,6 +101,16 @@
   </url>
   <url>
     <loc>https://LearnCIOT.github.io/zh-tw/ch7/ch7.1/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://LearnCIOT.github.io/en/ch7/ch7.1/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-tw"
+                href="https://LearnCIOT.github.io/zh-tw/ch7/ch7.1/"
+                />
   </url>
   <url>
     <loc>https://LearnCIOT.github.io/zh-tw/ch2/ch2.2/</loc>
