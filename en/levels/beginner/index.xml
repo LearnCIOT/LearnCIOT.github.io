@@ -26,7 +26,7 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://LearnCIOT.github.io/en/ch3/</guid>
       <description>3. Data Access In this topic, we will describe how to directly access the data of the Civil IoT Taiwan Data Service Platform using simple Python syntax through the pyCIOT package. To gain a deeper understanding of the different ways to access data with examples, we divide this topic into two units for a more in-depth introduction:
-3.1. 基本資料存取方法我們介紹如何取用民生公共物聯網開放資料平台中，有關水、空、地、災不同面向單一測站的最新一筆感測資料，如何獲取所有測站的列表，以及如何獲取所有測站當下最新的一筆感測資料。</description>
+3.1. Basic Data Access MethodsWe introduce how to obtain water, air, earthquake, and disaster data in the Civil IoT Taiwan Data Service Platform, including the latest sensing data for a single site, a list of all sites, and the latest current sensing data for all sites.</description>
     </item>
     <item>
       <title>4. Time Series Data Analysis</title>
@@ -53,7 +53,7 @@
 Introduction: We introduce the core of the entire project - &amp;ldquo;Civil IoT Taiwan Project&amp;rdquo;, including various achievements of the project in the past few years, as well as its open data, covering water resources, air quality, earthquakes, and disaster prevention and relief fields, which can bring daily life various applications and services in.</description>
     </item>
     <item>
-      <title>3.1. 基本資料存取方法</title>
+      <title>3.1. Basic Data Access Methods</title>
       <link>https://LearnCIOT.github.io/en/ch3/ch3.1/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://LearnCIOT.github.io/en/ch3/ch3.1/</guid>

@@ -282,6 +282,9 @@
     <loc>https://LearnCIOT.github.io/en/tags/quake/</loc>
   </url>
   <url>
+    <loc>https://LearnCIOT.github.io/en/author/sky-hung/</loc>
+  </url>
+  <url>
     <loc>https://LearnCIOT.github.io/en/tags/</loc>
     <xhtml:link
                 rel="alternate"
@@ -302,70 +305,5 @@
   </url>
   <url>
     <loc>https://LearnCIOT.github.io/en/author/yu-shen-cheng/</loc>
-  </url>
-  <url>
-    <loc>https://LearnCIOT.github.io/en/tags/%E5%9C%B0/</loc>
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh-tw"
-                href="https://LearnCIOT.github.io/tags/%E5%9C%B0/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://LearnCIOT.github.io/en/tags/%E5%9C%B0/"
-                />
-  </url>
-  <url>
-    <loc>https://LearnCIOT.github.io/en/tags/%E6%B0%B4/</loc>
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh-tw"
-                href="https://LearnCIOT.github.io/tags/%E6%B0%B4/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://LearnCIOT.github.io/en/tags/%E6%B0%B4/"
-                />
-  </url>
-  <url>
-    <loc>https://LearnCIOT.github.io/en/author/%E6%B4%AA%E8%BB%BE%E5%87%B1/</loc>
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh-tw"
-                href="https://LearnCIOT.github.io/author/%E6%B4%AA%E8%BB%BE%E5%87%B1/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://LearnCIOT.github.io/en/author/%E6%B4%AA%E8%BB%BE%E5%87%B1/"
-                />
-  </url>
-  <url>
-    <loc>https://LearnCIOT.github.io/en/tags/%E7%81%BD/</loc>
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh-tw"
-                href="https://LearnCIOT.github.io/tags/%E7%81%BD/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://LearnCIOT.github.io/en/tags/%E7%81%BD/"
-                />
-  </url>
-  <url>
-    <loc>https://LearnCIOT.github.io/en/tags/%E7%A9%BA/</loc>
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh-tw"
-                href="https://LearnCIOT.github.io/tags/%E7%A9%BA/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://LearnCIOT.github.io/en/tags/%E7%A9%BA/"
-                />
   </url>
 </urlset>
