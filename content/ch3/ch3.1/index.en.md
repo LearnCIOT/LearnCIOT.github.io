@@ -1,11 +1,11 @@
 ---
-title : "3.1. 基本資料存取方法"
+title : "3.1. Basic Data Access Methods"
 weight : 10
 socialshare: true
-description : "我們介紹如何取用民生公共物聯網開放資料平台中，有關水、空、地、災不同面向單一測站的最新一筆感測資料，如何獲取所有測站的列表，以及如何獲取所有測站當下最新的一筆感測資料。"
-tags: ["Python", "API", "水", "空", "地", "災"]
+description : "We introduce how to obtain water, air, earthquake, and disaster data in the Civil IoT Taiwan Data Service Platform, including the latest sensing data for a single site, a list of all sites, and the latest current sensing data for all sites."
+tags: ["Python", "API", "Water", "Air", "Quake", "Disaster"]
 levels: ["beginner"]
-author: ["洪軾凱"]
+author: ["Sky Hung"]
 ---
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1DNyxdtg4EBs1X1ulNJvsMLBeKEhXnwgP?usp=sharing)
