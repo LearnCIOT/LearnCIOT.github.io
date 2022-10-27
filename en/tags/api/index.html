@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en" class="js csstransforms3d">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="generator" content="Hugo 0.104.3">
+    <meta name="generator" content="Relearn 5.3.3+tip">
+    <meta name="description" content="CIoT Open Data Application - Documentation/Learning Project">
+    <meta name="author" content="Ling-Jyh Chen">
+    <title>API :: Tutorial for CIoT Open Data Applications</title>
+    <link rel="alternate" type="application/rss&#43;xml" href="/en/tags/api/index.xml" title="Tutorial for CIoT Open Data Applications" />
+    <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
+    <link href="/css/fontawesome-all.min.css?1666885541" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1666885541" rel="stylesheet"></noscript>
+    <link href="/css/featherlight.min.css?1666885541" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1666885541" rel="stylesheet"></noscript>
+    <link href="/css/auto-complete.css?1666885541" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1666885541" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar.min.css?1666885541" rel="stylesheet">
+    <link href="/css/nucleus.css?1666885541" rel="stylesheet">
+    <link href="/css/fonts.css?1666885541" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1666885541" rel="stylesheet"></noscript>
+    <link href="/css/theme.css?1666885541" rel="stylesheet">
+    <link href="/css/theme-relearn-light.css?1666885541" rel="stylesheet" id="variant-style">
+    <link href="/css/ie.css?1666885541" rel="stylesheet">
+    <link href="/css/variant.css?1666885541" rel="stylesheet">
+    <link href="/css/print.css?1666885541" rel="stylesheet" media="print">
+    <script src="/js/variant.js?1666885541"></script>
+    <script>
+      // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
+      // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
+      var index_url="/en/index.json";
+      var root_url="/";
+      var baseUri=root_url.replace(/\/$/, '');
+      // translations
+      window.T_Copy_to_clipboard = 'Copy to clipboard';
+      window.T_Copied_to_clipboard = 'Copied to clipboard!';
+      window.T_Copy_link_to_clipboard = 'Copy link to clipboard';
+      window.T_Link_copied_to_clipboard = 'Copied link to clipboard!';
+      // some further base stuff
+      var baseUriFull='https:\/\/LearnCIOT.github.io/';
+      window.variants && variants.init( [ 'relearn-light' ] );
+    </script>
+    <script src="/js/jquery.min.js?1666885541" defer></script>
+<meta property="fb:app_id" content="601826851395774" />
+  </head>
+  <body class="default-animation" data-url="/en/tags/api/">
+
+<div class="box">
+    <div class="ribbon"><span>Beta</span></div>
+</div>
+
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v14.0" nonce="hWjBXHAv"></script>
+
+    <div id="body" class="default-animation">
+      <div id="sidebar-overlay"></div>
+      <div id="toc-overlay"></div>
+      <nav id="topbar" class="highlightable">
+        <div>
+          <div class="navigation">
+             <span class="nav nav-next"><i class="fa fa-chevron-right fa-fw"></i></span>
+          </div>
+          <div class="navigation">
+             <a class="nav nav-prev" href="/en/ch7/ch7.3/" title="7.3. Leafmap Applications"><i class="fas fa-chevron-left fa-fw"></i></a>
+          </div>
+          <div id="breadcrumbs">
+            <span id="sidebar-toggle-span">
+              <a href="#" id="sidebar-toggle" title='Menu'><i class="fas fa-bars fa-fw"></i></a>
+            </span>
+            <ol class="links" itemscope itemtype="http://schema.org/BreadcrumbList">
+              <meta itemprop="itemListOrder" content="Descending" />
+              <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><meta itemprop="position" content="3" /><a itemprop="item" href="/en/"><span itemprop="name">Learning Civil IoT Taiwan Open Data and Its Applications</span></a> > </li>
+              <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><meta itemprop="position" content="2" /><a itemprop="item" href="/en/tags/"><span itemprop="name">Tags</span></a> > </li>
+              <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><meta itemprop="position" content="1" /><a itemprop="item" href="/en/tags/api/" aria-disabled="true"><span itemprop="name">API</span></a></li>
+            </ol>
+          </div>
+        </div>
+      </nav>
+      <main id="body-inner" class="highlightable ">
+        <div class="flex-block-wrapper">
+          <div id="head-tags"><div class="tags">
+</div>
+
+          </div>
+
+
+  
+  
+  
+
+  <section class="social-share">
+    <ul class="share-icons">
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?hashtags=codingnconcepts&amp;url=https%3a%2f%2fLearnCIOT.github.io%2fen%2ftags%2fapi%2f&amp;text=API" target="_blank" rel="noopener" aria-label="Share on Twitter" class="share-btn twitter">
+          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32px" height="26px" viewBox="0 0 31 26" version="1.1">
+<g id="surface1">
+<path style=" stroke:none;fill-rule:nonzero;fill:rgb(11.372549%,60.784314%,94.117647%);fill-opacity:1;" d="M 27.742188 6.535156 C 27.761719 6.8125 27.761719 7.089844 27.761719 7.371094 C 27.761719 15.875 21.414062 25.683594 9.800781 25.683594 L 9.800781 25.675781 C 6.371094 25.683594 3.011719 24.679688 0.125 22.792969 C 0.625 22.851562 1.125 22.882812 1.628906 22.886719 C 4.46875 22.886719 7.230469 21.914062 9.46875 20.125 C 6.765625 20.070312 4.398438 18.277344 3.570312 15.65625 C 4.515625 15.839844 5.492188 15.800781 6.421875 15.542969 C 3.476562 14.9375 1.355469 12.300781 1.355469 9.234375 L 1.355469 9.152344 C 2.234375 9.652344 3.214844 9.929688 4.222656 9.960938 C 1.449219 8.070312 0.59375 4.304688 2.265625 1.363281 C 5.472656 5.386719 10.203125 7.832031 15.277344 8.089844 C 14.769531 5.855469 15.464844 3.511719 17.105469 1.941406 C 19.644531 -0.496094 23.644531 -0.371094 26.035156 2.21875 C 27.449219 1.933594 28.804688 1.40625 30.042969 0.65625 C 29.574219 2.144531 28.585938 3.410156 27.269531 4.214844 C 28.519531 4.066406 29.742188 3.722656 30.894531 3.203125 C 30.046875 4.496094 28.980469 5.625 27.742188 6.535156 Z M 27.742188 6.535156 "/>
+</g>
+</svg>
+
+          <p>Twitter</p>
+          </a>
+      </li>
+      
+
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fLearnCIOT.github.io%2fen%2ftags%2fapi%2f" target="_blank" rel="noopener" aria-label="Share on Facebook" class="share-btn facebook">
+          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32px" height="32px" viewBox="0 0 32 32" version="1.1">
+<defs>
+<linearGradient id="linear0" gradientUnits="userSpaceOnUse" x1="-277.375" y1="406.6018" x2="-277.375" y2="407.5726" gradientTransform="matrix(32,0,0,-31.82224,8892.0008,12969.8672)">
+<stop offset="0" style="stop-color:rgb(0%,38.431373%,87.843137%);stop-opacity:1;"/>
+<stop offset="1" style="stop-color:rgb(9.803922%,68.627451%,100%);stop-opacity:1;"/>
+</linearGradient>
+</defs>
+<g id="surface1">
+<path style=" stroke:none;fill-rule:nonzero;fill:url(#linear0);" d="M 13.359375 31.839844 C 5.761719 30.480469 0 23.921875 0 16 C 0 7.199219 7.199219 0 16 0 C 24.800781 0 32 7.199219 32 16 C 32 23.921875 26.238281 30.480469 18.640625 31.839844 L 17.761719 31.121094 L 14.238281 31.121094 Z M 13.359375 31.839844 "/>
+<path style=" stroke:none;fill-rule:nonzero;fill:rgb(100%,100%,100%);fill-opacity:1;" d="M 22.238281 20.480469 L 22.960938 16 L 18.71875 16 L 18.71875 12.878906 C 18.71875 11.601562 19.199219 10.640625 21.121094 10.640625 L 23.199219 10.640625 L 23.199219 6.558594 C 22.078125 6.398438 20.800781 6.238281 19.679688 6.238281 C 16 6.238281 13.441406 8.480469 13.441406 12.480469 L 13.441406 16 L 9.441406 16 L 9.441406 20.480469 L 13.441406 20.480469 L 13.441406 31.761719 C 14.320312 31.921875 15.199219 32 16.078125 32 C 16.960938 32 17.839844 31.921875 18.71875 31.761719 L 18.71875 20.480469 Z M 22.238281 20.480469 "/>
+</g>
+</svg>
+
+          <p>Facebook</p>
+          </a>
+      </li>
+      
+
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fLearnCIOT.github.io%2fen%2ftags%2fapi%2f&amp;source=https%3a%2f%2fLearnCIOT.github.io%2fen%2ftags%2fapi%2f&amp;title=API&amp;summary=API" target="_blank" rel="noopener" aria-label="Share on LinkedIn" class="share-btn linkedin">
+          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32px" height="32px" viewBox="0 0 32 32" version="1.1">
+<g id="surface1">
+<path style=" stroke:none;fill-rule:evenodd;fill:rgb(0%,49.411765%,73.333333%);fill-opacity:1;" d="M 16 32 C 24.835938 32 32 24.835938 32 16 C 32 7.164062 24.835938 0 16 0 C 7.164062 0 0 7.164062 0 16 C 0 24.835938 7.164062 32 16 32 Z M 16 32 "/>
+<path style=" stroke:none;fill-rule:evenodd;fill:rgb(100%,100%,100%);fill-opacity:1;" d="M 26.222656 25.332031 L 22.203125 25.332031 L 22.203125 18.488281 C 22.203125 16.613281 21.492188 15.566406 20.007812 15.566406 C 18.390625 15.566406 17.546875 16.65625 17.546875 18.488281 L 17.546875 25.332031 L 13.675781 25.332031 L 13.675781 12.296875 L 17.546875 12.296875 L 17.546875 14.050781 C 17.546875 14.050781 18.710938 11.898438 21.476562 11.898438 C 24.242188 11.898438 26.222656 13.585938 26.222656 17.078125 Z M 9.054688 10.589844 C 7.734375 10.589844 6.667969 9.511719 6.667969 8.183594 C 6.667969 6.855469 7.734375 5.777344 9.054688 5.777344 C 10.375 5.777344 11.441406 6.855469 11.441406 8.183594 C 11.441406 9.511719 10.375 10.589844 9.054688 10.589844 Z M 7.054688 25.332031 L 11.09375 25.332031 L 11.09375 12.296875 L 7.054688 12.296875 Z M 7.054688 25.332031 "/>
+</g>
+</svg>
+
+            <p>LinkedIn</p>
+          </a>
+      </li>
+      
+
+      
+      
+      <li>
+        <a href="whatsapp://send?text=API%2c%20by%20Tutorial%20for%20CIoT%20Open%20Data%20Applications%0a%3cnil%3e%0a%0ahttps%3a%2f%2fLearnCIOT.github.io%2fen%2ftags%2fapi%2f%0a" target="_blank" class="share-btn whatsapp">
+          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32px" height="32px" viewBox="0 0 32 32" version="1.1">
+<defs>
+<image id="image5" width="588" height="590" xlink:href="data:image/png;base64,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"/>
+</defs>
+<g id="surface2">
+<use xlink:href="#image5" transform="matrix(0.054145,0,0,0.054145,0.054145,0)"/>
+<path style=" stroke:none;fill-rule:evenodd;fill:rgb(100%,100%,100%);fill-opacity:1;" d="M 24.355469 7.726562 C 22.222656 5.585938 19.378906 4.410156 16.355469 4.40625 C 10.117188 4.40625 5.042969 9.484375 5.042969 15.71875 C 5.039062 17.714844 5.5625 19.660156 6.550781 21.375 L 4.945312 27.238281 L 10.945312 25.664062 C 12.597656 26.566406 14.457031 27.039062 16.351562 27.042969 L 16.355469 27.042969 C 22.589844 27.042969 27.664062 21.964844 27.667969 15.730469 C 27.667969 12.707031 26.492188 9.863281 24.355469 7.726562 Z M 16.355469 25.132812 L 16.351562 25.132812 C 14.664062 25.128906 13.007812 24.675781 11.566406 23.820312 L 11.222656 23.617188 L 7.664062 24.550781 L 8.613281 21.082031 L 8.390625 20.722656 C 7.449219 19.226562 6.949219 17.496094 6.953125 15.71875 C 6.953125 10.535156 11.171875 6.320312 16.359375 6.320312 C 18.871094 6.320312 21.230469 7.296875 23.003906 9.074219 C 24.78125 10.851562 25.757812 13.214844 25.757812 15.726562 C 25.753906 20.914062 21.535156 25.132812 16.355469 25.132812 Z M 21.511719 18.089844 C 21.230469 17.945312 19.839844 17.261719 19.582031 17.167969 C 19.320312 17.074219 19.132812 17.027344 18.945312 17.3125 C 18.757812 17.59375 18.214844 18.230469 18.050781 18.417969 C 17.882812 18.609375 17.71875 18.632812 17.4375 18.488281 C 17.152344 18.347656 16.242188 18.050781 15.164062 17.085938 C 14.324219 16.335938 13.757812 15.410156 13.589844 15.128906 C 13.425781 14.84375 13.574219 14.691406 13.714844 14.550781 C 13.84375 14.425781 13.996094 14.222656 14.140625 14.054688 C 14.28125 13.890625 14.328125 13.773438 14.421875 13.585938 C 14.515625 13.394531 14.46875 13.230469 14.398438 13.089844 C 14.328125 12.949219 13.761719 11.554688 13.527344 10.992188 C 13.296875 10.441406 13.066406 10.515625 12.890625 10.503906 C 12.726562 10.496094 12.539062 10.496094 12.347656 10.496094 C 12.160156 10.496094 11.855469 10.566406 11.59375 10.847656 C 11.335938 11.132812 10.605469 11.816406 10.605469 13.207031 C 10.605469 14.597656 11.617188 15.941406 11.761719 16.132812 C 11.902344 16.320312 13.753906 19.175781 16.589844 20.398438 C 17.261719 20.691406 17.789062 20.863281 18.199219 20.996094 C 18.878906 21.210938 19.492188 21.179688 19.980469 21.105469 C 20.523438 21.027344 21.652344 20.421875 21.890625 19.761719 C 22.125 19.101562 22.125 18.535156 22.054688 18.417969 C 21.984375 18.300781 21.792969 18.230469 21.511719 18.089844 Z M 21.511719 18.089844 "/>
+</g>
+</svg>
+
+          <p>Email</p>
+        </a>
+      </li>
+      
+
+      
+      
+      <li>
+        <a href="mailto:?subject=Tutorial%20for%20CIoT%20Open%20Data%20Applications - API.&amp;body=API%2c%20by%20Tutorial%20for%20CIoT%20Open%20Data%20Applications%0a%3cnil%3e%0a%0ahttps%3a%2f%2fLearnCIOT.github.io%2fen%2ftags%2fapi%2f%0a" target="_blank" class="share-btn email">
+          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32px" height="32px" viewBox="0 0 32 32" version="1.1">
+<defs>
+<filter id="alpha" filterUnits="objectBoundingBox" x="0%" y="0%" width="100%" height="100%">
+  <feColorMatrix type="matrix" in="SourceGraphic" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0"/>
+</filter>
+<mask id="mask0">
+  <g filter="url(#alpha)">
+<rect x="0" y="0" width="32" height="32" style="fill:rgb(0%,0%,0%);fill-opacity:0.2;stroke:none;"/>
+  </g>
+</mask>
+<clipPath id="clip1">
+  <rect x="0" y="0" width="32" height="32"/>
+</clipPath>
+<g id="surface5" clip-path="url(#clip1)">
+<path style=" stroke:none;fill-rule:nonzero;fill:rgb(13.72549%,12.156863%,12.54902%);fill-opacity:1;" d="M 26 22 C 26 23.101562 25.101562 24 24 24 L 8 24 C 6.898438 24 6 23.101562 6 22 L 6 12 C 6 10.898438 6.898438 10 8 10 L 24 10 C 25.101562 10 26 10.898438 26 12 Z M 26 22 "/>
+</g>
+<mask id="mask1">
+  <g filter="url(#alpha)">
+<rect x="0" y="0" width="32" height="32" style="fill:rgb(0%,0%,0%);fill-opacity:0.2;stroke:none;"/>
+  </g>
+</mask>
+<clipPath id="clip2">
+  <rect x="0" y="0" width="32" height="32"/>
+</clipPath>
+<g id="surface8" clip-path="url(#clip2)">
+<path style=" stroke:none;fill-rule:nonzero;fill:rgb(13.72549%,12.156863%,12.54902%);fill-opacity:1;" d="M 17.75 15.101562 C 16.800781 14.050781 15.199219 14.050781 14.25 15.101562 L 6.5 21.601562 C 6.398438 21.699219 6.351562 21.800781 6.25 21.898438 C 6.601562 22.550781 7.25 23 7.949219 23 L 23.949219 23 C 24.699219 23 25.300781 22.550781 25.648438 21.898438 C 25.601562 21.800781 25.5 21.699219 25.398438 21.601562 Z M 17.75 15.101562 "/>
+</g>
+<mask id="mask2">
+  <g filter="url(#alpha)">
+<rect x="0" y="0" width="32" height="32" style="fill:rgb(0%,0%,0%);fill-opacity:0.2;stroke:none;"/>
+  </g>
+</mask>
+<clipPath id="clip3">
+  <rect x="0" y="0" width="32" height="32"/>
+</clipPath>
+<g id="surface11" clip-path="url(#clip3)">
+<path style=" stroke:none;fill-rule:nonzero;fill:rgb(13.72549%,12.156863%,12.54902%);fill-opacity:1;" d="M 6.300781 10.101562 C 6.648438 9.449219 7.300781 9 8 9 L 24 9 C 24.75 9 25.351562 9.449219 25.699219 10.101562 C 25.648438 10.199219 25.550781 10.300781 25.449219 10.398438 L 17.75 16.898438 C 16.800781 17.949219 15.199219 17.949219 14.25 16.898438 Z M 6.300781 10.101562 "/>
+</g>
+</defs>
+<g id="surface1">
+<path style=" stroke:none;fill-rule:nonzero;fill:rgb(46.666667%,70.196078%,83.137255%);fill-opacity:1;" d="M 32 16 C 32 24.835938 24.835938 32 16 32 C 7.164062 32 0 24.835938 0 16 C 0 7.164062 7.164062 0 16 0 C 24.835938 0 32 7.164062 32 16 Z M 32 16 "/>
+<use xlink:href="#surface5" mask="url(#mask0)"/>
+<path style=" stroke:none;fill-rule:nonzero;fill:rgb(87.843137%,87.843137%,81.960784%);fill-opacity:1;" d="M 26 21 C 26 22.101562 25.101562 23 24 23 L 8 23 C 6.898438 23 6 22.101562 6 21 L 6 11 C 6 9.898438 6.898438 9 8 9 L 24 9 C 25.101562 9 26 9.898438 26 11 Z M 26 21 "/>
+<use xlink:href="#surface8" mask="url(#mask1)"/>
+<path style=" stroke:none;fill-rule:nonzero;fill:rgb(87.843137%,87.843137%,81.960784%);fill-opacity:1;" d="M 17.75 16 C 16.800781 15.050781 15.199219 15.050781 14.25 16 L 6.5 21.75 C 6.398438 21.851562 6.351562 21.898438 6.25 22 C 6.601562 22.601562 7.25 22.949219 7.949219 22.949219 L 23.949219 22.949219 C 24.699219 22.949219 25.300781 22.550781 25.648438 22 C 25.601562 21.898438 25.5 21.851562 25.398438 21.75 Z M 17.75 16 "/>
+<use xlink:href="#surface11" mask="url(#mask2)"/>
+<path style=" stroke:none;fill-rule:nonzero;fill:rgb(100%,100%,100%);fill-opacity:1;" d="M 14.25 16 C 15.199219 16.949219 16.800781 16.949219 17.75 16 L 25.5 10.25 C 25.601562 10.148438 25.648438 10.101562 25.75 10 C 25.398438 9.398438 24.75 9.050781 24.050781 9.050781 L 8 9.050781 C 7.25 9.050781 6.648438 9.449219 6.300781 10 C 6.351562 10.101562 6.449219 10.148438 6.550781 10.25 Z M 14.25 16 "/>
+</g>
+</svg>
+
+          <p>Email</p>
+        </a>
+      </li>
+    </ul>
+  </section>
+  
+
+
+          <article>
+
+<h1>Tag :: API</h1>
+<ul>
+  <li><a href="/en/ch3/ch3.1/">3.1. 基本資料存取方法</a></li>
+</ul>
+
+            <footer class="footline">
+            </footer>
+          </article>        </div>
+      </main>
+    </div>
+    <aside id="sidebar" class="default-animation showVisitedLinks">
+      <div id="header-wrapper" class="default-animation">
+        <div id="header" class="default-animation">
+          <style>
+            #logo svg,
+            #logo svg * {
+              color: #282828;
+              color: var(--MENU-SECTIONS-BG-color);
+              fill: #282828 !important;
+              fill: var(--MENU-SECTIONS-BG-color) !important;
+              opacity: .945;
+            }
+            a#logo {
+              color: #282828;
+              color: var(--MENU-SECTIONS-BG-color);
+              font-family: 'Work Sans', 'Helvetica', 'Tahoma', 'Geneva', 'Arial', sans-serif;
+              font-size: 30px;
+              font-weight: 300;
+              margin-top: -13px;
+              max-width: 60%;
+              text-transform: uppercase;
+              width: 226px;
+              white-space: nowrap;
+            }
+            a#logo:hover {
+              color: #282828;
+              color: var(--MENU-SECTIONS-BG-color);
+            }
+            #logo svg {
+              margin-bottom: -20px;
+              margin-left: -23.5px;
+              width: 40.5%;
+            }
+            @media only all and (max-width: 59.938em) {
+              a#logo {
+                font-size: 25px;
+                margin-top: -3px;
+              }
+              #logo svg {
+                margin-bottom: -12px;
+                margin-left: -23px;
+              }
+            }
+            @media all and (-ms-high-contrast:none) {
+              /* IE11s understanding of positioning is weird at best */
+              a#logo {
+                margin-top: -58px;
+              }
+              #logo svg {
+                margin-bottom: -62px;
+              }
+            }
+          </style>
+          <a id="logo" href="/en/">
+            Learn CIoT
+          </a>
+
+        </div>
+        <div class="searchbox default-animation">
+          <label class="a11y-only" for="search-by">Search</label>
+          <i class="fas fa-search"></i>
+          <input data-search-input id="search-by" type="search" placeholder="Search...">
+          <span data-search-clear=""><i class="fas fa-times"></i></span>
+        </div>
+        <script>
+          var contentLangs=['en'];
+        </script>
+        <script src="/js/auto-complete.js?1666885541" defer></script>
+        <script src="/js/lunr.min.js?1666885541" defer></script>
+        <script src="/js/lunr.stemmer.support.min.js?1666885541" defer></script>
+        <script src="/js/lunr.multi.min.js?1666885541" defer></script>
+        <script src="/js/lunr.en.min.js?1666885541" defer></script>
+        <script src="/js/search.js?1666885541" defer></script>
+      </div>
+      <div id="content-wrapper" class="highlightable">
+        <ul class="topics">
+          <li data-nav-id="/en/ch1/" title="1. Introduction" class="dd-item"><a href="/en/ch1/">1. Introduction<i class="fas fa-check read-icon"></i></a></li>
+          <li data-nav-id="/en/ch2/" title="2. Overview of the Materials" class="dd-item"><label for="section-8824f0908e4fd15c767980c76e6fd82a" ></label><a href="/en/ch2/">2. Overview of the Materials<i class="fas fa-check read-icon"></i></a><ul>
+          <li data-nav-id="/en/ch2/ch2.1/" title="2.1. Material Architecture" class="dd-item"><a href="/en/ch2/ch2.1/">2.1. Material Architecture<i class="fas fa-check read-icon"></i></a></li>
+          <li data-nav-id="/en/ch2/ch2.2/" title="2.2. Material Tools" class="dd-item"><a href="/en/ch2/ch2.2/">2.2. Material Tools<i class="fas fa-check read-icon"></i></a></li></ul></li>
+          <li data-nav-id="/en/ch3/" title="3. Data Access" class="dd-item"><label for="section-8b3bcaa38467a39b2570f38fd8603d10" ></label><a href="/en/ch3/">3. Data Access<i class="fas fa-check read-icon"></i></a><ul>
+          <li data-nav-id="/en/ch3/ch3.1/" title="3.1. 基本資料存取方法" class="dd-item"><a href="/en/ch3/ch3.1/">3.1. 基本資料存取方法<i class="fas fa-check read-icon"></i></a></li></ul></li>
+          <li data-nav-id="/en/ch4/" title="4. Time Series Data Analysis" class="dd-item"><label for="section-b911da0d9c15f301a7d3deea0e716021" ></label><a href="/en/ch4/">4. Time Series Data Analysis<i class="fas fa-check read-icon"></i></a><ul>
+          <li data-nav-id="/en/ch4/ch4.1/" title="4.1. Time Series Data Processing" class="dd-item"><a href="/en/ch4/ch4.1/">4.1. Time Series Data Processing<i class="fas fa-check read-icon"></i></a></li></ul></li>
+          <li data-nav-id="/en/ch7/" title="7. System Integration and Applications" class="dd-item"><label for="section-af7207ef140cc843a4d69557766c672f" ></label><a href="/en/ch7/">7. System Integration and Applications<i class="fas fa-check read-icon"></i></a><ul>
+          <li data-nav-id="/en/ch7/ch7.1/" title="7.1. QGIS Application" class="dd-item"><a href="/en/ch7/ch7.1/">7.1. QGIS Application<i class="fas fa-check read-icon"></i></a></li>
+          <li data-nav-id="/en/ch7/ch7.2/" title="7.2. Tableau Application" class="dd-item"><a href="/en/ch7/ch7.2/">7.2. Tableau Application<i class="fas fa-check read-icon"></i></a></li>
+          <li data-nav-id="/en/ch7/ch7.3/" title="7.3. Leafmap Applications" class="dd-item"><a href="/en/ch7/ch7.3/">7.3. Leafmap Applications<i class="fas fa-check read-icon"></i></a></li></ul></li>
+        </ul>
+        <div id="shortcuts">
+          <div class="nav-title">More</div>
+          <ul>
+            <li><a class="padding" href="https://github.com/LearnCIOT/LearnCIOT.github.io"><i class='fab fa-fw fa-github'></i> GitHub repo</a></li>
+            <li><a class="padding" href="/en/showcase"><i class='fas fa-fw fa-camera'></i> Showcases</a></li>
+            <li><a class="padding" href="https://gohugo.io/"><i class='fas fa-fw fa-bookmark'></i> Hugo Documentation</a></li>
+            <li><a class="padding" href="/en/credits"><i class='fas fa-fw fa-bullhorn'></i> Credits</a></li>
+          </ul>
+        </div>
+        <div class="footermargin footerLangSwitch footerVariantSwitch footerVisitedLinks footerFooter showLangSwitch showVisitedLinks showFooter"></div>
+        <hr class="default-animation footerLangSwitch footerVariantSwitch footerVisitedLinks footerFooter showLangSwitch showVisitedLinks showFooter"/>
+        <div id="prefooter" class="footerLangSwitch footerVariantSwitch footerVisitedLinks showLangSwitch showVisitedLinks">
+          <ul>
+            <li id="select-language-container" class="footerLangSwitch showLangSwitch">
+              <a class="padding select-container">
+                <i class="fas fa-language fa-fw"></i>
+                <span>&nbsp;</span>
+                <div class="select-style">
+                  <select id="select-language" onchange="location = baseUri + this.value;">
+                    <option id="en" value="/en/tags/api/" selected>English</option>
+                    <option id="zh-tw" value="/tags/api/">中文</option>
+                  </select>
+                </div>
+                <div class="select-clear"></div>
+              </a>
+            </li>
+            <li id="select-variant-container" class="footerVariantSwitch">
+              <a class="padding select-container">
+                <i class="fas fa-paint-brush fa-fw"></i>
+                <span>&nbsp;</span>
+                <div class="select-style">
+                  <select id="select-variant" onchange="window.variants && variants.changeVariant( this.value );">
+                    <option id="relearn-light" value="relearn-light" selected>Relearn Light</option>
+                  </select>
+                </div>
+                <div class="select-clear"></div>
+              </a>
+              <script>window.variants && variants.markSelectedVariant();</script>
+            </li>
+            <li class="footerVisitedLinks showVisitedLinks"><a class="padding" onclick="clearHistory();"><i class="fas fa-history fa-fw"></i> Clear History</a></li>
+          </ul>
+        </div>
+        <div id="footer" class="footerFooter showFooter">
+	    <p>Built with <a href="https://github.com/McShelby/hugo-theme-relearn" title="love"><i class="fas fa-heart"></i></a> by <a href="https://gohugo.io/">Hugo</a></p>
+        </div>
+      </div>
+    </aside>
+
+    <script src="/js/clipboard.min.js?1666885541" defer></script>
+    <script src="/js/perfect-scrollbar.min.js?1666885541" defer></script>
+    <script src="/js/featherlight.min.js?1666885541" defer></script>
+    <script src="/js/jquery.svg.pan.zoom.js?1666885541" defer></script>
+    <script src="/js/mermaid.min.js?1666885541" defer></script>
+    <script>
+      window.themeUseMermaid = JSON.parse("{}");
+    </script>
+    <script src="/js/theme.js?1666885541" defer></script>
+  </body>
+</html>

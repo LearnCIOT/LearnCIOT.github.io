@@ -28,6 +28,16 @@
   </url>
   <url>
     <loc>https://LearnCIOT.github.io/ch3/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://LearnCIOT.github.io/en/ch3/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-tw"
+                href="https://LearnCIOT.github.io/ch3/"
+                />
   </url>
   <url>
     <loc>https://LearnCIOT.github.io/ch4/</loc>
@@ -79,6 +89,16 @@
   </url>
   <url>
     <loc>https://LearnCIOT.github.io/ch3/ch3.1/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://LearnCIOT.github.io/en/ch3/ch3.1/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-tw"
+                href="https://LearnCIOT.github.io/ch3/ch3.1/"
+                />
   </url>
   <url>
     <loc>https://LearnCIOT.github.io/ch4/ch4.1/</loc>
@@ -184,6 +204,16 @@
   </url>
   <url>
     <loc>https://LearnCIOT.github.io/tags/api/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://LearnCIOT.github.io/en/tags/api/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-tw"
+                href="https://LearnCIOT.github.io/tags/api/"
+                />
   </url>
   <url>
     <loc>https://LearnCIOT.github.io/author/</loc>
@@ -268,6 +298,16 @@
   </url>
   <url>
     <loc>https://LearnCIOT.github.io/tags/%E6%B0%B4/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://LearnCIOT.github.io/en/tags/%E6%B0%B4/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-tw"
+                href="https://LearnCIOT.github.io/tags/%E6%B0%B4/"
+                />
   </url>
   <url>
     <loc>https://LearnCIOT.github.io/</loc>
@@ -284,6 +324,16 @@
   </url>
   <url>
     <loc>https://LearnCIOT.github.io/tags/%E5%9C%B0/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://LearnCIOT.github.io/en/tags/%E5%9C%B0/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-tw"
+                href="https://LearnCIOT.github.io/tags/%E5%9C%B0/"
+                />
   </url>
   <url>
     <loc>https://LearnCIOT.github.io/author/%E5%90%B3%E5%A7%83%E5%AE%B6/</loc>
@@ -293,12 +343,42 @@
   </url>
   <url>
     <loc>https://LearnCIOT.github.io/tags/%E7%81%BD/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://LearnCIOT.github.io/en/tags/%E7%81%BD/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-tw"
+                href="https://LearnCIOT.github.io/tags/%E7%81%BD/"
+                />
   </url>
   <url>
     <loc>https://LearnCIOT.github.io/tags/%E7%A9%BA/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://LearnCIOT.github.io/en/tags/%E7%A9%BA/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-tw"
+                href="https://LearnCIOT.github.io/tags/%E7%A9%BA/"
+                />
   </url>
   <url>
     <loc>https://LearnCIOT.github.io/author/%E6%B4%AA%E8%BB%BE%E5%87%B1/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://LearnCIOT.github.io/en/author/%E6%B4%AA%E8%BB%BE%E5%87%B1/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-tw"
+                href="https://LearnCIOT.github.io/author/%E6%B4%AA%E8%BB%BE%E5%87%B1/"
+                />
   </url>
   <url>
     <loc>https://LearnCIOT.github.io/author/%E9%AB%98%E6%85%A7%E5%90%9B/</loc>
