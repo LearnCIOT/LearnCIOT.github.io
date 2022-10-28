@@ -28,6 +28,13 @@
       <description>Table Of Contents Goal QGIS Basic Operation Data Preparation GeoJSON Output Data Filter and Change Colors Export Thematic Maps Example 2: Distribution of Emergency Shelters Conclusion References QGIS is a free geographic information system. In addition to presenting the data collected by users in the form of geographic data, users can also process, analyze and integrate geospatial data through QGIS, and draw thematic maps. In this article, we will use QGIS to assist in the analysis and presentation of PM2.</description>
     </item>
     <item>
+      <title>3.2. Data Access under Spatial or Temporal Conditions</title>
+      <link>https://LearnCIOT.github.io/en/ch3/ch3.2/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://LearnCIOT.github.io/en/ch3/ch3.2/</guid>
+      <description>Table Of Contents Data access under temporal conditions Data access under spatial conditions Case study: Is the air quality here worse than there? Import data Remove invalid data Calculate distance Pandas package Results References This article will access the data of the Civil IoT Taiwan project from the perspective of time and space, and carry out a simple implementation with the theme of air quality monitoring. It will covers the following topics:</description>
+    </item>
+    <item>
       <title>7.2. Tableau Application</title>
       <link>https://LearnCIOT.github.io/en/ch7/ch7.2/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>

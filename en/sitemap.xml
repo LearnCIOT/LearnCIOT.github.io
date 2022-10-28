@@ -131,6 +131,19 @@
                 />
   </url>
   <url>
+    <loc>https://LearnCIOT.github.io/en/ch3/ch3.2/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-tw"
+                href="https://LearnCIOT.github.io/ch3/ch3.2/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://LearnCIOT.github.io/en/ch3/ch3.2/"
+                />
+  </url>
+  <url>
     <loc>https://LearnCIOT.github.io/en/ch7/ch7.2/</loc>
     <xhtml:link
                 rel="alternate"
@@ -229,6 +242,19 @@
   </url>
   <url>
     <loc>https://LearnCIOT.github.io/en/author/huei-jun-kao/</loc>
+  </url>
+  <url>
+    <loc>https://LearnCIOT.github.io/en/levels/intermediate/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-tw"
+                href="https://LearnCIOT.github.io/levels/intermediate/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://LearnCIOT.github.io/en/levels/intermediate/"
+                />
   </url>
   <url>
     <loc>https://LearnCIOT.github.io/en/tags/introduction/</loc>
