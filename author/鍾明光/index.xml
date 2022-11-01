@@ -14,7 +14,7 @@
       <description>Table Of Contents 交集 (Intersect) 緩衝區 (Buffer) 多重緩衝區 (Multi-ring buffer) 距離矩陣 (Distance Matrix) 小結 民生公共物聯網的測站都有其空間位置，由於同一區域內常有類似的環境因子，所以它們的感測數值也會具有類似的起伏趨勢，而這也就是地理學的第一定律：“All things are related, but nearby things are more related than distant things.” (Waldo R. Tobler)
 此外，單一測站的感測數據有可能因為局部干擾因子的影響，而產生較大的起伏，所以為進一步確認數據的可信度，我們會需要以單一測站為中心，依照其所屬的行政區或是指定距離 (半徑)，選取鄰近的測站ID與數值，並將其以表單或地圖的方式呈現，以便進行比對。
 這個章節中，我們會利用環保署的空品測站、氣象局的局屬測站以及水利署在各縣市佈建的淹水感測器，示範如何利用地理空間篩選測站，並以其「位置」與「數值」為基礎，轉化成可利用的空間資訊。
-!pip install geopandas !pip install pyCIOT import matplotlib.pyplot as plt import seaborn as sns import geopandas as gpd import pandas as pd import numpy as np import urllib.request import ssl import json import pyCIOT.data as CIoT # 取得資料 wa = CIoT.</description>
+import matplotlib.pyplot as plt import seaborn as sns import pandas as pd import numpy as np import urllib.request import ssl import json #install geopython libraries !apt install gdal-bin python-gdal python3-gdal #install python3-rtree - Geopandas requirement !apt install python3-rtree #install geopandas !</description>
     </item>
     <item>
       <title>7.1. QGIS 應用</title>
@@ -36,9 +36,10 @@
       <link>https://LearnCIOT.github.io/ch5/ch5.2/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://LearnCIOT.github.io/ch5/ch5.2/</guid>
-      <description>Table Of Contents 勢力分佈圖 (Voronoi diagram) 最小範圍多邊形/凸包 (Convex hull) 空間群聚 (Clustering) 密度 (Kernel density) 空間內插 (Spatial interpolation) 反距離加權法 (Inverse Distance Weighting) 克力金法 (Kriging) 最近鄰居插值 (Nearest neighbor Interpolation) 空間內插後的資料處理 擷取等值線資料 (contour) 擷取橫切面的資料 (Profile) 參考資源 廣布在生活環境中的微型測站，協助我們掌握細緻的環境變化，並可據以決策跟行動。所以，清楚地掌握測站間的分布和數據特性，也是我們在分析測站數據時的重要基礎。這些測站除了本身的位置可能會形成某種幾何結構或空間群聚。同時，我們也可以依照測站位置與數值的差異，去推估沒有測站的區域的數值，從而獲得一個更為全面的數值分佈狀況，並從中探索感測數值與環境因子間的相關性。在這一個段落中，我們會利用水利署在不同縣市的淹水感測器與地下水位站資料，來進行一些簡單的空間分析。
+      <description>{{ &amp;lt; toc &amp;gt; }}
+廣布在生活環境中的微型測站，協助我們掌握細緻的環境變化，並可據以決策跟行動。所以，清楚地掌握測站間的分布和數據特性，也是我們在分析測站數據時的重要基礎。這些測站除了本身的位置可能會形成某種幾何結構或空間群聚。同時，我們也可以依照測站位置與數值的差異，去推估沒有測站的區域的數值，從而獲得一個更為全面的數值分佈狀況，並從中探索感測數值與環境因子間的相關性。在這一個段落中，我們會利用水利署在不同縣市的淹水感測器與地下水位站資料，來進行一些簡單的空間分析。
 勢力分佈圖 (Voronoi diagram) 首先，我們可能需要釐清個別測站的服務/防守範圍，並以此範圍中的測站數據來代表該區的現況。這個時候，我們可以利用沃羅諾伊圖（voronoi diagram）的方法去找尋這個範圍。沃羅諾伊圖的原理是在兩個相鄰測站間建立一條垂直平分線段，並藉由整合這些線段以構成一個多邊形；每個多邊形範圍的中心點就是測站，而該測站的數值則約可代表這個範圍內的數值。在這個範例中，我們嘗試利用嘉義縣、嘉義市的淹水感測器資料，去練習建立沃羅諾伊圖，這樣我們就可以初略知道這些淹水感測器的勢力分佈範圍。
-# 以水利署淹水感測器資料為例，資料集 gpd 為感測器數值與位置資料、basemap為台灣縣市地理邊界 shp file import matplotlib.pyplot as plt import seaborn as sns import geopandas as gpd import pandas as pd import numpy as np import urllib.request import ssl import json import pyCIOT.</description>
+import matplotlib.pyplot as plt import seaborn as sns import pandas as pd import numpy as np import urllib.request import ssl import json #install geopython libraries !apt install gdal-bin python-gdal python3-gdal #install python3-rtree - Geopandas requirement !apt install python3-rtree #install geopandas !pip install geopandas #install pykrige !pip install pykrige #install elevation !pip install elevation #install affine rasterio !pip install affine rasterio #install descartes - Geopandas requirement !</description>
     </item>
     <item>
       <title>7.2. Tableau 應用</title>

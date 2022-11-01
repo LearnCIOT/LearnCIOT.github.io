@@ -9,18 +9,18 @@
     <meta name="author" content="Ling-Jyh Chen">
     <title>5.1. 地理空間篩選 :: Tutorial for CIoT Open Data Applications</title>
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="/css/fontawesome-all.min.css?1666951369" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1666951369" rel="stylesheet"></noscript>
-    <link href="/css/featherlight.min.css?1666951369" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1666951369" rel="stylesheet"></noscript>
-    <link href="/css/auto-complete.css?1666951369" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1666951369" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar.min.css?1666951369" rel="stylesheet">
-    <link href="/css/nucleus.css?1666951369" rel="stylesheet">
-    <link href="/css/fonts.css?1666951369" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1666951369" rel="stylesheet"></noscript>
-    <link href="/css/theme.css?1666951369" rel="stylesheet">
-    <link href="/css/theme-relearn-light.css?1666951369" rel="stylesheet" id="variant-style">
-    <link href="/css/ie.css?1666951369" rel="stylesheet">
-    <link href="/css/variant.css?1666951369" rel="stylesheet">
-    <link href="/css/print.css?1666951369" rel="stylesheet" media="print">
-    <script src="/js/variant.js?1666951369"></script>
+    <link href="/css/fontawesome-all.min.css?1667311815" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1667311815" rel="stylesheet"></noscript>
+    <link href="/css/featherlight.min.css?1667311815" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1667311815" rel="stylesheet"></noscript>
+    <link href="/css/auto-complete.css?1667311815" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1667311815" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar.min.css?1667311815" rel="stylesheet">
+    <link href="/css/nucleus.css?1667311815" rel="stylesheet">
+    <link href="/css/fonts.css?1667311815" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1667311815" rel="stylesheet"></noscript>
+    <link href="/css/theme.css?1667311815" rel="stylesheet">
+    <link href="/css/theme-relearn-light.css?1667311815" rel="stylesheet" id="variant-style">
+    <link href="/css/ie.css?1667311815" rel="stylesheet">
+    <link href="/css/variant.css?1667311815" rel="stylesheet">
+    <link href="/css/print.css?1667311815" rel="stylesheet" media="print">
+    <script src="/js/variant.js?1667311815"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -36,7 +36,7 @@
       var baseUriFull='https:\/\/LearnCIOT.github.io/';
       window.variants && variants.init( [ 'relearn-light' ] );
     </script>
-    <script src="/js/jquery.min.js?1666951369" defer></script>
+    <script src="/js/jquery.min.js?1667311815" defer></script>
 <meta property="fb:app_id" content="601826851395774" />
   </head>
   <body class="default-animation" data-url="/ch5/ch5.1/">
@@ -266,21 +266,30 @@
 <p>民生公共物聯網的測站都有其空間位置，由於同一區域內常有類似的環境因子，所以它們的感測數值也會具有類似的起伏趨勢，而這也就是地理學的第一定律：“All things are related, but nearby things are more related than distant things.” (Waldo R. Tobler)</p>
 <p>此外，單一測站的感測數據有可能因為局部干擾因子的影響，而產生較大的起伏，所以為進一步確認數據的可信度，我們會需要以單一測站為中心，依照其所屬的行政區或是指定距離 (半徑)，選取鄰近的測站ID與數值，並將其以表單或地圖的方式呈現，以便進行比對。</p>
 <p>這個章節中，我們會利用環保署的空品測站、氣象局的局屬測站以及水利署在各縣市佈建的淹水感測器，示範如何利用地理空間篩選測站，並以其「位置」與「數值」為基礎，轉化成可利用的空間資訊。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>pip install geopandas
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>pip install pyCIOT
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> seaborn <span style="color:#66d9ef">as</span> sns
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> geopandas <span style="color:#66d9ef">as</span> gpd
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> pandas <span style="color:#66d9ef">as</span> pd
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> urllib.request
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> ssl
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> json
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#install geopython libraries</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>apt install gdal<span style="color:#f92672">-</span>bin python<span style="color:#f92672">-</span>gdal python3<span style="color:#f92672">-</span>gdal
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#install python3-rtree - Geopandas requirement</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>apt install python3<span style="color:#f92672">-</span>rtree 
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#install geopandas</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>pip install geopandas
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#install descartes - Geopandas requirement</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>pip install descartes
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> geopandas <span style="color:#66d9ef">as</span> gpd
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>pip install pyCIOT
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> pyCIOT.data <span style="color:#66d9ef">as</span> CIoT
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 取得資料</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 前往政府開放資料庫下載 縣市界線(TWD97經緯度) 的資料，並解壓縮到名為 shp 的資料夾</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>wget <span style="color:#f92672">-</span>O <span style="color:#e6db74">&#34;shp.zip&#34;</span> <span style="color:#f92672">-</span>q <span style="color:#e6db74">&#34;https://data.moi.gov.tw/MoiOD/System/DownloadFile.aspx?DATA=72874C55-884D-4CEA-B7D6-F60B0BE85AB0&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>unzip shp<span style="color:#f92672">.</span>zip <span style="color:#f92672">-</span>d shp
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 以水利署淹水感測器資料為例，其中，資料集 gpd 為感測器數值與位置資料、basemap 為 county.shp (台灣縣市邊界)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 以pyCIOT取得資料</span>
 </span></span><span style="display:flex;"><span>wa <span style="color:#f92672">=</span> CIoT<span style="color:#f92672">.</span>Water()<span style="color:#f92672">.</span>get_data(src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;FLOODING:WRA&#34;</span>)
 </span></span><span style="display:flex;"><span>wa2 <span style="color:#f92672">=</span> CIoT<span style="color:#f92672">.</span>Water()<span style="color:#f92672">.</span>get_data(src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;FLOODING:WRA2&#34;</span>)
 </span></span><span style="display:flex;"><span>wea_list <span style="color:#f92672">=</span> CIoT<span style="color:#f92672">.</span>Weather()<span style="color:#f92672">.</span>get_station(<span style="color:#e6db74">&#39;GENERAL:CWB&#39;</span>)
@@ -394,6 +403,14 @@
 </span></span></code></pre></div><p><img src="figures/5-1-4-3.png" alt="Python output"></p>
 <h2 id="小結">小結</h2>
 <p>透過前述的方式，我們可以從地理空間 (行政區或鄰近性)  進行測站的篩選機制，並從而能從地理空間的特性檢視測站間的數值相關性。</p>
+<h1 id="references">References</h1>
+<ul>
+<li>Geopanda Documentation (<a href="https://geopandas.org/en/stable/docs.html">https://geopandas.org/en/stable/docs.html</a>)</li>
+<li>Shpfile 格式介紹 (<a href="https://en.wikipedia.org/wiki/Shapefile">https://en.wikipedia.org/wiki/Shapefile</a>)</li>
+<li>臺灣的大地基準及座標系統 (<a href="https://wiki.osgeo.org/wiki/Taiwan_datums">https://wiki.osgeo.org/wiki/Taiwan_datums</a>)</li>
+<li>WGS 84 (<strong><strong>EPSG:4326</strong></strong>) 參數介紹 (<a href="https://epsg.io/4326">https://epsg.io/4326</a>)</li>
+<li>TWD 97 (<strong><strong>EPSG:3826</strong></strong>) 參數介紹 (<a href="https://epsg.io/3826">https://epsg.io/3826</a>)</li>
+</ul>
 
             <footer class="footline">
             </footer>
@@ -470,12 +487,12 @@
         <script>
           var contentLangs=['zh'];
         </script>
-        <script src="/js/auto-complete.js?1666951369" defer></script>
-        <script src="/js/lunr.min.js?1666951369" defer></script>
-        <script src="/js/lunr.stemmer.support.min.js?1666951369" defer></script>
-        <script src="/js/lunr.multi.min.js?1666951369" defer></script>
-        <script src="/js/lunr.zh.min.js?1666951369" defer></script>
-        <script src="/js/search.js?1666951369" defer></script>
+        <script src="/js/auto-complete.js?1667311815" defer></script>
+        <script src="/js/lunr.min.js?1667311815" defer></script>
+        <script src="/js/lunr.stemmer.support.min.js?1667311815" defer></script>
+        <script src="/js/lunr.multi.min.js?1667311815" defer></script>
+        <script src="/js/lunr.zh.min.js?1667311815" defer></script>
+        <script src="/js/search.js?1667311815" defer></script>
       </div>
       <div id="content-wrapper" class="highlightable">
         <ul class="topics">
@@ -549,14 +566,14 @@
       </div>
     </aside>
 
-    <script src="/js/clipboard.min.js?1666951369" defer></script>
-    <script src="/js/perfect-scrollbar.min.js?1666951369" defer></script>
-    <script src="/js/featherlight.min.js?1666951369" defer></script>
-    <script src="/js/jquery.svg.pan.zoom.js?1666951369" defer></script>
-    <script src="/js/mermaid.min.js?1666951369" defer></script>
+    <script src="/js/clipboard.min.js?1667311815" defer></script>
+    <script src="/js/perfect-scrollbar.min.js?1667311815" defer></script>
+    <script src="/js/featherlight.min.js?1667311815" defer></script>
+    <script src="/js/jquery.svg.pan.zoom.js?1667311815" defer></script>
+    <script src="/js/mermaid.min.js?1667311815" defer></script>
     <script>
       window.themeUseMermaid = JSON.parse("{}");
     </script>
-    <script src="/js/theme.js?1666951369" defer></script>
+    <script src="/js/theme.js?1667311815" defer></script>
   </body>
 </html>

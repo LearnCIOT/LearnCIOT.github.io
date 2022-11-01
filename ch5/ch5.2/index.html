@@ -9,18 +9,18 @@
     <meta name="author" content="Ling-Jyh Chen">
     <title>5.2. 地理空間分析 :: Tutorial for CIoT Open Data Applications</title>
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="/css/fontawesome-all.min.css?1666951369" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1666951369" rel="stylesheet"></noscript>
-    <link href="/css/featherlight.min.css?1666951369" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1666951369" rel="stylesheet"></noscript>
-    <link href="/css/auto-complete.css?1666951369" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1666951369" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar.min.css?1666951369" rel="stylesheet">
-    <link href="/css/nucleus.css?1666951369" rel="stylesheet">
-    <link href="/css/fonts.css?1666951369" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1666951369" rel="stylesheet"></noscript>
-    <link href="/css/theme.css?1666951369" rel="stylesheet">
-    <link href="/css/theme-relearn-light.css?1666951369" rel="stylesheet" id="variant-style">
-    <link href="/css/ie.css?1666951369" rel="stylesheet">
-    <link href="/css/variant.css?1666951369" rel="stylesheet">
-    <link href="/css/print.css?1666951369" rel="stylesheet" media="print">
-    <script src="/js/variant.js?1666951369"></script>
+    <link href="/css/fontawesome-all.min.css?1667311815" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1667311815" rel="stylesheet"></noscript>
+    <link href="/css/featherlight.min.css?1667311815" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1667311815" rel="stylesheet"></noscript>
+    <link href="/css/auto-complete.css?1667311815" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1667311815" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar.min.css?1667311815" rel="stylesheet">
+    <link href="/css/nucleus.css?1667311815" rel="stylesheet">
+    <link href="/css/fonts.css?1667311815" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1667311815" rel="stylesheet"></noscript>
+    <link href="/css/theme.css?1667311815" rel="stylesheet">
+    <link href="/css/theme-relearn-light.css?1667311815" rel="stylesheet" id="variant-style">
+    <link href="/css/ie.css?1667311815" rel="stylesheet">
+    <link href="/css/variant.css?1667311815" rel="stylesheet">
+    <link href="/css/print.css?1667311815" rel="stylesheet" media="print">
+    <script src="/js/variant.js?1667311815"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -36,7 +36,7 @@
       var baseUriFull='https:\/\/LearnCIOT.github.io/';
       window.variants && variants.init( [ 'relearn-light' ] );
     </script>
-    <script src="/js/jquery.min.js?1666951369" defer></script>
+    <script src="/js/jquery.min.js?1667311815" defer></script>
 <meta property="fb:app_id" content="601826851395774" />
   </head>
   <body class="default-animation" data-url="/ch5/ch5.2/">
@@ -263,52 +263,46 @@
           <article class="default">
 <h1>5.2. 地理空間分析</h1>
 
-<div>
-    <h2>Table Of Contents</h2>
-    <nav id="TableOfContents">
-  <ul>
-    <li><a href="#勢力分佈圖-voronoi-diagram">勢力分佈圖 (Voronoi diagram)</a></li>
-    <li><a href="#最小範圍多邊形凸包-convex-hull">最小範圍多邊形/凸包 (Convex hull)</a></li>
-    <li><a href="#空間群聚-clustering">空間群聚 (Clustering)</a></li>
-    <li><a href="#密度-kernel-density">密度 (Kernel density)</a></li>
-    <li><a href="#空間內插-spatial-interpolation">空間內插 (Spatial interpolation)</a>
-      <ul>
-        <li><a href="#反距離加權法-inverse-distance-weighting">反距離加權法 (Inverse Distance Weighting)</a></li>
-        <li><a href="#克力金法-kriging">克力金法 (Kriging)</a></li>
-        <li><a href="#最近鄰居插值-nearest-neighbor-interpolation">最近鄰居插值 (Nearest neighbor Interpolation)</a></li>
-      </ul>
-    </li>
-    <li><a href="#空間內插後的資料處理">空間內插後的資料處理</a>
-      <ul>
-        <li><a href="#擷取等值線資料-contour">擷取等值線資料 (contour)</a></li>
-        <li><a href="#擷取橫切面的資料-profile">擷取橫切面的資料 (Profile)</a></li>
-      </ul>
-    </li>
-    <li><a href="#參考資源">參考資源</a></li>
-  </ul>
-</nav>
-</div>
-
+<p>{{ &lt; toc &gt; }}</p>
 <p>廣布在生活環境中的微型測站，協助我們掌握細緻的環境變化，並可據以決策跟行動。所以，清楚地掌握測站間的分布和數據特性，也是我們在分析測站數據時的重要基礎。這些測站除了本身的位置可能會形成某種幾何結構或空間群聚。同時，我們也可以依照測站位置與數值的差異，去推估沒有測站的區域的數值，從而獲得一個更為全面的數值分佈狀況，並從中探索感測數值與環境因子間的相關性。在這一個段落中，我們會利用水利署在不同縣市的淹水感測器與地下水位站資料，來進行一些簡單的空間分析。</p>
 <h2 id="勢力分佈圖-voronoi-diagram">勢力分佈圖 (Voronoi diagram)</h2>
 <p>首先，我們可能需要釐清個別測站的服務/防守範圍，並以此範圍中的測站數據來代表該區的現況。這個時候，我們可以利用沃羅諾伊圖（voronoi diagram）的方法去找尋這個範圍。沃羅諾伊圖的原理是在兩個相鄰測站間建立一條垂直平分線段，並藉由整合這些線段以構成一個多邊形；每個多邊形範圍的中心點就是測站，而該測站的數值則約可代表這個範圍內的數值。在這個範例中，我們嘗試利用嘉義縣、嘉義市的淹水感測器資料，去練習建立沃羅諾伊圖，這樣我們就可以初略知道這些淹水感測器的勢力分佈範圍。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 以水利署淹水感測器資料為例，資料集 gpd 為感測器數值與位置資料、basemap為台灣縣市地理邊界 shp file</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> seaborn <span style="color:#66d9ef">as</span> sns
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> geopandas <span style="color:#66d9ef">as</span> gpd
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> pandas <span style="color:#66d9ef">as</span> pd
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> urllib.request
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> ssl
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> json
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#install geopython libraries</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>apt install gdal<span style="color:#f92672">-</span>bin python<span style="color:#f92672">-</span>gdal python3<span style="color:#f92672">-</span>gdal
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#install python3-rtree - Geopandas requirement</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>apt install python3<span style="color:#f92672">-</span>rtree 
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#install geopandas</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>pip install geopandas
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#install pykrige</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>pip install pykrige
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#install elevation</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>pip install elevation
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#install affine rasterio</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>pip install affine rasterio
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#install descartes - Geopandas requirement</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>pip install descartes
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> geopandas <span style="color:#66d9ef">as</span> gpd
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>pip install pyCIOT
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> pyCIOT.data <span style="color:#66d9ef">as</span> CIoT
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 前往政府開放資料庫下載 縣市界線(TWD97經緯度) 的資料，並解壓縮到名為 shp 的資料夾</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>wget <span style="color:#f92672">-</span>O <span style="color:#e6db74">&#34;shp.zip&#34;</span> <span style="color:#f92672">-</span>q <span style="color:#e6db74">&#34;https://data.moi.gov.tw/MoiOD/System/DownloadFile.aspx?DATA=72874C55-884D-4CEA-B7D6-F60B0BE85AB0&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>unzip shp<span style="color:#f92672">.</span>zip <span style="color:#f92672">-</span>d shp
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 以水利署淹水感測器資料為例，資料集 gpd 為感測器數值與位置資料、basemap為台灣縣市地理邊界 shp file</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 以pyCIOT取得資料</span>
 </span></span><span style="display:flex;"><span>wa <span style="color:#f92672">=</span> CIoT<span style="color:#f92672">.</span>Water()<span style="color:#f92672">.</span>get_data(src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;FLOODING:WRA&#34;</span>)
 </span></span><span style="display:flex;"><span>wa2 <span style="color:#f92672">=</span> CIoT<span style="color:#f92672">.</span>Water()<span style="color:#f92672">.</span>get_data(src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;FLOODING:WRA2&#34;</span>)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>flood_list <span style="color:#f92672">=</span> wa <span style="color:#f92672">+</span> wa2
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>county <span style="color:#f92672">=</span> gpd<span style="color:#f92672">.</span>read_file(<span style="color:#e6db74">&#39;county.shp&#39;</span>)
+</span></span><span style="display:flex;"><span>county <span style="color:#f92672">=</span> gpd<span style="color:#f92672">.</span>read_file(<span style="color:#e6db74">&#39;/content/shp/COUNTY_MOI_1090820.shp&#39;</span>)
 </span></span><span style="display:flex;"><span>basemap <span style="color:#f92672">=</span> county<span style="color:#f92672">.</span>loc[county[<span style="color:#e6db74">&#39;COUNTYNAME&#39;</span>]<span style="color:#f92672">.</span>isin([<span style="color:#e6db74">&#34;嘉義縣&#34;</span>,<span style="color:#e6db74">&#34;嘉義市&#34;</span>])]
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>flood_df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame([],columns <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;name&#39;</span>,  <span style="color:#e6db74">&#39;Observations&#39;</span>,<span style="color:#e6db74">&#39;lon&#39;</span>, <span style="color:#e6db74">&#39;lat&#39;</span>])
@@ -366,7 +360,7 @@
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>tight_layout()
 </span></span></code></pre></div><p><img src="figures/5-2-2-1.png" alt="Python output"></p>
 <h2 id="空間群聚-clustering">空間群聚 (Clustering)</h2>
-<p>正如前文所說，越鄰近的測站，其周邊環境中的干擾因子可能也越相似，所以我們可以利用 Kmeans 這種分類演算法，將測站進行分群，以進一步探勘其感測數據與環境因子間的關係。Kmeans主要是根據我們預先設定的分群的數量n，並隨機尋找n個點做為中心，去尋找周邊的鄰居，經由量測樣本點與中心點的值線距離，去把樣本點分群並計算各群的平均值，最後，重複前述的程序直到所有樣本點與中心點的距離平均值最短，即可完成分群。</p>
+<p>正如前文所說，越鄰近的測站，其周邊環境中的干擾因子可能也越相似，所以我們可以利用 Kmeans 這種分類演算法，將測站進行分群，以進一步探勘其感測數據與環境因子間的關係。Kmeans主要是根據我們預先設定的分群的數量 <em>n</em>，並隨機尋找 <em>n</em> 個點做為中心，去尋找周邊的鄰居，經由量測樣本點與中心點的直線距離，去把樣本點分群並計算各群的平均值，最後，重複前述的程序直到所有樣本點與中心點的距離平均值最短，即可完成分群。</p>
 <p>此外，測站不單只有空間位置，也會有其量測數值，如果我們同時參考其空間位置與量測數值，將量測數值較為相似且地理位置相近的測站聚集起來，這些聚集的測站所遭受的環境干擾因子亦較為接近，而透過測站的空間位置，亦正可以反映出不同環境干擾因子在地理空間上的影像範圍。因此，空間群聚也是地理空間資料分析的重要一環。在這個案例中，我們也嘗試以雲林地區的地下水位站為案例，去描述這些測站的空間群聚狀況。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 獲取地下水位站資料</span>
 </span></span><span style="display:flex;"><span>count <span style="color:#f92672">=</span> <span style="color:#ae81ff">733</span>
@@ -408,7 +402,7 @@
 </span></span><span style="display:flex;"><span>station<span style="color:#f92672">.</span>reset_index(inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>, drop<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
 </span></span><span style="display:flex;"><span>station <span style="color:#f92672">=</span> station[station<span style="color:#f92672">.</span>lon<span style="color:#f92672">!=-</span><span style="color:#ae81ff">1</span>]
 </span></span><span style="display:flex;"><span>gdf_level <span style="color:#f92672">=</span> gpd<span style="color:#f92672">.</span>GeoDataFrame(
-</span></span><span style="display:flex;"><span>    station_df, geometry<span style="color:#f92672">=</span>gpd<span style="color:#f92672">.</span>points_from_xy(station<span style="color:#f92672">.</span>lon, station<span style="color:#f92672">.</span>lat),crs<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;EPSG:4326&#34;</span>)
+</span></span><span style="display:flex;"><span>    station, geometry<span style="color:#f92672">=</span>gpd<span style="color:#f92672">.</span>points_from_xy(station<span style="color:#f92672">.</span>lon, station<span style="color:#f92672">.</span>lat),crs<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;EPSG:4326&#34;</span>)
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 與雲林縣範圍 intersect </span>
 </span></span><span style="display:flex;"><span>basemap <span style="color:#f92672">=</span> county<span style="color:#f92672">.</span>loc[county[<span style="color:#e6db74">&#39;COUNTYNAME&#39;</span>]<span style="color:#f92672">.</span>isin([<span style="color:#e6db74">&#34;雲林縣&#34;</span>])]
 </span></span><span style="display:flex;"><span>basemap <span style="color:#f92672">=</span> basemap<span style="color:#f92672">.</span>set_crs(<span style="color:#ae81ff">4326</span>,allow_override<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
@@ -716,7 +710,7 @@
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> polygons, values
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 利用pykrige 內插計算網格數值</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pykrige.ok <span style="color:#f92672">import</span> OrdinaryKriging
-</span></span><span style="display:flex;"><span>krig <span style="color:#f92672">=</span> OrdinaryKriging(x<span style="color:#f92672">=</span>gdf[<span style="color:#e6db74">&#34;lon&#34;</span>], y<span style="color:#f92672">=</span>gdf[<span style="color:#e6db74">&#34;lat&#34;</span>], z<span style="color:#f92672">=</span>gdf[<span style="color:#e6db74">&#39;Observations&#39;</span>], variogram_model<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;spherical&#34;</span>)
+</span></span><span style="display:flex;"><span>krig <span style="color:#f92672">=</span> OrdinaryKriging(x<span style="color:#f92672">=</span>gdf[<span style="color:#e6db74">&#34;lon&#34;</span>], y<span style="color:#f92672">=</span>gdf[<span style="color:#e6db74">&#34;lat&#34;</span>], z<span style="color:#f92672">=</span>gdf[<span style="color:#e6db74">&#39;Observations&#39;</span>], variogram_model<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;spherical&#34;</span>, pseudo_inv<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
 </span></span><span style="display:flex;"><span>z, ss <span style="color:#f92672">=</span> krig<span style="color:#f92672">.</span>execute(<span style="color:#e6db74">&#34;grid&#34;</span>, gridx, gridy)
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>imshow(z);
 </span></span></code></pre></div><p><img src="figures/5-2-5-2.png" alt="Python output"></p>
@@ -727,7 +721,7 @@
 </span></span><span style="display:flex;"><span>                 <span style="color:#f92672">.</span>to_crs(<span style="color:#e6db74">&#34;EPSG:4326&#34;</span>)
 </span></span><span style="display:flex;"><span>                 )
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>fig <span style="color:#f92672">=</span> px<span style="color:#f92672">.</span>choropleth_mapbox(water_model, geojson<span style="color:#f92672">=</span>river_model<span style="color:#f92672">.</span>geometry, locations<span style="color:#f92672">=</span>river_model<span style="color:#f92672">.</span>index,
+</span></span><span style="display:flex;"><span>fig <span style="color:#f92672">=</span> px<span style="color:#f92672">.</span>choropleth_mapbox(water_model, geojson<span style="color:#f92672">=</span>water_model<span style="color:#f92672">.</span>geometry, locations<span style="color:#f92672">=</span>water_model<span style="color:#f92672">.</span>index,
 </span></span><span style="display:flex;"><span>                           color<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;water_modelled&#34;</span>, color_continuous_scale<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;RdYlGn_r&#34;</span>, opacity<span style="color:#f92672">=</span><span style="color:#ae81ff">0.5</span>,
 </span></span><span style="display:flex;"><span>                           center<span style="color:#f92672">=</span>{<span style="color:#e6db74">&#34;lat&#34;</span>: <span style="color:#ae81ff">24</span>, <span style="color:#e6db74">&#34;lon&#34;</span>: <span style="color:#ae81ff">121</span>}, zoom<span style="color:#f92672">=</span><span style="color:#ae81ff">6</span>,
 </span></span><span style="display:flex;"><span>                           mapbox_style<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;carto-positron&#34;</span>)
@@ -861,6 +855,9 @@
 <h2 id="參考資源">參考資源</h2>
 <ul>
 <li>Geopandas初探, Chimin. <a href="https://ithelp.ithome.com.tw/articles/10202336">https://ithelp.ithome.com.tw/articles/10202336</a></li>
+<li>scipy.spatial 空間處理模組說明 (<a href="https://docs.scipy.org/doc/scipy/reference/spatial.html">https://docs.scipy.org/doc/scipy/reference/spatial.html</a>)</li>
+<li>scipy.interpolate 空間內插模組說明 (<a href="https://docs.scipy.org/doc/scipy/reference/interpolate.html">https://docs.scipy.org/doc/scipy/reference/interpolate.html</a>)</li>
+<li>pykrige 克力金內插模組說明 (<a href="https://geostat-framework.readthedocs.io/projects/pykrige/en/stable/api.html#krigging-algorithms">https://geostat-framework.readthedocs.io/projects/pykrige/en/stable/api.html#krigging-algorithms</a>)</li>
 </ul>
 
             <footer class="footline">
@@ -938,12 +935,12 @@
         <script>
           var contentLangs=['zh'];
         </script>
-        <script src="/js/auto-complete.js?1666951370" defer></script>
-        <script src="/js/lunr.min.js?1666951370" defer></script>
-        <script src="/js/lunr.stemmer.support.min.js?1666951370" defer></script>
-        <script src="/js/lunr.multi.min.js?1666951370" defer></script>
-        <script src="/js/lunr.zh.min.js?1666951370" defer></script>
-        <script src="/js/search.js?1666951370" defer></script>
+        <script src="/js/auto-complete.js?1667311816" defer></script>
+        <script src="/js/lunr.min.js?1667311816" defer></script>
+        <script src="/js/lunr.stemmer.support.min.js?1667311816" defer></script>
+        <script src="/js/lunr.multi.min.js?1667311816" defer></script>
+        <script src="/js/lunr.zh.min.js?1667311816" defer></script>
+        <script src="/js/search.js?1667311816" defer></script>
       </div>
       <div id="content-wrapper" class="highlightable">
         <ul class="topics">
@@ -1017,14 +1014,14 @@
       </div>
     </aside>
 
-    <script src="/js/clipboard.min.js?1666951370" defer></script>
-    <script src="/js/perfect-scrollbar.min.js?1666951370" defer></script>
-    <script src="/js/featherlight.min.js?1666951370" defer></script>
-    <script src="/js/jquery.svg.pan.zoom.js?1666951370" defer></script>
-    <script src="/js/mermaid.min.js?1666951370" defer></script>
+    <script src="/js/clipboard.min.js?1667311816" defer></script>
+    <script src="/js/perfect-scrollbar.min.js?1667311816" defer></script>
+    <script src="/js/featherlight.min.js?1667311816" defer></script>
+    <script src="/js/jquery.svg.pan.zoom.js?1667311816" defer></script>
+    <script src="/js/mermaid.min.js?1667311816" defer></script>
     <script>
       window.themeUseMermaid = JSON.parse("{}");
     </script>
-    <script src="/js/theme.js?1666951370" defer></script>
+    <script src="/js/theme.js?1667311816" defer></script>
   </body>
 </html>
