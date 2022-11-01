@@ -17,21 +17,36 @@ author: ["鍾明光", "沈姿雨"]
 這個章節中，我們會利用環保署的空品測站、氣象局的局屬測站以及水利署在各縣市佈建的淹水感測器，示範如何利用地理空間篩選測站，並以其「位置」與「數值」為基礎，轉化成可利用的空間資訊。
 
 ```python
-!pip install geopandas
-!pip install pyCIOT
-
 import matplotlib.pyplot as plt
 import seaborn as sns
-import geopandas as gpd
 import pandas as pd
 import numpy as np
 import urllib.request
 import ssl
 import json
+#install geopython libraries
+!apt install gdal-bin python-gdal python3-gdal
+#install python3-rtree - Geopandas requirement
+!apt install python3-rtree 
+#install geopandas
+!pip install geopandas
 
+#install descartes - Geopandas requirement
+!pip install descartes
+import geopandas as gpd
+!pip install pyCIOT
 import pyCIOT.data as CIoT
+```
 
-# 取得資料
+```python
+# 前往政府開放資料庫下載 縣市界線(TWD97經緯度) 的資料，並解壓縮到名為 shp 的資料夾
+!wget -O "shp.zip" -q "https://data.moi.gov.tw/MoiOD/System/DownloadFile.aspx?DATA=72874C55-884D-4CEA-B7D6-F60B0BE85AB0"
+!unzip shp.zip -d shp
+```
+
+```python
+# 以水利署淹水感測器資料為例，其中，資料集 gpd 為感測器數值與位置資料、basemap 為 county.shp (台灣縣市邊界)
+# 以pyCIOT取得資料
 wa = CIoT.Water().get_data(src="FLOODING:WRA")
 wa2 = CIoT.Water().get_data(src="FLOODING:WRA2")
 wea_list = CIoT.Weather().get_station('GENERAL:CWB')
@@ -190,3 +205,11 @@ pd.DataFrame(distance_matrix(df.values, df.values),
 ## 小結
 
 透過前述的方式，我們可以從地理空間 (行政區或鄰近性)  進行測站的篩選機制，並從而能從地理空間的特性檢視測站間的數值相關性。
+
+# References
+
+- Geopanda Documentation ([https://geopandas.org/en/stable/docs.html](https://geopandas.org/en/stable/docs.html))
+- Shpfile 格式介紹 ([https://en.wikipedia.org/wiki/Shapefile](https://en.wikipedia.org/wiki/Shapefile))
+- 臺灣的大地基準及座標系統 ([https://wiki.osgeo.org/wiki/Taiwan_datums](https://wiki.osgeo.org/wiki/Taiwan_datums))
+- WGS 84 (****EPSG:4326****) 參數介紹 ([https://epsg.io/4326](https://epsg.io/4326))
+- TWD 97 (****EPSG:3826****) 參數介紹 ([https://epsg.io/3826](https://epsg.io/3826))

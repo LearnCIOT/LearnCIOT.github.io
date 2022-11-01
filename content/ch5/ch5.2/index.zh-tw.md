@@ -8,8 +8,7 @@ levels: ["intermediate" ]
 author: ["鍾明光", "吳姃家"]
 ---
 
-{{< toc >}}
-
+{{ < toc > }}
 
 廣布在生活環境中的微型測站，協助我們掌握細緻的環境變化，並可據以決策跟行動。所以，清楚地掌握測站間的分布和數據特性，也是我們在分析測站數據時的重要基礎。這些測站除了本身的位置可能會形成某種幾何結構或空間群聚。同時，我們也可以依照測站位置與數值的差異，去推估沒有測站的區域的數值，從而獲得一個更為全面的數值分佈狀況，並從中探索感測數值與環境因子間的相關性。在這一個段落中，我們會利用水利署在不同縣市的淹水感測器與地下水位站資料，來進行一些簡單的空間分析。
 
@@ -18,23 +17,48 @@ author: ["鍾明光", "吳姃家"]
 首先，我們可能需要釐清個別測站的服務/防守範圍，並以此範圍中的測站數據來代表該區的現況。這個時候，我們可以利用沃羅諾伊圖（voronoi diagram）的方法去找尋這個範圍。沃羅諾伊圖的原理是在兩個相鄰測站間建立一條垂直平分線段，並藉由整合這些線段以構成一個多邊形；每個多邊形範圍的中心點就是測站，而該測站的數值則約可代表這個範圍內的數值。在這個範例中，我們嘗試利用嘉義縣、嘉義市的淹水感測器資料，去練習建立沃羅諾伊圖，這樣我們就可以初略知道這些淹水感測器的勢力分佈範圍。
 
 ```python
-# 以水利署淹水感測器資料為例，資料集 gpd 為感測器數值與位置資料、basemap為台灣縣市地理邊界 shp file
 import matplotlib.pyplot as plt
 import seaborn as sns
-import geopandas as gpd
 import pandas as pd
 import numpy as np
 import urllib.request
 import ssl
 import json
+#install geopython libraries
+!apt install gdal-bin python-gdal python3-gdal
+#install python3-rtree - Geopandas requirement
+!apt install python3-rtree 
+#install geopandas
+!pip install geopandas
+#install pykrige
+!pip install pykrige
+#install elevation
+!pip install elevation
+#install affine rasterio
+!pip install affine rasterio
 
+#install descartes - Geopandas requirement
+!pip install descartes
+import geopandas as gpd
+!pip install pyCIOT
 import pyCIOT.data as CIoT
+```
+
+```python
+# 前往政府開放資料庫下載 縣市界線(TWD97經緯度) 的資料，並解壓縮到名為 shp 的資料夾
+!wget -O "shp.zip" -q "https://data.moi.gov.tw/MoiOD/System/DownloadFile.aspx?DATA=72874C55-884D-4CEA-B7D6-F60B0BE85AB0"
+!unzip shp.zip -d shp
+```
+
+```python
+# 以水利署淹水感測器資料為例，資料集 gpd 為感測器數值與位置資料、basemap為台灣縣市地理邊界 shp file
+# 以pyCIOT取得資料
 wa = CIoT.Water().get_data(src="FLOODING:WRA")
 wa2 = CIoT.Water().get_data(src="FLOODING:WRA2")
 
 flood_list = wa + wa2
 
-county = gpd.read_file('county.shp')
+county = gpd.read_file('/content/shp/COUNTY_MOI_1090820.shp')
 basemap = county.loc[county['COUNTYNAME'].isin(["嘉義縣","嘉義市"])]
 
 flood_df = pd.DataFrame([],columns = ['name',  'Observations','lon', 'lat'])
@@ -112,7 +136,7 @@ plt.tight_layout()
 
 ## 空間群聚 (Clustering)
 
-正如前文所說，越鄰近的測站，其周邊環境中的干擾因子可能也越相似，所以我們可以利用 Kmeans 這種分類演算法，將測站進行分群，以進一步探勘其感測數據與環境因子間的關係。Kmeans主要是根據我們預先設定的分群的數量n，並隨機尋找n個點做為中心，去尋找周邊的鄰居，經由量測樣本點與中心點的值線距離，去把樣本點分群並計算各群的平均值，最後，重複前述的程序直到所有樣本點與中心點的距離平均值最短，即可完成分群。
+正如前文所說，越鄰近的測站，其周邊環境中的干擾因子可能也越相似，所以我們可以利用 Kmeans 這種分類演算法，將測站進行分群，以進一步探勘其感測數據與環境因子間的關係。Kmeans主要是根據我們預先設定的分群的數量 *n*，並隨機尋找 *n* 個點做為中心，去尋找周邊的鄰居，經由量測樣本點與中心點的直線距離，去把樣本點分群並計算各群的平均值，最後，重複前述的程序直到所有樣本點與中心點的距離平均值最短，即可完成分群。
 
 此外，測站不單只有空間位置，也會有其量測數值，如果我們同時參考其空間位置與量測數值，將量測數值較為相似且地理位置相近的測站聚集起來，這些聚集的測站所遭受的環境干擾因子亦較為接近，而透過測站的空間位置，亦正可以反映出不同環境干擾因子在地理空間上的影像範圍。因此，空間群聚也是地理空間資料分析的重要一環。在這個案例中，我們也嘗試以雲林地區的地下水位站為案例，去描述這些測站的空間群聚狀況。
 
@@ -157,7 +181,7 @@ station=result_df.sort_values(by=['lon', 'lat'])
 station.reset_index(inplace=True, drop=True)
 station = station[station.lon!=-1]
 gdf_level = gpd.GeoDataFrame(
-    station_df, geometry=gpd.points_from_xy(station.lon, station.lat),crs="EPSG:4326")
+    station, geometry=gpd.points_from_xy(station.lon, station.lat),crs="EPSG:4326")
 ```
 
 ```python
@@ -516,7 +540,7 @@ def pixel2poly(x, y, z, resolution):
 ```python
 # 利用pykrige 內插計算網格數值
 from pykrige.ok import OrdinaryKriging
-krig = OrdinaryKriging(x=gdf["lon"], y=gdf["lat"], z=gdf['Observations'], variogram_model="spherical")
+krig = OrdinaryKriging(x=gdf["lon"], y=gdf["lat"], z=gdf['Observations'], variogram_model="spherical", pseudo_inv=True)
 z, ss = krig.execute("grid", gridx, gridy)
 plt.imshow(z);
 ```
@@ -531,7 +555,7 @@ water_model = (gpd.GeoDataFrame({"water_modelled": values}, geometry=polygons, c
                  .to_crs("EPSG:4326")
                  )
 
-fig = px.choropleth_mapbox(water_model, geojson=river_model.geometry, locations=river_model.index,
+fig = px.choropleth_mapbox(water_model, geojson=water_model.geometry, locations=water_model.index,
                            color="water_modelled", color_continuous_scale="RdYlGn_r", opacity=0.5,
                            center={"lat": 24, "lon": 121}, zoom=6,
                            mapbox_style="carto-positron")
@@ -690,3 +714,7 @@ kriging.close()
 ## 參考資源
 
 - Geopandas初探, Chimin. [https://ithelp.ithome.com.tw/articles/10202336](https://ithelp.ithome.com.tw/articles/10202336)
+- scipy.spatial 空間處理模組說明 ([https://docs.scipy.org/doc/scipy/reference/spatial.html](https://docs.scipy.org/doc/scipy/reference/spatial.html))
+- scipy.interpolate 空間內插模組說明 ([https://docs.scipy.org/doc/scipy/reference/interpolate.html](https://docs.scipy.org/doc/scipy/reference/interpolate.html))
+- pykrige 克力金內插模組說明 ([https://geostat-framework.readthedocs.io/projects/pykrige/en/stable/api.html#krigging-algorithms](https://geostat-framework.readthedocs.io/projects/pykrige/en/stable/api.html#krigging-algorithms))
+
