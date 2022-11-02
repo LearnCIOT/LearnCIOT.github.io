@@ -8,6 +8,9 @@ levels: ["beginner" ]
 author: ["鍾明光", "沈姿雨"]
 ---
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1qSeWVhJr8usqQQzJwRTS-6hp8KV4bbz9?usp=sharing)
+
+
 {{< toc >}}
 
 民生公共物聯網的測站都有其空間位置，由於同一區域內常有類似的環境因子，所以它們的感測數值也會具有類似的起伏趨勢，而這也就是地理學的第一定律：“All things are related, but nearby things are more related than distant things.” (Waldo R. Tobler)
