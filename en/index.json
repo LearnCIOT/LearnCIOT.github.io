@@ -36,6 +36,24 @@
     "uri": "/en/ch4/"
   },
   {
+    "content": "5. Spatial Data Analysis In this topic, we introduce a series of spatial data processing and analysis methods according to the geospatial characteristics of IoT data. Through the use of the Civil IoT Taiwan Data Service Platform, we will develop the following units for a more in-depth introduction.\n",
+    "description": "",
+    "tags": [
+      "Introduction"
+    ],
+    "title": "5. Spatial Data Analysis",
+    "uri": "/en/ch5/"
+  },
+  {
+    "content": "6. Data Applications In this topic, we will focus on derivative applications using Civil IoT Taiwan open data. We strengthen the value and application services of Civil IoT Taiwan’s open data by importing other library packages and analysis algorithms. The units we expect to develop include:\n",
+    "description": "",
+    "tags": [
+      "Introduction"
+    ],
+    "title": "6. Data Applications",
+    "uri": "/en/ch6/"
+  },
+  {
     "content": "7. System Integration and Applications In this theme, we will focus on the integration and application of the Civil IoTTaiwan Open Data and other application software, and through the professional functions of other application software, to further deepen and develop the value of the Civil IoT Taiwan Open Data.\n7.1. QGIS ApplicationWe introduce the presentation of geographic data using the QGIS system, and use the data from Civil IoT Taiwan as an example to perform geospatial analysis by clicking and dragging. We also discuss the advantages and disadvantages of QGIS software and when to use it.\n7.2. Tableau ApplicationWe introduce the use of Tableau tools to render Civil IoT Taiwan data and conduct two example cases using air quality data and disaster notification data. We demonstrate how worksheets, dashboards, and stories can be used to create interactive data visualizations for users to explore data. We also provide a wealth of reference materials for people to further study reference.\n7.3. Leafmap ApplicationsWe introduce the capability of leafmap package to use different types of data for geographic information representation and spatial analysis in Civil IoT Taiwan Data Service Platform, and demonstrate the combination of leafmap and streamlit packages to build Web GIS applications. Through cross-domain and cross-tool resource integration, readers will be able to expand their imagination of the future of data analysis and information services.\n",
     "description": "",
     "tags": [

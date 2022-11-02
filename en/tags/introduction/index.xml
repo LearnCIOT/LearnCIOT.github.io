@@ -37,6 +37,20 @@
 4.1. Time Series Data ProcessingWe use the sensing data of Civil IoT Taiwan Data Service Platform to guide readers to understand the use of moving average, perform periodic analysis of time series data, and then disassemble the time series data into long-term trends, seasonal changes and residual fluctuations.</description>
     </item>
     <item>
+      <title>5. Spatial Data Analysis</title>
+      <link>https://LearnCIOT.github.io/en/ch5/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://LearnCIOT.github.io/en/ch5/</guid>
+      <description>5. Spatial Data Analysis In this topic, we introduce a series of spatial data processing and analysis methods according to the geospatial characteristics of IoT data. Through the use of the Civil IoT Taiwan Data Service Platform, we will develop the following units for a more in-depth introduction.</description>
+    </item>
+    <item>
+      <title>6. Data Applications</title>
+      <link>https://LearnCIOT.github.io/en/ch6/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://LearnCIOT.github.io/en/ch6/</guid>
+      <description>6. Data Applications In this topic, we will focus on derivative applications using Civil IoT Taiwan open data. We strengthen the value and application services of Civil IoT Taiwan&amp;rsquo;s open data by importing other library packages and analysis algorithms. The units we expect to develop include:</description>
+    </item>
+    <item>
       <title>7. System Integration and Applications</title>
       <link>https://LearnCIOT.github.io/en/ch7/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
