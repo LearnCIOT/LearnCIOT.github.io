@@ -5,7 +5,7 @@ socialshare: true
 description : "A brief introduction of the programming language Python and the development platform Google Colab used in the materials"
 tags: ["Introduction" ]
 levels: ["beginner" ]
-author: ["Huei-Jun Kao", "Ling-Jyh Chen"]
+authors: ["Huei-Jun Kao", "Ling-Jyh Chen"]
 ---
 
 {{< toc >}}

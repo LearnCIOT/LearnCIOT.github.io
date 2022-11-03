@@ -5,7 +5,7 @@ description : "Introduction of the material architecture"
 socialshare: true
 tags: ["Introduction" ]
 levels: ["beginner" ]
-author: ["Huei-Jun Kao", "Ling-Jyh Chen"]
+authors: ["Huei-Jun Kao", "Ling-Jyh Chen"]
 ---
 
 This set of materials includes seven themes including "Introduction", "Overview of the Materials", "Data Access Method", "Data Analysis in Time Dimension", "Data Analysis in Space Dimension", "Data Applications" and "System Applications". The major themes are described as follows:

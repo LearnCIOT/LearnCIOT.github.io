@@ -5,7 +5,7 @@ socialshare: true
 description : "民生公共物聯網資料應用所使用到的程式語言 Python 和開發平台 Google Colab 簡介"
 tags: ["概述" ]
 levels: ["beginner" ]
-author: ["高慧君", "陳伶志"]
+authors: ["高慧君", "陳伶志"]
 ---
 
 {{< toc >}}

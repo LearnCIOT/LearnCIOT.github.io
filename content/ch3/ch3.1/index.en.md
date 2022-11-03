@@ -5,7 +5,7 @@ socialshare: true
 description : "We introduce how to obtain water, air, earthquake, and disaster data in the Civil IoT Taiwan Data Service Platform, including the latest sensing data for a single site, a list of all sites, and the latest current sensing data for all sites."
 tags: ["Python", "API", "Water", "Air", "Quake", "Disaster"]
 levels: ["beginner"]
-author: ["Sky Hung"]
+authors: ["Sky Hung"]
 ---
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1DNyxdtg4EBs1X1ulNJvsMLBeKEhXnwgP?usp=sharing)

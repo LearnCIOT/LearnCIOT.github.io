@@ -5,7 +5,7 @@ socialshare: true
 description : "We introduce how to obtain the data of a project in a specific time or time period, and the data of a project in a specific geographical area in the Civil IoT Taiwan Data Service Platform. We also demonstrate the application through a simple example."
 tags: ["Python", "API", "Air"]
 levels: ["intermediate"]
-author: ["Sky Hung"]
+authors: ["Sky Hung"]
 ---
 
 

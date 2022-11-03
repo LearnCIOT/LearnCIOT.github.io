@@ -5,7 +5,7 @@ socialshare: true
 description : "我們使用民生公共物聯網資料平台的感測資料，引導讀者了解移動式平均 (Moving Average) 的使用方法，以及進行時序資料的週期性分析，並進而將時序資料拆解出長期趨勢、季節變動、循環變動與殘差波動，同時套用既有的 Python 語言套件，進行變點檢測 (Change Point Detection) 與異常值檢測 (Outlier Detection)，用以檢視現有民生公共物聯網資料，並探討其背後所可能隱含的意義。"
 tags: ["Python", "水", "空" ]
 levels: ["beginner" ]
-author: ["彭昱齊"]
+authors: ["彭昱齊"]
 ---
 
 

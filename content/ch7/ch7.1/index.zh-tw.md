@@ -4,7 +4,7 @@ weight : 10
 description : "我們介紹使用 QGIS 系統進行的地理資料呈現，並且以Civil IoT Taiwan 的資料當作範例，利用點擊拖拉的方式，進行地理空間分析。同時我們也討論 QGIS 軟體的優缺點與使用時機。"
 tags: ["空", "災" ]
 levels: ["beginner" ]
-author: ["鄭宇伸", "鍾明光"]
+authors: ["鄭宇伸", "鍾明光"]
 ---
 
 

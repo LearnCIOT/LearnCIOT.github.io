@@ -4,7 +4,7 @@ weight : 10
 description : "We introduce the presentation of geographic data using the QGIS system, and use the data from Civil IoT Taiwan as an example to perform geospatial analysis by clicking and dragging. We also discuss the advantages and disadvantages of QGIS software and when to use it."
 tags: ["Air", "Disaster" ]
 levels: ["beginner" ]
-author: ["Yu-Shen Cheng", "Ming-Kuang Chung"]
+authors: ["Yu-Shen Cheng", "Ming-Kuang Chung"]
 ---
 
 

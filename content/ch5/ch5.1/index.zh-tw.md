@@ -5,7 +5,7 @@ socialshare: true
 description : "我們使用民生公共物聯網資料平台的地震和防救災資料，套疊從政府開放資料平臺取得的行政區域界線圖資，篩選特定行政區域內的資料，以及產製套疊地圖後的資料分布位置圖片檔案。除此之外，我們同時示範如何套疊特定的幾何拓撲區域，並將套疊的成果輸出成檔案與進行繪圖動作。"
 tags: ["Python", "水", "空" ]
 levels: ["beginner" ]
-author: ["鍾明光", "沈姿雨"]
+authors: ["鍾明光", "沈姿雨"]
 ---
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1qSeWVhJr8usqQQzJwRTS-6hp8KV4bbz9?usp=sharing)

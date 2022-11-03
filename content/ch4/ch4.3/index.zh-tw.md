@@ -5,7 +5,7 @@ socialshare : true
 description : "我們介紹較為進階的資料分群分析。我們首先介紹兩種時間序列的特徵擷取方法，分別是傅立葉轉換 (Fourier Transform) 和小波轉換 (Wavelet Transform)，並且以簡要的方式說明兩種轉換方式之異同。我們介紹兩種不同的時間序列比較方法，分別是幾何距離 (Euclidean Distance) 與動態時間規整 (Dynamic Time Warping, DTW) 距離，並根據所使用的距離函數，套用既有的分群演算法套件，並且探討不同的資料集與不同時間解析度的資料分群，在真實場域所代表的意義，以及可能衍生的應用。"
 tags: ["Python", "空" ]
 levels: ["advanced"]
-author: ["彭昱齊"]
+authors: ["彭昱齊"]
 ---
 
 

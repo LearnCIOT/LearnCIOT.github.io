@@ -6,7 +6,7 @@ socialshare: true
 description : "教學網站簡介"
 tags: ["概述" ]
 levels: ["beginner" ]
-author: ["高慧君"]
+authors: ["高慧君"]
 ---
 
 # 1. 教學網站簡介

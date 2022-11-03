@@ -5,7 +5,7 @@ socialshare: true
 description : "We use the sensing data of Civil IoT Taiwan Data Service Platform to guide readers to understand the use of moving average, perform periodic analysis of time series data, and then disassemble the time series data into long-term trends, seasonal changes and residual fluctuations. At the same time, we apply the existing Python language suites to perform change point detection and outlier detection to check the existing Civil IoT Taiwan data, and discuss potential implications of such values detected."
 tags: ["Python", "Water", "Air" ]
 levels: ["beginner" ]
-author: ["Yu-Chi Peng"]
+authors: ["Yu-Chi Peng"]
 ---
 
 

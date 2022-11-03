@@ -5,7 +5,7 @@ socialshare: true
 description : "我們使用民生公共物聯網資料平台的感測資料，套用現有的 Python 資料科學套件 (例如 scikit-learn、Kats 等)，用動手實作的方式，比較各種套件所內建的不同資料預測模型的使用方法與預測結果，用製圖的方式進行資料呈現，並且探討不同的資料集與不同時間解析度的資料預測，在真實場域所代表的意義，以及可能衍生的應用。"
 tags: ["Python", "水", "空" ]
 levels: ["intermediate" ]
-author: ["彭昱齊"]
+authors: ["彭昱齊"]
 ---
 
 

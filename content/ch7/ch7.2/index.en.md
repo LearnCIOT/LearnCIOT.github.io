@@ -5,7 +5,7 @@ socialshare: true
 description : "We introduce the use of Tableau tools to render Civil IoT Taiwan data and conduct two example cases using air quality data and disaster notification data. We demonstrate how worksheets, dashboards, and stories can be used to create interactive data visualizations for users to explore data. We also provide a wealth of reference materials for people to further study reference."
 tags: ["Air", "Disaster" ]
 levels: ["beginner" ]
-author: ["Yu-Shen Cheng", "Ming-Kuang Chung"]
+authors: ["Yu-Shen Cheng", "Ming-Kuang Chung"]
 ---
 
 {{< toc >}}

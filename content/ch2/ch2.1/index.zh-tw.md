@@ -5,7 +5,7 @@ socialshare: true
 description : "民生公共物聯網資料應用的整體架構介紹"
 tags: ["概述" ]
 levels: ["beginner" ]
-author: ["高慧君", "陳伶志"]
+authors: ["高慧君", "陳伶志"]
 ---
 
 

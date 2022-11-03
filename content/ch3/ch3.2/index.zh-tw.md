@@ -5,7 +5,7 @@ socialshare: true
 description : "我們介紹如何在民生公共物聯網資料平台中獲取特定時間或時間段的資料，以及特定地理區域的資料，並透過簡單的案例演示其應用。"
 tags: ["Python", "API", "空"]
 levels: ["intermediate"]
-author: ["洪軾凱"]
+authors: ["洪軾凱"]
 ---
 
 

@@ -5,7 +5,7 @@ socialshare: true
 description : "We introduce the capability of leafmap package to use different types of data for geographic information representation and spatial analysis in Civil IoT Taiwan Data Service Platform, and demonstrate the combination of leafmap and streamlit packages to build Web GIS applications. Through cross-domain and cross-tool resource integration, readers will be able to expand their imagination of the future of data analysis and information services."
 tags: ["Python", "Air" , "Quake"]
 levels: ["advanced" ]
-author: ["Yu-Shen Cheng", "Ming-Kuang Chung", "Ling-Jyh Chen"]
+authors: ["Yu-Shen Cheng", "Ming-Kuang Chung", "Ling-Jyh Chen"]
 ---
 
 

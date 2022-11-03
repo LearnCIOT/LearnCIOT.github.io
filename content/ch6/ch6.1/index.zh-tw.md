@@ -5,7 +5,7 @@ socialshare : true
 description : "我們使用空品和水位類別資料，結合天氣觀測資料，利用資料集的時間欄位進行連結，帶入機器學習的套件，進行資料分類與資料分群的分析。我們將示範機器學習的標準流程，並且介紹如何透過資料分類進一步進行資料預測，以及如何透過資料分群進行對資料進一步的深入探究。"
 tags: ["Python", "水", "空" ]
 levels: ["intermediate" ]
-author: ["黃仁暐","陳宏穎"]
+authors: ["黃仁暐","陳宏穎"]
 ---
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/14xfpf7Nv_1uadSeJh3vC61HL7r4z6KT8?usp=sharing)

@@ -5,7 +5,7 @@ socialshare: true
 description : "我們介紹如何取用民生公共物聯網開放資料平台中，有關水、空、地、災不同面向單一測站的最新一筆感測資料，如何獲取所有測站的列表，以及如何獲取所有測站當下最新的一筆感測資料。"
 tags: ["Python", "API", "水", "空", "地", "災"]
 levels: ["beginner"]
-author: ["洪軾凱"]
+authors: ["洪軾凱"]
 ---
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1DNyxdtg4EBs1X1ulNJvsMLBeKEhXnwgP?usp=sharing)

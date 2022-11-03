@@ -1,5 +1,5 @@
 ---
-title: "7. System Integration and Applications"
+title: "7. System Applications"
 weight: 7
 chapter: true
 tags: ["Introduction" ]
