@@ -10,7 +10,7 @@ author: ["Quen Luo"]
 
 
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1TNVyAI4NaCBAWgmrHPipmZkdeMJ-YZNu?usp=sharing)
+[![Open In Colab](figures/6-3-6-1.png)
 
 {{< toc >}}
 
