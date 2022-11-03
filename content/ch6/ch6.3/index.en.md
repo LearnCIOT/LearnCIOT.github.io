@@ -5,12 +5,11 @@ socialshare: true
 description : "We use air quality category data of the Civil IoT Taiwan project to demonstrate the dynamic calibration algorithm for Taiwanese micro air quality sensors and official monitoring stations. In a learning-by-doing way, from data preparation, feature extraction, to machine learning, data analysis, statistics and induction, the principle and implementation process of the multi-source sensor dynamic calibration model algorithm are reproduced step by step, allowing readers to experience how to gradually realize by superimposing basic data analysis and machine learning steps to achieve advanced and practical data application services."
 tags: ["Python", "Air" ]
 levels: ["advanced" ]
-author: ["Quen Luo"]
+authors: ["Quen Luo"]
 ---
 
 
 
-[![Open In Colab](figures/6-3-6-1.png)
 
 {{< toc >}}
 
@@ -565,7 +564,7 @@ except Exceptionas e:
 
 The joint calibration method described in this article has been officially applied to "Academia Sinica - Micro Air Quality Sensors" in Civil IoT Taiwan from 2020/5, and the daily output calibration model has been published on the [Dynamic Calibration Model](https://pm25.lass-net.org/DCF/) website. In the implementation, a total of 31 EPA air quality monitoring stations were selected to install two airboxes, and we considered 3 historical data lengths, 8 data feature combinations, and 7 regression methods (i.e. a total of 3 x 8 x 7 = 168 combinations) to generate the best daily calibration model for each of these 31 sites. Then, for the sensing data of each airbox, the best calibration model of the station closest to its geographical location is used as the application model of its data calibration, and its sensing data is generated and published. From the observation of the actual operation after the mechanism is launched, the data difference between the micro air quality sensor device and the EPA air quality monitoring station can be effectively reduced (as shown in the figure below). This achievement also established a good cooperation model for cross-system data integration of air quality monitoring.
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/eeafd803-98e3-426f-8fbe-dcea8d5d90e6/Untitled.png)
+![Open In Colab](figures/6-3-6-1.png)
 
 ## References
 
