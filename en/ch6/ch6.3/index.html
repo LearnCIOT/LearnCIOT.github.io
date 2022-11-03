@@ -9,18 +9,18 @@
     <meta name="author" content="Ling-Jyh Chen">
     <title>6.3. Joint Data Calibration :: Tutorial for CIoT Open Data Applications</title>
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="/css/fontawesome-all.min.css?1667470830" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1667470830" rel="stylesheet"></noscript>
-    <link href="/css/featherlight.min.css?1667470830" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1667470830" rel="stylesheet"></noscript>
-    <link href="/css/auto-complete.css?1667470830" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1667470830" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar.min.css?1667470830" rel="stylesheet">
-    <link href="/css/nucleus.css?1667470830" rel="stylesheet">
-    <link href="/css/fonts.css?1667470830" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1667470830" rel="stylesheet"></noscript>
-    <link href="/css/theme.css?1667470830" rel="stylesheet">
-    <link href="/css/theme-relearn-light.css?1667470830" rel="stylesheet" id="variant-style">
-    <link href="/css/ie.css?1667470830" rel="stylesheet">
-    <link href="/css/variant.css?1667470830" rel="stylesheet">
-    <link href="/css/print.css?1667470830" rel="stylesheet" media="print">
-    <script src="/js/variant.js?1667470830"></script>
+    <link href="/css/fontawesome-all.min.css?1667519924" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1667519924" rel="stylesheet"></noscript>
+    <link href="/css/featherlight.min.css?1667519924" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1667519924" rel="stylesheet"></noscript>
+    <link href="/css/auto-complete.css?1667519924" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1667519924" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar.min.css?1667519924" rel="stylesheet">
+    <link href="/css/nucleus.css?1667519924" rel="stylesheet">
+    <link href="/css/fonts.css?1667519924" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1667519924" rel="stylesheet"></noscript>
+    <link href="/css/theme.css?1667519924" rel="stylesheet">
+    <link href="/css/theme-relearn-light.css?1667519924" rel="stylesheet" id="variant-style">
+    <link href="/css/ie.css?1667519924" rel="stylesheet">
+    <link href="/css/variant.css?1667519924" rel="stylesheet">
+    <link href="/css/print.css?1667519924" rel="stylesheet" media="print">
+    <script src="/js/variant.js?1667519924"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -36,7 +36,7 @@
       var baseUriFull='https:\/\/LearnCIOT.github.io/';
       window.variants && variants.init( [ 'relearn-light' ] );
     </script>
-    <script src="/js/jquery.min.js?1667470830" defer></script>
+    <script src="/js/jquery.min.js?1667519924" defer></script>
 <meta property="fb:app_id" content="601826851395774" />
   </head>
   <body class="default-animation" data-url="/en/ch6/ch6.3/">
@@ -251,7 +251,6 @@
           <article class="default">
 <h1>6.3. Joint Data Calibration</h1>
 
-<p>[<img src="figures/6-3-6-1.png" alt="Open In Colab"></p>
 <div>
     <h2>Table Of Contents</h2>
     <nav id="TableOfContents">
@@ -680,7 +679,7 @@ index
 </span></span></code></pre></div><pre tabindex="0"><code>[BuildR]-dump wanhua_3_SVR_PHT.joblib
 </code></pre><h2 id="calibration-results">Calibration Results</h2>
 <p>The joint calibration method described in this article has been officially applied to &ldquo;Academia Sinica - Micro Air Quality Sensors&rdquo; in Civil IoT Taiwan from 2020/5, and the daily output calibration model has been published on the <a href="https://pm25.lass-net.org/DCF/">Dynamic Calibration Model</a> website. In the implementation, a total of 31 EPA air quality monitoring stations were selected to install two airboxes, and we considered 3 historical data lengths, 8 data feature combinations, and 7 regression methods (i.e. a total of 3 x 8 x 7 = 168 combinations) to generate the best daily calibration model for each of these 31 sites. Then, for the sensing data of each airbox, the best calibration model of the station closest to its geographical location is used as the application model of its data calibration, and its sensing data is generated and published. From the observation of the actual operation after the mechanism is launched, the data difference between the micro air quality sensor device and the EPA air quality monitoring station can be effectively reduced (as shown in the figure below). This achievement also established a good cooperation model for cross-system data integration of air quality monitoring.</p>
-<p><img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/eeafd803-98e3-426f-8fbe-dcea8d5d90e6/Untitled.png" alt="Untitled"></p>
+<p><img src="figures/6-3-6-1.png" alt="Open In Colab"></p>
 <h2 id="references">References</h2>
 <ul>
 <li>Dynamic Calibration Model Status Report (<a href="https://pm25.lass-net.org/DCF/">https://pm25.lass-net.org/DCF/</a>)</li>
@@ -764,12 +763,12 @@ index
         <script>
           var contentLangs=['en'];
         </script>
-        <script src="/js/auto-complete.js?1667470830" defer></script>
-        <script src="/js/lunr.min.js?1667470830" defer></script>
-        <script src="/js/lunr.stemmer.support.min.js?1667470830" defer></script>
-        <script src="/js/lunr.multi.min.js?1667470830" defer></script>
-        <script src="/js/lunr.en.min.js?1667470830" defer></script>
-        <script src="/js/search.js?1667470830" defer></script>
+        <script src="/js/auto-complete.js?1667519924" defer></script>
+        <script src="/js/lunr.min.js?1667519924" defer></script>
+        <script src="/js/lunr.stemmer.support.min.js?1667519924" defer></script>
+        <script src="/js/lunr.multi.min.js?1667519924" defer></script>
+        <script src="/js/lunr.en.min.js?1667519924" defer></script>
+        <script src="/js/search.js?1667519924" defer></script>
       </div>
       <div id="content-wrapper" class="highlightable">
         <ul class="topics">
@@ -839,14 +838,14 @@ index
       </div>
     </aside>
 
-    <script src="/js/clipboard.min.js?1667470830" defer></script>
-    <script src="/js/perfect-scrollbar.min.js?1667470830" defer></script>
-    <script src="/js/featherlight.min.js?1667470830" defer></script>
-    <script src="/js/jquery.svg.pan.zoom.js?1667470830" defer></script>
-    <script src="/js/mermaid.min.js?1667470830" defer></script>
+    <script src="/js/clipboard.min.js?1667519924" defer></script>
+    <script src="/js/perfect-scrollbar.min.js?1667519924" defer></script>
+    <script src="/js/featherlight.min.js?1667519924" defer></script>
+    <script src="/js/jquery.svg.pan.zoom.js?1667519924" defer></script>
+    <script src="/js/mermaid.min.js?1667519924" defer></script>
     <script>
       window.themeUseMermaid = JSON.parse("{}");
     </script>
-    <script src="/js/theme.js?1667470830" defer></script>
+    <script src="/js/theme.js?1667519924" defer></script>
   </body>
 </html>

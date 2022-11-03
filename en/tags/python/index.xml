@@ -32,8 +32,7 @@
       <link>https://LearnCIOT.github.io/en/ch6/ch6.3/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://LearnCIOT.github.io/en/ch6/ch6.3/</guid>
-      <description>[
-Table Of Contents Package Installation and Importing Initialization and Data Access Data Preprocessing Calibration Model Establishment and Validation Best Calibration Model of the Day Calibration Results References In this article, we will take the air quality data in Civil IoT Taiwan as an example to introduce how to allow two different levels of air quality sensing data to be systematically and dynamically calibrated through data science methods. At the same time, with the results of data fusion, different deployment projects can work together to create a more comprehensive air quality sensing result.</description>
+      <description>Table Of Contents Package Installation and Importing Initialization and Data Access Data Preprocessing Calibration Model Establishment and Validation Best Calibration Model of the Day Calibration Results References In this article, we will take the air quality data in Civil IoT Taiwan as an example to introduce how to allow two different levels of air quality sensing data to be systematically and dynamically calibrated through data science methods. At the same time, with the results of data fusion, different deployment projects can work together to create a more comprehensive air quality sensing result.</description>
     </item>
     <item>
       <title>7.3. Leafmap Applications</title>
