@@ -376,16 +376,6 @@
   </url>
   <url>
     <loc>https://LearnCIOT.github.io/tags/%E7%A9%BA/</loc>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://LearnCIOT.github.io/en/tags/%E7%A9%BA/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh-tw"
-                href="https://LearnCIOT.github.io/tags/%E7%A9%BA/"
-                />
   </url>
   <url>
     <loc>https://LearnCIOT.github.io/author/%E6%B4%AA%E8%BB%BE%E5%87%B1/</loc>
@@ -416,15 +406,5 @@
   </url>
   <url>
     <loc>https://LearnCIOT.github.io/author/%E7%BE%85%E6%B3%89%E6%81%86/</loc>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://LearnCIOT.github.io/en/author/%E7%BE%85%E6%B3%89%E6%81%86/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh-tw"
-                href="https://LearnCIOT.github.io/author/%E7%BE%85%E6%B3%89%E6%81%86/"
-                />
   </url>
 </urlset>
