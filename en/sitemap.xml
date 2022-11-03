@@ -209,6 +209,19 @@
                 />
   </url>
   <url>
+    <loc>https://LearnCIOT.github.io/en/about/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-tw"
+                href="https://LearnCIOT.github.io/about/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://LearnCIOT.github.io/en/about/"
+                />
+  </url>
+  <url>
     <loc>https://LearnCIOT.github.io/en/levels/advanced/</loc>
     <xhtml:link
                 rel="alternate"
@@ -238,16 +251,16 @@
                 />
   </url>
   <url>
-    <loc>https://LearnCIOT.github.io/en/author/</loc>
+    <loc>https://LearnCIOT.github.io/en/authors/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-tw"
-                href="https://LearnCIOT.github.io/author/"
+                href="https://LearnCIOT.github.io/authors/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://LearnCIOT.github.io/en/author/"
+                href="https://LearnCIOT.github.io/en/authors/"
                 />
   </url>
   <url>
@@ -278,9 +291,6 @@
   </url>
   <url>
     <loc>https://LearnCIOT.github.io/en/tags/disaster/</loc>
-  </url>
-  <url>
-    <loc>https://LearnCIOT.github.io/en/author/huei-jun-kao/</loc>
   </url>
   <url>
     <loc>https://LearnCIOT.github.io/en/levels/intermediate/</loc>
@@ -325,12 +335,6 @@
                 />
   </url>
   <url>
-    <loc>https://LearnCIOT.github.io/en/author/ling-jyh-chen/</loc>
-  </url>
-  <url>
-    <loc>https://LearnCIOT.github.io/en/author/ming-kuang-chung/</loc>
-  </url>
-  <url>
     <loc>https://LearnCIOT.github.io/en/tags/python/</loc>
     <xhtml:link
                 rel="alternate"
@@ -347,12 +351,6 @@
     <loc>https://LearnCIOT.github.io/en/tags/quake/</loc>
   </url>
   <url>
-    <loc>https://LearnCIOT.github.io/en/author/quen-luo/</loc>
-  </url>
-  <url>
-    <loc>https://LearnCIOT.github.io/en/author/sky-hung/</loc>
-  </url>
-  <url>
     <loc>https://LearnCIOT.github.io/en/tags/</loc>
     <xhtml:link
                 rel="alternate"
@@ -367,11 +365,5 @@
   </url>
   <url>
     <loc>https://LearnCIOT.github.io/en/tags/water/</loc>
-  </url>
-  <url>
-    <loc>https://LearnCIOT.github.io/en/author/yu-chi-peng/</loc>
-  </url>
-  <url>
-    <loc>https://LearnCIOT.github.io/en/author/yu-shen-cheng/</loc>
   </url>
 </urlset>

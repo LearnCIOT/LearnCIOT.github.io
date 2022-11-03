@@ -246,8 +246,8 @@
     "content": "",
     "description": "",
     "tags": null,
-    "title": "Author",
-    "uri": "/author/"
+    "title": "Authors",
+    "uri": "/authors/"
   },
   {
     "content": "",
@@ -316,20 +316,6 @@
     "content": "",
     "description": "",
     "tags": null,
-    "title": "吳姃家",
-    "uri": "/author/%E5%90%B3%E5%A7%83%E5%AE%B6/"
-  },
-  {
-    "content": "",
-    "description": "",
-    "tags": null,
-    "title": "沈姿雨",
-    "uri": "/author/%E6%B2%88%E5%A7%BF%E9%9B%A8/"
-  },
-  {
-    "content": "",
-    "description": "",
-    "tags": null,
     "title": "災",
     "uri": "/tags/%E7%81%BD/"
   },
@@ -344,70 +330,14 @@
     "content": "",
     "description": "",
     "tags": null,
-    "title": "洪軾凱",
-    "uri": "/author/%E6%B4%AA%E8%BB%BE%E5%87%B1/"
-  },
-  {
-    "content": "",
-    "description": "",
-    "tags": null,
-    "title": "高慧君",
-    "uri": "/author/%E9%AB%98%E6%85%A7%E5%90%9B/"
-  },
-  {
-    "content": "",
-    "description": "",
-    "tags": null,
-    "title": "陳伶志",
-    "uri": "/author/%E9%99%B3%E4%BC%B6%E5%BF%97/"
-  },
-  {
-    "content": "",
-    "description": "",
-    "tags": null,
-    "title": "陳宏穎",
-    "uri": "/author/%E9%99%B3%E5%AE%8F%E7%A9%8E/"
-  },
-  {
-    "content": "",
-    "description": "",
-    "tags": null,
-    "title": "彭昱齊",
-    "uri": "/author/%E5%BD%AD%E6%98%B1%E9%BD%8A/"
-  },
-  {
-    "content": "",
-    "description": "",
-    "tags": null,
-    "title": "黃仁暐",
-    "uri": "/author/%E9%BB%83%E4%BB%81%E6%9A%90/"
-  },
-  {
-    "content": "",
-    "description": "",
-    "tags": null,
     "title": "概述",
     "uri": "/tags/%E6%A6%82%E8%BF%B0/"
   },
   {
-    "content": "",
+    "content": "本網站為基於台灣民生公共物聯網各項開放資料，所撰寫之資料應用說明與範例。本網站所使用之各項開放資料，其授權規定請參考原始網站之說明內容；本網站所提供程式範例中，所使用到的 Python 語言套件與套裝軟體，其使用授權，請參考各套件與軟體之相關網頁的說明；本網站所提供之文章內容，採用 CC-BY (https://creativecommons.org/licenses/by/3.0/) 的創用 CC 授權。\n本網站的指導單位、執行單位、主持人與相關團隊資訊如下：\n指導單位：國家實驗研究院 科技政策研究與資訊中心 執行單位：中央研究院 資訊科學研究所 專案主持人：陳伶志 專家顧問團隊： 洪智傑，國立中興大學資訊管理系 汪立本，國立台灣大學土木工程系 黃仁暐，國立成功大學電機工程系 黃維嘉，LASS 社群 劉致灝，國家災害防救科技中心 洪翠屏，臺北市立育成高級中學 高慧君，臺北市立南港高級中學 編輯團隊： 吳姃家 沈姿雨 洪軾凱 高慧君 陳伶志 陳宏穎 彭昱齊 黃仁暐 鄭宇伸 鍾明光 羅泉恆 審查團隊： 劉嘉凱，智庫驅動股份有限公司 許武龍，LASS社群 謝欣成，國立中央大學化學系 劉育宏，高雄市立前鎮高中 柯建華，基隆市立基隆高中 洪挺晏，國立臺灣師範大學附屬高中 ",
     "description": "",
     "tags": null,
-    "title": "鄭宇伸",
-    "uri": "/author/%E9%84%AD%E5%AE%87%E4%BC%B8/"
-  },
-  {
-    "content": "",
-    "description": "",
-    "tags": null,
-    "title": "鍾明光",
-    "uri": "/author/%E9%8D%BE%E6%98%8E%E5%85%89/"
-  },
-  {
-    "content": "",
-    "description": "",
-    "tags": null,
-    "title": "羅泉恆",
-    "uri": "/author/%E7%BE%85%E6%B3%89%E6%81%86/"
+    "title": "關於我們",
+    "uri": "/about/"
   }
 ]
