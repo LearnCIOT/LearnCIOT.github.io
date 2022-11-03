@@ -48,7 +48,8 @@
       <link>https://LearnCIOT.github.io/en/ch6/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://LearnCIOT.github.io/en/ch6/</guid>
-      <description>6. Data Applications In this topic, we will focus on derivative applications using Civil IoT Taiwan open data. We strengthen the value and application services of Civil IoT Taiwan&amp;rsquo;s open data by importing other library packages and analysis algorithms. The units we expect to develop include:</description>
+      <description>6. Data Applications In this topic, we will focus on derivative applications using Civil IoT Taiwan open data. We strengthen the value and application services of Civil IoT Taiwan&amp;rsquo;s open data by importing other library packages and analysis algorithms. The units we expect to develop include:
+6.3. 感測器聯合校正我們使用空品類別資料，示範台灣微型空品感測器與官方測站進行動態校正的演算法，以做中學的方式，一步步從資料準備，特徵擷取，到機器學習、資料分析、統計與歸納，重現感測器動態校正模型演算法的原理與實作過程，讓讀者體驗如何透過疊加基本的資料分析與機器學習步驟，逐步達成進階且實用的資料應用服務。</description>
     </item>
     <item>
       <title>7. System Integration and Applications</title>

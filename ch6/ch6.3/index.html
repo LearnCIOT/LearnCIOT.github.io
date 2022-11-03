@@ -9,18 +9,18 @@
     <meta name="author" content="Ling-Jyh Chen">
     <title>6.3. 感測器聯合校正 :: Tutorial for CIoT Open Data Applications</title>
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="/css/fontawesome-all.min.css?1667354929" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1667354929" rel="stylesheet"></noscript>
-    <link href="/css/featherlight.min.css?1667354929" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1667354929" rel="stylesheet"></noscript>
-    <link href="/css/auto-complete.css?1667354929" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1667354929" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar.min.css?1667354929" rel="stylesheet">
-    <link href="/css/nucleus.css?1667354929" rel="stylesheet">
-    <link href="/css/fonts.css?1667354929" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1667354929" rel="stylesheet"></noscript>
-    <link href="/css/theme.css?1667354929" rel="stylesheet">
-    <link href="/css/theme-relearn-light.css?1667354929" rel="stylesheet" id="variant-style">
-    <link href="/css/ie.css?1667354929" rel="stylesheet">
-    <link href="/css/variant.css?1667354929" rel="stylesheet">
-    <link href="/css/print.css?1667354929" rel="stylesheet" media="print">
-    <script src="/js/variant.js?1667354929"></script>
+    <link href="/css/fontawesome-all.min.css?1667456943" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1667456943" rel="stylesheet"></noscript>
+    <link href="/css/featherlight.min.css?1667456943" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1667456943" rel="stylesheet"></noscript>
+    <link href="/css/auto-complete.css?1667456943" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1667456943" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar.min.css?1667456943" rel="stylesheet">
+    <link href="/css/nucleus.css?1667456943" rel="stylesheet">
+    <link href="/css/fonts.css?1667456943" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1667456943" rel="stylesheet"></noscript>
+    <link href="/css/theme.css?1667456943" rel="stylesheet">
+    <link href="/css/theme-relearn-light.css?1667456943" rel="stylesheet" id="variant-style">
+    <link href="/css/ie.css?1667456943" rel="stylesheet">
+    <link href="/css/variant.css?1667456943" rel="stylesheet">
+    <link href="/css/print.css?1667456943" rel="stylesheet" media="print">
+    <script src="/js/variant.js?1667456943"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -36,7 +36,7 @@
       var baseUriFull='https:\/\/LearnCIOT.github.io/';
       window.variants && variants.init( [ 'relearn-light' ] );
     </script>
-    <script src="/js/jquery.min.js?1667354929" defer></script>
+    <script src="/js/jquery.min.js?1667456943" defer></script>
 <meta property="fb:app_id" content="601826851395774" />
   </head>
   <body class="default-animation" data-url="/ch6/ch6.3/">
@@ -317,7 +317,7 @@
 </span></span><span style="display:flex;"><span>                   <span style="color:#e6db74">&#39;PTR&#39;</span>:[<span style="color:#e6db74">&#34;PM25&#34;</span>, <span style="color:#e6db74">&#34;TEM&#34;</span>, <span style="color:#e6db74">&#34;HUM&#34;</span>], 
 </span></span><span style="display:flex;"><span>                   <span style="color:#e6db74">&#39;PHT&#39;</span>:[<span style="color:#e6db74">&#34;PM25&#34;</span>, <span style="color:#e6db74">&#34;HR&#34;</span>, <span style="color:#e6db74">&#34;TEM&#34;</span>]
 </span></span><span style="display:flex;"><span>                    }
-</span></span></code></pre></div><p>接下來我們考慮需要下載多少資料供系統校正與資料融合使用。如下圖所示，假設我們所要取得的是第 <em>N</em> 天的校正模型，那麽第 <em>N - 1</em> 天的資料便會做為測試資料使用，以評估未來校正模型的準確度；因此，倘若我們所設定的訓練資料為 <em>X</em> 天，那就代表第 <em>N - 2</em> 到 <em>N - (2+X)</em> 天的歷史資料將被作為訓練資料使用。在我們的想定中，我們將 <em>N</em> 設定為目前時間（今天），而最大的可能 <em>x</em> 值為 8，因此我們將需要預先準備共計十天的歷史資料以供接下來的操作使用。</p>
+</span></span></code></pre></div><p>接下來我們考慮需要下載多少資料供系統校正與資料融合使用。如下圖所示，假設我們所要取得的是第 <em>N</em> 天的校正模型，那麽第 <em>N - 1</em> 天的資料便會做為測試資料使用，以評估未來校正模型的準確度；因此，倘若我們所設定的訓練資料為 <em>X</em> 天，那就代表第 <em>N - 2</em> 到 <em>N - (2+X)</em> 天的歷史資料將被作為訓練資料使用。在我們的想定中，我們將 <em>N</em> 設定為目前時間（今天），而最大的可能 <em>X</em> 值為 8，因此我們將需要預先準備共計十天的歷史資料以供接下來的操作使用。</p>
 <p><img src="figures/6-3-2-1.png" alt="Python output"></p>
 <p>為了方面日後的使用，我們先用下面的程式碼，明定校正模型的日期 (第 <em>N</em> 天: <code>TODAY</code>)、測試資料的日期 (第 <em>N-1</em> 天: <code>TESTDATE</code>)、以及訓練資料的結束日期 (第 <em>N-2</em> 天: <code>ENDDATE</code>)。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>TODAY <span style="color:#f92672">=</span> datetime<span style="color:#f92672">.</span>today()
@@ -523,7 +523,7 @@ index
 </span></span><span style="display:flex;"><span>    startdate<span style="color:#f92672">=</span> enddate<span style="color:#f92672">-</span> timedelta( days<span style="color:#f92672">=</span> (day<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) )
 </span></span><span style="display:flex;"><span>    time_mask<span style="color:#f92672">=</span> Hourly_DF[<span style="color:#e6db74">&#34;timestamp&#34;</span>]<span style="color:#f92672">.</span>between( pd<span style="color:#f92672">.</span>Timestamp(startdate, tz<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;utc&#39;</span>), pd<span style="color:#f92672">.</span>Timestamp(enddate, tz<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;utc&#39;</span>) )
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">return</span> Hourly_DF[ time_mask ]
-</span></span></code></pre></div><p>接著，我們將 site 的感測資料 <code>Training_DF</code>，自 <code>enddate</code> 起往前 <code>day</code> 天的資料，整理成為訓練資料，並且套用 <code>method</code> 迴歸方法，考慮 <code>feature</code> 特徵組合，讓所產製的校正模型所產生的預測值可以逼近訓練資料中的 <code>EPA_PM25</code> 欄位的資料值。我們同時計算校正模型本身的平均絕對誤差 (Mean Absolute Error, MAE) 和均方誤差 (Mean Squared Error, MSE)。其中，平均絕對誤差 (MAE) 為目標值和預測值之差的絕對值之和，可以能反映預測值誤差的實際情況，數值越小代表成效越好；均方誤差 (MSE) 則為預測值和實際觀測值間差的平方的均值，MSE 的值越小，說明預測模型描述實驗資料具有更好的精確度。</p>
+</span></span></code></pre></div><p>接著，我們將 <code>site</code> 測站自 <code>enddate</code> 起往前 <code>day</code> 天的感測資料 <code>Training_DF</code>，根據 <code>feature</code> 特徵組合整理成為訓練資料。然後我們套用 <code>method</code> 迴歸方法，讓所產製的校正模型所產生的預測值可以逼近訓練資料中的 <code>EPA_PM25</code> 欄位的資料值。我們同時計算校正模型本身的平均絕對誤差 (Mean Absolute Error, MAE) 和均方誤差 (Mean Squared Error, MSE)。其中，平均絕對誤差 (MAE) 為目標值和預測值之差的絕對值之和，可以能反映預測值誤差的實際情況，數值越小代表成效越好。均方誤差 (MSE) 則為預測值和實際觀測值間差的平方的均值，MSE 的值越小，說明預測模型描述實驗資料具有更好的精確度。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">BuildModel</span>( site, enddate, feature, day, method, Training_DF ):
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    X_train <span style="color:#f92672">=</span> Training_DF[ FEATURES_METHOD[ feature ] ]
@@ -780,12 +780,12 @@ index
         <script>
           var contentLangs=['zh'];
         </script>
-        <script src="/js/auto-complete.js?1667354930" defer></script>
-        <script src="/js/lunr.min.js?1667354930" defer></script>
-        <script src="/js/lunr.stemmer.support.min.js?1667354930" defer></script>
-        <script src="/js/lunr.multi.min.js?1667354930" defer></script>
-        <script src="/js/lunr.zh.min.js?1667354930" defer></script>
-        <script src="/js/search.js?1667354930" defer></script>
+        <script src="/js/auto-complete.js?1667456943" defer></script>
+        <script src="/js/lunr.min.js?1667456943" defer></script>
+        <script src="/js/lunr.stemmer.support.min.js?1667456943" defer></script>
+        <script src="/js/lunr.multi.min.js?1667456943" defer></script>
+        <script src="/js/lunr.zh.min.js?1667456943" defer></script>
+        <script src="/js/search.js?1667456943" defer></script>
       </div>
       <div id="content-wrapper" class="highlightable">
         <ul class="topics">
@@ -831,6 +831,7 @@ index
                 <span>&nbsp;</span>
                 <div class="select-style">
                   <select id="select-language" onchange="location = baseUri + this.value;">
+                    <option id="en" value="/en/ch6/ch6.3/">English</option>
                     <option id="zh-tw" value="/ch6/ch6.3/" selected>中文</option>
                   </select>
                 </div>
@@ -859,14 +860,14 @@ index
       </div>
     </aside>
 
-    <script src="/js/clipboard.min.js?1667354930" defer></script>
-    <script src="/js/perfect-scrollbar.min.js?1667354930" defer></script>
-    <script src="/js/featherlight.min.js?1667354930" defer></script>
-    <script src="/js/jquery.svg.pan.zoom.js?1667354930" defer></script>
-    <script src="/js/mermaid.min.js?1667354930" defer></script>
+    <script src="/js/clipboard.min.js?1667456943" defer></script>
+    <script src="/js/perfect-scrollbar.min.js?1667456943" defer></script>
+    <script src="/js/featherlight.min.js?1667456943" defer></script>
+    <script src="/js/jquery.svg.pan.zoom.js?1667456943" defer></script>
+    <script src="/js/mermaid.min.js?1667456943" defer></script>
     <script>
       window.themeUseMermaid = JSON.parse("{}");
     </script>
-    <script src="/js/theme.js?1667354930" defer></script>
+    <script src="/js/theme.js?1667456943" defer></script>
   </body>
 </html>
