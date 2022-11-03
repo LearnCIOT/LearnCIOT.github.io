@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>陳伶志 on Tutorial for CIoT Open Data Applications</title>
+    <link>https://LearnCIOT.github.io/authors/%E9%99%B3%E4%BC%B6%E5%BF%97/</link>
+    <description>Recent content in 陳伶志 on Tutorial for CIoT Open Data Applications</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-tw</language><atom:link href="https://LearnCIOT.github.io/authors/%E9%99%B3%E4%BC%B6%E5%BF%97/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>2.1. 課程架構說明</title>
+      <link>https://LearnCIOT.github.io/ch2/ch2.1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://LearnCIOT.github.io/ch2/ch2.1/</guid>
+      <description>本套課程包含「教學網站簡介」、「整體課程前言」、「資料取用方法」、「時間維度資料分析」、「空間維度資料分析」、「資料應用案例」與「系統整合案例」等七大主題，其具體內容分別說明如下：
+教學網站簡介 我們介紹這整個計畫的核心 - 「民生公共物聯網」，介紹台灣過去幾年在「民生公共物聯網」的各項成果，以及「民生公共物聯網開放資料」涵蓋水、空、地、災四大面向資料，所能帶來在日常生活上的各項應用與服務。我們同時呈現各項既有的文章、影片與成功案例，讓學員與閱讀者能深刻體認「民生公共物聯網」對民生用途的重要性。
+整體課程前言 我們介紹這整套課程的架構，以及本套課程所使用的 Python程式語言與 Google Colab程式開發平台，透過淺顯的文字介紹，引導學員快速了解整體課程的架構，並且提供豐富的外部資源清單，讓有興趣與需求的學員，能更進一步深入探索相關的技術。
+資料取用方法 我們介紹如何透過我們開發的工具，可以使用簡易的 Python 語法，直接取用民生公共物聯網開放資料平台的資料，並且根據不同的需求，切割出兩個單元進行更深入的介紹：
+基本資料存取方法：我們介紹如何取用民生公共物聯網開放資料平台中，有關水、空、地、災不同面向單一測站的最新一筆感測資料，如何獲取所有測站的列表，以及如何獲取所有測站當下最新的一筆感測資料。 存取特定時空條件的資料：我們介紹如何獲取民生公共物聯網資料平台中某測站特定時間或時間區段的資料、尋找最鄰近的測站當下最新的一筆資料，以及尋找某位置座標周圍固定區域所有測站當下最新的一筆資料等應用。 在這兩個單元中，除了介紹資料的存取方法外，我們也穿插基本的探索式資料分析 (Exploratory Data Analysis, EDA) 方法，藉由常用的統計方式描述資料不同面向的資料特性，並繪製簡易的圖表，讓讀者透過動手做、做中學的方式，體驗掌握資料與資料分析的成就感。
+時間維度資料分析 我們針對物聯網資料所具備的時序特性，設計三個單元介紹一系列的時間維度資料分析方法。
+時間序列資料處理：我們使用民生公共物聯網資料平台的感測資料，引導讀者了解移動式平均 (Moving Average) 的使用方法，以及進行時序資料的週期性分析，並進而將時序資料拆解出長期趨勢、季節變動、循環變動與隨機波動四大部分，同時套用既有常見的 Python 語言套件，進行變點檢測 (Change Point Detection) 與異常值檢測 (Outlier Detection)，用以檢視現有民生公共物聯網資料中，有關變點檢測與異常值檢測，其背後所可能隱含的意義。 時間序列資料預測：我們使用民生公共物聯網資料平台的感測資料，套用現有的 Python 資料科學套件（例如 scikit-learn、Kats 等），用動手實作的方式，比較各種套件所內建的不同資料預測模型的使用方法與預測結果，用製圖的方式進行資料呈現，並且探討不同的資料集與不同時間解析度的資料預測，在真實場域所代表的意義，以及可能衍生的應用。 時間序列屬性分群：我們介紹較為進階的資料分群分析。我們首先介紹兩種時間序列的特徵擷取方法，分別是傅立葉轉換 (Fourier Transform) 和小波轉換 (Wavelet Transform)，並且以簡要的方式說明兩種轉換方式之異同。我們介紹兩種不同的時間序列比較方法，分別是幾何距離 (Euclidean Distance) 與動態時間規整 (Dynamic Time Warping, DTW) 距離，並根據所使用的距離函數，套用既有的分群演算法套件，探討資料集在不同時間解析度所代表的意義，以及可能衍生的應用。 空間維度資料分析 我們針對物聯網資料所具備的地理空間特性，根據不同的分析需求與應用，介紹一系列的空間維度資料處理與資料分析方法。
+地理空間篩選：我們使用民生公共物聯網資料平台的地震和防救災資料，套疊從政府開放資料平臺取得的行政區域界線圖資，篩選特定行政區域內的資料，以及產製套疊地圖後的資料分布位置圖片檔案。除此之外，我們同時示範如何套疊特定的幾何拓撲區域，並將套疊的成果輸出成檔案與進行繪圖動作。 地理空間分析：我們使用民生公共物聯網資料平台的感測資料，介紹較為進階的地理空間分析，利用測站資訊中的 GPS 位置座標，首先利用尋找最大凸多邊形 (Convex Hull) 的套件，框定感測器所涵蓋的地理區域；接著套用 Voronoi Diagram 的套件，將地圖上的區域依照感測器的分布狀況，切割出每個感測器的勢力範圍。針對感測器與感測器之間的區域，我們利用空間內插的方式，套用不同的空間內插演算法，根據感測器的數值，進行空間地圖上的填值，並產製相對應的圖片輸出。 資料應用案例 我們在這個主題中，將著重在存取民生公共物聯網開放資料後的衍生應用，透過其他函式庫套件與分析演算法的導入，強化民生公共物聯網開放資料的價值與應用服務。我們依照由淺入深的原則，依序發展下列三個子主題：
+機器學習初探：我們使用空品和水位類別資料，結合天氣觀測資料，利用資料集的時間欄位進行連結，帶入機器學習的套件，進行感測值的預測分析。我們將示範機器學習的標準流程，並且介紹預測分析的成效評估方法，以及如何避免機器學習容易產生的偏差 (Bias) 與過度學習 (Overfitting) 問題。 感測器異常偵測：我們使用空品類別資料，示範台灣微型空品感測資料上常用的感測器異常偵測演算法，以做中學的方式，一步步從資料準備，特徵擷取，到資料分析、統計與歸納，重現異常偵測演算法的原理與實作過程，讓讀者體驗如何透過疊加基本的資料分析方法，逐步達成進階且實用的資料應用服務。 感測器動態校正模型：我們使用空品類別資料，示範台灣微型空品感測器與官方測站進行動態校正的演算法，以做中學的方式，一步步從資料準備，特徵擷取，到機器學習、資料分析、統計與歸納，重現感測器動態校正模型演算法的原理與實作過程，讓讀者體驗如何透過疊加基本的資料分析與機器學習步驟，逐步達成進階且實用的資料應用服務。 系統整合案例 在這個主題中，我們著重在民生公共物聯網開放資料與其他應用軟體的整合應用，透過其他應用軟體的專業功能，進一步深化與發揮民生公共物聯網開放資料的價值。我們發展的單元內容包含：</description>
+    </item>
+    <item>
+      <title>2.2. 課程軟體工具簡介</title>
+      <link>https://LearnCIOT.github.io/ch2/ch2.2/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://LearnCIOT.github.io/ch2/ch2.2/</guid>
+      <description>Table Of Contents 程式語言 - Python 開發平台 – Google Colab 參考資料 程式語言 - Python 針對本套課程的主題著重在民生公共物聯網資料應用，本套課程將以目前資料科學界所常用的程式語言 Python 為主要程式語言，利用淺顯易懂的示範方式，帶領讀者透過做中學的方式，逐步進入各章節的主題內涵，並能獲得民生公共物聯網資料應用的第一手經驗，以及未來舉一反三應用於其他資料科學主題的能力。整體來說，Python 程式語言能在短時間內迅速成為資料科學界最熱門的程式語言，主要有下列三大優勢：
+學習的門檻較低：在文字式的程式語言來說，相較於其它語言（例如 C、Java），Python 程式碼較少特殊符號，字面上看起來比較接近日常生活中常見的英文文章，如果掌握了 Python 語法和程式執行的邏輯，再加上英文單字能力，就能夠很容易理解 Python 程式碼語意，因此學習 Python 的門檻較低！ 各式各樣的套件庫：Python 經過三十多年的發展，儼然壯大成一個生態系，除了基本語法外，還可以加裝各式各樣的套件，就能進階變形為各種的工具，適合用來解決五花八門的問題。透過本計畫量身訂制一個 Python 套件 (CIOT)，可以更快速地提高學習的天花板，從而了解如何更方便地應用民生公共物聯網資料。 閱讀理解程式碼較適合自學：隨著套件的使用，閱讀理解程式碼的能力比起程式碼寫作能力更為重要！如果要駕馭現有的套件，必須先看得懂使用手冊，然後再排列組合去拼湊成解決問題的程式碼。所以問題解決的模式，會是「在現有的程式高手基礎上去堆疊程式，而不是從零開始寫 Python 程式碼」；尤其是培養閱讀理解程式碼的能力，比較適合用自學模式來進行，當逐漸熟悉 Python 的邏輯後，學習閱讀程式碼就有機會變得跟閱讀故事書一樣有趣喔！ 也由於 Python 語言具備上述的各項優點，Python 語言目前已成為資料科學上最普遍被使用的程式語言，更成為許多程式設計學習者所使用的第一個程式語言。因此，除了坊間各種 Python 語言的教學書籍外，在網際網路上也可以找到多實用的學習資源，值得對 Python 語言有興趣的讀者，進一步主動的進行探索與學習。
+免費教學課程 用 Python 做商管程式設計（一），孔令傑，Coursera (https://zh-tw.coursera.org/learn/pbc1) Python 入門教學課程，彭彭的課程 (https://www.youtube.com/watch?v=wqRlKVRUV_k&amp;amp;list=PL-g0fdC5RMboYEyt6QS2iLb_1m7QcgfHk) Python for Everybody Specialization, Coursera (https://www.coursera.org/specializations/python) Python for Data Science, AI &amp;amp; Development, Coursera (https://www.coursera.org/learn/python-for-applied-data-science-ai) Introduction to Python Programming, Udemy (https://www.</description>
+    </item>
+    <item>
+      <title>7.3. Leafmap 應用</title>
+      <link>https://LearnCIOT.github.io/ch7/ch7.3/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://LearnCIOT.github.io/ch7/ch7.3/</guid>
+      <description>Table Of Contents 套件安裝與引用 讀取資料 Leafmap 基本操作 資料基本呈現方法 資料叢集呈現方法 更改 Leafmap 底圖 整合 OSM 資源 Heatmap 應用 分割視窗功能 Leafmap 成果網頁化 小結 參考資料 我們在之前的章節中，已經示範了如何使用程式語言針對地理屬性的資料進行分析，同時也示範了如何使用 GIS 軟體進行簡易的地理資料分析與呈現。接下來我們介紹如何使用 Python 語言中的 Leafmap 套件進行 GIS 應用，以及 Streamlit 套件進行網站開發。最後，我們將結合 Leafmap 和 Streamlit，自行製作簡單的網頁 GIS 系統，並將資料處理與分析後的結果，透過網頁方式來呈現。
+套件安裝與引用 在本章節中，我們將會使用到 pandas, geopandas, leafmap, ipyleaflet, osmnx, streamlit, geocoder 及 pyCIOT 等套件，這些套件除了 pandas 外，在我們使用的開發平台 Colab 上皆沒有預先提供，因此我們需要先自行安裝。由於本次安裝的套件數量較多，為了避免指令在執行後產生大量的文字輸出訊息，因此我們在安裝的指令中，增加了 ‘-q’ 的參數，可以讓畫面的輸出更精簡。
+!pip install -q geopandas !pip install -q leafmap !pip install -q ipyleaflet !pip install -q osmnx !</description>
+    </item>
+  </channel>
+</rss>

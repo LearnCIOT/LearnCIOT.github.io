@@ -59,7 +59,7 @@
     "tags": [
       "Introduction"
     ],
-    "title": "7. System Integration and Applications",
+    "title": "7. System Applications",
     "uri": "/en/ch7/"
   },
   {
@@ -217,6 +217,13 @@
     "content": "",
     "description": "",
     "tags": null,
+    "title": "Huei-Jun Kao",
+    "uri": "/en/authors/huei-jun-kao/"
+  },
+  {
+    "content": "",
+    "description": "",
+    "tags": null,
     "title": "intermediate",
     "uri": "/en/levels/intermediate/"
   },
@@ -245,6 +252,20 @@
     "content": "",
     "description": "",
     "tags": null,
+    "title": "Ling-Jyh Chen",
+    "uri": "/en/authors/ling-jyh-chen/"
+  },
+  {
+    "content": "",
+    "description": "",
+    "tags": null,
+    "title": "Ming-Kuang Chung",
+    "uri": "/en/authors/ming-kuang-chung/"
+  },
+  {
+    "content": "",
+    "description": "",
+    "tags": null,
     "title": "Python",
     "uri": "/en/tags/python/"
   },
@@ -266,6 +287,13 @@
     "content": "",
     "description": "",
     "tags": null,
+    "title": "Sky Hung",
+    "uri": "/en/authors/sky-hung/"
+  },
+  {
+    "content": "",
+    "description": "",
+    "tags": null,
     "title": "Tags",
     "uri": "/en/tags/"
   },
@@ -275,5 +303,19 @@
     "tags": null,
     "title": "Water",
     "uri": "/en/tags/water/"
+  },
+  {
+    "content": "",
+    "description": "",
+    "tags": null,
+    "title": "Yu-Chi Peng",
+    "uri": "/en/authors/yu-chi-peng/"
+  },
+  {
+    "content": "",
+    "description": "",
+    "tags": null,
+    "title": "Yu-Shen Cheng",
+    "uri": "/en/authors/yu-shen-cheng/"
   }
 ]

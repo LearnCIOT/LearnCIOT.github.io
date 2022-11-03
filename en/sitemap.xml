@@ -293,6 +293,9 @@
     <loc>https://LearnCIOT.github.io/en/tags/disaster/</loc>
   </url>
   <url>
+    <loc>https://LearnCIOT.github.io/en/authors/huei-jun-kao/</loc>
+  </url>
+  <url>
     <loc>https://LearnCIOT.github.io/en/levels/intermediate/</loc>
     <xhtml:link
                 rel="alternate"
@@ -335,6 +338,12 @@
                 />
   </url>
   <url>
+    <loc>https://LearnCIOT.github.io/en/authors/ling-jyh-chen/</loc>
+  </url>
+  <url>
+    <loc>https://LearnCIOT.github.io/en/authors/ming-kuang-chung/</loc>
+  </url>
+  <url>
     <loc>https://LearnCIOT.github.io/en/tags/python/</loc>
     <xhtml:link
                 rel="alternate"
@@ -354,6 +363,9 @@
     <loc>https://LearnCIOT.github.io/en/authors/quen-luo/</loc>
   </url>
   <url>
+    <loc>https://LearnCIOT.github.io/en/authors/sky-hung/</loc>
+  </url>
+  <url>
     <loc>https://LearnCIOT.github.io/en/tags/</loc>
     <xhtml:link
                 rel="alternate"
@@ -368,5 +380,11 @@
   </url>
   <url>
     <loc>https://LearnCIOT.github.io/en/tags/water/</loc>
+  </url>
+  <url>
+    <loc>https://LearnCIOT.github.io/en/authors/yu-chi-peng/</loc>
+  </url>
+  <url>
+    <loc>https://LearnCIOT.github.io/en/authors/yu-shen-cheng/</loc>
   </url>
 </urlset>
