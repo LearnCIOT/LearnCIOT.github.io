@@ -32,7 +32,7 @@ defaultContentLanguageInSubdir= false
   category = "categories"
   tag = "tags"
   level = "levels"
-  author = "author"
+  author = "authors"
 
 [outputs]
   home = ["HTML", "RSS", "JSON"]
@@ -54,20 +54,21 @@ url = "https://github.com/LearnCIOT/LearnCIOT.github.io"
 weight = 10
 
 [[Languages.en.menu.shortcuts]]
-name = "<i class='fas fa-fw fa-camera'></i> Showcases"
-url = "showcase"
-weight = 11
+name = "<i class='fas fa-fw fa-heartbeat'></i> Search by difficulty"
+url = "levels/"
+weight = 100
 
 [[Languages.en.menu.shortcuts]]
-name = "<i class='fas fa-fw fa-bookmark'></i> Hugo Documentation"
-identifier = "hugodoc"
-url = "https://gohugo.io/"
-weight = 20
+name = "<i class='fas fa-fw fa-tags'></i> Search by topics"
+url = "tags/"
+weight = 110
 
 [[Languages.en.menu.shortcuts]]
-name = "<i class='fas fa-fw fa-bullhorn'></i> Credits"
-url = "/credits"
-weight = 30
+name = "<i class='fas fa-fw fa-users'></i> Search by authors"
+url = "authors/"
+weight = 120
+
+
 
 [Languages.zh-tw]
 title = "Tutorial for CIoT Open Data Applications"
@@ -94,6 +95,6 @@ weight = 110
 
 [[Languages.zh-tw.menu.shortcuts]]
 name = "<i class='fas fa-fw fa-users'></i> 按照文章作者查詢"
-url = "author/"
+url = "authors/"
 weight = 120
 
