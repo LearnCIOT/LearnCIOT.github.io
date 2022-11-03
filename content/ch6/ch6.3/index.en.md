@@ -1,11 +1,11 @@
 ---
-title : "6.3. 感測器聯合校正"
+title : "6.3. Joint Data Calibration"
 weight : 30
 socialshare: true
-description : "我們使用空品類別資料，示範台灣微型空品感測器與官方測站進行動態校正的演算法，以做中學的方式，一步步從資料準備，特徵擷取，到機器學習、資料分析、統計與歸納，重現感測器動態校正模型演算法的原理與實作過程，讓讀者體驗如何透過疊加基本的資料分析與機器學習步驟，逐步達成進階且實用的資料應用服務。"
-tags: ["Python", "空" ]
+description : "We use air quality category data of the Civil IoT Taiwan project to demonstrate the dynamic calibration algorithm for Taiwanese micro air quality sensors and official monitoring stations. In a learning-by-doing way, from data preparation, feature extraction, to machine learning, data analysis, statistics and induction, the principle and implementation process of the multi-source sensor dynamic calibration model algorithm are reproduced step by step, allowing readers to experience how to gradually realize by superimposing basic data analysis and machine learning steps to achieve advanced and practical data application services."
+tags: ["Python", "Air" ]
 levels: ["advanced" ]
-author: ["羅泉恆"]
+author: ["Quen Luo"]
 ---
 
 
