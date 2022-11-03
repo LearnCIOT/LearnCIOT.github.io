@@ -17,18 +17,7 @@ The organization of this website project is as follows:
     - Chih-Hao Liu; National Science and Technology Center for Disaster Reduction
     - Tsui-Ping Hung; Taipei Municipal Yu Cheng Senior High School
     - Huei-Jun Kao; Taipei Municipal Nan-Gang High School
-- Authors:
-    - Hung-Ying Chen
-    - Ling-Jyh Chen
-    - Yu-Shen Cheng
-    - Ming-Kuang Chung
-    - Jen-Wei Huang
-    - Sky Hung
-    - Huei-Jun Kao
-    - Quen Luo
-    - Yu-Chi Peng
-    - Tze-Yu Sheng
-    - Cheng-Jia Wu
+- Authors: Hung-Ying Chen, Yu-Shen Cheng, Ming-Kuang Chung, Jen-Wei Huang, Sky Hung, Huei-Jun Kao, Quen Luo, Yu-Chi Peng, Tze-Yu Sheng, Cheng-Jia Wu
 - Reviewers:
     - Chia-Kai Liu; DSP, Inc.
     - Wuulong Hsu; LASS
