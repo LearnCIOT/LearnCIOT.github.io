@@ -2,14 +2,14 @@
 title: "About"
 ---
 
-This website provides data application descriptions and examples based on various open data from Civil IoT Taiwan. Please refer to the original website description for the authorization requirements of various open data used on this website. For the Python language packages and software packages used in the program examples provided on this website, please refer to the relevant webpage instructions of each package and software for authorization. The content of articles provided on this site is licensed under CC-BY ([https://creativecommons.org/licenses/by/3.0/](https://creativecommons.org/licenses/by/3.0/)).
+This website provides data application descriptions and examples based on various open data from Civil IoT Taiwan. Please refer to the original website description for the authorization requirements of different available data used on this website. For the Python language packages and software packages used in the program examples provided on this website, please refer to the relevant webpage instructions of each package and software for authorization. The content of articles offered on this site is licensed under CC-BY ([https://creativecommons.org/licenses/by/3.0/](https://creativecommons.org/licenses/by/3.0/)).
 
 The organization of this website project is as follows:
 
-- Project Organizer: Science & Technology Policy Research and Information Center, National Applied Research Laboratories
-- Project Co-organizer: Institute of Information Science, Academia Sinica
-- Project Host: Ling-Jyh Chen
-- Advisory Board:
+- Organizer: Science & Technology Policy Research and Information Center, National Applied Research Laboratories
+- Co-organizer: Institute of Information Science, Academia Sinica
+- Host: Ling-Jyh Chen
+- Advisors:
     - Chih-Chieh Hung; National Chung Hsing University
     - Li-Pen Wang; National Taiwan University
     - Jen-Wei Huang; National Cheng Kung University
