@@ -1,6 +1,4 @@
-# Learn CIoT
-**Learning Civil IoT Taiwan: Open Data and its Appications**
-
+# Learning Civil IoT Taiwan: Open Data and its Appications
 **Website:** [https://learnciot.github.io/](https://learnciot.github.io/)
 
 The “Civil IoT Taiwan” project is developed to address the four urgent needs of the public in order to integrate and close to the public services related to people’s livelihood, including air quality, earthquake, water resources, disaster prevention and other issues. In the “Digital Technology” section of the “Forward-looking Infrastructure Development Program” project, the Ministry of Science and Technology, the Ministry of Communications, the Ministry of Economic Affairs, the Ministry of the Interior, the Environmental Protection Agency, the Academia Sinica, and the Council of Agriculture have jointly constructed a large-scale inter-ministerial government project, which applies big data, artificial intelligence, and Internet of things technologies to build various smart life service systems to help the government and the public face the challenges brought about by environmental changes; at the same time, this project also considers the experience of different end-users, including government decision-making units, academia, industry, and the general public. The goal is to enhance intelligent governance, assist the development of industry/academia, and improve the happiness of the public.
