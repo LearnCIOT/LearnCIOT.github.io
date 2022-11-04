@@ -10,18 +10,18 @@
     <title>2. 整體課程前言 :: Tutorial for CIoT Open Data Applications</title>
     <link rel="alternate" type="application/rss&#43;xml" href="/ch2/index.xml" title="Tutorial for CIoT Open Data Applications" />
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="/css/fontawesome-all.min.css?1667550039" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1667550039" rel="stylesheet"></noscript>
-    <link href="/css/featherlight.min.css?1667550039" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1667550039" rel="stylesheet"></noscript>
-    <link href="/css/auto-complete.css?1667550039" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1667550039" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar.min.css?1667550039" rel="stylesheet">
-    <link href="/css/nucleus.css?1667550039" rel="stylesheet">
-    <link href="/css/fonts.css?1667550039" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1667550039" rel="stylesheet"></noscript>
-    <link href="/css/theme.css?1667550039" rel="stylesheet">
-    <link href="/css/theme-relearn-light.css?1667550039" rel="stylesheet" id="variant-style">
-    <link href="/css/ie.css?1667550039" rel="stylesheet">
-    <link href="/css/variant.css?1667550039" rel="stylesheet">
-    <link href="/css/print.css?1667550039" rel="stylesheet" media="print">
-    <script src="/js/variant.js?1667550039"></script>
+    <link href="/css/fontawesome-all.min.css?1667554919" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1667554919" rel="stylesheet"></noscript>
+    <link href="/css/featherlight.min.css?1667554919" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1667554919" rel="stylesheet"></noscript>
+    <link href="/css/auto-complete.css?1667554919" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1667554919" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar.min.css?1667554919" rel="stylesheet">
+    <link href="/css/nucleus.css?1667554919" rel="stylesheet">
+    <link href="/css/fonts.css?1667554919" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1667554919" rel="stylesheet"></noscript>
+    <link href="/css/theme.css?1667554919" rel="stylesheet">
+    <link href="/css/theme-relearn-light.css?1667554919" rel="stylesheet" id="variant-style">
+    <link href="/css/ie.css?1667554919" rel="stylesheet">
+    <link href="/css/variant.css?1667554919" rel="stylesheet">
+    <link href="/css/print.css?1667554919" rel="stylesheet" media="print">
+    <script src="/js/variant.js?1667554919"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -37,7 +37,7 @@
       var baseUriFull='https:\/\/LearnCIOT.github.io/';
       window.variants && variants.init( [ 'relearn-light' ] );
     </script>
-    <script src="/js/jquery.min.js?1667550039" defer></script>
+    <script src="/js/jquery.min.js?1667554919" defer></script>
 <meta property="fb:app_id" content="601826851395774" />
   </head>
   <body class="default-animation" data-url="/ch2/">
@@ -240,6 +240,201 @@
 <li><a href="/ch2/ch2.1/" >2.1. 課程架構說明</a><p>民生公共物聯網資料應用的整體架構介紹</p></li>
 <li><a href="/ch2/ch2.2/" >2.2. 課程軟體工具簡介</a><p>民生公共物聯網資料應用所使用到的程式語言 Python 和開發平台 Google Colab 簡介</p></li>
 </ul>
+<script src= '/js/pdf-js/build/pdf.js'></script>
+<style>
+#the-canvas {
+  border: 1px solid black;
+  direction: ltr;
+  width: 100%;
+  height: auto;
+  display: none;
+}
+
+#paginator {
+  display: none;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+#loadingWrapper {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 350px;
+}
+
+#loading {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  border: 3px solid #d2d0d0;;
+  border-radius: 50%;
+  border-top-color: #383838;
+  animation: spin 1s ease-in-out infinite;
+  -webkit-animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { -webkit-transform: rotate(360deg); }
+}
+@-webkit-keyframes spin {
+  to { -webkit-transform: rotate(360deg); }
+}
+</style>
+
+<div id="paginator">
+    <button id="prev">Previous</button>
+    <button id="next">Next</button>
+    &nbsp; &nbsp;
+    <span>Page: <span id="page_num"></span> / <span id="page_count"></span></span>
+</div>
+<div id="embed-pdf-container">
+    <div id="loadingWrapper">
+      <div id="loading"></div>
+    </div>
+    <canvas id="the-canvas"></canvas>
+</div>
+
+<script type="text/javascript">
+window.onload = function() {
+
+
+var url = "https:\/\/LearnCIOT.github.io\/" + '\/slides\/ch1-slides.pdf';
+
+var hidePaginator = "" === "true";
+var hideLoader = "" === "true";
+var selectedPageNum = parseInt("") || 1;
+
+
+var pdfjsLib = window['pdfjs-dist/build/pdf'];
+
+
+pdfjsLib.GlobalWorkerOptions.workerSrc = "https:\/\/LearnCIOT.github.io\/" + '/js/pdf-js/build/pdf.worker.js';
+
+
+var pdfDoc = null,
+    pageNum = selectedPageNum,
+    pageRendering = false,
+    pageNumPending = null,
+    scale = 3,
+    canvas = document.getElementById('the-canvas'),
+    ctx = canvas.getContext('2d'),
+    paginator = document.getElementById("paginator"),
+    loadingWrapper = document.getElementById('loadingWrapper');
+
+
+
+showPaginator();
+showLoader();
+
+
+
+function renderPage(num) {
+  pageRendering = true;
+  
+  pdfDoc.getPage(num).then(function(page) {
+    var viewport = page.getViewport({scale: scale});
+    canvas.height = viewport.height;
+    canvas.width = viewport.width;
+
+    
+    var renderContext = {
+      canvasContext: ctx,
+      viewport: viewport
+    };
+    var renderTask = page.render(renderContext);
+
+    
+    renderTask.promise.then(function() {
+      pageRendering = false;
+      showContent();
+      
+      if (pageNumPending !== null) {
+        
+        renderPage(pageNumPending);
+        pageNumPending = null;
+      }
+    });
+  });
+
+  
+  document.getElementById('page_num').textContent = num;
+}
+
+
+
+function showContent() {
+  loadingWrapper.style.display = 'none';
+  canvas.style.display = 'block';
+}
+
+
+
+function showLoader() {
+  if(hideLoader) return
+  loadingWrapper.style.display = 'flex';
+  canvas.style.display = 'none';
+}
+
+
+
+function showPaginator() {
+  if(hidePaginator) return
+  paginator.style.display = 'block';
+}
+
+
+
+function queueRenderPage(num) {
+  if (pageRendering) {
+    pageNumPending = num;
+  } else {
+    renderPage(num);
+  }
+}
+
+
+
+function onPrevPage() {
+  if (pageNum <= 1) {
+    return;
+  }
+  pageNum--;
+  queueRenderPage(pageNum);
+}
+document.getElementById('prev').addEventListener('click', onPrevPage);
+
+
+
+function onNextPage() {
+  if (pageNum >= pdfDoc.numPages) {
+    return;
+  }
+  pageNum++;
+  queueRenderPage(pageNum);
+}
+document.getElementById('next').addEventListener('click', onNextPage);
+
+
+
+pdfjsLib.getDocument(url).promise.then(function(pdfDoc_) {
+  pdfDoc = pdfDoc_;
+  var numPages = pdfDoc.numPages;
+  document.getElementById('page_count').textContent = numPages;
+  
+  
+  if(pageNum > numPages) {
+    pageNum = numPages
+  }
+
+  
+  renderPage(pageNum);
+});
+}
+
+</script>
+
 
             <footer class="footline">
             </footer>
@@ -314,12 +509,12 @@
         <script>
           var contentLangs=['zh'];
         </script>
-        <script src="/js/auto-complete.js?1667550039" defer></script>
-        <script src="/js/lunr.min.js?1667550039" defer></script>
-        <script src="/js/lunr.stemmer.support.min.js?1667550039" defer></script>
-        <script src="/js/lunr.multi.min.js?1667550039" defer></script>
-        <script src="/js/lunr.zh.min.js?1667550039" defer></script>
-        <script src="/js/search.js?1667550039" defer></script>
+        <script src="/js/auto-complete.js?1667554919" defer></script>
+        <script src="/js/lunr.min.js?1667554919" defer></script>
+        <script src="/js/lunr.stemmer.support.min.js?1667554919" defer></script>
+        <script src="/js/lunr.multi.min.js?1667554919" defer></script>
+        <script src="/js/lunr.zh.min.js?1667554919" defer></script>
+        <script src="/js/search.js?1667554919" defer></script>
       </div>
       <div id="content-wrapper" class="highlightable">
         <ul class="topics">
@@ -395,14 +590,14 @@
       </div>
     </aside>
 
-    <script src="/js/clipboard.min.js?1667550039" defer></script>
-    <script src="/js/perfect-scrollbar.min.js?1667550039" defer></script>
-    <script src="/js/featherlight.min.js?1667550039" defer></script>
-    <script src="/js/jquery.svg.pan.zoom.js?1667550039" defer></script>
-    <script src="/js/mermaid.min.js?1667550039" defer></script>
+    <script src="/js/clipboard.min.js?1667554919" defer></script>
+    <script src="/js/perfect-scrollbar.min.js?1667554919" defer></script>
+    <script src="/js/featherlight.min.js?1667554919" defer></script>
+    <script src="/js/jquery.svg.pan.zoom.js?1667554919" defer></script>
+    <script src="/js/mermaid.min.js?1667554919" defer></script>
     <script>
       window.themeUseMermaid = JSON.parse("{}");
     </script>
-    <script src="/js/theme.js?1667550039" defer></script>
+    <script src="/js/theme.js?1667554919" defer></script>
   </body>
 </html>
