@@ -12,3 +12,5 @@ levels: ["beginner" ]
 
 
 {{% children description="true" %}}
+
+{{< embed-pdf url="/slides/ch4-slides.pdf" >}}

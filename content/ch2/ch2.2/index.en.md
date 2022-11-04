@@ -38,7 +38,7 @@ Due to the above advantages of the Python language, the Python language has beco
     - Intro to Machine Learning with Python, Bernd Klein ([https://python-course.eu/machine-learning/](https://python-course.eu/machine-learning/))
     - Applied Data Science, Ian Langmore and Daniel Krasner ([https://columbia-applied-data-science.github.io/](https://columbia-applied-data-science.github.io/))
 
-## Development Platform **– Google Colab**
+## Development Platform – Google Colab
 
 Unlike C language, which can be compiled into executable files in advance, Python itself is an interpreted language, that is, it is translated into machine language for computer execution before execution. In other words, it is a literal translation when executed, in situations similar to everyday life. In this way, it is as if translators are helping us to translate and communicate in a language acceptable to foreigners. When we speak a sentence, the translator directly helps us translate the sentence. On the contrary, when the foreigner speaks, the staff will help us translate the foreigner's words so that we can understand.
 
@@ -58,7 +58,7 @@ For related learning resources of Google Colab, please refer to the following li
 - Getting Started With Google Colab, Anne Bonner ([https://towardsdatascience.com/getting-started-with-google-colab-f2fff97f594c](https://towardsdatascience.com/getting-started-with-google-colab-f2fff97f594c))
 - Use Google Colab Like A Pro, Wing Poon ([https://pub.towardsai.net/use-google-colab-like-a-pro-39a97184358d](https://pub.towardsai.net/use-google-colab-like-a-pro-39a97184358d))
 
-## **References**
+## References
 
 - Python ([https://www.python.org/](https://www.python.org/))
 - Google Colaboratory ([https://colab.research.google.com/](https://colab.research.google.com/))
