@@ -9,18 +9,18 @@
     <meta name="author" content="Ling-Jyh Chen">
     <title>2.1. Material Architecture :: Tutorial for CIoT Open Data Applications</title>
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="/css/fontawesome-all.min.css?1667526615" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1667526615" rel="stylesheet"></noscript>
-    <link href="/css/featherlight.min.css?1667526615" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1667526615" rel="stylesheet"></noscript>
-    <link href="/css/auto-complete.css?1667526615" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1667526615" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar.min.css?1667526615" rel="stylesheet">
-    <link href="/css/nucleus.css?1667526615" rel="stylesheet">
-    <link href="/css/fonts.css?1667526615" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1667526615" rel="stylesheet"></noscript>
-    <link href="/css/theme.css?1667526615" rel="stylesheet">
-    <link href="/css/theme-relearn-light.css?1667526615" rel="stylesheet" id="variant-style">
-    <link href="/css/ie.css?1667526615" rel="stylesheet">
-    <link href="/css/variant.css?1667526615" rel="stylesheet">
-    <link href="/css/print.css?1667526615" rel="stylesheet" media="print">
-    <script src="/js/variant.js?1667526615"></script>
+    <link href="/css/fontawesome-all.min.css?1667528662" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1667528662" rel="stylesheet"></noscript>
+    <link href="/css/featherlight.min.css?1667528662" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1667528662" rel="stylesheet"></noscript>
+    <link href="/css/auto-complete.css?1667528662" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1667528662" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar.min.css?1667528662" rel="stylesheet">
+    <link href="/css/nucleus.css?1667528662" rel="stylesheet">
+    <link href="/css/fonts.css?1667528662" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1667528662" rel="stylesheet"></noscript>
+    <link href="/css/theme.css?1667528662" rel="stylesheet">
+    <link href="/css/theme-relearn-light.css?1667528662" rel="stylesheet" id="variant-style">
+    <link href="/css/ie.css?1667528662" rel="stylesheet">
+    <link href="/css/variant.css?1667528662" rel="stylesheet">
+    <link href="/css/print.css?1667528662" rel="stylesheet" media="print">
+    <script src="/js/variant.js?1667528662"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -36,7 +36,7 @@
       var baseUriFull='https:\/\/LearnCIOT.github.io/';
       window.variants && variants.init( [ 'relearn-light' ] );
     </script>
-    <script src="/js/jquery.min.js?1667526615" defer></script>
+    <script src="/js/jquery.min.js?1667528662" defer></script>
 <meta property="fb:app_id" content="601826851395774" />
   </head>
   <body class="default-animation" data-url="/en/ch2/ch2.1/">
@@ -246,47 +246,56 @@
 
 <p>This set of materials includes seven themes including &ldquo;Introduction&rdquo;, &ldquo;Overview of the Materials&rdquo;, &ldquo;Data Access Method&rdquo;, &ldquo;Data Analysis in Time Dimension&rdquo;, &ldquo;Data Analysis in Space Dimension&rdquo;, &ldquo;Data Applications&rdquo; and &ldquo;System Applications&rdquo;. The major themes are described as follows:</p>
 <ol>
-<li>Introduction:
-We introduce the core of the entire project - &ldquo;Civil IoT Taiwan Project,&rdquo; including various achievements of the project in the past few years, as well as its open data in water resources, air quality, earthquakes, and disaster prevention and relief fields. We also present different existing materials, videos, and successful cases, so everyone can deeply understand the importance of the &ldquo;Civil IoT Taiwan project&rdquo; to people&rsquo;s livelihood.</li>
-<li>Overview of the Materials:
-We present the structure of the entire material, as well as the Python programming language and Google Colab platform used in the material. Through simple text descriptions, we guide readers to quickly understand the structure of the entire material, and provides a rich list of external resources for those who are interested and in need to further explore related technologies.</li>
-<li>Data Access Method:
-We introduce how to use simple Python syntax to directly access the data of the Civil IoT Taiwan Data Service Platform through the pyCIOT tool we developed, and cut out two units for a more in-depth introduction according to different needs:
+<li>
+<p>Introduction:
+We introduce the core of the entire project - &ldquo;Civil IoT Taiwan Project,&rdquo; including various achievements of the project in the past few years, as well as its open data in water resources, air quality, earthquakes, and disaster prevention and relief fields. We also present different existing materials, videos, and successful cases, so everyone can deeply understand the importance of the &ldquo;Civil IoT Taiwan project&rdquo; to people&rsquo;s livelihood.</p>
+</li>
+<li>
+<p>Overview of the Materials:
+We present the structure of the entire material, as well as the Python programming language and Google Colab platform used in the material. Through simple text descriptions, we guide readers to quickly understand the structure of the entire material, and provides a rich list of external resources for those who are interested and in need to further explore related technologies.</p>
+</li>
+<li>
+<p>Data Access Method:
+We introduce how to use simple Python syntax to directly access the data of the Civil IoT Taiwan Data Service Platform through the pyCIOT tool we developed and cut out two units for a more in-depth introduction according to different needs:</p>
 <ul>
 <li>Basic Data Access Method: We introduce how to obtain the latest sensing data of a single station for different aspects of water resources, air quality, earthquake, and disaster information in the Civil IoT Taiwan Data Service Platform for people&rsquo;s livelihood, as well as how to obtain a list of all stations, and the latest current data of all stations.</li>
-<li>Specific Spatio-temporal Data Access Method: We introduce how to obtain the data of a certain station at a specific time or time range, find the latest current data of the nearest station, and find the current latest data of all stations around the given coordinates from the Civil IoT Taiwan Data Service Platform.
-In addition to introducing data access methods, we also intersperse with fundamental exploratory data analysis (EDA) practices and use commonly used statistical methods to describe the data characteristics of different aspects of the data. Finally, we draw simple diagrams to let readers experience what it&rsquo;s like to analyze data firsthand through learning by doing.</li>
+<li>Specific Spatio-temporal Data Access Method: We introduce how to obtain the data of a particular station at an exact time or time range and find the latest current data of the nearest station. We also introduce how to find the latest data of all stations around the given coordinates from the Civil IoT Taiwan Data Service Platform.</li>
+</ul>
+<p>In addition to introducing data access methods, we also intersperse with fundamental exploratory data analysis (EDA) practices and use commonly used statistical methods to describe the data characteristics of different aspects of the data. Finally, we draw simple diagrams to let readers experience what it&rsquo;s like to analyze data firsthand through learning by doing.</p>
+</li>
+<li>
+<p>Data Analysis in Time Dimension:
+Given the time series characteristics of IoT data, we design three topics to demonstrate time-series data analysis using Civil IoT Taiwan data.</p>
+<ul>
+<li>Time Series Data Processing: We use the sensing data of the Civil IoT Taiwan Data Platform to guide readers to understand the use of moving averages, perform periodic analysis on time series data, and then disassemble the time series data into long-term trends, seasonal changes, regular changes, and random fluctuations. At the same time, change point and outlier detection techniques are applied to check the existing Civil IoT Taiwan Data using the current Python packages. The possible meanings behind the detection results are discussed.</li>
+<li>Time Series Data Forecast: We use sensory data from the Civil IoT Taiwan Data Platform and apply existing Python data science packages (such as scikit-learn, Kats, etc.) to compare different data prediction methods in a hands-on fashion.  Combining the forecast results, we present the data in a graph and discuss the implications behind the forecast results for different datasets and temporal resolutions. Then, we also discuss possible derivative applications.</li>
+<li>Time Series Data Clustering: We introduce more advanced data clustering analysis. We first introduce two time-series feature extraction methods, namely Fourier transform and wavelet transform, and briefly explain the difference between the two transform methods. We then present two distance functions for time series data, Euclidean and Dynamic Time Warping (DTW) distance, and apply existing clustering packages using these two functions. Finally, we discuss the implications behind clustering results using different datasets and temporal resolutions in real-world applications and possible derived applications.</li>
 </ul>
 </li>
-<li>Data Analysis in Time Dimension:
-In view of the time series characteristics of IoT data, we design three topics to demonstrate time-series data analysis using Civil IoT Taiwan data.
+<li>
+<p>Data Analysis in Space Dimension:
+Given the geospatial characteristics of Civil IoT Taiwan data, we introduce a series of spatial data analysis methods according to different needs and applications.</p>
 <ul>
-<li>Time Series Data Processing: We use the sensing data of Civil IoT Taiwan Data Platform to guide readers to understand the use of moving averages, perform periodic analysis on time series data, and then disassemble the time series data into long-term trends, seasonal changes, periodic changes, and random fluctuations. At the same time, change point detection and outlier detection techniques are applied to check the existing Civil IoT Taiwan Data by applying the existing Python packages, and the possible meanings behind the detection results are discussed.</li>
-<li>Time Series Data Forecast: We use sensory data from the Civil IoT Taiwan Data Platform and apply existing Python data science packages (such as scikit-learn, Kats, etc.) to compare different data prediction methods in a hands-on fashion. Combine the forecast results, we present the data in a graph, and discuss the implications behind the forecast results for different datasets and temporal resolutions. Then, we also discuss possible derivative applications.</li>
-<li>Time Series Data Clustering: We introduce more advanced data clustering analysis. We first introduce two time series feature extraction methods, namely Fourier transform and wavelet transform, and briefly explain the difference between the two transform methods. We then introduce two distance functions for time series data, Euclidean distance and Dynamic Time Warping (DTW) distance, and apply existing clustering packages using these two functions. Finally, we discuss the implications behind clustering results using different datasets and different temporal resolutions in real-world applications, as well as possible derived applications.</li>
+<li>Geospatial Filtering: We use the earthquake and disaster prevention/relief data of the Civil IoT Taiwan Data Platform and superimpose the administrative region boundary map data obtained from the government&rsquo;s open data platform. Then, we generate a picture file of geospatial data distribution after generating the overlay map and demonstrate how to nest specific regions of geometric topology, output the nested results to a file, and perform drawing operations.</li>
+<li>Geospatial Analysis: We use sensing data from Civil IoT Taiwan Data Platform to introduce more advanced geospatial analysis. Using the GPS coordinates of the sensors, we first use an existing Python package to find the largest convex polygon (Convex Hull) to frame the geographic area covered by the sensors. Then, we apply the Voronoi Diagram algorithm to cut the map&rsquo;s location based on the sensors&rsquo; distribution, cutting out the sphere of influence of each sensor. For the area between the sensors, we apply different spatial interpolation algorithms, fill the values on the spatial map according to the sensor values, and produce the corresponding image output.</li>
 </ul>
 </li>
-<li>Data Analysis in Space Dimension:
-Given the geospatial characteristics of Civil IoT Taiwan data, we introduce a series of spatial data analysis methods according to different needs and applications.
+<li>
+<p>Data Applications:
+In this topic, we will focus on the derivative applications after accessing the Civil IoT Taiwan data platform. We will enhance the value and application services of Civil IoT Taiwan&rsquo;s open data by importing other library suites and analysis algorithms. We will develop the following three subtopics in turn:</p>
 <ul>
-<li>Geospatial Filtering: We use the earthquake and disaster prevention and relief data of the Civil IoT Taiwan Data Platform, superimpose the administrative region boundary map data obtained from the government&rsquo;s open data platform, and generate a picture file of geospatial data distribution after generating the overlay map. Additionally, we demonstrate how to nest specific regions of geometric topology, output the nested results to a file, and perform drawing operations.</li>
-<li>Geospatial Analysis: We use sensing data from Civil IoT Taiwan Data Platform to introduce more advanced geospatial analysis. Using the GPS location coordinates of the sensors, we first use an existing Python package to find the largest convex polygon (Convex Hull) to frame the geographic area covered by the sensors; then we apply the Voronoi Diagram algorithm to cut the area on the map based on the distribution of the sensors, cutting out the sphere of influence of each sensor. For the area between the sensors, we apply different spatial interpolation algorithms, fill the values on the spatial map according to the sensor values, and produce the corresponding image output.</li>
+<li>A First Look at Machine Learning: We use air quality and water level category data, combined with weather observations, to perform predictive analysis of sensory values using machine learning packages. We demonstrate the standard process of machine learning and describe how to evaluate the effectiveness of predictive analytics and avoid the bias and overfitting problems that machine learning is prone to.</li>
+<li>Anomaly Detection: We use air quality category data to demonstrate sensor anomaly detection algorithms commonly used in Taiwanese micro air quality sensing data. In a learning-by-doing way, including data preparation, feature extraction, data analysis, statistics, and induction, anomaly detection algorithms&rsquo; principle and implementation process are reproduced step by step. We also guide readers to experience how to superimpose fundamental data analysis and machine learning to achieve advanced and practical data application services.</li>
+<li>Dynamic Calibration Model: We use air quality category data to demonstrate the dynamic calibration algorithm for Taiwanese micro air quality sensors and official stations. By learning by doing, it reproduces the principle and implementation process of the sensor dynamic calibration model algorithm, allowing readers to experience how to gradually realize advanced and fundamental data analysis by overlaying and machine learning steps to provide valuable data application services.</li>
 </ul>
 </li>
-<li>Data Applications:
-In this topic, we will focus on the derivative applications after accessing the Civil IoT Taiwan data platform, and by importing other library suites and analysis algorithms, we will enhance the value and application services of Civil IoT Taiwan&rsquo;s open data. We will develop the following three subtopics in turn:
+<li>
+<p>System Applications:
+This topic focuses on the integration and application of Civil IoT Taiwan open data and other application software and further deepens and exerts the value of Civil IoT Taiwan available data through the professional functions of other application software. Units we develop include:</p>
 <ul>
-<li>A First Look at Machine Learning: We use air quality and water level category data, combined with weather observations, to perform predictive analysis of sensory values using machine learning packages. We demonstrate the standard process of machine learning, and describe how to evaluate the effectiveness of predictive analytics, and how to avoid the bias and overfitting problems that machine learning is prone to.</li>
-<li>Anomaly Detection: We use air quality category data to demonstrate sensor anomaly detection algorithms commonly used in Taiwanese micro air quality sensing data. In a learning-by-doing way, including data preparation, feature extraction, data analysis, statistics, and induction, the principle and implementation process of anomaly detection algorithms are reproduced step by step, allowing readers to experience how to superimpose basic data analysis and machine learning to achieve advanced and practical data application service.</li>
-<li>Dynamic Calibration Model: We use air quality category data to demonstrate the dynamic calibration algorithm for Taiwanese micro air quality sensors and official stations. In the way of learning by doing, including data preparation, feature extraction, machine learning, data analysis, statistics, etc., it reproduces the principle and implementation process of the sensor dynamic calibration model algorithm, allowing readers to experience how to gradually realize advanced and basic data analysis by overlaying and machine learning steps to provide practical data application services.</li>
-</ul>
-</li>
-<li>System Applications:
-This topic focuses on the integration and application of Civil IoT Taiwan open data and other application software, and further deepens and exerts the value of Civil IoT Taiwan open data through the professional functions of other application software. Units we develop include:
-<ul>
-<li>QGIS Applications: QGIS is a free and open-source GIS software. With this software, users can organize, analyze and draw different geospatial data and thematic maps, presenting the distribution and information types of geographical phenomena. We use QGIS to process Civil IoT Taiwan data, including water, air quality, earthquake, and disaster prevention and relief categories; and overlay different information by clicking and dragging to perform as described in the &ldquo;Geospatial Filtering&rdquo; and &ldquo;Geospatial Analysis&rdquo; topics. We also discuss the pros and cons of QGIS software and when to use it.</li>
-<li>Tableau Applications: Tableau is an easy-to-use, powerful data visualization software that can easily connect databases and data files in various formats to create various beautiful statistical charts. We demonstrate how to use drag-and-drop to import data from four aspects of Civil IoT Taiwan, including water resources, air quality, earthquakes, and disaster prevention and relief categories, and make simple charts to compare numerical data. Geospatial data is also overlaid on the map, and time-series data is presented in the form of graphs that show trends in values. In addition, through the interface of external data sources, we can integrate datasets from multiple different sources into a single map to generate beautiful reports in a very short time.</li>
-<li>Leafmap Applications: Leafmap is a Python development toolkit deeply integrated with Google Earth Engine to directly manipulate and visualize analysis results on platforms such as Google Colab or Jupyter Notebook. We demonstrate the use of leafmap to process Civil IoT Taiwan data, including categories such as water resources, air quality, earthquake, disaster prevention and relief, and build a simple GIS system combined with Google Earth Engine&rsquo;s rich satellite imagery. At the same time, Streamlit is a tool for Python users to quickly build a web application framework. We demonstrate the integration of leafmap application and Streamlit to form a web version of GIS information service, which expands readers&rsquo; imagination space for data analysis and future information services.</li>
+<li>QGIS Applications: QGIS is a free and open-source GIS software. With this software, users can organize, analyze and draw different geospatial data and thematic maps, presenting the distribution and information types of geographical phenomena. We use QGIS to process Civil IoT Taiwan data, including water, air quality, earthquake, and disaster prevention and relief categories. We overlay different information by clicking and dragging to perform as described in the &ldquo;Geospatial Filtering&rdquo; and &ldquo;Geospatial Analysis&rdquo; topics. We also discuss the pros and cons of QGIS software and when to use it.</li>
+<li>Tableau Applications: Tableau is an easy-to-use, powerful data visualization software that can easily connect databases and data files in various formats to create multiple beautiful statistical charts. We demonstrate how to use drag-and-drop to import data from four aspects of Civil IoT Taiwan, including water resources, air quality, earthquakes, and disaster prevention and relief categories, and make simple charts to compare numerical data. Geospatial data is also overlaid on the map, and time-series data is presented as graphs showing trends in values. In addition, through the interface of external data sources, we can integrate datasets from multiple different sources into a single map to generate beautiful reports in a short time.</li>
+<li>Leafmap Applications: Leafmap is a Python development toolkit deeply integrated with Google Earth Engine to directly manipulate and visualize analysis results on platforms such as Google Colab or Jupyter Notebook. We demonstrate the use of leafmap to process Civil IoT Taiwan data, including categories such as water resources, air quality, earthquake, disaster prevention and relief, and build a simple GIS system combined with Google Earth Engine&rsquo;s rich satellite imagery. At the same time, Streamlit is a tool for Python users to quickly create a web application framework. We demonstrate the integration of leafmap application and Streamlit to form a web version of the GIS information service, expanding readers&rsquo; imagination for data analysis and future information services.</li>
 </ul>
 </li>
 </ol>
@@ -376,12 +385,12 @@ This topic focuses on the integration and application of Civil IoT Taiwan open d
         <script>
           var contentLangs=['en'];
         </script>
-        <script src="/js/auto-complete.js?1667526615" defer></script>
-        <script src="/js/lunr.min.js?1667526615" defer></script>
-        <script src="/js/lunr.stemmer.support.min.js?1667526615" defer></script>
-        <script src="/js/lunr.multi.min.js?1667526615" defer></script>
-        <script src="/js/lunr.en.min.js?1667526615" defer></script>
-        <script src="/js/search.js?1667526615" defer></script>
+        <script src="/js/auto-complete.js?1667528662" defer></script>
+        <script src="/js/lunr.min.js?1667528662" defer></script>
+        <script src="/js/lunr.stemmer.support.min.js?1667528662" defer></script>
+        <script src="/js/lunr.multi.min.js?1667528662" defer></script>
+        <script src="/js/lunr.en.min.js?1667528662" defer></script>
+        <script src="/js/search.js?1667528662" defer></script>
       </div>
       <div id="content-wrapper" class="highlightable">
         <ul class="topics">
@@ -451,14 +460,14 @@ This topic focuses on the integration and application of Civil IoT Taiwan open d
       </div>
     </aside>
 
-    <script src="/js/clipboard.min.js?1667526615" defer></script>
-    <script src="/js/perfect-scrollbar.min.js?1667526615" defer></script>
-    <script src="/js/featherlight.min.js?1667526615" defer></script>
-    <script src="/js/jquery.svg.pan.zoom.js?1667526615" defer></script>
-    <script src="/js/mermaid.min.js?1667526615" defer></script>
+    <script src="/js/clipboard.min.js?1667528662" defer></script>
+    <script src="/js/perfect-scrollbar.min.js?1667528662" defer></script>
+    <script src="/js/featherlight.min.js?1667528662" defer></script>
+    <script src="/js/jquery.svg.pan.zoom.js?1667528662" defer></script>
+    <script src="/js/mermaid.min.js?1667528662" defer></script>
     <script>
       window.themeUseMermaid = JSON.parse("{}");
     </script>
-    <script src="/js/theme.js?1667526615" defer></script>
+    <script src="/js/theme.js?1667528662" defer></script>
   </body>
 </html>
