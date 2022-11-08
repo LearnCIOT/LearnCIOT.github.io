@@ -4,6 +4,11 @@
     <loc>https://LearnCIOT.github.io/en/ch1/</loc>
     <xhtml:link
                 rel="alternate"
+                hreflang="ja"
+                href="https://LearnCIOT.github.io/ja/ch1/"
+                />
+    <xhtml:link
+                rel="alternate"
                 hreflang="zh-tw"
                 href="https://LearnCIOT.github.io/ch1/"
                 />
@@ -254,8 +259,8 @@
     <loc>https://LearnCIOT.github.io/en/authors/</loc>
     <xhtml:link
                 rel="alternate"
-                hreflang="ja-jp"
-                href="https://LearnCIOT.github.io/ja-jp/authors/"
+                hreflang="ja"
+                href="https://LearnCIOT.github.io/ja/authors/"
                 />
     <xhtml:link
                 rel="alternate"
@@ -272,6 +277,11 @@
     <loc>https://LearnCIOT.github.io/en/levels/beginner/</loc>
     <xhtml:link
                 rel="alternate"
+                hreflang="ja"
+                href="https://LearnCIOT.github.io/ja/levels/beginner/"
+                />
+    <xhtml:link
+                rel="alternate"
                 hreflang="zh-tw"
                 href="https://LearnCIOT.github.io/levels/beginner/"
                 />
@@ -285,8 +295,8 @@
     <loc>https://LearnCIOT.github.io/en/categories/</loc>
     <xhtml:link
                 rel="alternate"
-                hreflang="ja-jp"
-                href="https://LearnCIOT.github.io/ja-jp/categories/"
+                hreflang="ja"
+                href="https://LearnCIOT.github.io/ja/categories/"
                 />
     <xhtml:link
                 rel="alternate"
@@ -304,6 +314,16 @@
   </url>
   <url>
     <loc>https://LearnCIOT.github.io/en/authors/huei-jun-kao/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ja"
+                href="https://LearnCIOT.github.io/ja/authors/huei-jun-kao/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://LearnCIOT.github.io/en/authors/huei-jun-kao/"
+                />
   </url>
   <url>
     <loc>https://LearnCIOT.github.io/en/levels/intermediate/</loc>
@@ -320,13 +340,23 @@
   </url>
   <url>
     <loc>https://LearnCIOT.github.io/en/tags/introduction/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ja"
+                href="https://LearnCIOT.github.io/ja/tags/introduction/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://LearnCIOT.github.io/en/tags/introduction/"
+                />
   </url>
   <url>
     <loc>https://LearnCIOT.github.io/en/</loc>
     <xhtml:link
                 rel="alternate"
-                hreflang="ja-jp"
-                href="https://LearnCIOT.github.io/ja-jp/"
+                hreflang="ja"
+                href="https://LearnCIOT.github.io/ja/"
                 />
     <xhtml:link
                 rel="alternate"
@@ -343,8 +373,8 @@
     <loc>https://LearnCIOT.github.io/en/levels/</loc>
     <xhtml:link
                 rel="alternate"
-                hreflang="ja-jp"
-                href="https://LearnCIOT.github.io/ja-jp/levels/"
+                hreflang="ja"
+                href="https://LearnCIOT.github.io/ja/levels/"
                 />
     <xhtml:link
                 rel="alternate"
@@ -389,8 +419,8 @@
     <loc>https://LearnCIOT.github.io/en/tags/</loc>
     <xhtml:link
                 rel="alternate"
-                hreflang="ja-jp"
-                href="https://LearnCIOT.github.io/ja-jp/tags/"
+                hreflang="ja"
+                href="https://LearnCIOT.github.io/ja/tags/"
                 />
     <xhtml:link
                 rel="alternate"
