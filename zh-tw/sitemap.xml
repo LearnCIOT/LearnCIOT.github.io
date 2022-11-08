@@ -264,6 +264,11 @@
                 />
     <xhtml:link
                 rel="alternate"
+                hreflang="ja-jp"
+                href="https://LearnCIOT.github.io/ja-jp/authors/"
+                />
+    <xhtml:link
+                rel="alternate"
                 hreflang="zh-tw"
                 href="https://LearnCIOT.github.io/authors/"
                 />
@@ -287,6 +292,11 @@
                 rel="alternate"
                 hreflang="en"
                 href="https://LearnCIOT.github.io/en/categories/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ja-jp"
+                href="https://LearnCIOT.github.io/ja-jp/categories/"
                 />
     <xhtml:link
                 rel="alternate"
@@ -316,6 +326,11 @@
                 />
     <xhtml:link
                 rel="alternate"
+                hreflang="ja-jp"
+                href="https://LearnCIOT.github.io/ja-jp/levels/"
+                />
+    <xhtml:link
+                rel="alternate"
                 hreflang="zh-tw"
                 href="https://LearnCIOT.github.io/levels/"
                 />
@@ -342,6 +357,11 @@
                 />
     <xhtml:link
                 rel="alternate"
+                hreflang="ja-jp"
+                href="https://LearnCIOT.github.io/ja-jp/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
                 hreflang="zh-tw"
                 href="https://LearnCIOT.github.io/tags/"
                 />
@@ -355,6 +375,11 @@
                 rel="alternate"
                 hreflang="en"
                 href="https://LearnCIOT.github.io/en/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="ja-jp"
+                href="https://LearnCIOT.github.io/ja-jp/"
                 />
     <xhtml:link
                 rel="alternate"
