@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="zh-tw" class="js csstransforms3d">
   <head>
+
+<meta property=’og:title’ content="4.2. 時間序列資料預測"/>
+<meta property=’og:description’ content="我們使用民生公共物聯網資料平台的感測資料，套用現有的 Python 資料科學套件 (例如 scikit-learn、Kats 等)，用動手實作的方式，比較各種套件所內建的不同資料預測模型的使用方法與預測結果，用製圖的方式進行資料呈現，並且探討不同的資料集與不同時間解析度的資料預測，在真實場域所代表的意義，以及可能衍生的應用。"/>
+<meta property=’og:image’ content="https://learnciot.github.io/images/thumbnail.jpg"/>
+<meta property=’og:url’ content="/ch4/ch4.2/"/>
+<meta property='og:image:width' content="1200" />
+<meta property='og:image:height' content="627" />
     <meta charset="utf-8">
     <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <meta name="generator" content="Hugo 0.104.3">
@@ -9,18 +16,18 @@
     <meta name="author" content="Ling-Jyh Chen">
     <title>4.2. 時間序列資料預測 :: Tutorial for CIoT Open Data Applications</title>
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="/css/fontawesome-all.min.css?1667886143" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1667886143" rel="stylesheet"></noscript>
-    <link href="/css/featherlight.min.css?1667886143" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1667886143" rel="stylesheet"></noscript>
-    <link href="/css/auto-complete.css?1667886143" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1667886143" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar.min.css?1667886143" rel="stylesheet">
-    <link href="/css/nucleus.css?1667886143" rel="stylesheet">
-    <link href="/css/fonts.css?1667886143" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1667886143" rel="stylesheet"></noscript>
-    <link href="/css/theme.css?1667886143" rel="stylesheet">
-    <link href="/css/theme-relearn-light.css?1667886143" rel="stylesheet" id="variant-style">
-    <link href="/css/ie.css?1667886143" rel="stylesheet">
-    <link href="/css/variant.css?1667886143" rel="stylesheet">
-    <link href="/css/print.css?1667886143" rel="stylesheet" media="print">
-    <script src="/js/variant.js?1667886143"></script>
+    <link href="/css/fontawesome-all.min.css?1667899884" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1667899884" rel="stylesheet"></noscript>
+    <link href="/css/featherlight.min.css?1667899884" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1667899884" rel="stylesheet"></noscript>
+    <link href="/css/auto-complete.css?1667899884" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1667899884" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar.min.css?1667899884" rel="stylesheet">
+    <link href="/css/nucleus.css?1667899884" rel="stylesheet">
+    <link href="/css/fonts.css?1667899884" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1667899884" rel="stylesheet"></noscript>
+    <link href="/css/theme.css?1667899884" rel="stylesheet">
+    <link href="/css/theme-relearn-light.css?1667899884" rel="stylesheet" id="variant-style">
+    <link href="/css/ie.css?1667899884" rel="stylesheet">
+    <link href="/css/variant.css?1667899884" rel="stylesheet">
+    <link href="/css/print.css?1667899884" rel="stylesheet" media="print">
+    <script src="/js/variant.js?1667899884"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -36,7 +43,7 @@
       var baseUriFull='https:\/\/LearnCIOT.github.io/';
       window.variants && variants.init( [ 'relearn-light' ] );
     </script>
-    <script src="/js/jquery.min.js?1667886143" defer></script>
+    <script src="/js/jquery.min.js?1667899884" defer></script>
 <meta property="fb:app_id" content="601826851395774" />
   </head>
   <body class="default-animation" data-url="/ch4/ch4.2/">
@@ -1443,12 +1450,12 @@ Freq: H, dtype: float64
         <script>
           var contentLangs=['zh'];
         </script>
-        <script src="/js/auto-complete.js?1667886143" defer></script>
-        <script src="/js/lunr.min.js?1667886143" defer></script>
-        <script src="/js/lunr.stemmer.support.min.js?1667886143" defer></script>
-        <script src="/js/lunr.multi.min.js?1667886143" defer></script>
-        <script src="/js/lunr.zh.min.js?1667886143" defer></script>
-        <script src="/js/search.js?1667886143" defer></script>
+        <script src="/js/auto-complete.js?1667899884" defer></script>
+        <script src="/js/lunr.min.js?1667899884" defer></script>
+        <script src="/js/lunr.stemmer.support.min.js?1667899884" defer></script>
+        <script src="/js/lunr.multi.min.js?1667899884" defer></script>
+        <script src="/js/lunr.zh.min.js?1667899884" defer></script>
+        <script src="/js/search.js?1667899884" defer></script>
       </div>
       <div id="content-wrapper" class="highlightable">
         <ul class="topics">
@@ -1523,14 +1530,14 @@ Freq: H, dtype: float64
       </div>
     </aside>
 
-    <script src="/js/clipboard.min.js?1667886143" defer></script>
-    <script src="/js/perfect-scrollbar.min.js?1667886143" defer></script>
-    <script src="/js/featherlight.min.js?1667886143" defer></script>
-    <script src="/js/jquery.svg.pan.zoom.js?1667886143" defer></script>
-    <script src="/js/mermaid.min.js?1667886143" defer></script>
+    <script src="/js/clipboard.min.js?1667899884" defer></script>
+    <script src="/js/perfect-scrollbar.min.js?1667899884" defer></script>
+    <script src="/js/featherlight.min.js?1667899884" defer></script>
+    <script src="/js/jquery.svg.pan.zoom.js?1667899884" defer></script>
+    <script src="/js/mermaid.min.js?1667899884" defer></script>
     <script>
       window.themeUseMermaid = JSON.parse("{}");
     </script>
-    <script src="/js/theme.js?1667886143" defer></script>
+    <script src="/js/theme.js?1667899884" defer></script>
   </body>
 </html>
