@@ -72,7 +72,7 @@ weight = 120
 [Languages.ja]
 title = "人々のためのパブリック・インターネット・オブ・シングス(Civil IoT Taiwan)"
 weight = 1
-languageName = "English"
+languageName = "日本語"
 landingPageURL = "/"
 landingPageName = "<i class='fas fa-home'></i> Home"
 
