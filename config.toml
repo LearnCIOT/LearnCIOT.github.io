@@ -69,30 +69,30 @@ url = "authors/"
 weight = 120
 
 
-[Languages.ja-JP]
+[Languages.ja]
 title = "人々のためのパブリック・インターネット・オブ・シングス(Civil IoT Taiwan)"
 weight = 1
 languageName = "English"
 landingPageURL = "/"
 landingPageName = "<i class='fas fa-home'></i> Home"
 
-[[Languages.ja-JP.menu.shortcuts]]
+[[Languages.ja.menu.shortcuts]]
 name = "<i class='fab fa-fw fa-github'></i> GitHub repo"
 identifier = "ds"
 url = "https://github.com/LearnCIOT/LearnCIOT.github.io"
 weight = 10
 
-[[Languages.ja-JP.menu.shortcuts]]
+[[Languages.ja.menu.shortcuts]]
 name = "<i class='fas fa-fw fa-heartbeat'></i> Search by difficulty"
 url = "levels/"
 weight = 100
 
-[[Languages.ja-JP.menu.shortcuts]]
+[[Languages.ja.menu.shortcuts]]
 name = "<i class='fas fa-fw fa-tags'></i> Search by topics"
 url = "tags/"
 weight = 110
 
-[[Languages.ja-JP.menu.shortcuts]]
+[[Languages.ja.menu.shortcuts]]
 name = "<i class='fas fa-fw fa-users'></i> Search by authors"
 url = "authors/"
 weight = 120
