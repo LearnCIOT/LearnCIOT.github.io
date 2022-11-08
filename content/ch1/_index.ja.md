@@ -29,9 +29,9 @@ authors: ["Huei-Jun Kao"]
 オープンソース、オープンガバメント、オープンサイエンスなどのオープントレンドの台頭により、オープンデータは政府や科学が政策や研究に取り組む際のスタンダードとなりつつあります。 近年登場したIoE（Internet of Environmentally Sensitive Things）は、パブリックドメインに広く分布し、観測する環境情報が一般市民に密着していることから、最も期待されるオープンデータプロジェクトの一つとなっています。
 
 現在、台湾のオープンデータの多くは、JSON、CSV、XMLのいずれかの形式で、以下のプラットフォームで公開されています。
-- 台湾政府データオープンプラットフォーム（https://data.gov.tw/）
-- 台湾気象データオープンプラットフォーム（https://opendata.cwb.gov.tw/devManual/insrtuction）
-- 台湾環境署環境資料情報オープンプラットフォーム（https://data.epa.gov.tw/）
+- 台湾政府データオープンプラットフォーム（[https://data.gov.tw/](https://data.gov.tw/)）
+- 台湾気象データオープンプラットフォーム（[https://opendata.cwb.gov.tw/devManual/insrtuction](https://opendata.cwb.gov.tw/devManual/insrtuction)）
+- 台湾環境署環境資料情報オープンプラットフォーム（[https://data.epa.gov.tw/](https://data.epa.gov.tw/)）
 
 ## 人々の暮らしに貢献するパブリック・インターネット・オブ・シングス
 
@@ -51,29 +51,29 @@ authors: ["Huei-Jun Kao"]
 SensorThings APIは、現在、Minsheng Public Internet of Things Data Service Platformで使用されているオープンなデータフォーマットである。
 
 - データサービスプラットフォーム入門
-    - [PPT] [Introduction to Civil IoT Taiwan Data Service Platform and OGC SensorThings API](https://ci.taiwan.gov.tw/creativity/file/0-2.%E6%B0%91%E7%94%9F%E5%85%AC%E5%85%B1%E7%89%A9%E8%81%AF%E7%B6%B2%E8%B3%87%E6%96%99%E6%87%89%E7%94%A8%E7%AB%B6%E8%B3%BD_%E8%B3%87%E6%96%99%E6%9C%8D%E5%8B%99%E5%B9%B3%E5%8F%B0_%E8%AA%AA%E6%98%8E%E7%B0%A1%E5%A0%B1.pdf) [[Video](https://youtu.be/Jk9uaqEcIdQ)] (in Chinese)
+    - [PPT] [データサービスプラットフォームとSensor Things APIの紹介](https://ci.taiwan.gov.tw/creativity/file/0-2.%E6%B0%91%E7%94%9F%E5%85%AC%E5%85%B1%E7%89%A9%E8%81%AF%E7%B6%B2%E8%B3%87%E6%96%99%E6%87%89%E7%94%A8%E7%AB%B6%E8%B3%BD_%E8%B3%87%E6%96%99%E6%9C%8D%E5%8B%99%E5%B9%B3%E5%8F%B0_%E8%AA%AA%E6%98%8E%E7%B0%A1%E5%A0%B1.pdf) [[Video](https://youtu.be/Jk9uaqEcIdQ)] (in Chinese)
 - 水資源領域
-    - [PPT] [Water Resources IoT](https://ci.taiwan.gov.tw/creativity/file/7.%E6%B0%91%E7%94%9F%E5%85%AC%E5%85%B1%E7%89%A9%E8%81%AF%E7%B6%B2%E8%B3%87%E6%96%99%E6%87%89%E7%94%A8%E7%AB%B6%E8%B3%BD_%E6%B0%B4%E8%B3%87%E6%BA%90%E7%89%A9%E8%81%AF%E7%B6%B2_%E8%AA%AA%E6%98%8E%E7%B0%A1%E5%A0%B1.pdf) [[Video](https://youtu.be/NL2zUgZzsIY)] (in Chinese)
+    - [PPT] [水資源IoT](https://ci.taiwan.gov.tw/creativity/file/7.%E6%B0%91%E7%94%9F%E5%85%AC%E5%85%B1%E7%89%A9%E8%81%AF%E7%B6%B2%E8%B3%87%E6%96%99%E6%87%89%E7%94%A8%E7%AB%B6%E8%B3%BD_%E6%B0%B4%E8%B3%87%E6%BA%90%E7%89%A9%E8%81%AF%E7%B6%B2_%E8%AA%AA%E6%98%8E%E7%B0%A1%E5%A0%B1.pdf) [[Video](https://youtu.be/NL2zUgZzsIY)] (in Chinese)
 - 大気質領域
-    - [PPT] [Environment Quality Sensing IoT](https://ci.taiwan.gov.tw/creativity/file/1.%E6%B0%91%E7%94%9F%E5%85%AC%E5%85%B1%E7%89%A9%E8%81%AF%E7%B6%B2%E8%B3%87%E6%96%99%E6%87%89%E7%94%A8%E7%AB%B6%E8%B3%BD_%E7%92%B0%E5%A2%83%E5%93%81%E8%B3%AA%E6%84%9F%E6%B8%AC%E7%89%A9%E8%81%AF%E7%B6%B2_%E8%AA%AA%E6%98%8E%E7%B0%A1%E5%A0%B1.pdf) [[Video](https://youtu.be/O3i_2STiQlc)] (in Chinese)
-    - [PPT] [Deployment of Micro PM2.5 Sensors](https://ci.taiwan.gov.tw/creativity/file/2.%E6%B0%91%E7%94%9F%E5%85%AC%E5%85%B1%E7%89%A9%E8%81%AF%E7%B6%B2%E8%B3%87%E6%96%99%E6%87%89%E7%94%A8%E7%AB%B6%E8%B3%BD_PM2.5%E5%BE%AE%E5%9E%8B%E6%84%9F%E6%B8%AC%E5%99%A8%E5%B8%83%E5%BB%BA_%E8%AA%AA%E6%98%8E%E7%B0%A1%E5%A0%B1.pdf) [[Video](https://youtu.be/WVZoTsN_bzI)] (in Chinese)
+    - [PPT] [環境品質センシングIoT](https://ci.taiwan.gov.tw/creativity/file/1.%E6%B0%91%E7%94%9F%E5%85%AC%E5%85%B1%E7%89%A9%E8%81%AF%E7%B6%B2%E8%B3%87%E6%96%99%E6%87%89%E7%94%A8%E7%AB%B6%E8%B3%BD_%E7%92%B0%E5%A2%83%E5%93%81%E8%B3%AA%E6%84%9F%E6%B8%AC%E7%89%A9%E8%81%AF%E7%B6%B2_%E8%AA%AA%E6%98%8E%E7%B0%A1%E5%A0%B1.pdf) [[Video](https://youtu.be/O3i_2STiQlc)] (in Chinese)
+    - [PPT] [PM2.5マイクロセンサーの展開](https://ci.taiwan.gov.tw/creativity/file/2.%E6%B0%91%E7%94%9F%E5%85%AC%E5%85%B1%E7%89%A9%E8%81%AF%E7%B6%B2%E8%B3%87%E6%96%99%E6%87%89%E7%94%A8%E7%AB%B6%E8%B3%BD_PM2.5%E5%BE%AE%E5%9E%8B%E6%84%9F%E6%B8%AC%E5%99%A8%E5%B8%83%E5%BB%BA_%E8%AA%AA%E6%98%8E%E7%B0%A1%E5%A0%B1.pdf) [[Video](https://youtu.be/WVZoTsN_bzI)] (in Chinese)
 - 地震分野
-    - [PPT] [Joint Sea-Land Earthquake Observation](https://ci.taiwan.gov.tw/creativity/file/3.%E6%B0%91%E7%94%9F%E5%85%AC%E5%85%B1%E7%89%A9%E8%81%AF%E7%B6%B2%E8%B3%87%E6%96%99%E6%87%89%E7%94%A8%E7%AB%B6%E8%B3%BD_%E6%B5%B7%E9%99%B8%E5%9C%B0%E9%9C%87%E8%81%AF%E5%90%88%E8%A7%80%E6%B8%AC_%E8%AA%AA%E6%98%8E%E7%B0%A1%E5%A0%B1.pdf) [[Video](https://youtu.be/PvhaT8GR430)] (in Chinese)
-    - [PPT] [Composite Earthquake Quick Report](https://ci.taiwan.gov.tw/creativity/file/4.%E6%B0%91%E7%94%9F%E5%85%AC%E5%85%B1%E7%89%A9%E8%81%AF%E7%B6%B2%E8%B3%87%E6%96%99%E6%87%89%E7%94%A8%E7%AB%B6%E8%B3%BD_%E8%A4%87%E5%90%88%E5%BC%8F%E5%9C%B0%E9%9C%87%E9%80%9F%E5%A0%B1_%E8%AA%AA%E6%98%8E%E7%B0%A1%E5%A0%B1.pdf) [[Video](https://youtu.be/9WX7gcpwngw)] (in Chinese)
+    - [PPT] [陸海空連合地震観測](https://ci.taiwan.gov.tw/creativity/file/3.%E6%B0%91%E7%94%9F%E5%85%AC%E5%85%B1%E7%89%A9%E8%81%AF%E7%B6%B2%E8%B3%87%E6%96%99%E6%87%89%E7%94%A8%E7%AB%B6%E8%B3%BD_%E6%B5%B7%E9%99%B8%E5%9C%B0%E9%9C%87%E8%81%AF%E5%90%88%E8%A7%80%E6%B8%AC_%E8%AA%AA%E6%98%8E%E7%B0%A1%E5%A0%B1.pdf) [[Video](https://youtu.be/PvhaT8GR430)] (in Chinese)
+    - [PPT] [複合型地震の迅速な対応について](https://ci.taiwan.gov.tw/creativity/file/4.%E6%B0%91%E7%94%9F%E5%85%AC%E5%85%B1%E7%89%A9%E8%81%AF%E7%B6%B2%E8%B3%87%E6%96%99%E6%87%89%E7%94%A8%E7%AB%B6%E8%B3%BD_%E8%A4%87%E5%90%88%E5%BC%8F%E5%9C%B0%E9%9C%87%E9%80%9F%E5%A0%B1_%E8%AA%AA%E6%98%8E%E7%B0%A1%E5%A0%B1.pdf) [[Video](https://youtu.be/9WX7gcpwngw)] (in Chinese)
 - 防災と対応
-    - [PPT] [Civil Alert Open Data](https://ci.taiwan.gov.tw/creativity/file/5.%E6%B0%91%E7%94%9F%E5%85%AC%E5%85%B1%E7%89%A9%E8%81%AF%E7%B6%B2%E8%B3%87%E6%96%99%E6%87%89%E7%94%A8%E7%AB%B6%E8%B3%BD_%E6%B0%91%E7%94%9F%E7%A4%BA%E8%AD%A6%E5%85%AC%E9%96%8B%E8%B3%87%E6%96%99_%E8%AA%AA%E6%98%8E%E7%B0%A1%E5%A0%B1pdf.pdf) [[Video](https://youtu.be/KQFQElGM3pY)] (in Chinese)
-    - [PPT] [Integration of Disaster Prevention and Relief Information Systems](https://ci.taiwan.gov.tw/creativity/file/6.%E6%B0%91%E7%94%9F%E5%85%AC%E5%85%B1%E7%89%A9%E8%81%AF%E7%B6%B2%E8%B3%87%E6%96%99%E6%87%89%E7%94%A8%E7%AB%B6%E8%B3%BD_%E7%81%BD%E5%AE%B3%E9%98%B2%E6%95%91%E8%B3%87%E8%A8%8A%E7%B3%BB%E7%B5%B1%E6%95%B4%E5%90%88_%E8%AA%AA%E6%98%8E%E7%B0%A1%E5%A0%B1.pdf) [[Video](https://youtu.be/dZnvI9HHjZs)] (in Chinese)
+    - [PPT] [民衆警報公開情報](https://ci.taiwan.gov.tw/creativity/file/5.%E6%B0%91%E7%94%9F%E5%85%AC%E5%85%B1%E7%89%A9%E8%81%AF%E7%B6%B2%E8%B3%87%E6%96%99%E6%87%89%E7%94%A8%E7%AB%B6%E8%B3%BD_%E6%B0%91%E7%94%9F%E7%A4%BA%E8%AD%A6%E5%85%AC%E9%96%8B%E8%B3%87%E6%96%99_%E8%AA%AA%E6%98%8E%E7%B0%A1%E5%A0%B1pdf.pdf) [[Video](https://youtu.be/KQFQElGM3pY)] (in Chinese)
+    - [PPT] [防災・災害対応情報システム統合](https://ci.taiwan.gov.tw/creativity/file/6.%E6%B0%91%E7%94%9F%E5%85%AC%E5%85%B1%E7%89%A9%E8%81%AF%E7%B6%B2%E8%B3%87%E6%96%99%E6%87%89%E7%94%A8%E7%AB%B6%E8%B3%BD_%E7%81%BD%E5%AE%B3%E9%98%B2%E6%95%91%E8%B3%87%E8%A8%8A%E7%B3%BB%E7%B5%B1%E6%95%B4%E5%90%88_%E8%AA%AA%E6%98%8E%E7%B0%A1%E5%A0%B1.pdf) [[Video](https://youtu.be/dZnvI9HHjZs)] (in Chinese)
 
-Since 2018, the Civil IoT Taiwan project has also held a series of data application competitions, data innovation hackathons, and physical and virtual exhibitions to allow more people to participate in the Civil IoT Taiwan project and its data platform. The project also designed a series of training materials and business coaching, including the team build-up, the idea, and the application service. After several years of accumulation, the project has successfully developed a successful case, which shows that the Civil IoT Taiwan project is not only a hardware construction for government units but also has successfully transformed into a basic information construction for people's livelihood. The project provides a steady stream of high-quality sensor data to improve people's lives and promote more innovative, convenient, and caring information services.
+:民生公衆モノのインターネットとそのデータプラットフォームへのあらゆる人々の参加を拡大するため、2018年から民生公衆モノのインターネットプロジェクトは、一連のデータ応用コンテスト、データ革新マラソン、物理および仮想展示会を開催するとともに、チームの設立と形成、開発からアイデア形成、応用サービスの構想から実装まで、一連のトレーニング資料とビジネスカウンセリングを設計しました。 この数年、私たちは長年のエネルギーを蓄積し、成功事例の開発に成功しました。これにより、「モノのインターネット」は政府単位のハードウェア展開にとどまらず、人々の生活を支える公共情報インフラへの転換に成功し、高品質のセンサーデータを常に提供し、人々の生活を容易にし、より便利で繊細で思いやりのある情報サービスを実現することができました。
 
-For examples of applications and solutions in various fields of Civil IoT Taiwan data, please refer to the following website resources:
+各分野のソリューション事例については、以下のWebリソースをご参照ください：
 
-- [Civil IoT Taiwan Service and Solution Guide: Water resources](https://www.civiliottw.tadpi.org.tw/water.html)
-- [Civil IoT Taiwan Service and Solution Guide: Air qualuty](https://www.civiliottw.tadpi.org.tw/air.html)
-- [Civil IoT Taiwan Service and Solution Guide: Earthquake](https://www.civiliottw.tadpi.org.tw/earthquake.html)
-- [Civil IoT Taiwan Service and Solution Guide: Disaster prevention and relief](https://www.civiliottw.tadpi.org.tw/disaster.html)
+- [民生用公衆インターネットアプリケーションサービスおよびソリューション：水資源](https://www.civiliottw.tadpi.org.tw/water.html)
+- [民生用公衆インターネットアプリケーションサービスおよびソリューション：大気品質](https://www.civiliottw.tadpi.org.tw/air.html)
+- [民生用公衆インターネットアプリケーションサービスおよびソリューション：地震](https://www.civiliottw.tadpi.org.tw/earthquake.html)
+- [民生用公衆インターネットアプリケーションサービスおよびソリューション：防災・災害予防及び対応](https://www.civiliottw.tadpi.org.tw/disaster.html)
 
-## References
+## 関連する参考資料
 
 - Open Definition: defining open in open data, open content and open knowledge. Open Knowledge Foundation ([https://opendefinition.org/od/2.1/en/](https://opendefinition.org/od/2.1/en/))
 - Civil IoT Taiwan ([https://ci.taiwan.gov.tw](https://ci.taiwan.gov.tw/))
