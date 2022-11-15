@@ -122,6 +122,9 @@
 
 {{ partial "socialshare.html" . }}
 
+{{ template "_internal/google_analytics_async.html" . }}
+
+
 
 {{- define "breadcrumb" }}
   {{- $parent := .page.Parent }}
