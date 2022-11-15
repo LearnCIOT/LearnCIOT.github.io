@@ -10,5 +10,6 @@
             </footer>
           </article>
 
-<hr><div class="fb-comments" data-href="{{ .Permalink | absURL   }}" data-width="100%" data-numposts="5"></div>
+{{ partial "disqus.html" . }}
+
 {{- end }}

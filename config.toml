@@ -7,7 +7,9 @@ metaDataFormat = "yaml"
 # required for official documentation served from subfolder
 relativeURLs = false
 defaultContentLanguageInSubdir= false
-googleAnalytics = "G-ZCH7EJS8LE"
+
+googleAnalytics = 'G-ZCH7EJS8LE'
+disqusShortname = 'learnciot'
 
 [Params]
   editURL = "https://github.com/LearnCIOT/LearnCIOT.github.io/tree/main/content/"
