@@ -310,6 +310,19 @@
                 />
   </url>
   <url>
+    <loc>https://LearnCIOT.github.io/en/comment-policy/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-tw"
+                href="https://LearnCIOT.github.io/comment-policy/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://LearnCIOT.github.io/en/comment-policy/"
+                />
+  </url>
+  <url>
     <loc>https://LearnCIOT.github.io/en/tags/disaster/</loc>
   </url>
   <url>

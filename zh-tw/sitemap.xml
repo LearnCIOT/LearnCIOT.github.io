@@ -416,6 +416,19 @@
     <loc>https://LearnCIOT.github.io/authors/%E6%B4%AA%E8%BB%BE%E5%87%B1/</loc>
   </url>
   <url>
+    <loc>https://LearnCIOT.github.io/comment-policy/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://LearnCIOT.github.io/en/comment-policy/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-tw"
+                href="https://LearnCIOT.github.io/comment-policy/"
+                />
+  </url>
+  <url>
     <loc>https://LearnCIOT.github.io/authors/%E9%AB%98%E6%85%A7%E5%90%9B/</loc>
   </url>
   <url>
