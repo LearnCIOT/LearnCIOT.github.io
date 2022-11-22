@@ -35,6 +35,13 @@
       <description>Table Of Contents Data access under temporal conditions Data access under spatial conditions Case study: Is the air quality here worse than there? Import data Remove invalid data Calculate distance Pandas package Results References This article will access the data of the Civil IoT Taiwan project from the perspective of time and space, and carry out a simple implementation with the theme of air quality monitoring. It will covers the following topics:</description>
     </item>
     <item>
+      <title>6.2. Anomaly Detection</title>
+      <link>https://LearnCIOT.github.io/en/ch6/ch6.2/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://LearnCIOT.github.io/en/ch6/ch6.2/</guid>
+      <description>Table Of Contents Anomaly Detection Framework Types of abnormal events Possible causes of abnormal events Case Study Package Installation and Importing Initialization and Data Access Find nearby sensors Time slicing every five minutes Average the sensing values of nearby sensors every time slice Abnormal event judgements Implementation of the Malfunction Detection module Implementation of the Real-time Emission Detection module Implementation of the Device Ranking module References Anomaly Detection Framework Multiple large-scale micro air quality monitoring systems have been successfully deployed in different countries and cities.</description>
+    </item>
+    <item>
       <title>7.2. Tableau Application</title>
       <link>https://LearnCIOT.github.io/en/ch7/ch7.2/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>

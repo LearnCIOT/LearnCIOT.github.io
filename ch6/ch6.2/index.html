@@ -16,18 +16,18 @@
     <meta name="author" content="Ling-Jyh Chen">
     <title>6.2. 異常資料偵測 :: Tutorial for CIoT Open Data Applications</title>
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="/css/fontawesome-all.min.css?1669086019" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1669086019" rel="stylesheet"></noscript>
-    <link href="/css/featherlight.min.css?1669086019" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1669086019" rel="stylesheet"></noscript>
-    <link href="/css/auto-complete.css?1669086019" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1669086019" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar.min.css?1669086019" rel="stylesheet">
-    <link href="/css/nucleus.css?1669086019" rel="stylesheet">
-    <link href="/css/fonts.css?1669086019" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1669086019" rel="stylesheet"></noscript>
-    <link href="/css/theme.css?1669086019" rel="stylesheet">
-    <link href="/css/theme-relearn-light.css?1669086019" rel="stylesheet" id="variant-style">
-    <link href="/css/ie.css?1669086019" rel="stylesheet">
-    <link href="/css/variant.css?1669086019" rel="stylesheet">
-    <link href="/css/print.css?1669086019" rel="stylesheet" media="print">
-    <script src="/js/variant.js?1669086019"></script>
+    <link href="/css/fontawesome-all.min.css?1669092039" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1669092039" rel="stylesheet"></noscript>
+    <link href="/css/featherlight.min.css?1669092039" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1669092039" rel="stylesheet"></noscript>
+    <link href="/css/auto-complete.css?1669092039" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1669092039" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar.min.css?1669092039" rel="stylesheet">
+    <link href="/css/nucleus.css?1669092039" rel="stylesheet">
+    <link href="/css/fonts.css?1669092039" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1669092039" rel="stylesheet"></noscript>
+    <link href="/css/theme.css?1669092039" rel="stylesheet">
+    <link href="/css/theme-relearn-light.css?1669092039" rel="stylesheet" id="variant-style">
+    <link href="/css/ie.css?1669092039" rel="stylesheet">
+    <link href="/css/variant.css?1669092039" rel="stylesheet">
+    <link href="/css/print.css?1669092039" rel="stylesheet" media="print">
+    <script src="/js/variant.js?1669092039"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -43,7 +43,7 @@
       var baseUriFull='https:\/\/LearnCIOT.github.io/';
       window.variants && variants.init( [ 'relearn-light' ] );
     </script>
-    <script src="/js/jquery.min.js?1669086019" defer></script>
+    <script src="/js/jquery.min.js?1669092039" defer></script>
 <meta property="fb:app_id" content="601826851395774" />
   </head>
   <body class="default-animation" data-url="/ch6/ch6.2/">
@@ -455,7 +455,7 @@ device_id    datetime
              2022-10-15 00:25:00   36.0  17.000000            11
 </code></pre><h3 id="判斷異常事件的門檻值">判斷異常事件的門檻值</h3>
 <p>我們透過觀察發現，所謂的「異常事件」指的是感測器的感測值，與我們心中認定的合理值有過大的差距，這個合理值有可能是鄰近的感測器感測值（空間類異常），也有可能是同一個感測器的前一筆感測值（時間類異常），或者是根據其他資訊來源的合理推估值。同時，我們也發現所謂的「過大的差距」，其實是一個很模糊的說法，其具體數值隨感測值的大小，亦有極大的不同。</p>
-<p>因此，我們首先根據現有 <code>dfMean[’avg']</code> 的分布狀況，切分為 9 個區間，並且針對每一個區間的 PM2.5 感測值，計算其標準差，並據以做為判斷感測值是否異常的門檻值標準，如下表所示。舉例來說，當原始數值為 10 (ug/m3) 時，倘若周圍感測器平均高於 <code>10+6.6</code> ，或低於 <code>10+6.6</code> ，我們便會認定該感測器的該筆感測值為異常事件。</p>
+<p>因此，我們首先根據現有 <code>dfMean[’avg']</code> 的分布狀況，切分為 9 個區間，並且針對每一個區間的 PM2.5 感測值，計算其標準差，並據以做為判斷感測值是否異常的門檻值標準，如下表所示。舉例來說，當原始數值為 10 (ug/m3) 時，倘若周圍感測器平均高於 <code>10+6.6</code> ，或低於 <code>10-6.6</code> ，我們便會認定該感測器的該筆感測值為異常事件。</p>
 <table>
 <thead>
 <tr>
@@ -539,7 +539,7 @@ device_id    datetime
              2022-10-15 00:20:00   36.0  16.750000             8    13.5    14
              2022-10-15 00:25:00   36.0  17.000000            11    13.5    14
 </code></pre><h3 id="非正常使用機器偵測模組-md-實作">非正常使用機器偵測模組 (MD) 實作</h3>
-<p>在接下來的範例中，我們實作 ADF 中的非正常使用機器偵測模組 (Malfulction Detection, MD)，其核心觀念為，倘若我們將某一個微型感測器的 PM2.5 數值與其周圍 3 公里內的其他感測器進行比較，如果其感測數值低於鄰近感測器的平均值 (<code>avg</code>) 減掉可接受的門檻值 (<code>PM_thr</code>)，則將該機器 ˋ視為裝設在室內的機器（標記為<code>indoor</code>）；如果其感測數值高於鄰近感測器的平均值 (<code>avg</code>) 加上可接受的門檻值 (<code>PM_thr</code>)，則將該機器視為裝設在污染源旁的機器（標記為<code>emission</code>）。為了避免因為參考的鄰近感測器數量不夠導致誤判，我們只採計鄰近區域存有多於 2 個其他感測器的案例。</p>
+<p>在接下來的範例中，我們實作 ADF 中的非正常使用機器偵測模組 (Malfunction Detection, MD)，其核心觀念為，倘若我們將某一個微型感測器的 PM2.5 數值與其周圍 3 公里內的其他感測器進行比較，如果其感測數值低於鄰近感測器的平均值 (<code>avg</code>) 減掉可接受的門檻值 (<code>PM_thr</code>)，則將該機器 ˋ視為裝設在室內的機器（標記為<code>indoor</code>）；如果其感測數值高於鄰近感測器的平均值 (<code>avg</code>) 加上可接受的門檻值 (<code>PM_thr</code>)，則將該機器視為裝設在污染源旁的機器（標記為<code>emission</code>）。為了避免因為參考的鄰近感測器數量不夠導致誤判，我們只採計鄰近區域存有多於 2 個其他感測器的案例。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>MINIMUM_NEIGHBORS <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>dfMean[<span style="color:#e6db74">&#34;indoor&#34;</span>] <span style="color:#f92672">=</span> ((dfMean[<span style="color:#e6db74">&#39;avg&#39;</span>] <span style="color:#f92672">-</span> dfMean[<span style="color:#e6db74">&#39;PM2.5&#39;</span>]) <span style="color:#f92672">&gt;</span> dfMean[<span style="color:#e6db74">&#39;PM_thr&#39;</span>]) <span style="color:#f92672">&amp;</span> (dfMean[<span style="color:#e6db74">&#39;neighbor_num&#39;</span>] <span style="color:#f92672">&gt;=</span> MINIMUM_NEIGHBORS)
@@ -787,12 +787,12 @@ device_id    datetime
         <script>
           var contentLangs=['zh'];
         </script>
-        <script src="/js/auto-complete.js?1669086019" defer></script>
-        <script src="/js/lunr.min.js?1669086019" defer></script>
-        <script src="/js/lunr.stemmer.support.min.js?1669086019" defer></script>
-        <script src="/js/lunr.multi.min.js?1669086019" defer></script>
-        <script src="/js/lunr.zh.min.js?1669086019" defer></script>
-        <script src="/js/search.js?1669086019" defer></script>
+        <script src="/js/auto-complete.js?1669092039" defer></script>
+        <script src="/js/lunr.min.js?1669092039" defer></script>
+        <script src="/js/lunr.stemmer.support.min.js?1669092039" defer></script>
+        <script src="/js/lunr.multi.min.js?1669092039" defer></script>
+        <script src="/js/lunr.zh.min.js?1669092039" defer></script>
+        <script src="/js/search.js?1669092039" defer></script>
       </div>
       <div id="content-wrapper" class="highlightable">
         <ul class="topics">
@@ -839,6 +839,7 @@ device_id    datetime
                 <span>&nbsp;</span>
                 <div class="select-style">
                   <select id="select-language" onchange="location = baseUri + this.value;">
+                    <option id="en" value="/en/ch6/ch6.2/">English</option>
                     <option id="zh-tw" value="/ch6/ch6.2/" selected>中文</option>
                   </select>
                 </div>
@@ -867,14 +868,14 @@ device_id    datetime
       </div>
     </aside>
 
-    <script src="/js/clipboard.min.js?1669086019" defer></script>
-    <script src="/js/perfect-scrollbar.min.js?1669086019" defer></script>
-    <script src="/js/featherlight.min.js?1669086019" defer></script>
-    <script src="/js/jquery.svg.pan.zoom.js?1669086019" defer></script>
-    <script src="/js/mermaid.min.js?1669086019" defer></script>
+    <script src="/js/clipboard.min.js?1669092039" defer></script>
+    <script src="/js/perfect-scrollbar.min.js?1669092039" defer></script>
+    <script src="/js/featherlight.min.js?1669092039" defer></script>
+    <script src="/js/jquery.svg.pan.zoom.js?1669092039" defer></script>
+    <script src="/js/mermaid.min.js?1669092039" defer></script>
     <script>
       window.themeUseMermaid = JSON.parse("{}");
     </script>
-    <script src="/js/theme.js?1669086019" defer></script>
+    <script src="/js/theme.js?1669092039" defer></script>
   </body>
 </html>

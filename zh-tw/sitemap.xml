@@ -191,6 +191,16 @@
   </url>
   <url>
     <loc>https://LearnCIOT.github.io/ch6/ch6.2/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://LearnCIOT.github.io/en/ch6/ch6.2/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-tw"
+                href="https://LearnCIOT.github.io/ch6/ch6.2/"
+                />
   </url>
   <url>
     <loc>https://LearnCIOT.github.io/ch7/ch7.2/</loc>
