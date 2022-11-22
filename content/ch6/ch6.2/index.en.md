@@ -63,7 +63,7 @@ In this case, we will use some of the micro air quality sensors deployed in Kaoh
 - Spatial range: latitude in the range of `22.631231 - 22.584989`, and longitude in the range of `120.263422 - 120.346764`
 - Temporal range: 2022.10.15 - 2022.10.28
 
-Note that you can go to the [Civil IoT Taiwan Data Service Platform](https://ci.taiwan.gov.tw/dsp/) to download the raw data of micro air quality sensors on campus. However, for simplicity, we pre-download the data and make it available as `[allLoc.csv](https://LearnCIOT.github.io/data/allLoc.csv)` for the examples described in this article.
+Note that you can go to the [Civil IoT Taiwan Data Service Platform](https://ci.taiwan.gov.tw/dsp/) to download the raw data of micro air quality sensors on campus. However, for simplicity, we pre-download the data and make it available as [allLoc.csv](https://LearnCIOT.github.io/data/allLoc.csv) for the examples described in this article.
 
 We first load the data file and preview the contents of the data:
 
