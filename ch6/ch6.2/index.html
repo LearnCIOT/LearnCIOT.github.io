@@ -16,18 +16,18 @@
     <meta name="author" content="Ling-Jyh Chen">
     <title>6.2. 異常資料偵測 :: Tutorial for CIoT Open Data Applications</title>
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="/css/fontawesome-all.min.css?1669043788" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1669043788" rel="stylesheet"></noscript>
-    <link href="/css/featherlight.min.css?1669043788" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1669043788" rel="stylesheet"></noscript>
-    <link href="/css/auto-complete.css?1669043788" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1669043788" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar.min.css?1669043788" rel="stylesheet">
-    <link href="/css/nucleus.css?1669043788" rel="stylesheet">
-    <link href="/css/fonts.css?1669043788" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1669043788" rel="stylesheet"></noscript>
-    <link href="/css/theme.css?1669043788" rel="stylesheet">
-    <link href="/css/theme-relearn-light.css?1669043788" rel="stylesheet" id="variant-style">
-    <link href="/css/ie.css?1669043788" rel="stylesheet">
-    <link href="/css/variant.css?1669043788" rel="stylesheet">
-    <link href="/css/print.css?1669043788" rel="stylesheet" media="print">
-    <script src="/js/variant.js?1669043788"></script>
+    <link href="/css/fontawesome-all.min.css?1669086019" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1669086019" rel="stylesheet"></noscript>
+    <link href="/css/featherlight.min.css?1669086019" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1669086019" rel="stylesheet"></noscript>
+    <link href="/css/auto-complete.css?1669086019" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1669086019" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar.min.css?1669086019" rel="stylesheet">
+    <link href="/css/nucleus.css?1669086019" rel="stylesheet">
+    <link href="/css/fonts.css?1669086019" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1669086019" rel="stylesheet"></noscript>
+    <link href="/css/theme.css?1669086019" rel="stylesheet">
+    <link href="/css/theme-relearn-light.css?1669086019" rel="stylesheet" id="variant-style">
+    <link href="/css/ie.css?1669086019" rel="stylesheet">
+    <link href="/css/variant.css?1669086019" rel="stylesheet">
+    <link href="/css/print.css?1669086019" rel="stylesheet" media="print">
+    <script src="/js/variant.js?1669086019"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -43,7 +43,7 @@
       var baseUriFull='https:\/\/LearnCIOT.github.io/';
       window.variants && variants.init( [ 'relearn-light' ] );
     </script>
-    <script src="/js/jquery.min.js?1669043788" defer></script>
+    <script src="/js/jquery.min.js?1669086019" defer></script>
 <meta property="fb:app_id" content="601826851395774" />
   </head>
   <body class="default-animation" data-url="/ch6/ch6.2/">
@@ -75,12 +75,41 @@
             <span id="sidebar-toggle-span">
               <a href="#" id="sidebar-toggle" title='導航'><i class="fas fa-bars fa-fw"></i></a>
             </span>
+            <span id="toc-menu" title='目錄'><i class="fas fa-list-alt fa-fw"></i></span>
             <ol class="links" itemscope itemtype="http://schema.org/BreadcrumbList">
               <meta itemprop="itemListOrder" content="Descending" />
               <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><meta itemprop="position" content="3" /><a itemprop="item" href="/"><span itemprop="name">民生公共物聯網資料應用</span></a> > </li>
               <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><meta itemprop="position" content="2" /><a itemprop="item" href="/ch6/"><span itemprop="name">6. 資料應用</span></a> > </li>
               <li itemscope itemtype="https://schema.org/ListItem" itemprop="itemListElement"><meta itemprop="position" content="1" /><a itemprop="item" href="/ch6/ch6.2/" aria-disabled="true"><span itemprop="name">6.2. 異常資料偵測</span></a></li>
             </ol>
+          </div>
+          <div class="default-animation progress">
+            <div class="wrapper">
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#異常檢測框架">異常檢測框架</a>
+      <ul>
+        <li><a href="#異常事件種類">異常事件種類</a></li>
+        <li><a href="#異常事件可能原因">異常事件可能原因</a></li>
+      </ul>
+    </li>
+    <li><a href="#實際案例演練">實際案例演練</a>
+      <ul>
+        <li><a href="#套件安裝與引用">套件安裝與引用</a></li>
+        <li><a href="#讀取資料與環境設定">讀取資料與環境設定</a></li>
+        <li><a href="#尋找鄰近的感測器">尋找鄰近的感測器</a></li>
+        <li><a href="#每五分鐘進行感測資料的時間切片">每五分鐘進行感測資料的時間切片</a></li>
+        <li><a href="#以時間切片為單位計算鄰居感測器的平均感測值">以時間切片為單位計算鄰居感測器的平均感測值</a></li>
+        <li><a href="#判斷異常事件的門檻值">判斷異常事件的門檻值</a></li>
+        <li><a href="#非正常使用機器偵測模組-md-實作">非正常使用機器偵測模組 (MD) 實作</a></li>
+        <li><a href="#即時污染偵測模組-red-實作">即時污染偵測模組 (RED) 實作</a></li>
+        <li><a href="#感測器可靠度評估模組-dr-實作">感測器可靠度評估模組 (DR) 實作</a></li>
+      </ul>
+    </li>
+    <li><a href="#參考資料">參考資料</a></li>
+  </ul>
+</nav>
+            </div>
           </div>
         </div>
       </nav>
@@ -257,6 +286,414 @@ if (!doNotTrack) {
           <article class="default">
 <h1>6.2. 異常資料偵測</h1>
 
+<p><a href="https://colab.research.google.com/drive/1cmvIQZKf70_qtejzE0h4SBTv-o7-uMjg?usp=sharing"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a></p>
+<div>
+    <h2>Table Of Contents</h2>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#異常檢測框架">異常檢測框架</a>
+      <ul>
+        <li><a href="#異常事件種類">異常事件種類</a></li>
+        <li><a href="#異常事件可能原因">異常事件可能原因</a></li>
+      </ul>
+    </li>
+    <li><a href="#實際案例演練">實際案例演練</a>
+      <ul>
+        <li><a href="#套件安裝與引用">套件安裝與引用</a></li>
+        <li><a href="#讀取資料與環境設定">讀取資料與環境設定</a></li>
+        <li><a href="#尋找鄰近的感測器">尋找鄰近的感測器</a></li>
+        <li><a href="#每五分鐘進行感測資料的時間切片">每五分鐘進行感測資料的時間切片</a></li>
+        <li><a href="#以時間切片為單位計算鄰居感測器的平均感測值">以時間切片為單位計算鄰居感測器的平均感測值</a></li>
+        <li><a href="#判斷異常事件的門檻值">判斷異常事件的門檻值</a></li>
+        <li><a href="#非正常使用機器偵測模組-md-實作">非正常使用機器偵測模組 (MD) 實作</a></li>
+        <li><a href="#即時污染偵測模組-red-實作">即時污染偵測模組 (RED) 實作</a></li>
+        <li><a href="#感測器可靠度評估模組-dr-實作">感測器可靠度評估模組 (DR) 實作</a></li>
+      </ul>
+    </li>
+    <li><a href="#參考資料">參考資料</a></li>
+  </ul>
+</nav>
+</div>
+
+<h2 id="異常檢測框架">異常檢測框架</h2>
+<p>目前已有多個大規模微型空品監測系統成功部署於不同的國家與城市之中，然而這些微型感測器的主要挑戰之一為如何確保數據品質，並且能即時偵測出可能的異常現象。在台灣的中央研究院資訊科學研究所網路實驗室研究團隊，於2018年提出了一種可用於實際環境中的異常檢測框架，稱之為 <a href="https://ieeexplore.ieee.org/document/8081731">Anomaly Detection Framework</a> (ADF)。</p>
+<p>此異常檢測框架由四個模組所組成：</p>
+<ol>
+<li>時間片斷異常偵測 (Time-Sliced Anomaly Detection, TSAD)：可即時偵測感測器於空間或時間上的異常數據，並將結果輸出給其他模組進行進一步分析。</li>
+<li>即時污染偵測模組 (Real-time Emission Detection, RED)：可透過 TSAD 的偵測結果，即時檢測潛在的區域性污染事件。</li>
+<li>感測器可靠度評估模組 (Device Ranking, DR)：可累積 TSAD 的偵測結果，並據以評估每個微型感測器設備的可靠度</li>
+<li>非正常使用機器偵測模組 (Malfunction Detection, MD)：可累積 TSAD 的偵測結果，透過數據分析判別可能為非正常使用的微型感測器，例如安裝在室內的機器、安置在持續性污染源旁邊的機器等。</li>
+</ol>
+<p><img src="figures/6-2-1-1.png" alt="ADF Framework"></p>
+<h3 id="異常事件種類">異常事件種類</h3>
+<p>在 ADF 框架中，TSAD 模組在微型感測器每次收到新的感測資料後，便會進行時間類或空間類的異常事件判斷，我們已微型空品感測器為例，進行說明：</p>
+<ul>
+<li>時間類異常事件：我們假設空氣的擴散是均勻緩慢的，因此同一台微型空品感測器在短時間內的數值變化應極為平緩，如果有某台微型空品感測器的感測數值在短時間內出現劇烈的變化，代表在時間維度上可能出現異常事件。</li>
+<li>空間類異常事件：我們可以假設戶外的空氣在地理空間上是會均勻擴散的，因此微型空品感測器的感測數值，理應與周圍鄰近的感測器相似，如果有某台微型空品感測器的感測數值，與同時間鄰近區域的微型空品感測器的感測數值出現極大的差異，代表該感測器所處的空間可能出現異常事件。</li>
+</ul>
+<h3 id="異常事件可能原因">異常事件可能原因</h3>
+<p>以上所述的異常事件有許多可能的原因，常見的原因有：</p>
+<ul>
+<li>安裝環境異常：感測器被安裝於特定環境，因此無法呈現整體環境現象，例如安裝於廟宇旁、燒烤店內或其他室內不通風的地點。</li>
+<li>機器故障或安裝錯誤：例如感測器安裝時將取風口的方向弄錯，或者感測器的風扇積垢導致運轉不順暢。</li>
+<li>出現臨時污染源：例如感測器旁邊剛好有人在抽菸、發生火災或排放污染物質。</li>
+</ul>
+<h2 id="實際案例演練">實際案例演練</h2>
+<p>在這篇文章中，我們將以民生公共物聯網中的空品資料為例，使用部分佈建於高雄市的校園微型空品感測器來進行分析，並且介紹如何使用 ADF 檢測框架來找出其中可能為室內機器或位於污染源附近的機器，藉此過濾出可信度相對較低的機器們，進而提高整體空品感測結果的可信度。</p>
+<h3 id="套件安裝與引用">套件安裝與引用</h3>
+<p>在這個案例中，我們將會使用到 pandas, numpy, plotly 和 geopy 等套件，這些套件在我們使用的開發平台 Google Colab 上已有預先提供，因此我們不需要另行安裝，可以直接用下列的方法引用，以備之後資料處理與分析使用。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> pandas <span style="color:#66d9ef">as</span> pd
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> plotly.express <span style="color:#66d9ef">as</span> px
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> geopy.distance <span style="color:#f92672">import</span> geodesic
+</span></span></code></pre></div><h3 id="讀取資料與環境設定">讀取資料與環境設定</h3>
+<p>在這個案例中，我們將使用部分民生公共物聯網佈建於高雄的校園微型空品感測器來進行分析，我們所設定的時間和空間範圍如下：</p>
+<ul>
+<li>地理區域：緯度: <code>22.631231 - 22.584989</code>, 經度: <code>120.263422 - 120.346764</code></li>
+<li>時間區間：2022.10.15 - 2022.10.28</li>
+</ul>
+<p>註：校園微型空品感測器的原始資料請至 <a href="https://ci.taiwan.gov.tw/dsp/">民生公共物聯網-資料服務平台</a>下載，為了方便讀者可以重現這個範例的內容和結果，我們先把所有使用到的資料整理成 <code>allLoc.csv</code> 檔案，做為接下來資料分析的依據。</p>
+<p>我們首先載入資料檔案，並預覽資料的內容：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>DF <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(<span style="color:#e6db74">&#34;https://LearnCIOT.github.io/data/allLoc.csv&#34;</span>)
+</span></span><span style="display:flex;"><span>DF<span style="color:#f92672">.</span>head()
+</span></span></code></pre></div><p><img src="figures/6-2-2-1.png" alt="Python output"></p>
+<p>接著我們擷取資料檔中每個感測器的 GPS 地理位置座標，由於這些感測器的 GPS 座標都不會改變，我們使用比較特別的方式，將資料檔中每個感測器的經度和緯度資料各自取平均值，做為該感測器的地理位置座標。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>dfId <span style="color:#f92672">=</span> DF[[<span style="color:#e6db74">&#34;device_id&#34;</span>,<span style="color:#e6db74">&#34;lon&#34;</span>,<span style="color:#e6db74">&#34;lat&#34;</span>]]<span style="color:#f92672">.</span>groupby(<span style="color:#e6db74">&#34;device_id&#34;</span>)<span style="color:#f92672">.</span>mean()<span style="color:#f92672">.</span>reset_index()
+</span></span><span style="display:flex;"><span>print(dfId<span style="color:#f92672">.</span>head())
+</span></span></code></pre></div><pre tabindex="0"><code>      device_id      lon     lat
+0  74DA38F207DE  120.340  22.603
+1  74DA38F20A10  120.311  22.631
+2  74DA38F20B20  120.304  22.626
+3  74DA38F20B80  120.350  22.599
+4  74DA38F20BB6  120.324  22.600
+</code></pre><p>為了大致了解資料檔內感測器的地理位置分布，我們將感測器的位置繪製在地圖上。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>fig_map <span style="color:#f92672">=</span> px<span style="color:#f92672">.</span>scatter_mapbox(dfId, lat<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;lat&#34;</span>, lon<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;lon&#34;</span>,
+</span></span><span style="display:flex;"><span>                  color_continuous_scale<span style="color:#f92672">=</span>px<span style="color:#f92672">.</span>colors<span style="color:#f92672">.</span>cyclical<span style="color:#f92672">.</span>IceFire, zoom<span style="color:#f92672">=</span><span style="color:#ae81ff">9</span>,
+</span></span><span style="display:flex;"><span>                  mapbox_style<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;carto-positron&#34;</span>)
+</span></span><span style="display:flex;"><span>fig_map<span style="color:#f92672">.</span>show()
+</span></span></code></pre></div><p><img src="figures/6-2-2-2.png" alt="Python output"></p>
+<h3 id="尋找鄰近的感測器">尋找鄰近的感測器</h3>
+<p>由於我們所使用的校園微型空氣品質感測器都是固定安裝在校園內，其 GPS 地理位置座標並不會改變，為了節省之後資料分析的運算時間，我們先統一將每個感測器的「鄰居」清單計算出來。在我們的案例中，我們定義如果兩個微型感測器的相互距離小於等於 3 公里，那麼這兩個感測器變互為鄰居關係。</p>
+<p>我們首先撰寫一個小函式 <code>countDis</code>，可以針對輸入的兩個 GPS 地理座標位置，計算兩者之間的實體公里距離。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">countDis</span>(deviceA, deviceB):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> geodesic((deviceA[<span style="color:#e6db74">&#34;lat&#34;</span>], deviceB[<span style="color:#e6db74">&#39;lon&#39;</span>]), (deviceB[<span style="color:#e6db74">&#34;lat&#34;</span>], deviceB[<span style="color:#e6db74">&#39;lon&#39;</span>]))<span style="color:#f92672">.</span>km
+</span></span></code></pre></div><p>接著我們將原有資料的感測器列表從 DataFrame 資料型態，轉化成 Dictionary 資料型態，並且計算所有任意兩個感測器間的距離，只要兩者間的距離小於 3km，便將彼此存入對方的鄰居感測器列表 <code>dicNeighbor</code> 中。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># set the maximum distance of two neighbors</span>
+</span></span><span style="display:flex;"><span>DISTENCE <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## convert Dataframe -&gt; Dictionary</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># {iD: {&#39;lon&#39;: 0.0, &#39;lat&#39;: 0.0}, ...}</span>
+</span></span><span style="display:flex;"><span>dictId <span style="color:#f92672">=</span> dfId<span style="color:#f92672">.</span>set_index(<span style="color:#e6db74">&#34;device_id&#34;</span>)<span style="color:#f92672">.</span>to_dict(<span style="color:#e6db74">&#34;index&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## obtain the list of sensor device_id</span>
+</span></span><span style="display:flex;"><span>listId <span style="color:#f92672">=</span> dfId[<span style="color:#e6db74">&#34;device_id&#34;</span>]<span style="color:#f92672">.</span>to_list()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## initialize dicNeighbor</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># {iD: []}</span>
+</span></span><span style="display:flex;"><span>dicNeighbor <span style="color:#f92672">=</span> {iD: [] <span style="color:#66d9ef">for</span> iD <span style="color:#f92672">in</span> listId}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## use countDis to calculate distance of every two sensors</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># The two sensors are deem to be neighbors of each other if their distance is less than 3km</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Time complexity: N!</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> range(len(listId)):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> y <span style="color:#f92672">in</span> range(x<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, len(listId)):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> ( countDis( dictId[listId[x]], dictId[listId[y]]) <span style="color:#f92672">&lt;</span> DISTENCE ):
+</span></span><span style="display:flex;"><span>            dicNeighbor[listId[x]]<span style="color:#f92672">.</span>append( listId[y] )
+</span></span><span style="display:flex;"><span>            dicNeighbor[listId[y]]<span style="color:#f92672">.</span>append( listId[x] )
+</span></span></code></pre></div><h3 id="每五分鐘進行感測資料的時間切片">每五分鐘進行感測資料的時間切片</h3>
+<p>由於原始資料中每個感測器的感測資料在時間上並未同步，在 ADF 框架中提出將感測資料以每單位時間為間隔，獲取整體感測結果的時間切片 (time slice)。我們首先將原始資料中的 <code>date</code> 和 <code>time</code> 兩個欄位進行整併，並以 Python 語言中的 datetime 時間資料型態，儲存形成 <code>datetime</code> 新欄位，接著再將原有的 <code>date</code>、<code>time</code>、<code>RH</code>、<code>temperature</code>、<code>lat</code>、<code>lon</code> 等不需要的欄位刪除。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># combine the &#39;date&#39; and &#39;time&#39; columns to a new column &#39;datetime&#39;</span>
+</span></span><span style="display:flex;"><span>DF[<span style="color:#e6db74">&#34;datetime&#34;</span>] <span style="color:#f92672">=</span> DF[<span style="color:#e6db74">&#34;date&#34;</span>] <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; &#34;</span> <span style="color:#f92672">+</span> DF[<span style="color:#e6db74">&#34;time&#34;</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># remove some non-necessary columns</span>
+</span></span><span style="display:flex;"><span>DF<span style="color:#f92672">.</span>drop(columns<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#34;date&#34;</span>,<span style="color:#e6db74">&#34;time&#34;</span>, <span style="color:#e6db74">&#34;RH&#34;</span>,<span style="color:#e6db74">&#34;temperature&#34;</span>,<span style="color:#e6db74">&#34;lat&#34;</span>,<span style="color:#e6db74">&#34;lon&#34;</span>], inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># convert the new &#39;datetime&#39; column to datetime data type</span>
+</span></span><span style="display:flex;"><span>DF[<span style="color:#e6db74">&#39;datetime&#39;</span>] <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>to_datetime(DF<span style="color:#f92672">.</span>datetime)
+</span></span></code></pre></div><p>由於我們所處理的校園微型空氣品質感測器的資料頻率約為 5 分鐘，因此我們將時間切片的單位時間 <code>FREQ</code> 也設為 5 分鐘，並計算每五分鐘內，每個感測器所回傳的感測值的平均值。為了確保資料正確性，我們也多做了一道檢查，將 PM2.5 感測值為負數的資料予以刪除。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>FREQ <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;5min&#39;</span>
+</span></span><span style="display:flex;"><span>dfMean <span style="color:#f92672">=</span> DF<span style="color:#f92672">.</span>groupby([<span style="color:#e6db74">&#39;device_id&#39;</span>, pd<span style="color:#f92672">.</span>Grouper(key <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;datetime&#39;</span>, freq <span style="color:#f92672">=</span> FREQ)])<span style="color:#f92672">.</span>agg(<span style="color:#e6db74">&#39;mean&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># remove invalid records (i.e., PM2.5 &lt; 0)</span>
+</span></span><span style="display:flex;"><span>dfMean <span style="color:#f92672">=</span> dfMean[ dfMean[<span style="color:#e6db74">&#39;PM2.5&#39;</span>] <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> ]
+</span></span><span style="display:flex;"><span>print(dfMean<span style="color:#f92672">.</span>head())
+</span></span></code></pre></div><pre tabindex="0"><code>                                  PM2.5
+device_id    datetime                  
+74DA38F207DE 2022-10-15 00:00:00   38.0
+             2022-10-15 00:05:00   37.0
+             2022-10-15 00:10:00   37.0
+             2022-10-15 00:20:00   36.0
+             2022-10-15 00:25:00   36.0
+</code></pre><h3 id="以時間切片為單位計算鄰居感測器的平均感測值">以時間切片為單位計算鄰居感測器的平均感測值</h3>
+<p>為了計算在特定時間切片上，特定感測器的鄰居感測器的平均感測值，我們撰寫 <code>cal_mean</code> 函式，可以根據輸入的特定感測器代碼 <code>iD</code> 與時間戳記 <code>dt</code>，回傳該感測器的鄰居感測器數量與平均感測值。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">cal_mean</span>(iD, dt):
+</span></span><span style="display:flex;"><span>  neighborPM25 <span style="color:#f92672">=</span> dfMean[ 
+</span></span><span style="display:flex;"><span>              (dfMean<span style="color:#f92672">.</span>index<span style="color:#f92672">.</span>get_level_values(<span style="color:#e6db74">&#39;datetime&#39;</span>) <span style="color:#f92672">==</span> dt) 
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">&amp;</span> (dfMean<span style="color:#f92672">.</span>index<span style="color:#f92672">.</span>get_level_values(<span style="color:#ae81ff">0</span>)<span style="color:#f92672">.</span>isin(dicNeighbor[iD])) 
+</span></span><span style="display:flex;"><span>              ][<span style="color:#e6db74">&#34;PM2.5&#34;</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  avg <span style="color:#f92672">=</span> neighborPM25<span style="color:#f92672">.</span>mean()
+</span></span><span style="display:flex;"><span>  neighbor_num <span style="color:#f92672">=</span> neighborPM25<span style="color:#f92672">.</span>count()
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> avg, neighbor_num
+</span></span></code></pre></div><p>接著我們針對 dfMean 中每台感測器的每個時間戳記，計算其鄰居感測器的數量與平均感測值，並分別存入 <code>avg</code> 與 <code>neighbor_num</code> 兩個新欄位中。比較特別的是，這邊我們使用 zip 和 apply 的語法，可以將 DataFrame 的數值帶入函式當中進行運算，其中：</p>
+<ol>
+<li>我們使用 <code>zip</code> 的語法，用於打包 <code>apply_func</code> 所回傳的兩個參數值。</li>
+<li>我們使用 <code>apply</code> 的語法，以配合 DataFrame 的規則，接收 <code>apply_func</code> 的回傳值。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">apply_func</span>(x):
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> cal_mean(x<span style="color:#f92672">.</span>name[<span style="color:#ae81ff">0</span>], x<span style="color:#f92672">.</span>name[<span style="color:#ae81ff">1</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>dfMean[<span style="color:#e6db74">&#39;avg&#39;</span>], dfMean[<span style="color:#e6db74">&#39;neighbor_num&#39;</span>] <span style="color:#f92672">=</span> zip(<span style="color:#f92672">*</span>dfMean<span style="color:#f92672">.</span>apply(apply_func, axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>))
+</span></span><span style="display:flex;"><span>print(dfMean<span style="color:#f92672">.</span>head())
+</span></span></code></pre></div><pre tabindex="0"><code>                                  PM2.5        avg  neighbor_num
+device_id    datetime                                           
+74DA38F207DE 2022-10-15 00:00:00   38.0  13.400000            10
+             2022-10-15 00:05:00   37.0  19.888889             9
+             2022-10-15 00:10:00   37.0  16.500000            12
+             2022-10-15 00:20:00   36.0  16.750000             8
+             2022-10-15 00:25:00   36.0  17.000000            11
+</code></pre><h3 id="判斷異常事件的門檻值">判斷異常事件的門檻值</h3>
+<p>我們透過觀察發現，所謂的「異常事件」指的是感測器的感測值，與我們心中認定的合理值有過大的差距，這個合理值有可能是鄰近的感測器感測值（空間類異常），也有可能是同一個感測器的前一筆感測值（時間類異常），或者是根據其他資訊來源的合理推估值。同時，我們也發現所謂的「過大的差距」，其實是一個很模糊的說法，其具體數值隨感測值的大小，亦有極大的不同。</p>
+<p>因此，我們首先根據現有 <code>dfMean[’avg']</code> 的分布狀況，切分為 9 個區間，並且針對每一個區間的 PM2.5 感測值，計算其標準差，並據以做為判斷感測值是否異常的門檻值標準，如下表所示。舉例來說，當原始數值為 10 (ug/m3) 時，倘若周圍感測器平均高於 <code>10+6.6</code> ，或低於 <code>10+6.6</code> ，我們便會認定該感測器的該筆感測值為異常事件。</p>
+<table>
+<thead>
+<tr>
+<th>原始數值 (ug/m3)</th>
+<th>門檻值標準</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0-11</td>
+<td>6.6</td>
+</tr>
+<tr>
+<td>12-23</td>
+<td>6.6</td>
+</tr>
+<tr>
+<td>24-35</td>
+<td>9.35</td>
+</tr>
+<tr>
+<td>36-41</td>
+<td>13.5</td>
+</tr>
+<tr>
+<td>42-47</td>
+<td>17.0</td>
+</tr>
+<tr>
+<td>48-58</td>
+<td>23.0</td>
+</tr>
+<tr>
+<td>59-64</td>
+<td>27.5</td>
+</tr>
+<tr>
+<td>65-70</td>
+<td>33.5</td>
+</tr>
+<tr>
+<td>71+</td>
+<td>91.5</td>
+</tr>
+</tbody>
+</table>
+<p>根據這個對照表，我們撰寫下列的函示 <code>THRESHOLD</code>，根據輸入的感測數值，回傳對應的門檻值，並將此門檻值存入 <code>dfMEAN</code> 的新欄位 <code>PM_thr</code> 中。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">THRESHOLD</span>(value):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> value<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">12</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">6.6</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> value<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">24</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">6.6</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> value<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">36</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">9.35</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> value<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">42</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">13.5</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> value<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">48</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">17.0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> value<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">54</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">23.0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> value<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">59</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">27.5</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> value<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">65</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">33.5</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> value<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">71</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">40.5</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">91.5</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>dfMean[<span style="color:#e6db74">&#39;PM_thr&#39;</span>] <span style="color:#f92672">=</span> dfMean[<span style="color:#e6db74">&#39;PM2.5&#39;</span>]<span style="color:#f92672">.</span>apply(THRESHOLD)
+</span></span></code></pre></div><p>由於原始資料的最後一筆紀錄的時間是 2022-10-28 23:45，因此我們將資料判斷的時間設為 2022-10-29 日，並將原始資料中每一筆紀錄與資料判斷時間的差距，存入 <code>dfMEAN</code> 的新欄位 <code>days</code> 中。接著我們先預覽一下目前 <code>dfMEAN</code> 資料表的狀況。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>TARGET_DATE <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;2022-10-29&#34;</span>
+</span></span><span style="display:flex;"><span>dfMean <span style="color:#f92672">=</span> dfMean<span style="color:#f92672">.</span>assign(days <span style="color:#f92672">=</span> <span style="color:#66d9ef">lambda</span> x: ( (pd<span style="color:#f92672">.</span>to_datetime(TARGET_DATE <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; 23:59:59&#34;</span>) <span style="color:#f92672">-</span> x<span style="color:#f92672">.</span>index<span style="color:#f92672">.</span>get_level_values(<span style="color:#e6db74">&#39;datetime&#39;</span>))<span style="color:#f92672">.</span>days ) )
+</span></span><span style="display:flex;"><span>print(dfMean<span style="color:#f92672">.</span>head())
+</span></span></code></pre></div><pre tabindex="0"><code>                                  PM2.5        avg  neighbor_num  PM_thr  days
+device_id    datetime                                                         
+74DA38F207DE 2022-10-15 00:00:00   38.0  13.400000            10    13.5    14
+             2022-10-15 00:05:00   37.0  19.888889             9    13.5    14
+             2022-10-15 00:10:00   37.0  16.500000            12    13.5    14
+             2022-10-15 00:20:00   36.0  16.750000             8    13.5    14
+             2022-10-15 00:25:00   36.0  17.000000            11    13.5    14
+</code></pre><h3 id="非正常使用機器偵測模組-md-實作">非正常使用機器偵測模組 (MD) 實作</h3>
+<p>在接下來的範例中，我們實作 ADF 中的非正常使用機器偵測模組 (Malfulction Detection, MD)，其核心觀念為，倘若我們將某一個微型感測器的 PM2.5 數值與其周圍 3 公里內的其他感測器進行比較，如果其感測數值低於鄰近感測器的平均值 (<code>avg</code>) 減掉可接受的門檻值 (<code>PM_thr</code>)，則將該機器 ˋ視為裝設在室內的機器（標記為<code>indoor</code>）；如果其感測數值高於鄰近感測器的平均值 (<code>avg</code>) 加上可接受的門檻值 (<code>PM_thr</code>)，則將該機器視為裝設在污染源旁的機器（標記為<code>emission</code>）。為了避免因為參考的鄰近感測器數量不夠導致誤判，我們只採計鄰近區域存有多於 2 個其他感測器的案例。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>MINIMUM_NEIGHBORS <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>dfMean[<span style="color:#e6db74">&#34;indoor&#34;</span>] <span style="color:#f92672">=</span> ((dfMean[<span style="color:#e6db74">&#39;avg&#39;</span>] <span style="color:#f92672">-</span> dfMean[<span style="color:#e6db74">&#39;PM2.5&#39;</span>]) <span style="color:#f92672">&gt;</span> dfMean[<span style="color:#e6db74">&#39;PM_thr&#39;</span>]) <span style="color:#f92672">&amp;</span> (dfMean[<span style="color:#e6db74">&#39;neighbor_num&#39;</span>] <span style="color:#f92672">&gt;=</span> MINIMUM_NEIGHBORS)
+</span></span><span style="display:flex;"><span>dfMean[<span style="color:#e6db74">&#34;emission&#34;</span>] <span style="color:#f92672">=</span> ((dfMean[<span style="color:#e6db74">&#39;PM2.5&#39;</span>] <span style="color:#f92672">-</span> dfMean[<span style="color:#e6db74">&#39;avg&#39;</span>]) <span style="color:#f92672">&gt;</span> dfMean[<span style="color:#e6db74">&#39;PM_thr&#39;</span>]) <span style="color:#f92672">&amp;</span> (dfMean[<span style="color:#e6db74">&#39;neighbor_num&#39;</span>] <span style="color:#f92672">&gt;=</span> MINIMUM_NEIGHBORS)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>dfMean
+</span></span></code></pre></div><p><img src="figures/6-2-2-3.png" alt="Python output"></p>
+<p>由於每日的空氣品質狀況不同，對於 <code>indoor</code> 和 <code>emission</code> 的判斷結果也會產生不同程度的影響，為了獲得更有說服力的判斷結果，我們考慮過去 1 天、7 天、 14 天等三個時間長度，分別計算在不同時間長度下，同一個感測器被判斷為 <code>indoor</code> 或 <code>emission</code> 的比例。同時，為了避免外在環境導致的誤判影響最後的判斷結果，我們強制修改計算出來的結果，將比例小於 1/3 的數值，強制改為 0。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># initialize</span>
+</span></span><span style="display:flex;"><span>dictIndoor <span style="color:#f92672">=</span> {iD: [] <span style="color:#66d9ef">for</span> iD <span style="color:#f92672">in</span> listId}
+</span></span><span style="display:flex;"><span>dictEmission <span style="color:#f92672">=</span> {iD: [] <span style="color:#66d9ef">for</span> iD <span style="color:#f92672">in</span> listId}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> iD <span style="color:#f92672">in</span> listId:
+</span></span><span style="display:flex;"><span>    dfId <span style="color:#f92672">=</span> dfMean<span style="color:#f92672">.</span>loc[iD]
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> day <span style="color:#f92672">in</span> [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">7</span>, <span style="color:#ae81ff">14</span>]:
+</span></span><span style="display:flex;"><span>        indoor <span style="color:#f92672">=</span> (dfId[ dfId[<span style="color:#e6db74">&#39;days&#39;</span>] <span style="color:#f92672">&lt;=</span> day][<span style="color:#e6db74">&#39;indoor&#39;</span>]<span style="color:#f92672">.</span>sum() <span style="color:#f92672">/</span> len(dfId[ dfId[<span style="color:#e6db74">&#39;days&#39;</span>] <span style="color:#f92672">&lt;=</span> day]))<span style="color:#f92672">.</span>round(<span style="color:#ae81ff">3</span>)
+</span></span><span style="display:flex;"><span>        dictIndoor[iD]<span style="color:#f92672">.</span>append( 
+</span></span><span style="display:flex;"><span>            indoor <span style="color:#66d9ef">if</span> indoor <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0.333</span> <span style="color:#66d9ef">else</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>        )
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        emission <span style="color:#f92672">=</span> (dfId[ dfId[<span style="color:#e6db74">&#39;days&#39;</span>] <span style="color:#f92672">&lt;=</span> day][<span style="color:#e6db74">&#39;emission&#39;</span>]<span style="color:#f92672">.</span>sum() <span style="color:#f92672">/</span> len(dfId[ dfId[<span style="color:#e6db74">&#39;days&#39;</span>] <span style="color:#f92672">&lt;=</span> day]))<span style="color:#f92672">.</span>round(<span style="color:#ae81ff">3</span>)
+</span></span><span style="display:flex;"><span>        dictEmission[iD]<span style="color:#f92672">.</span>append(
+</span></span><span style="display:flex;"><span>            emission <span style="color:#66d9ef">if</span> emission <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0.333</span> <span style="color:#66d9ef">else</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>        )
+</span></span></code></pre></div><p>我們接著分別列印出 <code>dictIndoor</code> 和 <code>dictEmission</code> 的內容，觀察判斷出來的結果。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>dictIndoor
+</span></span></code></pre></div><pre tabindex="0"><code>{&#39;74DA38F207DE&#39;: [0, 0, 0],
+ &#39;74DA38F20A10&#39;: [0, 0, 0],
+ &#39;74DA38F20B20&#39;: [0.995, 0.86, 0.816],
+ &#39;74DA38F20B80&#39;: [0.995, 0.872, 0.867],
+ &#39;74DA38F20BB6&#39;: [0, 0, 0],
+ &#39;74DA38F20C16&#39;: [0.989, 0.535, 0],
+ &#39;74DA38F20D7C&#39;: [0, 0, 0],
+ &#39;74DA38F20D8A&#39;: [0, 0, 0],
+ &#39;74DA38F20DCE&#39;: [0, 0, 0],
+ &#39;74DA38F20DD0&#39;: [0.984, 0.871, 0.865],
+ &#39;74DA38F20DD8&#39;: [0, 0.368, 0.369],
+ &#39;74DA38F20DDC&#39;: [0, 0, 0],
+ &#39;74DA38F20DE0&#39;: [0, 0, 0],
+ &#39;74DA38F20DE2&#39;: [0, 0, 0],
+ &#39;74DA38F20E0E&#39;: [0, 0, 0],
+ &#39;74DA38F20E42&#39;: [0.99, 0.866, 0.87],
+ &#39;74DA38F20E44&#39;: [0, 0, 0],
+ &#39;74DA38F20F0C&#39;: [0.979, 0.872, 0.876],
+ &#39;74DA38F20F2C&#39;: [0, 0, 0],
+ &#39;74DA38F210FE&#39;: [0.99, 0.847, 0.864]}
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>dictEmission
+</span></span></code></pre></div><pre tabindex="0"><code>{&#39;74DA38F207DE&#39;: [0.92, 0.737, 0.735],
+ &#39;74DA38F20A10&#39;: [0, 0, 0],
+ &#39;74DA38F20B20&#39;: [0, 0, 0],
+ &#39;74DA38F20B80&#39;: [0, 0, 0],
+ &#39;74DA38F20BB6&#39;: [0.492, 0.339, 0],
+ &#39;74DA38F20C16&#39;: [0, 0, 0],
+ &#39;74DA38F20D7C&#39;: [0.553, 0.342, 0.337],
+ &#39;74DA38F20D8A&#39;: [0.672, 0.457, 0.388],
+ &#39;74DA38F20DCE&#39;: [0.786, 0.556, 0.516],
+ &#39;74DA38F20DD0&#39;: [0, 0, 0],
+ &#39;74DA38F20DD8&#39;: [0, 0, 0],
+ &#39;74DA38F20DDC&#39;: [0.345, 0, 0],
+ &#39;74DA38F20DE0&#39;: [0.601, 0.503, 0.492],
+ &#39;74DA38F20DE2&#39;: [0, 0, 0],
+ &#39;74DA38F20E0E&#39;: [0.938, 0.75, 0.75],
+ &#39;74DA38F20E42&#39;: [0, 0, 0],
+ &#39;74DA38F20E44&#39;: [0.938, 0.69, 0.6],
+ &#39;74DA38F20F0C&#39;: [0, 0, 0],
+ &#39;74DA38F20F2C&#39;: [0.744, 0.575, 0.544],
+ &#39;74DA38F210FE&#39;: [0, 0, 0]}
+</code></pre><p>由上述的結果可以發現，對於 indoor 和 emission 的判斷結果，隨著參考的過往時間長短，存在不小的差異，由於不同過往時間的長度代表不同的參考意義，因此我們使用權重的方式，給予 1 天參考時間 <code>A</code> 的權重，給予 7 天參考時間 <code>B</code> 的權重，最後給予 14 天參考時間 <code>1-A-B</code> 的權重。</p>
+<p>同時，我們考量在一天參考時間內的工作時間約為 24 小時中的 8 小時，七天參考時間內的工作時間約為 168 小時中的 40 小時，14 天參考時間內的工作時間約為 336 小時中的 80 小時，因此若一個感測器被判斷為 <code>indoor</code> 或 <code>emission</code> 類型，其在 MD 中所佔的加權比重應大於等於 <code>MD_thresh</code>，且</p>
+<p><code>MD_thresh</code> = (8.0/24.0)*A+(40.0/168.0)B+(80.0/336.0)(1-A-B)</p>
+<p>在我們的範例中，我們假定 <code>A=0.2</code>，<code>B=0.3</code>，因此我們可以透過下列的程式獲得加權判斷後的 <code>indoor</code> 和 <code>emission</code> 類別感測器清單。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>A<span style="color:#f92672">=</span><span style="color:#ae81ff">0.2</span>
+</span></span><span style="display:flex;"><span>B<span style="color:#f92672">=</span><span style="color:#ae81ff">0.3</span>
+</span></span><span style="display:flex;"><span>MD_thresh<span style="color:#f92672">=</span>(<span style="color:#ae81ff">8.0</span><span style="color:#f92672">/</span><span style="color:#ae81ff">24.0</span>)<span style="color:#f92672">*</span>A<span style="color:#f92672">+</span>(<span style="color:#ae81ff">40.0</span><span style="color:#f92672">/</span><span style="color:#ae81ff">168.0</span>)<span style="color:#f92672">*</span>B<span style="color:#f92672">+</span>(<span style="color:#ae81ff">80.0</span><span style="color:#f92672">/</span><span style="color:#ae81ff">336.0</span>)<span style="color:#f92672">*</span>(<span style="color:#ae81ff">1</span><span style="color:#f92672">-</span>A<span style="color:#f92672">-</span>B)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>listIndoorDevice <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>listEmissionDevice <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> iD <span style="color:#f92672">in</span> listId:
+</span></span><span style="display:flex;"><span>    rate1 <span style="color:#f92672">=</span> A<span style="color:#f92672">*</span>dictIndoor[iD][<span style="color:#ae81ff">0</span>] <span style="color:#f92672">+</span> B<span style="color:#f92672">*</span>dictIndoor[iD][<span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">-</span>A<span style="color:#f92672">-</span>B)<span style="color:#f92672">*</span>dictIndoor[iD][<span style="color:#ae81ff">2</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> rate1 <span style="color:#f92672">&gt;</span> MD_thresh:
+</span></span><span style="display:flex;"><span>        listIndoorDevice<span style="color:#f92672">.</span>append( (iD, rate1) )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    rate2 <span style="color:#f92672">=</span> A<span style="color:#f92672">*</span>dictEmission[iD][<span style="color:#ae81ff">0</span>] <span style="color:#f92672">+</span> B<span style="color:#f92672">*</span>dictEmission[iD][<span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">-</span>A<span style="color:#f92672">-</span>B)<span style="color:#f92672">*</span>dictEmission[iD][<span style="color:#ae81ff">2</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> rate2 <span style="color:#f92672">&gt;</span> MD_thresh:
+</span></span><span style="display:flex;"><span>        listEmissionDevice<span style="color:#f92672">.</span>append( (iD, rate2) )
+</span></span></code></pre></div><p>我們接著分別列印出 <code>listIndoorDevice</code> 和 <code>listEmissionDevice</code> 的內容，觀察透過加權判斷出來的結果。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>listIndoorDevice
+</span></span></code></pre></div><pre tabindex="0"><code>[(&#39;74DA38F20B20&#39;, 0.865),
+ (&#39;74DA38F20B80&#39;, 0.8941),
+ (&#39;74DA38F20C16&#39;, 0.3583),
+ (&#39;74DA38F20DD0&#39;, 0.8906),
+ (&#39;74DA38F20DD8&#39;, 0.2949),
+ (&#39;74DA38F20E42&#39;, 0.8928),
+ (&#39;74DA38F20F0C&#39;, 0.8954),
+ (&#39;74DA38F210FE&#39;, 0.8841)]
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>listEmissionDevice
+</span></span></code></pre></div><pre tabindex="0"><code>[(&#39;74DA38F207DE&#39;, 0.7726),
+ (&#39;74DA38F20D7C&#39;, 0.38170000000000004),
+ (&#39;74DA38F20D8A&#39;, 0.4655),
+ (&#39;74DA38F20DCE&#39;, 0.5820000000000001),
+ (&#39;74DA38F20DE0&#39;, 0.5171),
+ (&#39;74DA38F20E0E&#39;, 0.7876),
+ (&#39;74DA38F20E44&#39;, 0.6945999999999999),
+ (&#39;74DA38F20F2C&#39;, 0.5933)]
+</code></pre><h3 id="即時污染偵測模組-red-實作">即時污染偵測模組 (RED) 實作</h3>
+<p>針對即時污染偵測 (Real-time Emission Detection, RED)，我們假設某個微型感測器在連續的取樣中，如果最新的感測數值比前一次的感測數值多出 1/5 以上，代表其周遭環境出現劇烈的變化，極有可能是因為周遭出現空汙的排放現象。由於當感測數值較小時，1/5 的變化量其實在 PM2.5 的真實濃度變化上仍十分輕微，因此我們也排除感測數值小於 20 的狀況，以避免因為感測器本身的誤差導致即時污染偵測的誤判。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>dfMean[<span style="color:#e6db74">&#39;red&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#66d9ef">False</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> iD <span style="color:#f92672">in</span> listId:
+</span></span><span style="display:flex;"><span>    dfId <span style="color:#f92672">=</span> dfMean<span style="color:#f92672">.</span>loc[iD]
+</span></span><span style="display:flex;"><span>    p_index <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>    p_row <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> index, row <span style="color:#f92672">in</span> dfId<span style="color:#f92672">.</span>iterrows():
+</span></span><span style="display:flex;"><span>      red <span style="color:#f92672">=</span> <span style="color:#66d9ef">False</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> p_index:
+</span></span><span style="display:flex;"><span>        diff <span style="color:#f92672">=</span> row[<span style="color:#e6db74">&#39;PM2.5&#39;</span>] <span style="color:#f92672">-</span> p_row[<span style="color:#e6db74">&#39;PM2.5&#39;</span>]
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> p_row[<span style="color:#e6db74">&#39;PM2.5&#39;</span>]<span style="color:#f92672">&gt;</span><span style="color:#ae81ff">20</span> <span style="color:#f92672">and</span> diff<span style="color:#f92672">&gt;</span>p_row[<span style="color:#e6db74">&#39;PM2.5&#39;</span>]<span style="color:#f92672">/</span><span style="color:#ae81ff">5</span>:
+</span></span><span style="display:flex;"><span>          red <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      dfMean<span style="color:#f92672">.</span>loc[pd<span style="color:#f92672">.</span>IndexSlice[iD, index<span style="color:#f92672">.</span>strftime(<span style="color:#e6db74">&#39;%Y-%m-</span><span style="color:#e6db74">%d</span><span style="color:#e6db74"> %H:%M:%S&#39;</span>)], pd<span style="color:#f92672">.</span>IndexSlice[<span style="color:#e6db74">&#39;red&#39;</span>]] <span style="color:#f92672">=</span> red
+</span></span><span style="display:flex;"><span>      p_index <span style="color:#f92672">=</span> index
+</span></span><span style="display:flex;"><span>      p_row <span style="color:#f92672">=</span> row
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>dfMean
+</span></span></code></pre></div><p><img src="figures/6-2-2-4.png" alt="Python output"></p>
+<h3 id="感測器可靠度評估模組-dr-實作">感測器可靠度評估模組 (DR) 實作</h3>
+<p>最後，我們總結 RED 與 MD 兩個模組的判斷結果，進行微型感測器的可靠度評估 (Device Ranking, DR)，其主要概念為：</p>
+<ul>
+<li>如果感測器的感測資料常常被判定為時間類異常或空間類異常，代表該感測器的硬體，或者其所屬的環境可能有潛在的問題，需要進一步釐清。</li>
+<li>如果感測器的感測資料較少被判定為異常，代表該感測器的感測數值與周遭感測器的數值具備很高的一致性，因此可信度高。</li>
+</ul>
+<p>我們以日為單位，根據每個感測器每日的所有感測資料，統計曾經被判斷為時間類異常 (red=True) 或空間類異常 (indoor=True 或 emission=True) 的總次數，並計算其占一日所有資料筆數中的比例，以此做為感測器的資訊是否可靠的依據。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>device_rank <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame()
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> iD <span style="color:#f92672">in</span> listId:
+</span></span><span style="display:flex;"><span>    dfId <span style="color:#f92672">=</span> dfMean<span style="color:#f92672">.</span>loc[iD]
+</span></span><span style="display:flex;"><span>    abnormal <span style="color:#f92672">=</span> {}
+</span></span><span style="display:flex;"><span>    num <span style="color:#f92672">=</span> {}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> index, row <span style="color:#f92672">in</span> dfId<span style="color:#f92672">.</span>iterrows():
+</span></span><span style="display:flex;"><span>      d <span style="color:#f92672">=</span> index<span style="color:#f92672">.</span>strftime(<span style="color:#e6db74">&#39;%Y-%m-</span><span style="color:#e6db74">%d</span><span style="color:#e6db74">&#39;</span>)
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> d <span style="color:#f92672">not</span> <span style="color:#f92672">in</span> abnormal:
+</span></span><span style="display:flex;"><span>        abnormal[d] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> d <span style="color:#f92672">not</span> <span style="color:#f92672">in</span> num:
+</span></span><span style="display:flex;"><span>        num[d] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>      num[d] <span style="color:#f92672">=</span> num[d] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> row[<span style="color:#e6db74">&#39;indoor&#39;</span>] <span style="color:#f92672">or</span> row[<span style="color:#e6db74">&#39;emission&#39;</span>] <span style="color:#f92672">or</span> row[<span style="color:#e6db74">&#39;red&#39;</span>]:
+</span></span><span style="display:flex;"><span>        abnormal[d] <span style="color:#f92672">=</span> abnormal[d] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> d <span style="color:#f92672">in</span> num:
+</span></span><span style="display:flex;"><span>      device_rank <span style="color:#f92672">=</span> device_rank<span style="color:#f92672">.</span>append(pd<span style="color:#f92672">.</span>DataFrame({<span style="color:#e6db74">&#39;device_id&#39;</span>: [iD], <span style="color:#e6db74">&#39;date&#39;</span>: [d], <span style="color:#e6db74">&#39;rank&#39;</span>: [<span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> abnormal[d]<span style="color:#f92672">/</span>num[d]]}))
+</span></span><span style="display:flex;"><span>device_rank<span style="color:#f92672">.</span>set_index([<span style="color:#e6db74">&#39;device_id&#39;</span>,<span style="color:#e6db74">&#39;date&#39;</span>])
+</span></span></code></pre></div><p><img src="figures/6-2-2-5.png" alt="Python output"></p>
+<h2 id="參考資料">參考資料</h2>
+<ul>
+<li>Ling-Jyh Chen, Yao-Hua Ho, Hsin-Hung Hsieh, Shih-Ting Huang, Hu-Cheng Lee, and Sachit Mahajan. ADF: an Anomaly Detection Framework for Large-scale PM2.5 Sensing Systems. IEEE Internet of Things Journal, volume 5, issue 2, pp. 559-570, April, 2018. (<a href="https://dx.doi.org/10.1109/JIOT.2017.2766085">https://dx.doi.org/10.1109/JIOT.2017.2766085</a>)</li>
+</ul>
 
             <footer class="footline">
             </footer>
@@ -350,12 +787,12 @@ if (!doNotTrack) {
         <script>
           var contentLangs=['zh'];
         </script>
-        <script src="/js/auto-complete.js?1669043788" defer></script>
-        <script src="/js/lunr.min.js?1669043788" defer></script>
-        <script src="/js/lunr.stemmer.support.min.js?1669043788" defer></script>
-        <script src="/js/lunr.multi.min.js?1669043788" defer></script>
-        <script src="/js/lunr.zh.min.js?1669043788" defer></script>
-        <script src="/js/search.js?1669043788" defer></script>
+        <script src="/js/auto-complete.js?1669086019" defer></script>
+        <script src="/js/lunr.min.js?1669086019" defer></script>
+        <script src="/js/lunr.stemmer.support.min.js?1669086019" defer></script>
+        <script src="/js/lunr.multi.min.js?1669086019" defer></script>
+        <script src="/js/lunr.zh.min.js?1669086019" defer></script>
+        <script src="/js/search.js?1669086019" defer></script>
       </div>
       <div id="content-wrapper" class="highlightable">
         <ul class="topics">
@@ -430,14 +867,14 @@ if (!doNotTrack) {
       </div>
     </aside>
 
-    <script src="/js/clipboard.min.js?1669043788" defer></script>
-    <script src="/js/perfect-scrollbar.min.js?1669043788" defer></script>
-    <script src="/js/featherlight.min.js?1669043788" defer></script>
-    <script src="/js/jquery.svg.pan.zoom.js?1669043788" defer></script>
-    <script src="/js/mermaid.min.js?1669043788" defer></script>
+    <script src="/js/clipboard.min.js?1669086019" defer></script>
+    <script src="/js/perfect-scrollbar.min.js?1669086019" defer></script>
+    <script src="/js/featherlight.min.js?1669086019" defer></script>
+    <script src="/js/jquery.svg.pan.zoom.js?1669086019" defer></script>
+    <script src="/js/mermaid.min.js?1669086019" defer></script>
     <script>
       window.themeUseMermaid = JSON.parse("{}");
     </script>
-    <script src="/js/theme.js?1669043788" defer></script>
+    <script src="/js/theme.js?1669086019" defer></script>
   </body>
 </html>
