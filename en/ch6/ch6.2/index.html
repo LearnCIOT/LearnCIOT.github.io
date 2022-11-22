@@ -16,18 +16,18 @@
     <meta name="author" content="Ling-Jyh Chen">
     <title>6.2. Anomaly Detection :: Tutorial for CIoT Open Data Applications</title>
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="/css/fontawesome-all.min.css?1669092089" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1669092089" rel="stylesheet"></noscript>
-    <link href="/css/featherlight.min.css?1669092089" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1669092089" rel="stylesheet"></noscript>
-    <link href="/css/auto-complete.css?1669092089" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1669092089" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar.min.css?1669092089" rel="stylesheet">
-    <link href="/css/nucleus.css?1669092089" rel="stylesheet">
-    <link href="/css/fonts.css?1669092089" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1669092089" rel="stylesheet"></noscript>
-    <link href="/css/theme.css?1669092089" rel="stylesheet">
-    <link href="/css/theme-relearn-light.css?1669092089" rel="stylesheet" id="variant-style">
-    <link href="/css/ie.css?1669092089" rel="stylesheet">
-    <link href="/css/variant.css?1669092089" rel="stylesheet">
-    <link href="/css/print.css?1669092089" rel="stylesheet" media="print">
-    <script src="/js/variant.js?1669092089"></script>
+    <link href="/css/fontawesome-all.min.css?1669092471" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1669092471" rel="stylesheet"></noscript>
+    <link href="/css/featherlight.min.css?1669092471" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1669092471" rel="stylesheet"></noscript>
+    <link href="/css/auto-complete.css?1669092471" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1669092471" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar.min.css?1669092471" rel="stylesheet">
+    <link href="/css/nucleus.css?1669092471" rel="stylesheet">
+    <link href="/css/fonts.css?1669092471" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1669092471" rel="stylesheet"></noscript>
+    <link href="/css/theme.css?1669092471" rel="stylesheet">
+    <link href="/css/theme-relearn-light.css?1669092471" rel="stylesheet" id="variant-style">
+    <link href="/css/ie.css?1669092471" rel="stylesheet">
+    <link href="/css/variant.css?1669092471" rel="stylesheet">
+    <link href="/css/print.css?1669092471" rel="stylesheet" media="print">
+    <script src="/js/variant.js?1669092471"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -43,7 +43,7 @@
       var baseUriFull='https:\/\/LearnCIOT.github.io/';
       window.variants && variants.init( [ 'relearn-light' ] );
     </script>
-    <script src="/js/jquery.min.js?1669092089" defer></script>
+    <script src="/js/jquery.min.js?1669092471" defer></script>
 <meta property="fb:app_id" content="601826851395774" />
   </head>
   <body class="default-animation" data-url="/en/ch6/ch6.2/">
@@ -354,7 +354,7 @@ if (!doNotTrack) {
 <li>Spatial range: latitude in the range of <code>22.631231 - 22.584989</code>, and longitude in the range of <code>120.263422 - 120.346764</code></li>
 <li>Temporal range: 2022.10.15 - 2022.10.28</li>
 </ul>
-<p>Note that you can go to the <a href="https://ci.taiwan.gov.tw/dsp/">Civil IoT Taiwan Data Service Platform</a> to download the raw data of micro air quality sensors on campus. However, for simplicity, we pre-download the data and make it available as <code>[allLoc.csv](https://LearnCIOT.github.io/data/allLoc.csv)</code> for the examples described in this article.</p>
+<p>Note that you can go to the <a href="https://ci.taiwan.gov.tw/dsp/">Civil IoT Taiwan Data Service Platform</a> to download the raw data of micro air quality sensors on campus. However, for simplicity, we pre-download the data and make it available as <a href="https://LearnCIOT.github.io/data/allLoc.csv">allLoc.csv</a> for the examples described in this article.</p>
 <p>We first load the data file and preview the contents of the data:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>DF <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(<span style="color:#e6db74">&#34;https://LearnCIOT.github.io/data/allLoc.csv&#34;</span>)
 </span></span><span style="display:flex;"><span>DF<span style="color:#f92672">.</span>head()
@@ -788,12 +788,12 @@ device_id    datetime
         <script>
           var contentLangs=['en'];
         </script>
-        <script src="/js/auto-complete.js?1669092089" defer></script>
-        <script src="/js/lunr.min.js?1669092089" defer></script>
-        <script src="/js/lunr.stemmer.support.min.js?1669092089" defer></script>
-        <script src="/js/lunr.multi.min.js?1669092089" defer></script>
-        <script src="/js/lunr.en.min.js?1669092089" defer></script>
-        <script src="/js/search.js?1669092089" defer></script>
+        <script src="/js/auto-complete.js?1669092471" defer></script>
+        <script src="/js/lunr.min.js?1669092471" defer></script>
+        <script src="/js/lunr.stemmer.support.min.js?1669092471" defer></script>
+        <script src="/js/lunr.multi.min.js?1669092471" defer></script>
+        <script src="/js/lunr.en.min.js?1669092471" defer></script>
+        <script src="/js/search.js?1669092471" defer></script>
       </div>
       <div id="content-wrapper" class="highlightable">
         <ul class="topics">
@@ -864,14 +864,14 @@ device_id    datetime
       </div>
     </aside>
 
-    <script src="/js/clipboard.min.js?1669092089" defer></script>
-    <script src="/js/perfect-scrollbar.min.js?1669092089" defer></script>
-    <script src="/js/featherlight.min.js?1669092089" defer></script>
-    <script src="/js/jquery.svg.pan.zoom.js?1669092089" defer></script>
-    <script src="/js/mermaid.min.js?1669092089" defer></script>
+    <script src="/js/clipboard.min.js?1669092471" defer></script>
+    <script src="/js/perfect-scrollbar.min.js?1669092471" defer></script>
+    <script src="/js/featherlight.min.js?1669092471" defer></script>
+    <script src="/js/jquery.svg.pan.zoom.js?1669092471" defer></script>
+    <script src="/js/mermaid.min.js?1669092471" defer></script>
     <script>
       window.themeUseMermaid = JSON.parse("{}");
     </script>
-    <script src="/js/theme.js?1669092089" defer></script>
+    <script src="/js/theme.js?1669092471" defer></script>
   </body>
 </html>
