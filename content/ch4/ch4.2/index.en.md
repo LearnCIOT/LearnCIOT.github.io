@@ -13,17 +13,17 @@ authors: ["彭昱齊"]
 
 {{< toc >}}
 
-前一章節介紹了各種處理時序資料的方法，有視覺化呈現資料、時序資料分解......等，經過處理後的資料可以讓我們更進一步的運用，擁有過去的資料後，會想要預知未來，因此本章節將會判斷時序資料的特性以及使用多種預測模型找出資料的的模式，藉此預測未來。
+The previous chapter has introduced various methods of processing time series data, including visual presentation of data, decomposition of time series data, etc. In this chapter, we will further extract the characteristics of these data and use various predictive models to find the law of the data and predict the future.
 
-## 章節目標
+## Goal
 
-- 時序資料特性的判斷：平穩性
-- 學習各種預測模型並進行比較
-- 使用時序資料進行訓練與預測
+- Stationary evaluation of time series data
+- Comparison of different forecasting models
+- The practice of time series data forecasting
 
-## 套件安裝與引用
+## Package Installation and Importing
 
-在本章節中，我們將會使用到 pandas, matplotlib, numpy, statsmodels, warnings 等套件，這些套件由於在我們使用的開發平台 Colab 上皆已預先安裝好，因此不需要再另行安裝。然而，我們還會另外使用兩個 Colab 並未預先安裝好的套件：kats 和 pmdarima，需使用下列的方式自行安裝：
+In this article, we will use the pandas, matplotlib, numpy, statsmodels, and warnings packages, which are pre-installed on our development platform, Google Colab, and do not need to be installed manually. However, we will also use two additional packages that Colab does not have pre-installed: kats and pmdarima, which need to be installed by :
 
 ```python
 !pip install --upgrade pip
@@ -31,7 +31,7 @@ authors: ["彭昱齊"]
 !pip install pmdarima
 ```
 
-待安裝完畢後，即可使用下列的語法先行引入相關的套件，完成本章節的準備工作：
+After the installation is complete, we can use the following syntax to import the relevant packages to complete the preparations in this article.
 
 ```python
 import warnings
@@ -53,15 +53,15 @@ from kats.models.lstm import LSTMModel, LSTMParams
 from kats.models.holtwinters import HoltWintersParams, HoltWintersModel
 ```
 
-## 讀取資料
+## Data Access
 
-本章節的探討主題為時序資料的資料預測，因此我們將分別以民生公共物聯網資料平台上的空品、水位和氣象資料進行資料讀取的演示，接著再使用空品資料進行更進一步的探究。其中，每一類別的資料處理都將使用其中一個測站長期以來觀測到的資料作為資料集，而在 dataframe 的時間欄位名稱則為設為 timestamp，由於時間欄位的數值具有唯一性，因此我們也將使用此欄位作為 dataframe 的索引 (index)。
+The topic of this paper is the analysis and processing of time series data. We will use the air quality, water level and meteorological data on the Civil IoT Taiwan Data Service Platform for data access demonstration, and then use the air quality data for further data analysis. Among them, each type of data is the data observed by a collection of stations for a long time, and the time field name in the dataframe is set to `timestamp`. Because the value of the time field is unique, we also use this field as the index of the dataframe.
 
-### 空品資料
+### Air Quality Data
 
-由於我們這次要使用的是長時間的歷史資料，因此我們不直接使用 pyCIOT 套件的讀取資料功能，而直接從民生公共物聯網資料平台的歷史資料庫下載「中研院校園空品微型感測器」的歷史資料，並存入 Air 資料夾中。
+Since we want to use long-term historical data in this article, we do not directly use the data access methods of the pyCIOT package, but directly download the data archive of “Academia Sinica - Micro Air Quality Sensors” from the historical database of the Civil IoT Taiwan Data Service Platform and store in the `Air` folder.
 
-同時，由於所下載的資料是 zip 壓縮檔案的格式，我們需要先逐一將其解壓縮，產生每日資料的壓縮檔案，接著再將每日資料的壓縮檔案解壓縮，存入 CSV_Air 資料夾中。
+At the same time, since the downloaded data is in the format of a zip compressed file, we need to decompress it to generate a number of compressed daily file, and then decompress the compressed daily file and store it in the `CSV_Air` folder.
 
 ```python
 !mkdir Air CSV_Air
@@ -70,7 +70,6 @@ from kats.models.holtwinters import HoltWintersParams, HoltWintersModel
 !wget -O Air/2020.zip -q "https://history.colife.org.tw/?r=/download&path=L%2Bepuuawo%2BWTgeizqi%2FkuK3noJTpmaJf5qCh5ZyS56m65ZOB5b6u5Z6L5oSf5ris5ZmoLzIwMjAuemlw"
 !wget -O Air/2021.zip -q "https://history.colife.org.tw/?r=/download&path=L%2Bepuuawo%2BWTgeizqi%2FkuK3noJTpmaJf5qCh5ZyS56m65ZOB5b6u5Z6L5oSf5ris5ZmoLzIwMjEuemlw"
 
-#開始進行解壓縮
 folder = 'Air'
 extension_zip = '.zip'
 extension_csv = '.csv'
@@ -108,7 +107,7 @@ for subfolder in os.listdir(folder):
             os.rename(path2, f'CSV_Air/{item}')
 ```
 
-現在 CSV_Air 資料夾中即有每日所有感測器資料的 csv 格式檔案，為了將單一測站 (例如代碼為 `74DA38C7D2AC` 的測站) 的資料過濾出來，我們需要讀取每個 csv 檔案，並將檔案中該測站的資料存入名叫 air 的 dataframe 中。最後我們將所有下載的資料與解壓縮後產生的資料移除，以節省雲端的儲存空間。
+The CSV_Air folder now contains all daily sensor data in CSV format. To filter out data for a single station (such as the station with code `74DA38C7D2AC`), we need to read each CSV file and put the data for that station into a dataframe called `air`. Finally, we delete all downloaded data and data generated after decompression to save storage space in the cloud.
 
 ```python
 folder = 'CSV_Air'
@@ -134,7 +133,7 @@ air.set_index('timestamp', inplace=True)
 !rm -rf Air CSV_Air
 ```
 
-最後，我們重新整理該測站的資料，將不需要用到的欄位資訊刪除，並且依照時間進行排序如下：
+Finally, we rearrange the data in the site, delete unnecessary field information, and sort them by time as follows:
 
 ```python
 air.drop(columns=['device_id', 'SiteName'], inplace=True)
@@ -161,11 +160,11 @@ timestamp
 2018-08-01 01:30:44  22.0
 ```
 
-### 水位資料
+### Water Level Data
 
-和空品資料的範例一樣，由於我們這次要使用的是長時間的歷史資料，因此我們不直接使用 pyCIOT 套件的讀取資料功能，而直接從民生公共物聯網資料平台的歷史資料庫下載「水利署地下水位站」的歷史資料，並存入 Water 資料夾中。
+Like the example of air quality data, since we are going to use long-term historical data this time, we do not directly use the data access methods of the pyCIOT suite, but directly download the data archive of “Water Resources Agency - Groundwater Level Station” from the historical database of the Civil IoT Taiwan Data Service Platform and store in the `Water` folder.
 
-同時，由於所下載的資料是 zip 壓縮檔案的格式，我們需要先逐一將其解壓縮，產生每日資料的壓縮檔案，接著再將每日資料的壓縮檔案解壓縮，存入 CSV_Water 資料夾中。
+At the same time, since the downloaded data is in the format of a zip compressed file, we need to decompress it to generate a number of compressed daily file, and then decompress the compressed daily file and store it in the `CSV_Water` folder.
 
 ```python
 !mkdir Water CSV_Water
@@ -174,7 +173,6 @@ timestamp
 !wget -O Water/2020.zip "https://history.colife.org.tw/?r=/download&path=L%2BawtOizh%2Ba6kC%2FmsLTliKnnvbJf5rKz5bed5rC05L2N56uZLzIwMjAuemlw"
 !wget -O Water/2021.zip "https://history.colife.org.tw/?r=/download&path=L%2BawtOizh%2Ba6kC%2FmsLTliKnnvbJf5rKz5bed5rC05L2N56uZLzIwMjEuemlw"
 
-#開始進行解壓縮
 folder = 'Water'
 extension_zip = '.zip'
 extension_csv = '.csv'
@@ -211,7 +209,7 @@ for subfolder in os.listdir(folder):
             os.rename(path2, f'CSV_Water/{item}')
 ```
 
-現在 CSV_Water 資料夾中即有每日所有感測器資料的 csv 格式檔案，為了將單一測站 (例如代碼為 `338c9c1c-57d8-41d7-9af2-731fb86e632c` 的測站) 的資料過濾出來，我們需要讀取每個 csv 檔案，並將檔案中該測站的資料存入名叫 water 的 dataframe 中。最後我們將所有下載的資料與解壓縮後產生的資料移除，以節省雲端的儲存空間。
+The CSV_Water folder now contains all daily sensor data in CSV format. To filter out data for a single station (such as the station with code `338c9c1c-57d8-41d7-9af2-731fb86e632c`), we need to read each CSV file and put the data for that station into a dataframe called `water`. Finally, we delete all downloaded data and data generated after decompression to save storage space in the cloud.
 
 ```python
 folder = 'CSV_Water'
@@ -237,7 +235,7 @@ water.set_index('timestamp', inplace=True)
 !rm -rf Water CSV_Water
 ```
 
-最後，我們重新整理該測站的資料，將不需要用到的欄位資訊刪除，並且依照時間進行排序如下：
+Finally, we rearrange the data in the site, delete unnecessary field information, and sort them by time as follows:
 
 ```python
 water.drop(columns=['station_id', 'ciOrgname', 'ciCategory', 'Organize_Name', 'CategoryInfos_Name', 'PQ_name', 'PQ_fullname', 'PQ_description', 'PQ_unit', 'PQ_id'], inplace=True)
@@ -264,11 +262,11 @@ timestamp
 2018-01-01 00:40:00  49.130001
 ```
 
-### 氣象資料
+### Meteorological Data
 
-我們從民生公共物聯網資料平台的歷史資料庫下載「中央氣象局自動氣象站」的歷史資料，並存入 Weather 資料夾中。
+We download the data archive of “Central Weather Bureau - Automatic Weather Station” from the historical database of the Civil IoT Taiwan Data Service Platform and store in the `Weather` folder.
 
-同時，由於所下載的資料是 zip 壓縮檔案的格式，我們需要先逐一將其解壓縮，產生每日資料的壓縮檔案，接著再將每日資料的壓縮檔案解壓縮，存入 CSV_Weather 資料夾中。
+At the same time, since the downloaded data is in the format of a zip compressed file, we need to decompress it to generate a number of compressed daily file, and then decompress the compressed daily file and store it in the `CSV_Weather` folder.
 
 ```python
 !mkdir Weather CSV_Weather
@@ -276,7 +274,6 @@ timestamp
 !wget -O Weather/2020.zip "https://history.colife.org.tw/?r=/download&path=L%2Bawo%2BixoS%2FkuK3lpK7msKPosaHlsYBf6Ieq5YuV5rCj6LGh56uZLzIwMjAuemlw"
 !wget -O Weather/2021.zip "https://history.colife.org.tw/?r=/download&path=L%2Bawo%2BixoS%2FkuK3lpK7msKPosaHlsYBf6Ieq5YuV5rCj6LGh56uZLzIwMjEuemlw"
 
-#開始進行解壓縮
 folder = 'Weather'
 extension_zip = '.zip'
 extension_csv = '.csv'
@@ -314,7 +311,7 @@ for subfolder in os.listdir(folder):
             os.rename(path2, f'CSV_Weather/{item}')
 ```
 
-現在 CSV_Weather 資料夾中即有每日所有感測器資料的 csv 格式檔案，為了將單一測站 (例如代碼為 `C0U750` 的測站) 的資料過濾出來，我們需要讀取每個 csv 檔案，並將檔案中該測站的資料存入名叫 weather 的 dataframe 中。最後我們將所有下載的資料與解壓縮後產生的資料移除，以節省雲端的儲存空間。
+The CSV_Weather folder now contains all daily sensor data in CSV format. To filter out data for a single station (such as the station with code `C0U750`), we need to read each CSV file and put the data for that station into a dataframe called `weather`. Finally, we delete all downloaded data and data generated after decompression to save storage space in the cloud.
 
 ```python
 folder = 'CSV_Weather'
@@ -341,7 +338,7 @@ weather.set_index('timestamp', inplace=True)
 !rm -rf Weather CSV_Weather
 ```
 
-最後，我們重新整理該測站的資料，將不需要用到的欄位資訊刪除，並且依照時間進行排序如下：
+Finally, we rearrange the data in the site, delete unnecessary field information, and sort them by time as follows:
 
 ```python
 weather.drop(columns=['station_id'], inplace=True)
@@ -390,11 +387,11 @@ timestamp
 2019-01-01 04:00:00  39.0   NaN  14.1   NaN  13.5   NaN
 ```
 
-以上我們已經成功示範空品資料 (air)、水位資料 (water) 和氣象資料 (weather) 的讀取範例，在接下來的探討中，我們將以空品資料示範初步的時間序列資料處理，相同的方法也可以輕易改成使用水位資料或氣象資料而得到類似的結果，大家可以自行嘗試看看。
+Above, we have successfully demonstrated the reading example of air quality data (air), water level data (water) and meteorological data (weather). In the following discussion, we will use air quality data to demonstrate basic time series data processing. The same methods can also be easily applied to water level data or meteorological data and obtain similar results. You are encouraged to try it yourself.
 
-## 資料預處理 (Preprocess)
+## Data Preprocessing
 
-我們首先依照章節 4.1 所介紹的方法對資料進行重新採樣，將資料分別取每小時平均 (air_hour)、每天平均 (air_day) 和每月平均 (air_month)。
+We first resample the data according to the method introduced in Section 4.1 and take the hourly average (`air_hour`), daily average (`air_day`), and monthly average (`air_month`) of the data, respectively.
 
 ```python
 air_hour = air.resample('H').mean()
@@ -402,12 +399,12 @@ air_day = air.resample('D').mean()
 air_month = air.resample('M').mean()
 ```
 
-接著我們依照章節 4.1 所介紹的離群值偵測方法，將 air_hour 資料中的離群值移除，並將移除後的缺失資料，使用 Forward fill 方法填回。
+Then we remove the outliers in the `air_hour` data according to the outlier detection method introduced in Section 4.1 and fill in the missing data with the Forward fill method.
 
 ```python
 air_ts = TimeSeriesData(air_hour.reset_index(), time_col_name='timestamp')
 
-# 移除離群值
+# remove the outliers
 outlierDetection = OutlierDetector(air_ts, 'additive')
 outlierDetection.detector()
 outliers_removed = outlierDetection.remover(interpolate=False)
@@ -418,19 +415,19 @@ air_hour_df.set_index('timestamp', inplace=True)
 air_hour = air_hour_df
 air_hour = air_hour.resample('H').mean()
 
-# 用 Forward 方法填回缺失值
+# fill in the missing data with the Forward fill method
 air_hour.ffill(inplace=True)
 ```
 
-## 平穩性 (Stationary) 檢查
+## Stationary Evaluation
 
-在進行資料預測的探究前，我們先針對資料的[平穩性 (stationary)](https://www.itl.nist.gov/div898/handbook/pmc/section4/pmc442.htm) 進行檢查。我們先挑選想要進行檢測的時間區段（例如 2020-06-10 ~ 2020-06-17），並將這個區段的資料存入 data 變數。
+Before proceeding to predict the data, we first check the [stationarity](https://www.itl.nist.gov/div898/handbook/pmc/section4/pmc442.htm) of the data. We select the period we want to detect (for example, 2020-06-10 ~ 2020-06-17) and store the data of this period in the `data` variable.
 
 ```python
 data = air_hour.loc['2020-06-10':'2020-06-17']
 ```
 
-接著我們計算這些資料的平均數 (mean) 與變異數 (var)，並且進行繪圖。
+Then we calculate these data's mean (mean) and variation (var) and plot them.
 
 ```python
 nmp = data.PM25.to_numpy()
@@ -454,14 +451,14 @@ plt.show()
 
 ![Python output](figures/4-2-2-1.png)
 
-從圖中可以發現平均數的變化不大，但是變異數的變化卻很大。我們稱這樣的資料具備較差的平穩性；相反地，若是具備平穩性的資料，其平均數與變異數的變化不會與時間的推移有關。
+It can be seen from the figure that the mean does not change much, but the variance varies greatly. We say that such data are poorly stationary; conversely, if the data is stationary, the change in its mean and variance will have nothing to do with time.
 
-換句話說，如果資料分布隨著時間有一定的趨勢變化，那它就沒有平穩性；如果資料的分佈不會因為時間推移，平均數與變異數也維持固定，那它就有平穩性 (stationary)。平穩性的資料有利於尋找適合的的模型 (model) 並預測未來的數值。
+In other words, if the data distribution has a particular trend over time, it has no stationarity. If the data distribution does not change over time, while the mean and variance remain fixed, it has stationarity. The information on stationarity helps find a suitable model and predict future values.
 
-若要檢查資料是否具有平穩性，至少有下列兩種常見的方法：
+There are at least two common ways to check whether data is stationary:
 
-1. Augmented Dickey Fuller (ADF) test：使用 [unit root test](https://en.wikipedia.org/wiki/Unit_root_test)，如果 *p-value* < 0.05，則資料具有平穩性。
-2. Kwiatkowski-Phillips-Schmidt-Shin (KPSS) test：與 ADF test 相反，如果 *p-value* < 0.05，則資料不具有平穩性 (non-stationary)。
+1. Augmented Dickey Fuller (ADF) test: Using the [unit root test](https://en.wikipedia.org/wiki/Unit_root_test)，the data are stationary if the *p-value* < 0.05.
+2. Kwiatkowski-Phillips-Schmidt-Shin (KPSS) test: Contrary to the ADF test, if *p-value* < 0.05, the data is not stationary.
 
 ```python
 # ADF Test
@@ -503,9 +500,9 @@ Critial Values:
    1%, 0.739
 ```
 
-若以我們使用的範例資料為例，經過 ADF 檢測得到的 *p-value* 為 0.073，因此該資料並沒有平穩性。為了達到平穩性，我們接下來將資料進行差分，也就是將第 i 筆資料減第 i-1 筆資料，並使用得到的結果再次進行檢測。
+If we take the sample data we use as an example, the *p-value* obtained by the ADF test is 0.073, so the information is not stationary. To achieve stationarity, we next differentiate the data, subtract the i-1th data from the i-th data, and use the obtained results to test again.
 
-在 dataframe 的資料格式上我們可以直接使用 `data.diff()` 來將資料差分 ，並將經過差分後的資料命名為 `data_diff`。
+In the data format of the dataframe, we can directly use `data.diff()` to differentiate the data and name the differentiated data as `data_diff`.
 
 ```python
 data_diff = data.diff()
@@ -528,7 +525,7 @@ timestamp
 2020-06-17 23:00:00	3.944444
 ```
 
-我們可以看到第一筆資料為 *Nan*，這是因為第一筆資料無法減去前一筆資料，所以我們要將第一筆資料捨棄。
+We can see that the first data is *Nan* because the first data cannot be subtracted from the previous data, so we have to discard the first data.
 
 ```python
 data_diff = data_diff[1:]
@@ -551,7 +548,7 @@ timestamp
 2020-06-17 23:00:00	3.944444
 ```
 
-接著我們將資料繪圖來觀察經過差分後資料的平均數與變異數隨時間變化的關係。
+Then we plot the data to observe the relationship between the mean and variance of the data after differentiation over time.
 
 ```python
 nmp = data_diff.PM25.to_numpy()
@@ -575,7 +572,7 @@ plt.show()
 
 ![Python output](figures/4-2-2-2.png)
 
-從以上的結果我們發現平均數的變化依然不大，而變異數的變化則變小了。我們接著重複上述的平穩性檢測步驟：
+From the above results, we find that the change in the mean is still small, while the change in the variance becomes smaller. We then repeat the above stationarity evaluation steps:
 
 ```python
 # PM25
@@ -618,22 +615,22 @@ Critial Values:
    1%, 0.739
 ```
 
-經過檢測後得到 ADF test 的 *p-value* 為 5.68e-25，由此可知經過一次差分後的資料便具有平穩性，這個結果會在本章節後續的預測模型使用到。
+After the test, the *p-value* of the ADF test is 5.68e-25, which shows that the data after a difference is stationary, and this result will be used in the subsequent prediction model in the following.
 
-## 資料預測(Data forecast)
+## Data Forecast
 
-經過前一部分的預處理後，這邊我們將會示範使用不同的預測模型來對時序資料進行預測，我們將依次使用 [ARIMA](https://otexts.com/fpp2/arima.html)、[SARIMAX](https://www.statsmodels.org/stable/examples/notebooks/generated/statespace_sarimax_stata.html)、[auto_arima](https://alkaline-ml.com/pmdarima/modules/generated/pmdarima.arima.auto_arima.html)、[Prophet](https://facebook.github.io/prophet/)、[LSTM](https://en.wikipedia.org/wiki/Long_short-term_memory) 與 [Holt-Winter](https://otexts.com/fpp2/holt-winters.html) 模型。
+After data preprocessing, we demonstrate using different prediction models to predict time series data. We will use  [ARIMA](https://otexts.com/fpp2/arima.html), [SARIMAX](https://www.statsmodels.org/stable/examples/notebooks/generated/statespace_sarimax_stata.html), [auto_arima](https://alkaline-ml.com/pmdarima/modules/generated/pmdarima.arima.auto_arima.html), [Prophet](https://facebook.github.io/prophet/), [LSTM](https://en.wikipedia.org/wiki/Long_short-term_memory), and [Holt-Winter](https://otexts.com/fpp2/holt-winters.html) models.
 
 ### ARIMA
 
-ARIMA 模型其實是 ARMA 模型的擴展版本，因此我們先介紹先介紹 ARMA 模型，並將 ARMA 模型拆成兩部分，分別是:
+The ARIMA model is an extended version of the ARMA model, so we first introduce the ARMA model and split the ARMA model into two parts, namely:
 
-1. 自迴歸模型 (AR, autogressive model)：使用一個參數 *p*，並以前 *p* 個歷史值做線性組合來預測當下的數值。
-2. 移動平均模型 (MA, moving average model)：使用一個參數 *q*，並以前 *q* 個使用 AR 模型的預測誤差進行線性組合，以預測當下的數值。
+1. Autoregressive model (AR): Use a parameter `p` and make a linear combination of the previous *p* historical values to predict the current value.
+2. Moving average model (MA): Use a parameter `q` and make a linear combination of the previous *q* prediction errors using the AR model to predict the current value.
 
-而 ARIMA 模型比 ARMA 模型還多使用一個參數 *d*，還記得前面的平穩性檢查嗎？如果資料不具有平穩性就要做差分，而參數 *d* 就代表需要做差分的次數。
+The ARIMA model uses one more parameter, `d`, than the ARMA model. If the data is not stationary, it needs to be differentiated, and the parameter `d` represents the number of times to be differentiated.
 
-以下我們使用空品資料進行演練。首先，我們將資料製圖以選擇要使用的資料片段：
+Below we use air quality data to conduct an exercise. First, we plot the data to select the piece of data to use:
 
 ```python
 air_hour.loc['2020-06-01':'2020-06-30']['PM25'].plot(figsize=(12, 8))
@@ -641,12 +638,12 @@ air_hour.loc['2020-06-01':'2020-06-30']['PM25'].plot(figsize=(12, 8))
 
 ![Python output](figures/4-2-3-1.png)
 
-我們選擇一段想要使用的資料，並將資料分為兩部分：
+We select a piece of data that we want to use and divide the data into two parts:
 
-1. 訓練資料 (train data)：用來訓練模型，找出最適合模型的參數。
-2. 測試資料 (test data)：當得到訓練模型後，可用於評估該模型在資料預測上的準確度。
+1. Train data: used to train the model and find the most suitable parameters.
+2. Test data: used to evaluate the model's accuracy in data prediction.
 
-在我們接下來的範例中，我們設定測試資料的長度為 48 小時 (`train_len=-48`)，訓練資料則為扣除最後 48 小時的全部資料。
+In our following example, we set the length of the test data to be 48 hours (`train_len=-48`) and the training data to be all the data minus the last 48 hours.
 
 ```python
 data_arima = air_hour.loc['2020-06-17':'2020-06-21']
@@ -655,7 +652,7 @@ train = data_arima.iloc[:train_len]
 test = data_arima.iloc[train_len:]
 ```
 
-我們首先判斷這段資料是具有平穩性，並以差分的次數決定 *d* 參數的數值
+We first evaluate the stationarity of this piece of data. Then we determine the value of the `d` parameter by the number of differentiations required.
 
 ```python
 # Run Dicky-Fuller test
@@ -673,9 +670,9 @@ The test stastics: -3.1129543556288826
 The p-value: 0.025609243615341074
 ```
 
-由於 *p-value* 已經比 0.05 小，因此我們不需要進行差分（亦即 *d*=0）即可繼續探討 ARIMA模型中的參數 *p* 和參數 *q*，而比較簡單的方法就是將可能的 *p*、*q* 組合分別帶入模型後，再從中判斷模型的好壞。
+Since the *p-value* is already smaller than 0.05, we can continue exploring the parameters `p` and `q` in the ARIMA model without differentiations (`d`=0). We take a simple method to combine the possible combinations of `p` and `q`, respectively, and determine the parameter values by evaluating the quality of the resulting models.
 
-我們可以使用 [AIC](https://en.wikipedia.org/wiki/Akaike_information_criterion) 或 [BIC](https://en.wikipedia.org/wiki/Bayesian_information_criterion) 方法，來判斷模型跟訓練資料是否擬合，一般來說，其判斷出來的數值越小代表模型的效果越好。例如，我們先將 *p* 和 *q* 的範圍限制在 0~2 之間，這樣總共有 9 種可能的組合，再分別查看其 AIC 與 BIC 的數值，並以數值最小的 *p* 和 *q* 組合，作為這兩個參數的決定值。
+We can use the [AIC](https://en.wikipedia.org/wiki/Akaike_information_criterion) or [BIC](https://en.wikipedia.org/wiki/Bayesian_information_criterion) method to evaluate whether the model fits the training data. Generally speaking, the smaller the judged value, the better the effect of the model. For example, we first limit the range of `p` and `q` between 0 and 2 so that there are nine possible combinations. Then, we check the values of AIC and BIC, respectively, and use the combination of `p` and `q` with the smallest value as the decision value of the parameters.
 
 ```python
 warnings.filterwarnings('ignore')
@@ -737,7 +734,7 @@ Sorted by BIC
 8  0  0  493.148188  495.424854
 ```
 
-我們可以發現當 (*p*,*q*) = (1,0) 時，AIC 和 BIC 的值最小，代表這是最好的模型組態，因此我們決定 *p*、*d*、*q* 這三個參數分別設為 1, 0, 0 後就可以正式開始訓練模型。
+We found that when `(p,q) = (1,0)`, the values of AIC and BIC are the smallest, representing the best configuration of the model. Therefore, we set the three parameters `p`, `d`, and `q` to 1, 0, and 0, respectively, and then started training the model.
 
 ```python
 # Instantiate model object
@@ -776,7 +773,7 @@ Prob(H) (two-sided):                  0.05   Kurtosis:                         7
 
 ![Python output](figures/4-2-3-2.png)
 
-接著我們使用測試資料進行預測，並評估其預測的效果，從圖形化的資料呈現中，我們可以發現資料預測結果的曲線太過平滑，和實際上的數值差異很大。事實上，若觀察整體資料的變化趨勢，會發現資料本身存在有規律的起伏，而 ARIMA 只能預測出資料的趨勢，若要準確的預測資料的數值，其結果仍有極大的差距。
+We then use the test data to make predictions and evaluate the accuracy of the predictions. From the resulting graph, we can find that the curve of the data prediction result is too smooth, which is very different from the actual value. If you observe the changing trend of the overall data, you will find that the raw data itself fluctuates regularly, but ARIMA can only predict the trend of the data. If you want to predict the data's value accurately, there is still a considerable gap in the results.
 
 ```python
 data_arima['forecast'] = results.predict(start=24*5-48, end=24*5)
@@ -794,7 +791,7 @@ train = data_sarimax.iloc[:train_len]
 test = data_sarimax.iloc[train_len:]
 ```
 
-我們接著介紹 SARIMAX 模型。SARIMAX 模型共有七個參數，分別是 *p*, *d*, *q*, *P*, *D*, *Q*, *s*；這些參數可以分為兩組：第一組為 *order=(p, d, q)* 這三個參數跟 ARIMA 模型的參數一樣；另一組是 *seasonal_order=(P, D, Q, s)*，也就是週期性的 AR 模型參數、週期性的差分次數、週期性的MA模型參數，最後再加上一個週期性長度的參數。
+We next introduce the SARIMAX model. The SARIMAX model has seven parameters, `p`, `d`, `q`, `P`, `D`, `Q`, `s`. These parameters can be divided into two groups: the first group is `order=(p, d, q)`, and they are the same as the parameters of the ARIMA model; the other group is `seasonal_order=(P, D, Q, s)`, and they are the periodic AR model parameters, the periodic differentiation times, the periodic MA model parameters, and the periodic length.
 
 | 參數 | 說明 |
 | --- | --- |
@@ -806,7 +803,7 @@ test = data_sarimax.iloc[train_len:]
 | Q | 週期性的 MA 模型參數 |
 | s | 週期長度 |
 
-由於從先前的觀察可以發現，這些資料大致上約 24 個小時會有一個週期性的變化，因此我們讓 `s=24`，並用下列的指令進行模型建立。
+Since the previous observations demonstrated that these data generally have a periodic change of about 24 hours, we set `s=24` and use the following commands to build the model.
 
 ```python
 # Instantiate model object
@@ -844,10 +841,9 @@ Prob(H) (two-sided):                  0.17   Kurtosis:                         4
 
 ![Python output](figures/4-2-3-4.png)
 
-接下來我們使用測試資料進行資料預測，並將預測結果用視覺化方式呈現，可以發現相較於 ARIMA 模型，SARIMA 模型的預測結果雖然仍有待加強，但已比 ARIMA 模型進步許多。
+Next, we make predictions using the test data and visualize the prediction results. Although the SARIMA model's prediction results still have room to improve, they are already much better than the ARIMA model.
 
 ```python
-# 總共有五天的資料，要預測最後兩天的部分，因此預測的起始小時為 24*5-48，結束小時為 24*5
 data_sarimax['forecast'] = results.predict(start=24*5-48, end=24*5)
 data_sarimax[['PM25', 'forecast']].plot(figsize=(12, 8))
 ```
@@ -856,9 +852,9 @@ data_sarimax[['PM25', 'forecast']].plot(figsize=(12, 8))
 
 ### auto_arima
 
-我們使用 [pmdarima](https://pypi.org/project/pmdarima/) 這個 Python 套件，這個套件類似 R 語言中的 auto.arima 模型，可以自動尋找最合適的 ARIMA 模型參數，增加使用者在使用 ARIMA 模型時的方便性。目前 pmdarima 套件中的 pmdarima.ARIMA 物件，其實便同時包含了 ARMA, ARIMA 和 SARIMAX 這三種模型，而使用 pmdarima.auto_arima 方法時，只要提供參數 *p*, *q*, *P*, *Q* 的範圍，便能在指定的範圍內尋找出最適合的參數組合。
+We use the [pmdarima](https://pypi.org/project/pmdarima/) Python package, which is similar to the `auto.arima` model in R. The package can automatically find the most suitable ARIMA model parameters, increasing users' convenience when using ARIMA models. The `pmdarima.ARIMA` object in the `pmdarima` package currently contains three models: ARMA, ARIMA, and SARIMAX. When using the `pmdarima.auto_arima` method, as long as the parameters `p`, `q,` `P`, and `Q` ranges are provided, the most suitable parameter combination is found within the specified range.
 
-我們接下來實作 pmdarima.auto_arima 的使用方法，先把資料集切分為訓練資料與預測資料：
+Next, we will implement how to use `pmdarima.auto_arima`, and first divide the data set into training data and test data:
 
 ```python
 data_autoarima = air_hour.loc['2020-06-17':'2020-06-21']
@@ -867,7 +863,7 @@ train = data_autoarima.iloc[:train_len]
 test = data_autoarima.iloc[train_len:]
 ```
 
-針對 *p*, *q*, *P*, *Q* 這四個參數，我們分別用 start 和 max 來指定對應的範圍，同時設定週期性參數 *seasonal* 為 *True*，並且設定週期變數 *m* 為 24 小時。接著我們便可以直接執行得到最佳的模型參數組合和模型擬合結果。
+For the four parameters `p`, `q`, `P`, `Q`, we use `start` and `max` to specify the corresponding ranges. We also set the periodic parameter `seasonal` to True and the periodic variable `m` to 24 hours. Then we can directly get the best model parameter combination and model fitting results.
 
 ```python
 results = pm.auto_arima(train,start_p=0, d=0, start_q=0, max_p=5, max_d=5, max_q=5, start_P=0, D=1, start_Q=0, max_P=5, max_D=5, max_Q=5, m=24, seasonal=True, error_action='warn', trace = True, supress_warnings=True, stepwise = True, random_state=20, n_fits = 20)
@@ -920,7 +916,7 @@ Prob(H) (two-sided):                  0.17   Kurtosis:                         4
 ===================================================================================
 ```
 
-最後我們使用尋找到的最佳模型進行資料預測，並且將預測結果與測試資料用疊圖的方式繪製在同一張圖上，由於本次所找到最佳模型即為剛剛介紹 SARIMAX 時的最佳模型參數組合，因此兩者的預測結果也大致相同。
+Finally, we use the best model found for data prediction, and plot the prediction results and test data on the same graph in the form of an overlay. Since the best model found this time is the SARIMAX model just introduced, the results of both predictors are roughly the same.
 
 ```python
 results.predict(n_periods=10)
@@ -949,9 +945,9 @@ data_autoarima[['PM25', 'forecast']].plot(figsize=(12, 8))
 
 ### Prophet
 
-我們接下來使用 kats 套件中提供的 [Prophet](https://facebook.github.io/prophet/) 模型進行資料預測，這個模型是由 Facebook 的資料科學團隊提出，擅長針對週期性強的時間序列資料進行預測，並且可以容忍缺失資料 (missing data)、資料偏移 (shift) 以及偏離值 (outlier)。
+Next, we use the [Prophet](https://facebook.github.io/prophet/) model provided in the kats suite for data prediction. This model is proposed by Facebook's data science team, and it is good at predicting periodic time series data and can tolerate missing data, data shift, and outliers.
 
-我們首先把資料集切分為訓練資料與預測資料，並用折線圖的方式呈現訓練資料的變化狀況。
+We first divide the dataset into training and prediction data and observe the changes in the training data by drawing.
 
 ```python
 data_prophet = air_hour.loc['2020-06-17':'2020-06-21']
@@ -965,7 +961,7 @@ trainData.plot(cols=["PM25"])
 
 ![Python output](figures/4-2-3-7.png)
 
-我們接著使用 ProphetParams 設定 Prophet 模型的參數，並將訓練資料與參數用於初始化設定 ProphetModel，接著我們使用 fit 方法建立模型，並用 predict 方法進行資料預測，便能得到最後預測的結果。
+We then use `ProphetParams` to set the Prophet model's parameters and the training data and parameters to initialize the `ProphetModel`. Then we use the `fit` method to build the model and use the `predict` method to predict the data, and then we can get the final prediction result.
 
 ```python
 # Specify parameters
@@ -1054,7 +1050,7 @@ data_prophet
 2020-06-21 23:00:00	8.100000	25.811943
 ```
 
-我們接著使用 ProphetModel 內建的繪圖方法，將訓練資料 (黑線) 與預測結果 (藍線) 繪製出來。
+We use the built-in drawing method of `ProphetModel` to draw the training data (black curve) and prediction results (blue curve).
 
 ```python
 m.plot()
@@ -1062,7 +1058,7 @@ m.plot()
 
 ![Python output](figures/4-2-3-8.png)
 
-為了更容易觀察預測結果的正確性，我們使用另一種繪圖的方式，將訓練資料 (黑線)、測試資料 (黑線) 與預測結果 (藍線) 同時繪製出來，藍色曲線與同時間的黑色曲線在變化趨勢與數值區間皆十分相似，整體來說預測結果已可算是差強人意。
+To evaluate the correctness of the prediction results, we also use another drawing method to draw the training data (black curve), test data (black curve), and prediction results (blue curve) at the same time. The figure shows that the blue and black curves are roughly consistent in the changing trend and value range, and overall the data prediction results are satisfactory.
 
 ```python
 fig, ax = plt.subplots(figsize=(12, 7))
@@ -1079,9 +1075,9 @@ ax.get_legend().remove()
 
 ### LSTM
 
-接下來，我們介紹使用 LSTM (long short-term memory) 模型進行資料預測。LSTM 模型是一種適合使用在連續資料的預測模型，因為它會對不同時間的資料產生不同的長短期記憶，並藉此預測出最後的結果。目前在 kats 套件中就有提供 LSTM 模型，因此我們可以直接用類似使用 Prophet 模型的語法進行操作。
+Next, we introduce the Long Short-Term Memory (LSTM) model for data prediction. The LSTM model is a predictive model suitable for continuous data because it will generate different long-term and short-term memories for data at different times and use it to predict the final result. Currently, the LSTM model is provided in the kats package, so we can directly use the syntax similar to using the Prophet model.
 
-我們首先把資料集切分為訓練資料與預測資料，並用繪圖的方式查看訓練資料的變化狀況。
+We first divide the dataset into training and prediction data and observe the changes in the training data by drawing.
 
 ```python
 data_lstm = air_hour.loc['2020-06-17':'2020-06-21']
@@ -1095,7 +1091,7 @@ trainData.plot(cols=["PM25"])
 
 ![Python output](figures/4-2-3-10.png)
 
-接著我們依序選擇 LSTM 模型的各項參數，分別是訓練次數 (num_epochs)、一次讀入的資料時間長度 (time_window)、還有跟長短期記憶比較相關的神經網路層數 (hidden_size)，然後便可以直接進行模型訓練與資料預測。
+Then we select the parameters of the LSTM model in order, namely the number of training times (`num_epochs`), the time length of data read in at one time (`time_window`), and the number of neural network layers related to long-term and short-term memory (`hidden_size`). Then you can directly perform model training and data prediction.
 
 ```python
 params = LSTMParams(
@@ -1163,7 +1159,7 @@ fcst
 47	2020-06-21 23:00:00	10.264495	9.751270	10.777719
 ```
 
-我們一樣使用 LSTMModel 內建的繪圖方法，將訓練資料 (黑線) 與預測結果 (藍線) 繪製出來。
+We also use the built-in drawing method of `LSTMModel` to draw the training data (black curve) and prediction results (blue curve).
 
 ```python
 m.plot()
@@ -1171,7 +1167,7 @@ m.plot()
 
 ![Python output](figures/4-2-3-11.png)
 
-為了觀察預測結果的正確性，我們也使用另一種繪圖的方式，將訓練資料 (黑線)、測試資料 (黑線) 與預測結果 (藍線) 同時繪製出來，從圖中可以觀察到藍色曲線與同時間的黑色曲線在變化趨勢上大致一致，但整體來說資料預測的結果 (藍線) 則比實際測試資料  (黑線) 的數值略低一些。
+To evaluate the correctness of the prediction results, we also use another drawing method to draw the training data (black curve), test data (black curve), and prediction results (blue curve) at the same time. The figure shows that the blue and black curves are roughly consistent in the changing trend and value range, but overall, the data prediction result (blue curve) is slightly lower than the test data (black curve).
 
 ```python
 fig, ax = plt.subplots(figsize=(12, 7))
@@ -1188,7 +1184,7 @@ ax.get_legend().remove()
 
 ### Holt-Winter
 
-我們也使用 kats 套件提供的 Holt-Winter 模型，這是一種利用移動平均的概念，分配歷史資料的權重，以進行資料預測的方法。我們一樣先把資料集切分為訓練資料與預測資料，並用繪圖的方式查看訓練資料的變化狀況。
+We also use the Holt-Winter model provided by the kats package, a method that uses moving averages to assign weights to historical data for data forecasting. We first divide the dataset into training and prediction data and observe the changes in the training data by drawing.
 
 ```python
 data_hw = air_hour.loc['2020-06-17':'2020-06-21']
@@ -1202,7 +1198,7 @@ trainData.plot(cols=["PM25"])
 
 ![Python output](figures/4-2-3-13.png)
 
-接著我們需要設定 Holt-Winter 模型的參數，分別是設定使用加法或乘法來分解時序資料 (以下範例使用乘法 mul)，以及週期性的長度 (以下範例設為 24 小時)，然後便可以進行模型訓練與資料預測。
+Then we need to set the parameters of the Holt-Winter model, which are to select whether to use addition or multiplication to decompose the time series data (the following example uses multiplication, `mul`), and the length of the period (the following example uses 24 hours). Then we can perform model training and data prediction.
 
 ```python
 warnings.simplefilter(action='ignore')
@@ -1280,7 +1276,7 @@ fcst
 119	2020-06-21 23:00:00	11.594832
 ```
 
-我們一樣使用 HoltWintersModel 內建的繪圖方法，將訓練資料 (黑線) 與預測結果 (藍線) 繪製出來。
+We also use the built-in drawing method of `HoltWintersModel` to draw the training data (black curve) and prediction results (blue curve).
 
 ```python
 m.plot()
@@ -1288,7 +1284,7 @@ m.plot()
 
 ![Python output](figures/4-2-3-14.png)
 
-為了觀察預測結果的正確性，我們也使用另一種繪圖的方式，將訓練資料 (黑線)、測試資料 (黑線) 與預測結果 (藍線) 同時繪製出來，從圖中可以觀察到藍色曲線與同時間的黑色曲線在變化趨勢與數值區間皆大致一致，但整體來說資料預測的結果 (藍線) 對於上升坡段的反應略慢於測試資料 (黑線)。
+To evaluate the correctness of the prediction results, we also use another drawing method to draw the training data (black curve), test data (black curve), and prediction results (blue curve) at the same time. The figure shows that the blue and black curves are roughly consistent in the changing trend and value range. Still, overall, the data prediction result (blue curve) responds slightly slower to the rising slope than the test data (black curve).
 
 ```python
 fig, ax = plt.subplots(figsize=(12, 7))
@@ -1303,9 +1299,9 @@ ax.get_legend().remove()
 
 ![Python output](figures/4-2-3-15.png)
 
-### 綜合比較
+### Comparison
 
-最後，為了方便觀察與比較起見，我們將剛剛介紹的六種預測模型的預測結果，同時繪製在下方的圖中（註：要先跑過上面所有預測模型的程式碼才看得到六張圖），可以清楚地觀察與比較六種模型在不同時間區間與曲線變化特性下的預測準確度，方便使用者決定最終的模型選擇，以及未來的可能應用。
+Finally, to facilitate observation and comparison, we will draw the prediction results of the six models introduced in the figure below simultaneously (Note: You must first run all the codes of the above prediction models to see the results of these six prediction models). We can observe and compare the prediction accuracy of the six models under different time intervals and curve change characteristics, which is convenient for users to decide on the final model selection and possible future applications.
 
 ```python
 fig, axes = plt.subplots(nrows=3, ncols=2, figsize=(12, 8))
@@ -1322,9 +1318,9 @@ fig.tight_layout(pad=1, w_pad=2, h_pad=5)
 
 ![Python output](figures/4-2-3-16.png)
 
-## 參考資料
+## References
 
-- 民生公共物聯網歷史資料 ([https://history.colife.org.tw/](https://history.colife.org.tw/#/))
+- Civil IoT Taiwan: Historical Data ([https://history.colife.org.tw/](https://history.colife.org.tw/#/))
 - Rob J Hyndman and George Athanasopoulos, Forecasting: Principles and Practice, 3rd edition ([https://otexts.com/fpp3/](https://otexts.com/fpp3/))
 - Stationarity, NIST Engineering Statistics Handbook ([https://www.itl.nist.gov/div898/handbook/pmc/section4/pmc442.htm](https://www.itl.nist.gov/div898/handbook/pmc/section4/pmc442.htm))
 - Unit root test - Wikipedia ([https://en.wikipedia.org/wiki/Unit_root_test](https://en.wikipedia.org/wiki/Unit_root_test))
