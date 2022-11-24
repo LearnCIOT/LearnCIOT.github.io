@@ -1,11 +1,11 @@
 ---
-title : "4.2. 時間序列資料預測"
+title : "4.2. Time Series Data Forecast"
 weight : 20
 socialshare: true
-description : "我們使用民生公共物聯網資料平台的感測資料，套用現有的 Python 資料科學套件 (例如 scikit-learn、Kats 等)，用動手實作的方式，比較各種套件所內建的不同資料預測模型的使用方法與預測結果，用製圖的方式進行資料呈現，並且探討不同的資料集與不同時間解析度的資料預測，在真實場域所代表的意義，以及可能衍生的應用。"
-tags: ["Python", "水", "空" ]
+description : "We use the sensing data of the Civil IoT Taiwan Data Service Platform and apply existing Python data science packages (such as scikit-learn, Kats, etc.) to compare the prediction results of different data prediction models. We use graphics to present the data and discuss the significance of the data prediction of the dataset at different time resolutions in the real field, as well as possible derived applications."
+tags: ["Python", "Water", "Air" ]
 levels: ["intermediate" ]
-authors: ["彭昱齊"]
+authors: ["Yu-Chi Peng"]
 ---
 
 
