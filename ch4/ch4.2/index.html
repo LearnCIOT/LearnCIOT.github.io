@@ -16,18 +16,18 @@
     <meta name="author" content="Ling-Jyh Chen">
     <title>4.2. 時間序列資料預測 :: Tutorial for CIoT Open Data Applications</title>
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="/css/fontawesome-all.min.css?1669092471" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1669092471" rel="stylesheet"></noscript>
-    <link href="/css/featherlight.min.css?1669092471" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1669092471" rel="stylesheet"></noscript>
-    <link href="/css/auto-complete.css?1669092471" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1669092471" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar.min.css?1669092471" rel="stylesheet">
-    <link href="/css/nucleus.css?1669092471" rel="stylesheet">
-    <link href="/css/fonts.css?1669092471" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1669092471" rel="stylesheet"></noscript>
-    <link href="/css/theme.css?1669092471" rel="stylesheet">
-    <link href="/css/theme-relearn-light.css?1669092471" rel="stylesheet" id="variant-style">
-    <link href="/css/ie.css?1669092471" rel="stylesheet">
-    <link href="/css/variant.css?1669092471" rel="stylesheet">
-    <link href="/css/print.css?1669092471" rel="stylesheet" media="print">
-    <script src="/js/variant.js?1669092471"></script>
+    <link href="/css/fontawesome-all.min.css?1669261235" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1669261235" rel="stylesheet"></noscript>
+    <link href="/css/featherlight.min.css?1669261235" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1669261235" rel="stylesheet"></noscript>
+    <link href="/css/auto-complete.css?1669261235" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1669261235" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar.min.css?1669261235" rel="stylesheet">
+    <link href="/css/nucleus.css?1669261235" rel="stylesheet">
+    <link href="/css/fonts.css?1669261235" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1669261235" rel="stylesheet"></noscript>
+    <link href="/css/theme.css?1669261235" rel="stylesheet">
+    <link href="/css/theme-relearn-light.css?1669261235" rel="stylesheet" id="variant-style">
+    <link href="/css/ie.css?1669261235" rel="stylesheet">
+    <link href="/css/variant.css?1669261235" rel="stylesheet">
+    <link href="/css/print.css?1669261235" rel="stylesheet" media="print">
+    <script src="/js/variant.js?1669261235"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -43,7 +43,7 @@
       var baseUriFull='https:\/\/LearnCIOT.github.io/';
       window.variants && variants.init( [ 'relearn-light' ] );
     </script>
-    <script src="/js/jquery.min.js?1669092471" defer></script>
+    <script src="/js/jquery.min.js?1669261235" defer></script>
 <meta property="fb:app_id" content="601826851395774" />
   </head>
   <body class="default-animation" data-url="/ch4/ch4.2/">
@@ -723,7 +723,7 @@ Critial Values:
 Critial Values:
    1%, 0.739
 </code></pre><p>若以我們使用的範例資料為例，經過 ADF 檢測得到的 <em>p-value</em> 為 0.073，因此該資料並沒有平穩性。為了達到平穩性，我們接下來將資料進行差分，也就是將第 i 筆資料減第 i-1 筆資料，並使用得到的結果再次進行檢測。</p>
-<p>在 dataframe 的資料格式上我們可以直接使用 data.diff() 來將資料差分 ，並將經過差分後的資料命名為 data_diff。</p>
+<p>在 dataframe 的資料格式上我們可以直接使用 <code>data.diff()</code> 來將資料差分 ，並將經過差分後的資料命名為 <code>data_diff</code>。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>data_diff <span style="color:#f92672">=</span> data<span style="color:#f92672">.</span>diff()
 </span></span><span style="display:flex;"><span>data_diff
 </span></span></code></pre></div><pre tabindex="0"><code>                         PM25
@@ -978,7 +978,7 @@ Prob(H) (two-sided):                  0.05   Kurtosis:                         7
 </tr>
 </tbody>
 </table>
-<p>由於從先前的觀察可以發現，這些資料大致上約 24 個小時會有一個週期性的變化，因此我們讓 <em>s</em>=24，並用下列的指令進行模型建立。</p>
+<p>由於從先前的觀察可以發現，這些資料大致上約 24 個小時會有一個週期性的變化，因此我們讓 <code>s=24</code>，並用下列的指令進行模型建立。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Instantiate model object</span>
 </span></span><span style="display:flex;"><span>model <span style="color:#f92672">=</span> SARIMAX(train, order<span style="color:#f92672">=</span>(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>), seasonal_order<span style="color:#f92672">=</span>(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">24</span>))
 </span></span><span style="display:flex;"><span>
@@ -1007,7 +1007,7 @@ Heteroskedasticity (H):               2.03   Skew:                             0
 Prob(H) (two-sided):                  0.17   Kurtosis:                         4.46
 ===================================================================================
 </code></pre><p><img src="figures/4-2-3-4.png" alt="Python output"></p>
-<p>接下來我們使用測試資料進行資料預測，並將預測結果用視覺化方式呈現，可以發現相較於 ARIMA 模型＃，SARIMA 模型的預測結果雖然仍有待加強，但已比 ARIMA 模型進步許多。</p>
+<p>接下來我們使用測試資料進行資料預測，並將預測結果用視覺化方式呈現，可以發現相較於 ARIMA 模型，SARIMA 模型的預測結果雖然仍有待加強，但已比 ARIMA 模型進步許多。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 總共有五天的資料，要預測最後兩天的部分，因此預測的起始小時為 24*5-48，結束小時為 24*5</span>
 </span></span><span style="display:flex;"><span>data_sarimax[<span style="color:#e6db74">&#39;forecast&#39;</span>] <span style="color:#f92672">=</span> results<span style="color:#f92672">.</span>predict(start<span style="color:#f92672">=</span><span style="color:#ae81ff">24</span><span style="color:#f92672">*</span><span style="color:#ae81ff">5</span><span style="color:#f92672">-</span><span style="color:#ae81ff">48</span>, end<span style="color:#f92672">=</span><span style="color:#ae81ff">24</span><span style="color:#f92672">*</span><span style="color:#ae81ff">5</span>)
 </span></span><span style="display:flex;"><span>data_sarimax[[<span style="color:#e6db74">&#39;PM25&#39;</span>, <span style="color:#e6db74">&#39;forecast&#39;</span>]]<span style="color:#f92672">.</span>plot(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">12</span>, <span style="color:#ae81ff">8</span>))
@@ -1483,12 +1483,12 @@ Freq: H, dtype: float64
         <script>
           var contentLangs=['zh'];
         </script>
-        <script src="/js/auto-complete.js?1669092471" defer></script>
-        <script src="/js/lunr.min.js?1669092471" defer></script>
-        <script src="/js/lunr.stemmer.support.min.js?1669092471" defer></script>
-        <script src="/js/lunr.multi.min.js?1669092471" defer></script>
-        <script src="/js/lunr.zh.min.js?1669092471" defer></script>
-        <script src="/js/search.js?1669092471" defer></script>
+        <script src="/js/auto-complete.js?1669261235" defer></script>
+        <script src="/js/lunr.min.js?1669261235" defer></script>
+        <script src="/js/lunr.stemmer.support.min.js?1669261235" defer></script>
+        <script src="/js/lunr.multi.min.js?1669261235" defer></script>
+        <script src="/js/lunr.zh.min.js?1669261235" defer></script>
+        <script src="/js/search.js?1669261235" defer></script>
       </div>
       <div id="content-wrapper" class="highlightable">
         <ul class="topics">
@@ -1535,6 +1535,7 @@ Freq: H, dtype: float64
                 <span>&nbsp;</span>
                 <div class="select-style">
                   <select id="select-language" onchange="location = baseUri + this.value;">
+                    <option id="en" value="/en/ch4/ch4.2/">English</option>
                     <option id="zh-tw" value="/ch4/ch4.2/" selected>中文</option>
                   </select>
                 </div>
@@ -1563,14 +1564,14 @@ Freq: H, dtype: float64
       </div>
     </aside>
 
-    <script src="/js/clipboard.min.js?1669092471" defer></script>
-    <script src="/js/perfect-scrollbar.min.js?1669092471" defer></script>
-    <script src="/js/featherlight.min.js?1669092471" defer></script>
-    <script src="/js/jquery.svg.pan.zoom.js?1669092471" defer></script>
-    <script src="/js/mermaid.min.js?1669092471" defer></script>
+    <script src="/js/clipboard.min.js?1669261235" defer></script>
+    <script src="/js/perfect-scrollbar.min.js?1669261235" defer></script>
+    <script src="/js/featherlight.min.js?1669261235" defer></script>
+    <script src="/js/jquery.svg.pan.zoom.js?1669261235" defer></script>
+    <script src="/js/mermaid.min.js?1669261235" defer></script>
     <script>
       window.themeUseMermaid = JSON.parse("{}");
     </script>
-    <script src="/js/theme.js?1669092471" defer></script>
+    <script src="/js/theme.js?1669261235" defer></script>
   </body>
 </html>

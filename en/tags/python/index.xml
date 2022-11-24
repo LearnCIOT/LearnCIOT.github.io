@@ -28,6 +28,13 @@
       <description>Table Of Contents Data access under temporal conditions Data access under spatial conditions Case study: Is the air quality here worse than there? Import data Remove invalid data Calculate distance Pandas package Results References This article will access the data of the Civil IoT Taiwan project from the perspective of time and space, and carry out a simple implementation with the theme of air quality monitoring. It will covers the following topics:</description>
     </item>
     <item>
+      <title>4.2. Time Series Data Forecast</title>
+      <link>https://LearnCIOT.github.io/en/ch4/ch4.2/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://LearnCIOT.github.io/en/ch4/ch4.2/</guid>
+      <description>Table Of Contents Goal Package Installation and Importing Data Access Air Quality Data Water Level Data Meteorological Data Data Preprocessing Stationary Evaluation Data Forecast ARIMA SARIMAX auto_arima Prophet LSTM Holt-Winter Comparison References The previous chapter has introduced various methods of processing time series data, including visual presentation of data, decomposition of time series data, etc. In this chapter, we will further extract the characteristics of these data and use various predictive models to find the law of the data and predict the future.</description>
+    </item>
+    <item>
       <title>6.2. Anomaly Detection</title>
       <link>https://LearnCIOT.github.io/en/ch6/ch6.2/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
