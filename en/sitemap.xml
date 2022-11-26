@@ -136,6 +136,19 @@
                 />
   </url>
   <url>
+    <loc>https://LearnCIOT.github.io/en/ch6/ch6.1/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-tw"
+                href="https://LearnCIOT.github.io/ch6/ch6.1/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://LearnCIOT.github.io/en/ch6/ch6.1/"
+                />
+  </url>
+  <url>
     <loc>https://LearnCIOT.github.io/en/ch7/ch7.1/</loc>
     <xhtml:link
                 rel="alternate"
@@ -365,6 +378,9 @@
                 />
   </url>
   <url>
+    <loc>https://LearnCIOT.github.io/en/authors/hung-ying-chen/</loc>
+  </url>
+  <url>
     <loc>https://LearnCIOT.github.io/en/levels/intermediate/</loc>
     <xhtml:link
                 rel="alternate"
@@ -389,6 +405,9 @@
                 hreflang="en"
                 href="https://LearnCIOT.github.io/en/tags/introduction/"
                 />
+  </url>
+  <url>
+    <loc>https://LearnCIOT.github.io/en/authors/jen-wei-huang/</loc>
   </url>
   <url>
     <loc>https://LearnCIOT.github.io/en/</loc>
