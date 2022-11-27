@@ -49,6 +49,13 @@
       <description>Table Of Contents Anomaly Detection Framework Types of abnormal events Possible causes of abnormal events Case Study Package Installation and Importing Initialization and Data Access Find nearby sensors Time slicing every five minutes Average the sensing values of nearby sensors every time slice Abnormal event judgements Implementation of the Malfunction Detection module Implementation of the Real-time Emission Detection module Implementation of the Device Ranking module References Anomaly Detection Framework Multiple large-scale micro air quality monitoring systems have been successfully deployed in different countries and cities.</description>
     </item>
     <item>
+      <title>4.3. Time Series Data Clustering</title>
+      <link>https://LearnCIOT.github.io/en/ch4/ch4.3/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://LearnCIOT.github.io/en/ch4/ch4.3/</guid>
+      <description>Table Of Contents Goal Package Installation and Importing Data Access and Preprocessing Data Clustering Fast Fourier Transform Wavelet Transform References Cluster analysis is a commonly used data processing method in data science, and its primary purpose is to find similar clusters in the data. After cluster analysis, data with similar attributes are clustered together for ease of use, and researchers can perform deeper analysis and processing on data with similar characteristics.</description>
+    </item>
+    <item>
       <title>6.3. Joint Data Calibration</title>
       <link>https://LearnCIOT.github.io/en/ch6/ch6.3/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
