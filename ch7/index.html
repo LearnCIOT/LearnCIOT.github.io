@@ -17,18 +17,18 @@
     <title>7. 系統整合應用 :: Tutorial for CIoT Open Data Applications</title>
     <link rel="alternate" type="application/rss&#43;xml" href="/ch7/index.xml" title="Tutorial for CIoT Open Data Applications" />
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="/css/fontawesome-all.min.css?1669531795" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1669531795" rel="stylesheet"></noscript>
-    <link href="/css/featherlight.min.css?1669531795" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1669531795" rel="stylesheet"></noscript>
-    <link href="/css/auto-complete.css?1669531795" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1669531795" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar.min.css?1669531795" rel="stylesheet">
-    <link href="/css/nucleus.css?1669531795" rel="stylesheet">
-    <link href="/css/fonts.css?1669531795" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1669531795" rel="stylesheet"></noscript>
-    <link href="/css/theme.css?1669531795" rel="stylesheet">
-    <link href="/css/theme-relearn-light.css?1669531795" rel="stylesheet" id="variant-style">
-    <link href="/css/ie.css?1669531795" rel="stylesheet">
-    <link href="/css/variant.css?1669531795" rel="stylesheet">
-    <link href="/css/print.css?1669531795" rel="stylesheet" media="print">
-    <script src="/js/variant.js?1669531795"></script>
+    <link href="/css/fontawesome-all.min.css?1669534549" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1669534549" rel="stylesheet"></noscript>
+    <link href="/css/featherlight.min.css?1669534549" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1669534549" rel="stylesheet"></noscript>
+    <link href="/css/auto-complete.css?1669534549" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1669534549" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar.min.css?1669534549" rel="stylesheet">
+    <link href="/css/nucleus.css?1669534549" rel="stylesheet">
+    <link href="/css/fonts.css?1669534549" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1669534549" rel="stylesheet"></noscript>
+    <link href="/css/theme.css?1669534549" rel="stylesheet">
+    <link href="/css/theme-relearn-light.css?1669534549" rel="stylesheet" id="variant-style">
+    <link href="/css/ie.css?1669534549" rel="stylesheet">
+    <link href="/css/variant.css?1669534549" rel="stylesheet">
+    <link href="/css/print.css?1669534549" rel="stylesheet" media="print">
+    <script src="/js/variant.js?1669534549"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -44,7 +44,7 @@
       var baseUriFull='https:\/\/LearnCIOT.github.io/';
       window.variants && variants.init( [ 'relearn-light' ] );
     </script>
-    <script src="/js/jquery.min.js?1669531795" defer></script>
+    <script src="/js/jquery.min.js?1669534549" defer></script>
 <meta property="fb:app_id" content="601826851395774" />
   </head>
   <body class="default-animation" data-url="/ch7/">
@@ -264,6 +264,203 @@ if (!doNotTrack) {
 <li><a href="/ch7/ch7.2/" >7.2. Tableau 應用</a><p>我們介紹使用 Tableau 工具呈現民生公共物聯網的開放資料，並使用空品資料和災害通報資料進行兩個範例演示。我們介紹如何使用工作表、儀表板和文本來建立互動式的資料視覺化系統，方便使用者近一步深入探索。我們同時提供豐富的參考資料供使用者學習參考。</p></li>
 <li><a href="/ch7/ch7.3/" >7.3. Leafmap 應用</a><p>我們介紹 leafmap 套件在民生公共物聯網資料平台中使用不同類型數據進行地理信息表示和空間分析的能力，並演示了 leafmap 和 streamlit 套件的結合共同構建 Web GIS 的應用。透過跨域與跨工具的資源整合，將能拓展讀者對數據分析和信息服務未來的想像。</p></li>
 </ul>
+<script src= '/js/pdf-js/build/pdf.js'></script>
+<style>
+#the-canvas {
+  border: 1px solid black;
+  direction: ltr;
+  width: 100%;
+  height: auto;
+  display: none;
+}
+
+#paginator {
+  display: none;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+#loadingWrapper {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 350px;
+}
+
+#loading {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  border: 3px solid #d2d0d0;;
+  border-radius: 50%;
+  border-top-color: #383838;
+  animation: spin 1s ease-in-out infinite;
+  -webkit-animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { -webkit-transform: rotate(360deg); }
+}
+@-webkit-keyframes spin {
+  to { -webkit-transform: rotate(360deg); }
+}
+</style>
+
+<div id="paginator">
+    <button id="prev">Previous</button>
+    <button id="next">Next</button>
+    &nbsp; &nbsp;
+    <span>Page: <span id="page_num"></span> / <span id="page_count"></span></span>
+    &nbsp; &nbsp;
+    <button id="download" onclick="window.open('\/slides\/ch7_1-slides.pdf')">Download</button>
+</div>
+<div id="embed-pdf-container">
+    <div id="loadingWrapper">
+      <div id="loading"></div>
+    </div>
+    <canvas id="the-canvas"></canvas>
+</div>
+
+<script type="text/javascript">
+window.onload = function() {
+
+
+var url = "https:\/\/LearnCIOT.github.io\/" + '\/slides\/ch7_1-slides.pdf';
+
+var hidePaginator = "" === "true";
+var hideLoader = "" === "true";
+var selectedPageNum = parseInt("") || 1;
+
+
+var pdfjsLib = window['pdfjs-dist/build/pdf'];
+
+
+pdfjsLib.GlobalWorkerOptions.workerSrc = "https:\/\/LearnCIOT.github.io\/" + '/js/pdf-js/build/pdf.worker.js';
+
+
+var pdfDoc = null,
+    pageNum = selectedPageNum,
+    pageRendering = false,
+    pageNumPending = null,
+    scale = 3,
+    canvas = document.getElementById('the-canvas'),
+    ctx = canvas.getContext('2d'),
+    paginator = document.getElementById("paginator"),
+    loadingWrapper = document.getElementById('loadingWrapper');
+
+
+
+showPaginator();
+showLoader();
+
+
+
+function renderPage(num) {
+  pageRendering = true;
+  
+  pdfDoc.getPage(num).then(function(page) {
+    var viewport = page.getViewport({scale: scale});
+    canvas.height = viewport.height;
+    canvas.width = viewport.width;
+
+    
+    var renderContext = {
+      canvasContext: ctx,
+      viewport: viewport
+    };
+    var renderTask = page.render(renderContext);
+
+    
+    renderTask.promise.then(function() {
+      pageRendering = false;
+      showContent();
+      
+      if (pageNumPending !== null) {
+        
+        renderPage(pageNumPending);
+        pageNumPending = null;
+      }
+    });
+  });
+
+  
+  document.getElementById('page_num').textContent = num;
+}
+
+
+
+function showContent() {
+  loadingWrapper.style.display = 'none';
+  canvas.style.display = 'block';
+}
+
+
+
+function showLoader() {
+  if(hideLoader) return
+  loadingWrapper.style.display = 'flex';
+  canvas.style.display = 'none';
+}
+
+
+
+function showPaginator() {
+  if(hidePaginator) return
+  paginator.style.display = 'block';
+}
+
+
+
+function queueRenderPage(num) {
+  if (pageRendering) {
+    pageNumPending = num;
+  } else {
+    renderPage(num);
+  }
+}
+
+
+
+function onPrevPage() {
+  if (pageNum <= 1) {
+    return;
+  }
+  pageNum--;
+  queueRenderPage(pageNum);
+}
+document.getElementById('prev').addEventListener('click', onPrevPage);
+
+
+
+function onNextPage() {
+  if (pageNum >= pdfDoc.numPages) {
+    return;
+  }
+  pageNum++;
+  queueRenderPage(pageNum);
+}
+document.getElementById('next').addEventListener('click', onNextPage);
+
+
+
+pdfjsLib.getDocument(url).promise.then(function(pdfDoc_) {
+  pdfDoc = pdfDoc_;
+  var numPages = pdfDoc.numPages;
+  document.getElementById('page_count').textContent = numPages;
+  
+  
+  if(pageNum > numPages) {
+    pageNum = numPages
+  }
+
+  
+  renderPage(pageNum);
+});
+}
+
+</script>
+
 
             <footer class="footline">
             </footer>
@@ -338,12 +535,12 @@ if (!doNotTrack) {
         <script>
           var contentLangs=['zh'];
         </script>
-        <script src="/js/auto-complete.js?1669531795" defer></script>
-        <script src="/js/lunr.min.js?1669531795" defer></script>
-        <script src="/js/lunr.stemmer.support.min.js?1669531795" defer></script>
-        <script src="/js/lunr.multi.min.js?1669531795" defer></script>
-        <script src="/js/lunr.zh.min.js?1669531795" defer></script>
-        <script src="/js/search.js?1669531795" defer></script>
+        <script src="/js/auto-complete.js?1669534549" defer></script>
+        <script src="/js/lunr.min.js?1669534549" defer></script>
+        <script src="/js/lunr.stemmer.support.min.js?1669534549" defer></script>
+        <script src="/js/lunr.multi.min.js?1669534549" defer></script>
+        <script src="/js/lunr.zh.min.js?1669534549" defer></script>
+        <script src="/js/search.js?1669534549" defer></script>
       </div>
       <div id="content-wrapper" class="highlightable">
         <ul class="topics">
@@ -419,14 +616,14 @@ if (!doNotTrack) {
       </div>
     </aside>
 
-    <script src="/js/clipboard.min.js?1669531795" defer></script>
-    <script src="/js/perfect-scrollbar.min.js?1669531795" defer></script>
-    <script src="/js/featherlight.min.js?1669531795" defer></script>
-    <script src="/js/jquery.svg.pan.zoom.js?1669531795" defer></script>
-    <script src="/js/mermaid.min.js?1669531795" defer></script>
+    <script src="/js/clipboard.min.js?1669534549" defer></script>
+    <script src="/js/perfect-scrollbar.min.js?1669534549" defer></script>
+    <script src="/js/featherlight.min.js?1669534549" defer></script>
+    <script src="/js/jquery.svg.pan.zoom.js?1669534549" defer></script>
+    <script src="/js/mermaid.min.js?1669534549" defer></script>
     <script>
       window.themeUseMermaid = JSON.parse("{}");
     </script>
-    <script src="/js/theme.js?1669531795" defer></script>
+    <script src="/js/theme.js?1669534549" defer></script>
   </body>
 </html>
