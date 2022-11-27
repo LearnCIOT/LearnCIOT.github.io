@@ -46,6 +46,8 @@
     <button id="next">Next</button>
     &nbsp; &nbsp;
     <span>Page: <span id="page_num"></span> / <span id="page_count"></span></span>
+    &nbsp; &nbsp;
+    <button id="download" onclick="window.open('{{ .Get "url" }}')">Download</button>
 </div>
 <div id="embed-pdf-container">
     <div id="loadingWrapper">
