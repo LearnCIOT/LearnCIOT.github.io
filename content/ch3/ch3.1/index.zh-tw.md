@@ -64,7 +64,7 @@ a = Air().get_source()
 
 - `.get_source()` 獲取專案代碼回傳在民生公共物聯網開放資料平台中有的專案代碼，返回格式為 array。
 - `.get_station(src='')` 獲取回傳各測站資料的基本資訊及位置，返回格式為 array；可選擇性帶入 `src` 參數，指名所要查詢的專案代碼。
-- `.get_data(src='', stationIds=[])` 獲取所有測站列表返回格式為 array，回傳各測站的基本資訊，位置及感測資料；可選擇性帶入 `src` 參數，指名所要查詢的專案代碼，或選擇性帶入 `stationIds` 參數，指名所要查詢的機器代碼。
+- `.get_data(src='', stationID='')` 獲取所有測站列表返回格式為 array，回傳各測站的基本資訊，位置及感測資料；可選擇性帶入 `src` 參數，指名所要查詢的專案代碼，或選擇性帶入 `stationID` 參數，指名所要查詢的機器代碼。
 
 災害警示資料則適用於以下：
 
@@ -132,7 +132,7 @@ b[0:5]
 ### 獲取測站資料 `Air().get_data()`
 
 ```python
-f = Air().get_data(src="OBS:EPA_IoT", stationIds=["11613429495"])
+f = Air().get_data(src="OBS:EPA_IoT", stationID="11613429495")
 f
 ```
 

@@ -60,7 +60,7 @@ The data of the Civil IoT Taiwan project can be obtained through the following m
 
 - `.get_source()` : Return all project codes in Civil IoT Taiwan Data Service Platform in array format according to the data type.
 - `.get_station(src='')` : Return basic information of all station data in array format. The `src` parameter is optional to specify the project code to be queried.
-- `.get_data(src='', stationIds=[])` : Return basic information of all stations and their latest measurement result in array format. The `src` parameter is optional to specify the project code to be queried, and the `stationIds` parameter is optional to specify the device ID to be queried.
+- `.get_data(src='', stationID='')` : Return basic information of all stations and their latest measurement result in array format. The `src` parameter is optional to specify the project code to be queried, and the `stationID` parameter is optional to specify the device ID to be queried.
 
 The following applies to disaster notification data.
 
@@ -126,7 +126,7 @@ b[0:5]
 ### Get data of a station: `Air().get_data()`
 
 ```python
-f = Air().get_data(src="OBS:EPA_IoT", stationIds=["11613429495"])
+f = Air().get_data(src="OBS:EPA_IoT", stationID="11613429495")
 f
 ```
 
