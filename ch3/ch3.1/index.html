@@ -16,18 +16,18 @@
     <meta name="author" content="Ling-Jyh Chen">
     <title>3.1. 基本資料存取方法 :: Tutorial for CIoT Open Data Applications</title>
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="/css/fontawesome-all.min.css?1669534549" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1669534549" rel="stylesheet"></noscript>
-    <link href="/css/featherlight.min.css?1669534549" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1669534549" rel="stylesheet"></noscript>
-    <link href="/css/auto-complete.css?1669534549" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1669534549" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar.min.css?1669534549" rel="stylesheet">
-    <link href="/css/nucleus.css?1669534549" rel="stylesheet">
-    <link href="/css/fonts.css?1669534549" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1669534549" rel="stylesheet"></noscript>
-    <link href="/css/theme.css?1669534549" rel="stylesheet">
-    <link href="/css/theme-relearn-light.css?1669534549" rel="stylesheet" id="variant-style">
-    <link href="/css/ie.css?1669534549" rel="stylesheet">
-    <link href="/css/variant.css?1669534549" rel="stylesheet">
-    <link href="/css/print.css?1669534549" rel="stylesheet" media="print">
-    <script src="/js/variant.js?1669534549"></script>
+    <link href="/css/fontawesome-all.min.css?1669536037" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1669536037" rel="stylesheet"></noscript>
+    <link href="/css/featherlight.min.css?1669536037" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1669536037" rel="stylesheet"></noscript>
+    <link href="/css/auto-complete.css?1669536037" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1669536037" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar.min.css?1669536037" rel="stylesheet">
+    <link href="/css/nucleus.css?1669536037" rel="stylesheet">
+    <link href="/css/fonts.css?1669536037" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1669536037" rel="stylesheet"></noscript>
+    <link href="/css/theme.css?1669536037" rel="stylesheet">
+    <link href="/css/theme-relearn-light.css?1669536037" rel="stylesheet" id="variant-style">
+    <link href="/css/ie.css?1669536037" rel="stylesheet">
+    <link href="/css/variant.css?1669536037" rel="stylesheet">
+    <link href="/css/print.css?1669536037" rel="stylesheet" media="print">
+    <script src="/js/variant.js?1669536037"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -43,7 +43,7 @@
       var baseUriFull='https:\/\/LearnCIOT.github.io/';
       window.variants && variants.init( [ 'relearn-light' ] );
     </script>
-    <script src="/js/jquery.min.js?1669534549" defer></script>
+    <script src="/js/jquery.min.js?1669536037" defer></script>
 <meta property="fb:app_id" content="601826851395774" />
   </head>
   <body class="default-animation" data-url="/ch3/ch3.1/">
@@ -411,7 +411,7 @@ if (!doNotTrack) {
 <ul>
 <li><code>.get_source()</code> 獲取專案代碼回傳在民生公共物聯網開放資料平台中有的專案代碼，返回格式為 array。</li>
 <li><code>.get_station(src='')</code> 獲取回傳各測站資料的基本資訊及位置，返回格式為 array；可選擇性帶入 <code>src</code> 參數，指名所要查詢的專案代碼。</li>
-<li><code>.get_data(src='', stationIds=[])</code> 獲取所有測站列表返回格式為 array，回傳各測站的基本資訊，位置及感測資料；可選擇性帶入 <code>src</code> 參數，指名所要查詢的專案代碼，或選擇性帶入 <code>stationIds</code> 參數，指名所要查詢的機器代碼。</li>
+<li><code>.get_data(src='', stationID='')</code> 獲取所有測站列表返回格式為 array，回傳各測站的基本資訊，位置及感測資料；可選擇性帶入 <code>src</code> 參數，指名所要查詢的專案代碼，或選擇性帶入 <code>stationID</code> 參數，指名所要查詢的機器代碼。</li>
 </ul>
 <p>災害警示資料則適用於以下：</p>
 <ul>
@@ -461,7 +461,7 @@ if (!doNotTrack) {
     ...
 ]
 </code></pre><h3 id="獲取測站資料airget_data">獲取測站資料 <code>Air().get_data()</code></h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>f <span style="color:#f92672">=</span> Air()<span style="color:#f92672">.</span>get_data(src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;OBS:EPA_IoT&#34;</span>, stationIds<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#34;11613429495&#34;</span>])
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>f <span style="color:#f92672">=</span> Air()<span style="color:#f92672">.</span>get_data(src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;OBS:EPA_IoT&#34;</span>, stationID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;11613429495&#34;</span>)
 </span></span><span style="display:flex;"><span>f
 </span></span></code></pre></div><pre tabindex="0"><code>[
 {&#39;name&#39;: &#39;智慧城鄉空品微型感測器-11613429495&#39;,
@@ -892,12 +892,12 @@ if (!doNotTrack) {
         <script>
           var contentLangs=['zh'];
         </script>
-        <script src="/js/auto-complete.js?1669534549" defer></script>
-        <script src="/js/lunr.min.js?1669534549" defer></script>
-        <script src="/js/lunr.stemmer.support.min.js?1669534549" defer></script>
-        <script src="/js/lunr.multi.min.js?1669534549" defer></script>
-        <script src="/js/lunr.zh.min.js?1669534549" defer></script>
-        <script src="/js/search.js?1669534549" defer></script>
+        <script src="/js/auto-complete.js?1669536037" defer></script>
+        <script src="/js/lunr.min.js?1669536037" defer></script>
+        <script src="/js/lunr.stemmer.support.min.js?1669536037" defer></script>
+        <script src="/js/lunr.multi.min.js?1669536037" defer></script>
+        <script src="/js/lunr.zh.min.js?1669536037" defer></script>
+        <script src="/js/search.js?1669536037" defer></script>
       </div>
       <div id="content-wrapper" class="highlightable">
         <ul class="topics">
@@ -973,14 +973,14 @@ if (!doNotTrack) {
       </div>
     </aside>
 
-    <script src="/js/clipboard.min.js?1669534549" defer></script>
-    <script src="/js/perfect-scrollbar.min.js?1669534549" defer></script>
-    <script src="/js/featherlight.min.js?1669534549" defer></script>
-    <script src="/js/jquery.svg.pan.zoom.js?1669534549" defer></script>
-    <script src="/js/mermaid.min.js?1669534549" defer></script>
+    <script src="/js/clipboard.min.js?1669536037" defer></script>
+    <script src="/js/perfect-scrollbar.min.js?1669536037" defer></script>
+    <script src="/js/featherlight.min.js?1669536037" defer></script>
+    <script src="/js/jquery.svg.pan.zoom.js?1669536037" defer></script>
+    <script src="/js/mermaid.min.js?1669536037" defer></script>
     <script>
       window.themeUseMermaid = JSON.parse("{}");
     </script>
-    <script src="/js/theme.js?1669534549" defer></script>
+    <script src="/js/theme.js?1669536037" defer></script>
   </body>
 </html>

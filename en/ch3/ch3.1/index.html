@@ -16,18 +16,18 @@
     <meta name="author" content="Ling-Jyh Chen">
     <title>3.1. Basic Data Access Methods :: Tutorial for CIoT Open Data Applications</title>
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="/css/fontawesome-all.min.css?1669534548" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1669534548" rel="stylesheet"></noscript>
-    <link href="/css/featherlight.min.css?1669534548" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1669534548" rel="stylesheet"></noscript>
-    <link href="/css/auto-complete.css?1669534548" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1669534548" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar.min.css?1669534548" rel="stylesheet">
-    <link href="/css/nucleus.css?1669534548" rel="stylesheet">
-    <link href="/css/fonts.css?1669534548" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1669534548" rel="stylesheet"></noscript>
-    <link href="/css/theme.css?1669534548" rel="stylesheet">
-    <link href="/css/theme-relearn-light.css?1669534548" rel="stylesheet" id="variant-style">
-    <link href="/css/ie.css?1669534548" rel="stylesheet">
-    <link href="/css/variant.css?1669534548" rel="stylesheet">
-    <link href="/css/print.css?1669534548" rel="stylesheet" media="print">
-    <script src="/js/variant.js?1669534548"></script>
+    <link href="/css/fontawesome-all.min.css?1669536036" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1669536036" rel="stylesheet"></noscript>
+    <link href="/css/featherlight.min.css?1669536036" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1669536036" rel="stylesheet"></noscript>
+    <link href="/css/auto-complete.css?1669536036" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1669536036" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar.min.css?1669536036" rel="stylesheet">
+    <link href="/css/nucleus.css?1669536036" rel="stylesheet">
+    <link href="/css/fonts.css?1669536036" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1669536036" rel="stylesheet"></noscript>
+    <link href="/css/theme.css?1669536036" rel="stylesheet">
+    <link href="/css/theme-relearn-light.css?1669536036" rel="stylesheet" id="variant-style">
+    <link href="/css/ie.css?1669536036" rel="stylesheet">
+    <link href="/css/variant.css?1669536036" rel="stylesheet">
+    <link href="/css/print.css?1669536036" rel="stylesheet" media="print">
+    <script src="/js/variant.js?1669536036"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -43,7 +43,7 @@
       var baseUriFull='https:\/\/LearnCIOT.github.io/';
       window.variants && variants.init( [ 'relearn-light' ] );
     </script>
-    <script src="/js/jquery.min.js?1669534548" defer></script>
+    <script src="/js/jquery.min.js?1669536036" defer></script>
 <meta property="fb:app_id" content="601826851395774" />
   </head>
   <body class="default-animation" data-url="/en/ch3/ch3.1/">
@@ -407,7 +407,7 @@ if (!doNotTrack) {
 <ul>
 <li><code>.get_source()</code> : Return all project codes in Civil IoT Taiwan Data Service Platform in array format according to the data type.</li>
 <li><code>.get_station(src='')</code> : Return basic information of all station data in array format. The <code>src</code> parameter is optional to specify the project code to be queried.</li>
-<li><code>.get_data(src='', stationIds=[])</code> : Return basic information of all stations and their latest measurement result in array format. The <code>src</code> parameter is optional to specify the project code to be queried, and the <code>stationIds</code> parameter is optional to specify the device ID to be queried.</li>
+<li><code>.get_data(src='', stationID='')</code> : Return basic information of all stations and their latest measurement result in array format. The <code>src</code> parameter is optional to specify the project code to be queried, and the <code>stationID</code> parameter is optional to specify the device ID to be queried.</li>
 </ul>
 <p>The following applies to disaster notification data.</p>
 <ul>
@@ -455,7 +455,7 @@ if (!doNotTrack) {
     ...
 ]
 </code></pre><h3 id="get-data-of-a-stationairget_data">Get data of a station: <code>Air().get_data()</code></h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>f <span style="color:#f92672">=</span> Air()<span style="color:#f92672">.</span>get_data(src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;OBS:EPA_IoT&#34;</span>, stationIds<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#34;11613429495&#34;</span>])
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>f <span style="color:#f92672">=</span> Air()<span style="color:#f92672">.</span>get_data(src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;OBS:EPA_IoT&#34;</span>, stationID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;11613429495&#34;</span>)
 </span></span><span style="display:flex;"><span>f
 </span></span></code></pre></div><pre tabindex="0"><code>[
 {&#39;name&#39;: &#39;智慧城鄉空品微型感測器-11613429495&#39;,
@@ -884,12 +884,12 @@ if (!doNotTrack) {
         <script>
           var contentLangs=['en'];
         </script>
-        <script src="/js/auto-complete.js?1669534548" defer></script>
-        <script src="/js/lunr.min.js?1669534548" defer></script>
-        <script src="/js/lunr.stemmer.support.min.js?1669534548" defer></script>
-        <script src="/js/lunr.multi.min.js?1669534548" defer></script>
-        <script src="/js/lunr.en.min.js?1669534548" defer></script>
-        <script src="/js/search.js?1669534548" defer></script>
+        <script src="/js/auto-complete.js?1669536036" defer></script>
+        <script src="/js/lunr.min.js?1669536036" defer></script>
+        <script src="/js/lunr.stemmer.support.min.js?1669536036" defer></script>
+        <script src="/js/lunr.multi.min.js?1669536036" defer></script>
+        <script src="/js/lunr.en.min.js?1669536036" defer></script>
+        <script src="/js/search.js?1669536036" defer></script>
       </div>
       <div id="content-wrapper" class="highlightable">
         <ul class="topics">
@@ -963,14 +963,14 @@ if (!doNotTrack) {
       </div>
     </aside>
 
-    <script src="/js/clipboard.min.js?1669534548" defer></script>
-    <script src="/js/perfect-scrollbar.min.js?1669534548" defer></script>
-    <script src="/js/featherlight.min.js?1669534548" defer></script>
-    <script src="/js/jquery.svg.pan.zoom.js?1669534548" defer></script>
-    <script src="/js/mermaid.min.js?1669534548" defer></script>
+    <script src="/js/clipboard.min.js?1669536036" defer></script>
+    <script src="/js/perfect-scrollbar.min.js?1669536036" defer></script>
+    <script src="/js/featherlight.min.js?1669536036" defer></script>
+    <script src="/js/jquery.svg.pan.zoom.js?1669536036" defer></script>
+    <script src="/js/mermaid.min.js?1669536036" defer></script>
     <script>
       window.themeUseMermaid = JSON.parse("{}");
     </script>
-    <script src="/js/theme.js?1669534548" defer></script>
+    <script src="/js/theme.js?1669536036" defer></script>
   </body>
 </html>
