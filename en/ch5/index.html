@@ -17,18 +17,18 @@
     <title>5. Spatial Data Analysis :: Tutorial for CIoT Open Data Applications</title>
     <link rel="alternate" type="application/rss&#43;xml" href="/en/ch5/index.xml" title="Tutorial for CIoT Open Data Applications" />
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="/css/fontawesome-all.min.css?1669536717" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1669536717" rel="stylesheet"></noscript>
-    <link href="/css/featherlight.min.css?1669536717" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1669536717" rel="stylesheet"></noscript>
-    <link href="/css/auto-complete.css?1669536717" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1669536717" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar.min.css?1669536717" rel="stylesheet">
-    <link href="/css/nucleus.css?1669536717" rel="stylesheet">
-    <link href="/css/fonts.css?1669536717" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1669536717" rel="stylesheet"></noscript>
-    <link href="/css/theme.css?1669536717" rel="stylesheet">
-    <link href="/css/theme-relearn-light.css?1669536717" rel="stylesheet" id="variant-style">
-    <link href="/css/ie.css?1669536717" rel="stylesheet">
-    <link href="/css/variant.css?1669536717" rel="stylesheet">
-    <link href="/css/print.css?1669536717" rel="stylesheet" media="print">
-    <script src="/js/variant.js?1669536717"></script>
+    <link href="/css/fontawesome-all.min.css?1669686242" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1669686242" rel="stylesheet"></noscript>
+    <link href="/css/featherlight.min.css?1669686242" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1669686242" rel="stylesheet"></noscript>
+    <link href="/css/auto-complete.css?1669686242" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1669686242" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar.min.css?1669686242" rel="stylesheet">
+    <link href="/css/nucleus.css?1669686242" rel="stylesheet">
+    <link href="/css/fonts.css?1669686242" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1669686242" rel="stylesheet"></noscript>
+    <link href="/css/theme.css?1669686242" rel="stylesheet">
+    <link href="/css/theme-relearn-light.css?1669686242" rel="stylesheet" id="variant-style">
+    <link href="/css/ie.css?1669686242" rel="stylesheet">
+    <link href="/css/variant.css?1669686242" rel="stylesheet">
+    <link href="/css/print.css?1669686242" rel="stylesheet" media="print">
+    <script src="/js/variant.js?1669686242"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -44,7 +44,7 @@
       var baseUriFull='https:\/\/LearnCIOT.github.io/';
       window.variants && variants.init( [ 'relearn-light' ] );
     </script>
-    <script src="/js/jquery.min.js?1669536717" defer></script>
+    <script src="/js/jquery.min.js?1669686242" defer></script>
 <meta property="fb:app_id" content="601826851395774" />
   </head>
   <body class="default-animation" data-url="/en/ch5/">
@@ -63,7 +63,7 @@
       <nav id="topbar" class="highlightable">
         <div>
           <div class="navigation">
-             <a class="nav nav-next" href="/en/ch6/" title="6. Data Applications"><i class="fas fa-chevron-right fa-fw"></i></a>
+             <a class="nav nav-next" href="/en/ch5/ch5.1/" title="5.1. Geospatial Filtering"><i class="fas fa-chevron-right fa-fw"></i></a>
           </div>
           <div class="navigation">
              <a class="nav nav-prev" href="/en/ch4/ch4.3/" title="4.3. Time Series Data Clustering"><i class="fas fa-chevron-left fa-fw"></i></a>
@@ -260,6 +260,8 @@ if (!doNotTrack) {
 <p>In this topic, we introduce a series of spatial data processing and analysis methods according to the geospatial characteristics of IoT data. Through the use of the Civil IoT Taiwan Data Service Platform, we will develop the following units for a more in-depth introduction.</p>
 
 <ul class="children children-li children-sort-">
+<li><a href="/en/ch5/ch5.1/" >5.1. Geospatial Filtering</a><p>We use Civil IoT Taiwan&#39;s earthquake and disaster prevention and relief data and filter the data of specific administrative areas by overlaying the administrative area boundary map obtained from the government open data platform. Then, we generate the image file of the data distribution location after the superimposed map. In addition, we also demonstrate how to Nest specific geometric topological regions and output nested results to files for drawing operations.</p></li>
+<li><a href="/en/ch5/ch5.2/" >5.2. Geospatial Analysis</a><p>We use Civil IoT Taiwan&#39;s sensor data to introduce more advanced geospatial analysis. Using the GPS location coordinates in the site information, we first use the package to find the largest convex polygon (Convex Hull) to frame the geographical area covered by the sensor. Then we apply the Voronoi Diagram package to draw the distribution status of each sensor on the map according to the sensor and crops out the area of influence of each sensor. We adopt the spatial interpolation method for the space between sensors, applying different spatial interpolation algorithms. We then populate the spatial map with values based on the sensor values and generate a corresponding image output.</p></li>
 </ul>
 
             <footer class="footline">
@@ -335,12 +337,12 @@ if (!doNotTrack) {
         <script>
           var contentLangs=['en'];
         </script>
-        <script src="/js/auto-complete.js?1669536717" defer></script>
-        <script src="/js/lunr.min.js?1669536717" defer></script>
-        <script src="/js/lunr.stemmer.support.min.js?1669536717" defer></script>
-        <script src="/js/lunr.multi.min.js?1669536717" defer></script>
-        <script src="/js/lunr.en.min.js?1669536717" defer></script>
-        <script src="/js/search.js?1669536717" defer></script>
+        <script src="/js/auto-complete.js?1669686242" defer></script>
+        <script src="/js/lunr.min.js?1669686242" defer></script>
+        <script src="/js/lunr.stemmer.support.min.js?1669686242" defer></script>
+        <script src="/js/lunr.multi.min.js?1669686242" defer></script>
+        <script src="/js/lunr.en.min.js?1669686242" defer></script>
+        <script src="/js/search.js?1669686242" defer></script>
       </div>
       <div id="content-wrapper" class="highlightable">
         <ul class="topics">
@@ -355,7 +357,9 @@ if (!doNotTrack) {
           <li data-nav-id="/en/ch4/ch4.1/" title="4.1. Time Series Data Processing" class="dd-item"><a href="/en/ch4/ch4.1/">4.1. Time Series Data Processing<i class="fas fa-check read-icon"></i></a></li>
           <li data-nav-id="/en/ch4/ch4.2/" title="4.2. Time Series Data Forecast" class="dd-item"><a href="/en/ch4/ch4.2/">4.2. Time Series Data Forecast<i class="fas fa-check read-icon"></i></a></li>
           <li data-nav-id="/en/ch4/ch4.3/" title="4.3. Time Series Data Clustering" class="dd-item"><a href="/en/ch4/ch4.3/">4.3. Time Series Data Clustering<i class="fas fa-check read-icon"></i></a></li></ul></li>
-          <li data-nav-id="/en/ch5/" title="5. Spatial Data Analysis" class="dd-item active"><a href="/en/ch5/">5. Spatial Data Analysis<i class="fas fa-check read-icon"></i></a></li>
+          <li data-nav-id="/en/ch5/" title="5. Spatial Data Analysis" class="dd-item active parent"><label for="section-adab050366c685297e1eadc5faf1472e" ></label><a href="/en/ch5/">5. Spatial Data Analysis<i class="fas fa-check read-icon"></i></a><ul>
+          <li data-nav-id="/en/ch5/ch5.1/" title="5.1. Geospatial Filtering" class="dd-item"><a href="/en/ch5/ch5.1/">5.1. Geospatial Filtering<i class="fas fa-check read-icon"></i></a></li>
+          <li data-nav-id="/en/ch5/ch5.2/" title="5.2. Geospatial Analysis" class="dd-item"><a href="/en/ch5/ch5.2/">5.2. Geospatial Analysis<i class="fas fa-check read-icon"></i></a></li></ul></li>
           <li data-nav-id="/en/ch6/" title="6. Data Applications" class="dd-item"><label for="section-4be7f7872a5d83dfd50bf0f4ff5c2761" ></label><a href="/en/ch6/">6. Data Applications<i class="fas fa-check read-icon"></i></a><ul>
           <li data-nav-id="/en/ch6/ch6.1/" title="6.1. Machine Learning Preliminaries" class="dd-item"><a href="/en/ch6/ch6.1/">6.1. Machine Learning Preliminaries<i class="fas fa-check read-icon"></i></a></li>
           <li data-nav-id="/en/ch6/ch6.2/" title="6.2. Anomaly Detection" class="dd-item"><a href="/en/ch6/ch6.2/">6.2. Anomaly Detection<i class="fas fa-check read-icon"></i></a></li>
@@ -414,14 +418,14 @@ if (!doNotTrack) {
       </div>
     </aside>
 
-    <script src="/js/clipboard.min.js?1669536717" defer></script>
-    <script src="/js/perfect-scrollbar.min.js?1669536717" defer></script>
-    <script src="/js/featherlight.min.js?1669536717" defer></script>
-    <script src="/js/jquery.svg.pan.zoom.js?1669536717" defer></script>
-    <script src="/js/mermaid.min.js?1669536717" defer></script>
+    <script src="/js/clipboard.min.js?1669686242" defer></script>
+    <script src="/js/perfect-scrollbar.min.js?1669686242" defer></script>
+    <script src="/js/featherlight.min.js?1669686242" defer></script>
+    <script src="/js/jquery.svg.pan.zoom.js?1669686242" defer></script>
+    <script src="/js/mermaid.min.js?1669686242" defer></script>
     <script>
       window.themeUseMermaid = JSON.parse("{}");
     </script>
-    <script src="/js/theme.js?1669536717" defer></script>
+    <script src="/js/theme.js?1669686242" defer></script>
   </body>
 </html>

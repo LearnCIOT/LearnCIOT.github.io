@@ -27,5 +27,13 @@
       <guid>https://LearnCIOT.github.io/en/ch4/ch4.2/</guid>
       <description>Table Of Contents Goal Package Installation and Importing Data Access Air Quality Data Water Level Data Meteorological Data Data Preprocessing Stationary Evaluation Data Forecast ARIMA SARIMAX auto_arima Prophet LSTM Holt-Winter Comparison References The previous chapter has introduced various methods of processing time series data, including visual presentation of data, decomposition of time series data, etc. In this chapter, we will further extract the characteristics of these data and use various predictive models to find the law of the data and predict the future.</description>
     </item>
+    <item>
+      <title>5.2. Geospatial Analysis</title>
+      <link>https://LearnCIOT.github.io/en/ch5/ch5.2/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://LearnCIOT.github.io/en/ch5/ch5.2/</guid>
+      <description>{{ &amp;lt; toc &amp;gt; }}
+Microsensors that are widespread in the environment help us obtain environmental information, making decisions and taking actions accordingly. Therefore, it’s fundamental for us to clearly understand the spatial relationships between stations when analyzing data of stations. Apart from that the location of stations itself may form certain geometric structures or spatial clusters, we can also estimate the values where there’s no stations according to the location of stations and their value differences.</description>
+    </item>
   </channel>
 </rss>

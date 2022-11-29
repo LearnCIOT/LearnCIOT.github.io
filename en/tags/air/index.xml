@@ -21,6 +21,14 @@
       <description>Table Of Contents Goal Package Installation and Importing Data Access Air Quality Data Water Level Data Meteorological Data Data Visualization Data Resample Moving Average Multi-line Charts Calendar Heatmap Data Quality Inspection Outlier Detection Change Point Detection) Missing Data Handling Data Decomposition References Time series data is data formed in the order of appearance in time. Usually, the time interval in the data will be the same (for example, one data every five minutes, or one data per hour), and the application fields are quite wide, such as financial information, space engineering, signal processing, etc.</description>
     </item>
     <item>
+      <title>5.1. Geospatial Filtering</title>
+      <link>https://LearnCIOT.github.io/en/ch5/ch5.1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://LearnCIOT.github.io/en/ch5/ch5.1/</guid>
+      <description>Table Of Contents Intersect Buffer Multi-ring buffer Distance matrix Brief Summary In the past, if we’re curious about geospatial phenomena such as air quality, earthquakes or floods, we rely on information provided by public sectors or experts to grasp the spatial domain and intensity of phenomena.
+Suppose that we want to see the air quality in neighborhoods of our house, one important information source would be the Taiwan Air Quality Monitoring Network run by Environmental Protection Administration Executive Yuan.</description>
+    </item>
+    <item>
       <title>6.1. Machine Learning Preliminaries</title>
       <link>https://LearnCIOT.github.io/en/ch6/ch6.1/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -47,6 +55,14 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://LearnCIOT.github.io/en/ch4/ch4.2/</guid>
       <description>Table Of Contents Goal Package Installation and Importing Data Access Air Quality Data Water Level Data Meteorological Data Data Preprocessing Stationary Evaluation Data Forecast ARIMA SARIMAX auto_arima Prophet LSTM Holt-Winter Comparison References The previous chapter has introduced various methods of processing time series data, including visual presentation of data, decomposition of time series data, etc. In this chapter, we will further extract the characteristics of these data and use various predictive models to find the law of the data and predict the future.</description>
+    </item>
+    <item>
+      <title>5.2. Geospatial Analysis</title>
+      <link>https://LearnCIOT.github.io/en/ch5/ch5.2/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://LearnCIOT.github.io/en/ch5/ch5.2/</guid>
+      <description>{{ &amp;lt; toc &amp;gt; }}
+Microsensors that are widespread in the environment help us obtain environmental information, making decisions and taking actions accordingly. Therefore, it’s fundamental for us to clearly understand the spatial relationships between stations when analyzing data of stations. Apart from that the location of stations itself may form certain geometric structures or spatial clusters, we can also estimate the values where there’s no stations according to the location of stations and their value differences.</description>
     </item>
     <item>
       <title>6.2. Anomaly Detection</title>

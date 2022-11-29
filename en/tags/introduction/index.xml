@@ -41,7 +41,8 @@
       <link>https://LearnCIOT.github.io/en/ch5/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://LearnCIOT.github.io/en/ch5/</guid>
-      <description>5. Spatial Data Analysis In this topic, we introduce a series of spatial data processing and analysis methods according to the geospatial characteristics of IoT data. Through the use of the Civil IoT Taiwan Data Service Platform, we will develop the following units for a more in-depth introduction.</description>
+      <description>5. Spatial Data Analysis In this topic, we introduce a series of spatial data processing and analysis methods according to the geospatial characteristics of IoT data. Through the use of the Civil IoT Taiwan Data Service Platform, we will develop the following units for a more in-depth introduction.
+5.1. Geospatial FilteringWe use Civil IoT Taiwan&amp;#39;s earthquake and disaster prevention and relief data and filter the data of specific administrative areas by overlaying the administrative area boundary map obtained from the government open data platform.</description>
     </item>
     <item>
       <title>6. Data Applications</title>
