@@ -1,4 +1,7 @@
 # Learning Civil IoT Taiwan: Open Data and its Appications
+
+[![CIoT_DataDoc_CI](https://github.com/LearnCIOT/LearnCIOT.github.io/actions/workflows/main.yml/badge.svg)](https://github.com/LearnCIOT/LearnCIOT.github.io/actions/workflows/main.yml)
+
 **Website:** [https://learnciot.github.io/](https://learnciot.github.io/)
 
 ![Learning Civil IoT Taiwan](static/images/thumbnail.jpg)
