@@ -19,8 +19,7 @@ Suppose that we want to see the air quality in neighborhoods of our house, one i
       <link>https://LearnCIOT.github.io/en/ch5/ch5.2/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://LearnCIOT.github.io/en/ch5/ch5.2/</guid>
-      <description>{{ &amp;lt; toc &amp;gt; }}
-Microsensors that are widespread in the environment help us obtain environmental information, making decisions and taking actions accordingly. Therefore, it’s fundamental for us to clearly understand the spatial relationships between stations when analyzing data of stations. Apart from that the location of stations itself may form certain geometric structures or spatial clusters, we can also estimate the values where there’s no stations according to the location of stations and their value differences.</description>
+      <description>Table Of Contents Voronoi diagram Convex hull Clustering Kernel density Spatial interpolation Inverse Distance Weighting Kriging Nearest neighbor Interpolation Contour Profile References Microsensors that are widespread in the environment help us obtain environmental information, making decisions and taking actions accordingly. Therefore, it’s fundamental for us to clearly understand the spatial relationships between stations when analyzing data of stations. Apart from that the location of stations itself may form certain geometric structures or spatial clusters, we can also estimate the values where there’s no stations according to the location of stations and their value differences.</description>
     </item>
   </channel>
 </rss>

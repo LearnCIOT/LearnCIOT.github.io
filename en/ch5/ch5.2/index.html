@@ -16,18 +16,18 @@
     <meta name="author" content="Ling-Jyh Chen">
     <title>5.2. Geospatial Analysis :: Tutorial for CIoT Open Data Applications</title>
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="/css/fontawesome-all.min.css?1669790145" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1669790145" rel="stylesheet"></noscript>
-    <link href="/css/featherlight.min.css?1669790145" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1669790145" rel="stylesheet"></noscript>
-    <link href="/css/auto-complete.css?1669790145" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1669790145" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar.min.css?1669790145" rel="stylesheet">
-    <link href="/css/nucleus.css?1669790145" rel="stylesheet">
-    <link href="/css/fonts.css?1669790145" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1669790145" rel="stylesheet"></noscript>
-    <link href="/css/theme.css?1669790145" rel="stylesheet">
-    <link href="/css/theme-relearn-light.css?1669790145" rel="stylesheet" id="variant-style">
-    <link href="/css/ie.css?1669790145" rel="stylesheet">
-    <link href="/css/variant.css?1669790145" rel="stylesheet">
-    <link href="/css/print.css?1669790145" rel="stylesheet" media="print">
-    <script src="/js/variant.js?1669790145"></script>
+    <link href="/css/fontawesome-all.min.css?1670303068" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1670303068" rel="stylesheet"></noscript>
+    <link href="/css/featherlight.min.css?1670303068" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1670303068" rel="stylesheet"></noscript>
+    <link href="/css/auto-complete.css?1670303068" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1670303068" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar.min.css?1670303068" rel="stylesheet">
+    <link href="/css/nucleus.css?1670303068" rel="stylesheet">
+    <link href="/css/fonts.css?1670303068" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1670303068" rel="stylesheet"></noscript>
+    <link href="/css/theme.css?1670303068" rel="stylesheet">
+    <link href="/css/theme-relearn-light.css?1670303068" rel="stylesheet" id="variant-style">
+    <link href="/css/ie.css?1670303068" rel="stylesheet">
+    <link href="/css/variant.css?1670303068" rel="stylesheet">
+    <link href="/css/print.css?1670303068" rel="stylesheet" media="print">
+    <script src="/js/variant.js?1670303068"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -43,7 +43,7 @@
       var baseUriFull='https:\/\/LearnCIOT.github.io/';
       window.variants && variants.init( [ 'relearn-light' ] );
     </script>
-    <script src="/js/jquery.min.js?1669790145" defer></script>
+    <script src="/js/jquery.min.js?1670303068" defer></script>
 <meta property="fb:app_id" content="601826851395774" />
   </head>
   <body class="default-animation" data-url="/en/ch5/ch5.2/">
@@ -286,7 +286,31 @@ if (!doNotTrack) {
 <h1>5.2. Geospatial Analysis</h1>
 
 <p><a href="https://colab.research.google.com/drive/1dZ26qA1BLee7AMaoBk0lcWvB3PAOLKV-?usp=sharing"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a></p>
-<p>{{ &lt; toc &gt; }}</p>
+<div>
+    <h2>Table Of Contents</h2>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#voronoi-diagram">Voronoi diagram</a></li>
+    <li><a href="#convex-hull">Convex hull</a></li>
+    <li><a href="#clustering">Clustering</a></li>
+    <li><a href="#kernel-density">Kernel density</a></li>
+    <li><a href="#spatial-interpolation">Spatial interpolation</a>
+      <ul>
+        <li><a href="#inverse-distance-weighting">Inverse Distance Weighting</a></li>
+        <li><a href="#kriging">Kriging</a></li>
+        <li><a href="#nearest-neighbor-interpolation">Nearest neighbor Interpolation</a></li>
+      </ul>
+    </li>
+    <li><a href="#contour">Contour</a>
+      <ul>
+        <li><a href="#profile">Profile</a></li>
+      </ul>
+    </li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+</div>
+
 <p>Microsensors that are widespread in the environment help us obtain environmental information, making decisions and taking actions accordingly. Therefore, it’s fundamental for us to clearly understand the spatial relationships between stations when analyzing data of stations. Apart from that the location of stations itself may form certain geometric structures or spatial clusters, we can also estimate the values where there’s no stations according to the location of stations and their value differences. Thus, we will have a picture of value distribution that’s more comprehensive, within which we may explore the correlations between values and environmental factors. In this section, with data of flooding sensors and groundwater table observation stations in different counties provided by the Water Resources Agency (MOEA), we can practice some simple spatial analyses.</p>
 <h2 id="voronoi-diagram">Voronoi diagram</h2>
 <p>First of all, we may need to clarify the service/defense area of individual stations, within which we further ask if data of certain stations can represent certain areas. In this case, Voronoi Diagram can help us look for the area. The principle of Voronoi Diagram is that by building vertical and equally divided lines between two nearby stations and integrating them, a polygon can be made. The center of each polygon is the station, of which the data represent values within this area. In this section, we can try to practice creating Voronoi Diagrams with data of flooding sensors in Chiayi City and Chiayi County. Thus, we can have a rough understanding about the sphere of influence of flooding sensors.</p>
@@ -958,12 +982,12 @@ if (!doNotTrack) {
         <script>
           var contentLangs=['en'];
         </script>
-        <script src="/js/auto-complete.js?1669790145" defer></script>
-        <script src="/js/lunr.min.js?1669790145" defer></script>
-        <script src="/js/lunr.stemmer.support.min.js?1669790145" defer></script>
-        <script src="/js/lunr.multi.min.js?1669790145" defer></script>
-        <script src="/js/lunr.en.min.js?1669790145" defer></script>
-        <script src="/js/search.js?1669790145" defer></script>
+        <script src="/js/auto-complete.js?1670303068" defer></script>
+        <script src="/js/lunr.min.js?1670303068" defer></script>
+        <script src="/js/lunr.stemmer.support.min.js?1670303068" defer></script>
+        <script src="/js/lunr.multi.min.js?1670303068" defer></script>
+        <script src="/js/lunr.en.min.js?1670303068" defer></script>
+        <script src="/js/search.js?1670303068" defer></script>
       </div>
       <div id="content-wrapper" class="highlightable">
         <ul class="topics">
@@ -1039,14 +1063,14 @@ if (!doNotTrack) {
       </div>
     </aside>
 
-    <script src="/js/clipboard.min.js?1669790145" defer></script>
-    <script src="/js/perfect-scrollbar.min.js?1669790145" defer></script>
-    <script src="/js/featherlight.min.js?1669790145" defer></script>
-    <script src="/js/jquery.svg.pan.zoom.js?1669790145" defer></script>
-    <script src="/js/mermaid.min.js?1669790145" defer></script>
+    <script src="/js/clipboard.min.js?1670303068" defer></script>
+    <script src="/js/perfect-scrollbar.min.js?1670303068" defer></script>
+    <script src="/js/featherlight.min.js?1670303068" defer></script>
+    <script src="/js/jquery.svg.pan.zoom.js?1670303068" defer></script>
+    <script src="/js/mermaid.min.js?1670303068" defer></script>
     <script>
       window.themeUseMermaid = JSON.parse("{}");
     </script>
-    <script src="/js/theme.js?1669790145" defer></script>
+    <script src="/js/theme.js?1670303068" defer></script>
   </body>
 </html>
