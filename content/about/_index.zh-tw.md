@@ -1,5 +1,10 @@
 ---
 title: "關於我們"
+weight: 10
+chapter: true
+socialshare: true
+tags: ["概述" ]
+levels: ["beginner" ]
 ---
 
 
