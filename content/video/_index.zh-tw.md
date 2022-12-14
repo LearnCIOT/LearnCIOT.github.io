@@ -47,11 +47,11 @@ levels: ["beginner" ]
   {{< youtube id="MQvwjFdO0dw" title="整體課程與教學網站簡介 (2022/11/27, 台南)" >}}
 
 - 資料取用
-  {{< youtube id="" title="資料取用 (2022/11/27, 台南)" >}}
+  {{< youtube id="hPOCxXDzcR4" title="資料取用 (2022/11/27, 台南)" >}}
 
 - 資料應用與機器學習
-  {{< youtube id="" title="資料應用與機器學習 (2022/11/27, 台南)" >}}
+  {{< youtube id="o9hg5adNQv4" title="資料應用與機器學習 (2022/11/27, 台南)" >}}
 
 - 系統整合應用：QGIS
-  {{< youtube id="" title="系統整合應用：QGIS (2022/11/27, 台南)" >}}
+  {{< youtube id="gH23YEJUo7M" title="系統整合應用：QGIS (2022/11/27, 台南)" >}}
 
