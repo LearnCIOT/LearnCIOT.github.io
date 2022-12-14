@@ -17,18 +17,18 @@
     <title>6. 資料應用 :: Tutorial for CIoT Open Data Applications</title>
     <link rel="alternate" type="application/rss&#43;xml" href="/ch6/index.xml" title="Tutorial for CIoT Open Data Applications" />
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="/css/fontawesome-all.min.css?1670309760" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1670309760" rel="stylesheet"></noscript>
-    <link href="/css/featherlight.min.css?1670309760" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1670309760" rel="stylesheet"></noscript>
-    <link href="/css/auto-complete.css?1670309760" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1670309760" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar.min.css?1670309760" rel="stylesheet">
-    <link href="/css/nucleus.css?1670309760" rel="stylesheet">
-    <link href="/css/fonts.css?1670309760" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1670309760" rel="stylesheet"></noscript>
-    <link href="/css/theme.css?1670309760" rel="stylesheet">
-    <link href="/css/theme-relearn-light.css?1670309760" rel="stylesheet" id="variant-style">
-    <link href="/css/ie.css?1670309760" rel="stylesheet">
-    <link href="/css/variant.css?1670309760" rel="stylesheet">
-    <link href="/css/print.css?1670309760" rel="stylesheet" media="print">
-    <script src="/js/variant.js?1670309760"></script>
+    <link href="/css/fontawesome-all.min.css?1671016400" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1671016400" rel="stylesheet"></noscript>
+    <link href="/css/featherlight.min.css?1671016400" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1671016400" rel="stylesheet"></noscript>
+    <link href="/css/auto-complete.css?1671016400" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1671016400" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar.min.css?1671016400" rel="stylesheet">
+    <link href="/css/nucleus.css?1671016400" rel="stylesheet">
+    <link href="/css/fonts.css?1671016400" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1671016400" rel="stylesheet"></noscript>
+    <link href="/css/theme.css?1671016400" rel="stylesheet">
+    <link href="/css/theme-relearn-light.css?1671016400" rel="stylesheet" id="variant-style">
+    <link href="/css/ie.css?1671016400" rel="stylesheet">
+    <link href="/css/variant.css?1671016400" rel="stylesheet">
+    <link href="/css/print.css?1671016400" rel="stylesheet" media="print">
+    <script src="/js/variant.js?1671016400"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -44,7 +44,7 @@
       var baseUriFull='https:\/\/LearnCIOT.github.io/';
       window.variants && variants.init( [ 'relearn-light' ] );
     </script>
-    <script src="/js/jquery.min.js?1670309760" defer></script>
+    <script src="/js/jquery.min.js?1671016400" defer></script>
 <meta property="fb:app_id" content="601826851395774" />
   </head>
   <body class="default-animation" data-url="/ch6/">
@@ -262,6 +262,203 @@ if (!doNotTrack) {
 <li><a href="/ch6/ch6.2/" >6.2. 異常資料偵測</a><p>我們使用空品類別資料，示範台灣微型空品感測資料上常用的感測器異常偵測演算法，以做中學的方式，一步步從資料準備，特徵擷取，到資料分析、統計與歸納，重現異常偵測演算法的原理與實作過程，讓讀者體驗如何透過疊加基本的資料分析方法，逐步達成進階且實用的資料應用服務。</p></li>
 <li><a href="/ch6/ch6.3/" >6.3. 感測器聯合校正</a><p>我們使用空品類別資料，示範台灣微型空品感測器與官方測站進行動態校正的演算法，以做中學的方式，一步步從資料準備，特徵擷取，到機器學習、資料分析、統計與歸納，重現感測器動態校正模型演算法的原理與實作過程，讓讀者體驗如何透過疊加基本的資料分析與機器學習步驟，逐步達成進階且實用的資料應用服務。</p></li>
 </ul>
+<script src= '/js/pdf-js/build/pdf.js'></script>
+<style>
+#the-canvas {
+  border: 1px solid black;
+  direction: ltr;
+  width: 100%;
+  height: auto;
+  display: none;
+}
+
+#paginator {
+  display: none;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+#loadingWrapper {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 350px;
+}
+
+#loading {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  border: 3px solid #d2d0d0;;
+  border-radius: 50%;
+  border-top-color: #383838;
+  animation: spin 1s ease-in-out infinite;
+  -webkit-animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { -webkit-transform: rotate(360deg); }
+}
+@-webkit-keyframes spin {
+  to { -webkit-transform: rotate(360deg); }
+}
+</style>
+
+<div id="paginator">
+    <button id="prev">Previous</button>
+    <button id="next">Next</button>
+    &nbsp; &nbsp;
+    <span>Page: <span id="page_num"></span> / <span id="page_count"></span></span>
+    &nbsp; &nbsp;
+    <button id="download" onclick="window.open('\/slides\/ch6_1-slides.pdf')">Download</button>
+</div>
+<div id="embed-pdf-container">
+    <div id="loadingWrapper">
+      <div id="loading"></div>
+    </div>
+    <canvas id="the-canvas"></canvas>
+</div>
+
+<script type="text/javascript">
+window.onload = function() {
+
+
+var url = "https:\/\/LearnCIOT.github.io\/" + '\/slides\/ch6_1-slides.pdf';
+
+var hidePaginator = "" === "true";
+var hideLoader = "" === "true";
+var selectedPageNum = parseInt("") || 1;
+
+
+var pdfjsLib = window['pdfjs-dist/build/pdf'];
+
+
+pdfjsLib.GlobalWorkerOptions.workerSrc = "https:\/\/LearnCIOT.github.io\/" + '/js/pdf-js/build/pdf.worker.js';
+
+
+var pdfDoc = null,
+    pageNum = selectedPageNum,
+    pageRendering = false,
+    pageNumPending = null,
+    scale = 3,
+    canvas = document.getElementById('the-canvas'),
+    ctx = canvas.getContext('2d'),
+    paginator = document.getElementById("paginator"),
+    loadingWrapper = document.getElementById('loadingWrapper');
+
+
+
+showPaginator();
+showLoader();
+
+
+
+function renderPage(num) {
+  pageRendering = true;
+  
+  pdfDoc.getPage(num).then(function(page) {
+    var viewport = page.getViewport({scale: scale});
+    canvas.height = viewport.height;
+    canvas.width = viewport.width;
+
+    
+    var renderContext = {
+      canvasContext: ctx,
+      viewport: viewport
+    };
+    var renderTask = page.render(renderContext);
+
+    
+    renderTask.promise.then(function() {
+      pageRendering = false;
+      showContent();
+      
+      if (pageNumPending !== null) {
+        
+        renderPage(pageNumPending);
+        pageNumPending = null;
+      }
+    });
+  });
+
+  
+  document.getElementById('page_num').textContent = num;
+}
+
+
+
+function showContent() {
+  loadingWrapper.style.display = 'none';
+  canvas.style.display = 'block';
+}
+
+
+
+function showLoader() {
+  if(hideLoader) return
+  loadingWrapper.style.display = 'flex';
+  canvas.style.display = 'none';
+}
+
+
+
+function showPaginator() {
+  if(hidePaginator) return
+  paginator.style.display = 'block';
+}
+
+
+
+function queueRenderPage(num) {
+  if (pageRendering) {
+    pageNumPending = num;
+  } else {
+    renderPage(num);
+  }
+}
+
+
+
+function onPrevPage() {
+  if (pageNum <= 1) {
+    return;
+  }
+  pageNum--;
+  queueRenderPage(pageNum);
+}
+document.getElementById('prev').addEventListener('click', onPrevPage);
+
+
+
+function onNextPage() {
+  if (pageNum >= pdfDoc.numPages) {
+    return;
+  }
+  pageNum++;
+  queueRenderPage(pageNum);
+}
+document.getElementById('next').addEventListener('click', onNextPage);
+
+
+
+pdfjsLib.getDocument(url).promise.then(function(pdfDoc_) {
+  pdfDoc = pdfDoc_;
+  var numPages = pdfDoc.numPages;
+  document.getElementById('page_count').textContent = numPages;
+  
+  
+  if(pageNum > numPages) {
+    pageNum = numPages
+  }
+
+  
+  renderPage(pageNum);
+});
+}
+
+</script>
+
 
             <footer class="footline">
             </footer>
@@ -336,12 +533,12 @@ if (!doNotTrack) {
         <script>
           var contentLangs=['zh'];
         </script>
-        <script src="/js/auto-complete.js?1670309760" defer></script>
-        <script src="/js/lunr.min.js?1670309760" defer></script>
-        <script src="/js/lunr.stemmer.support.min.js?1670309760" defer></script>
-        <script src="/js/lunr.multi.min.js?1670309760" defer></script>
-        <script src="/js/lunr.zh.min.js?1670309760" defer></script>
-        <script src="/js/search.js?1670309760" defer></script>
+        <script src="/js/auto-complete.js?1671016400" defer></script>
+        <script src="/js/lunr.min.js?1671016400" defer></script>
+        <script src="/js/lunr.stemmer.support.min.js?1671016400" defer></script>
+        <script src="/js/lunr.multi.min.js?1671016400" defer></script>
+        <script src="/js/lunr.zh.min.js?1671016400" defer></script>
+        <script src="/js/search.js?1671016400" defer></script>
       </div>
       <div id="content-wrapper" class="highlightable">
         <ul class="topics">
@@ -417,14 +614,14 @@ if (!doNotTrack) {
       </div>
     </aside>
 
-    <script src="/js/clipboard.min.js?1670309760" defer></script>
-    <script src="/js/perfect-scrollbar.min.js?1670309760" defer></script>
-    <script src="/js/featherlight.min.js?1670309760" defer></script>
-    <script src="/js/jquery.svg.pan.zoom.js?1670309760" defer></script>
-    <script src="/js/mermaid.min.js?1670309760" defer></script>
+    <script src="/js/clipboard.min.js?1671016400" defer></script>
+    <script src="/js/perfect-scrollbar.min.js?1671016400" defer></script>
+    <script src="/js/featherlight.min.js?1671016400" defer></script>
+    <script src="/js/jquery.svg.pan.zoom.js?1671016400" defer></script>
+    <script src="/js/mermaid.min.js?1671016400" defer></script>
     <script>
       window.themeUseMermaid = JSON.parse("{}");
     </script>
-    <script src="/js/theme.js?1670309760" defer></script>
+    <script src="/js/theme.js?1671016400" defer></script>
   </body>
 </html>

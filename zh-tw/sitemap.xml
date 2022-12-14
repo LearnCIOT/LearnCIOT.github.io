@@ -178,6 +178,19 @@
                 />
   </url>
   <url>
+    <loc>https://LearnCIOT.github.io/about/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://LearnCIOT.github.io/en/about/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-tw"
+                href="https://LearnCIOT.github.io/about/"
+                />
+  </url>
+  <url>
     <loc>https://LearnCIOT.github.io/ch2/ch2.2/</loc>
     <xhtml:link
                 rel="alternate"
@@ -514,18 +527,5 @@
   </url>
   <url>
     <loc>https://LearnCIOT.github.io/authors/%E7%BE%85%E6%B3%89%E6%81%86/</loc>
-  </url>
-  <url>
-    <loc>https://LearnCIOT.github.io/about/</loc>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://LearnCIOT.github.io/en/about/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh-tw"
-                href="https://LearnCIOT.github.io/about/"
-                />
   </url>
 </urlset>
