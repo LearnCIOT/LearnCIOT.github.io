@@ -27,8 +27,8 @@ levels: ["beginner" ]
   {{< youtube id="NQ38FzjncsE" title="民生公共物聯網資料應用 - 7 系統整合應用" >}}
 - 結尾
   {{< youtube id="P-iYumS_03Y" title="民生公共物聯網資料應用 - 結尾" >}}
-- 完整版
-  {{< youtube id="DFemgqoijEg" title="民生公共物聯網 資料應用網站簡介影片" >}}
+- 完整版 (53:25)
+  {{< youtube id="73jcg5p9LL8" title="民生公共物聯網 資料應用網站簡介影片" >}}
 
 ---
 
