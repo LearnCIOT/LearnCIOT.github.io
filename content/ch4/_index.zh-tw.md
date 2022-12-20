@@ -14,3 +14,6 @@ levels: ["beginner" ]
 {{% children description="true" %}}
 
 {{< embed-pdf url="/slides/ch4-slides.pdf" >}}
+
+  {{< youtube id="pyOJ-sl7jm8" title="民生公共物聯網資料應用 - 4 時間維度資料分析" >}}
+

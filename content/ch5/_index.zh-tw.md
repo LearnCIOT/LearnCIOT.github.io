@@ -15,3 +15,5 @@ levels: ["beginner" ]
 
 {{< embed-pdf url="/slides/ch5-slides.pdf" >}}
 
+  {{< youtube id="X36OoI6d184" title="民生公共物聯網資料應用 - 5 空間維度資料分析" >}}
+

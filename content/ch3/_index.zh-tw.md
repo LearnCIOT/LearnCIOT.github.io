@@ -15,3 +15,5 @@ levels: ["beginner" ]
 
 {{< embed-pdf url="/slides/ch3-slides.pdf" >}}
 
+  {{< youtube id="NLXekUZ876Q" title="民生公共物聯網資料應用 - 3 資料取用" >}}
+
