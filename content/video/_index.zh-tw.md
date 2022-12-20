@@ -11,24 +11,26 @@ levels: ["beginner" ]
 ## 民生公共物聯網 資料應用網站簡介影片
 ###
 
-- 1. 教學網站簡介
+- 1 教學網站簡介
   {{< youtube id="HGFTr7aTdJc" title="民生公共物聯網資料應用 - 1 教學網站簡介" >}}
-- 2. 整體課程前言
+- 2 整體課程前言
   {{< youtube id="qroSGH8z99E" title="民生公共物聯網資料應用 - 2 整體課程前言" >}}
-- 3. 資料取用
+- 3 資料取用
   {{< youtube id="NLXekUZ876Q" title="民生公共物聯網資料應用 - 3 資料取用" >}}
-- 4. 時間維度資料分析
+- 4 時間維度資料分析
   {{< youtube id="pyOJ-sl7jm8" title="民生公共物聯網資料應用 - 4 時間維度資料分析" >}}
-- 5. 空間維度資料分析
+- 5 空間維度資料分析
   {{< youtube id="X36OoI6d184" title="民生公共物聯網資料應用 - 5 空間維度資料分析" >}}
-- 6. 資料應用
+- 6 資料應用
   {{< youtube id="RDwKb4uxPF0" title="民生公共物聯網資料應用 - 6 資料應用" >}}
-- 7. 系統整合應用 
+- 7 系統整合應用 
   {{< youtube id="NQ38FzjncsE" title="民生公共物聯網資料應用 - 7 系統整合應用" >}}
 - 結尾
   {{< youtube id="P-iYumS_03Y" title="民生公共物聯網資料應用 - 結尾" >}}
 - 完整版
   {{< youtube id="DFemgqoijEg" title="民生公共物聯網 資料應用網站簡介影片" >}}
+
+---
 
 ## 研習工作坊教學影片 
 ###
