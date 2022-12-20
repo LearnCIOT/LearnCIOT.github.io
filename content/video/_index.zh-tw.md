@@ -8,6 +8,11 @@ tags: ["概述" ]
 levels: ["beginner" ]
 ---
 
+## 民生公共物聯網 資料應用網站簡介影片
+###
+
+  {{< youtube id="DFemgqoijEg" title="民生公共物聯網 資料應用網站簡介影片" >}}
+
 ## 研習工作坊教學影片 
 ###
 
