@@ -57,7 +57,7 @@ Previous Next &amp;nbsp; &amp;nbsp; Page: / &amp;nbsp; &amp;nbsp; Download </des
       <description>5. 空間維度資料分析 在這個主題中，我們針對物聯網資料所具備的地理空間特性，介紹一系列的空間維度資料處理與資料分析方法。透過民生公共物聯網資料平台的使用，我們將發展下列兩項單元，進行更深入的介紹。
 5.1. 地理空間篩選我們使用民生公共物聯網資料平台的地震和防救災資料，套疊從政府開放資料平臺取得的行政區域界線圖資，篩選特定行政區域內的資料，以及產製套疊地圖後的資料分布位置圖片檔案。除此之外，我們同時示範如何套疊特定的幾何拓撲區域，並將套疊的成果輸出成檔案與進行繪圖動作。
 5.2. 地理空間分析我們使用民生公共物聯網資料平台的感測資料，介紹較為進階的地理空間分析，利用測站資訊中的 GPS 位置座標，首先利用尋找最大凸多邊形 (Convex Hull) 的套件，框定感測器所涵蓋的地理區域；接著套用 Voronoi Diagram 的套件，將地圖上的區域依照感測器的分布狀況，切割出每個感測器的勢力範圍。針對感測器與感測器之間的區域，我們利用空間內插的方式，套用不同的空間內插演算法，根據感測器的數值，進行空間地圖上的填值，並產製相對應的圖片輸出。
-Previous Next &amp;nbsp; &amp;nbsp; Page: / &amp;nbsp; &amp;nbsp; Download </description>
+{&amp;lt; embed-pdf url=&amp;quot;/slides/ch5-slides.pdf&amp;quot; &amp;gt;}}</description>
     </item>
     <item>
       <title>6. 資料應用</title>
@@ -86,7 +86,7 @@ Previous Next &amp;nbsp; &amp;nbsp; Page: / &amp;nbsp; &amp;nbsp; Download </des
       <link>https://LearnCIOT.github.io/video/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://LearnCIOT.github.io/video/</guid>
-      <description>民生公共物聯網 資料應用網站簡介影片 教學網站簡介 整體課程前言 資料取用 時間維度資料分析 空間維度資料分析 資料應用 系統整合應用 結尾 完整版 研習工作坊教學影片 2022/10/22 台北 整體課程與教學網站簡介 資料取用 時間維度資料分析 空間維度資料分析 2022/11/5 台中 整體課程與教學網站簡介 資料取用 系統整合應用：Leafmap 系統整合應用：Tableau 2022/11/27 台南 整體課程與教學網站簡介 資料取用 資料應用與機器學習 系統整合應用：QGIS </description>
+      <description>民生公共物聯網 資料應用網站簡介影片 1 教學網站簡介 2 整體課程前言 3 資料取用 4 時間維度資料分析 5 空間維度資料分析 6 資料應用 7 系統整合應用 結尾 完整版 研習工作坊教學影片 2022/10/22 台北 整體課程與教學網站簡介 資料取用 時間維度資料分析 空間維度資料分析 2022/11/5 台中 整體課程與教學網站簡介 資料取用 系統整合應用：Leafmap 系統整合應用：Tableau 2022/11/27 台南 整體課程與教學網站簡介 資料取用 資料應用與機器學習 系統整合應用：QGIS </description>
     </item>
     <item>
       <title>2.1. 課程架構說明</title>
