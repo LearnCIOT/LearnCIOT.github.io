@@ -18,4 +18,4 @@ levels: ["beginner" ]
 
 ##
 
-{< embed-pdf url="/slides/ch5-slides.pdf" >}}
+{{< embed-pdf url="/slides/ch5-slides.pdf" >}}
