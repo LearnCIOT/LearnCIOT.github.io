@@ -28,6 +28,7 @@ authors: ["洪軾凱"]
 為了使用 [pyCIOT API](https://test.pypi.org/project/pyCIOT/) 服務，我們需要先將下載此服務的函式庫。pip 是一個以 Python 寫成的軟體包管理系統，用來安裝和管理 Python 軟體包。而這次使用的 pyCIOT 函式庫則是交由 Python Package Index (pypi) 管理，而我們可以在終端機上用這行指令將 pyCIOT 函式庫下載到本地，同時也會將其他必須的套件一起下載：
 
 ```powershell
+# 使用 pip 安裝 pyCIOT 套件
 !pip install pyCIOT
 ```
 
@@ -36,7 +37,7 @@ authors: ["洪軾凱"]
 欲使用本函式庫，僅需輸入匯入語法匯入 `pyCIOT.data` 即可：
 
 ```python
-# Import pyCIOT.data
+# 從 pyCIOT 的 data 模組中導入所有功能
 from pyCIOT.data import *
 ```
 
@@ -45,17 +46,20 @@ from pyCIOT.data import *
 ```python
 # 引入函式的三種方式
 
+# 引入整個模組，使用時需加上模組名稱作為前綴
 import pyCIOT.data 
 a = pyCIOT.data.Air().get_source()
 #   ~~~~~~~~~~~~ 加虛線上的文字
 
+# 使用別名匯入模組，可以縮短模組名稱
 import pyCIOT.data as CIoT
 a = CIoT.Air().get_source()
 #   ~~~~~ 可自行定義前綴
 
+# 直接導入模組中的所有功能，使用時不需加任何前綴
+# 注意：這種方法在匯入大量函式庫時可能會引起名稱衝突
 from pyCIOT.data import *
 a = Air().get_source()
-# 在匯入大量函式庫時盡量少用，避免函式庫名稱衝撞的問題
 ```
 
 ## pyCIoT API 獲取資料方式
@@ -78,8 +82,9 @@ a = Air().get_source()
 ### 獲取專案代碼 `Air().get_source()`
 
 ```python
-# 回傳所有空氣相關的專案代碼
+# 使用 Air 類別的 get_source 函式回傳所有空氣相關的專案代碼
 a = Air().get_source()
+# 顯示所得的專案代碼
 print(a)
 ```
 
@@ -98,8 +103,9 @@ print(a)
 ### 獲取所有測站列表 `Air().get_station()`
 
 ```python
-# 獲取環保署智慧城鄉空品微型感測的檢測站列表
+# 使用 Air 類別的 get_station 函式，並指定資料來源為環保署的智慧城鄉空品微型感測，來獲取檢測站列表
 b = Air().get_station(src="OBS:EPA_IoT")
+# 顯示前五個檢測站項目資料
 b[0:5]
 ```
 
@@ -132,7 +138,9 @@ b[0:5]
 ### 獲取測站資料 `Air().get_data()`
 
 ```python
+# 使用 Air 類別的 get_data 函式，指定資料來源和檢測站ID，來獲取該檢測站的空氣品質資料
 f = Air().get_data(src="OBS:EPA_IoT", stationID="11613429495")
+# 顯示所得的空氣品質資料
 f
 ```
 
@@ -165,8 +173,11 @@ f
 ```
 
 ```python
+# 顯示空氣品質資料的 description 部分
 print(f[0]['description'])
+# 遍歷資料集中的 data 部分，尋找 "溫度" 的數據
 for f_data in f[0]['data']:
+  # 如果找到 "溫度" 的數據，則顯示相對應的值和時間戳記
   if f_data['description'] == '溫度':
     print(f_data['description'], ': ', f_data['values'][0]['value'], ' (', f_data['values'][0]['timestamp'], ')', sep='')
 ```
@@ -180,16 +191,18 @@ for f_data in f[0]['data']:
 
 ### 獲取專案代碼 Water().get_source()
 
-根據引數不同會回傳不同種類的專案名稱：
+根據引數不同會回傳不同種類的專案代碼：
 
-- `water_level_station`: 回傳水位站的專案名稱（目前合法的代碼僅有 `WRA`, `WRA2` 和 `IA`)。
-- `gate`: 回傳閘門的專案名稱（目前合法的代碼僅有 `WRA`, `WRA2` 和 `IA`)。
-- `pumping_station`: 回傳抽水站的專案名稱（目前合法的代碼有 `WRA2` 和 `TPE`)。
-- `sensor`: 回傳各式感測器的專案名稱（目前合法的代碼有 `WRA`, `WRA2`, `IA` 和 `CPAMI`)。
-- `` (無輸入): 回傳所有水資源相關的專案名稱。
+- `water_level_station`: 回傳水位站的專案代碼（目前合法的代碼僅有 `WRA`, `WRA2` 和 `IA`)。
+- `gate`: 回傳閘門的專案代碼（目前合法的代碼僅有 `WRA`, `WRA2` 和 `IA`)。
+- `pumping_station`: 回傳抽水站的專案代碼（目前合法的代碼有 `WRA2` 和 `TPE`)。
+- `sensor`: 回傳各式感測器的專案代碼（目前合法的代碼有 `WRA`, `WRA2`, `IA` 和 `CPAMI`)。
+- `` (無輸入): 回傳所有水資源相關的專案代碼。
 
 ```python
+# 使用 Water 類別的 get_source 函式回傳所有水資源相關的專案代碼
 wa = Water().get_source()
+# 顯示所得的專案代碼
 wa
 ```
 
@@ -219,7 +232,9 @@ wa
 ### 獲取所有測站列表 `Water().get_station()`
 
 ```python
+# 使用 Water 類別的 get_station 函式，並指定資料來源為 "WATER_LEVEL:WRA_RIVER"，來獲取水位檢測站列表
 wa = Water().get_station(src="WATER_LEVEL:WRA_RIVER")
+# 只顯示檢測站列表的第一筆資料
 wa[0]
 ```
 
@@ -241,7 +256,9 @@ wa[0]
 ### 獲取測站資料 `Water().get_data()`
 
 ```python
+# 使用 Water 類別的 get_data 函式，指定資料來源和檢測站ID，來獲取該檢測站的水位資料
 wa = Water().get_data(src="WATER_LEVEL:WRA_RIVER", stationID="01790145-cd7e-4498-9240-f0fcd9061df2")
+# 顯示所得的水位資料
 wa
 ```
 
@@ -266,7 +283,9 @@ wa
 ### 獲取專案代碼 `Quake().get_source()`
 
 ```python
+# 使用 Quake 類別的 get_source 函式回傳所有地震相關的專案代碼
 q = Quake().get_source()
+# 顯示所得的專案代碼
 q
 ```
 
@@ -281,7 +300,9 @@ q
 ### 獲取地震監測站列表 `Quake().get_station()`
 
 ```python
+# 使用 Quake 類別的 get_station 函式，並指定資料來源為 "EARTHQUAKE:CWB+NCREE"，來獲取地震檢測站列表
 q = Quake().get_station(src="EARTHQUAKE:CWB+NCREE")
+# 只顯示檢測站列表的前兩筆資料
 q[0:2]
 ```
 
@@ -305,7 +326,9 @@ q[0:2]
 ### 獲取地震資料 `Quake().get_data()`
 
 ```python
+# 使用 Quake 類別的 get_data 函式，指定資料來源為 "EARTHQUAKE:CWB+NCREE"，來獲取地震資料
 q = Quake().get_data(src="EARTHQUAKE:CWB+NCREE")
+# 只顯示最後一筆地震資料
 q[-1]
 ```
 
@@ -333,7 +356,9 @@ q[-1]
 ### 獲取單一地震資料`Quake().get_data()`
 
 ```python
+# 使用 Quake 類別的 get_data 函式，指定資料來源和事件編號，來獲取該事件的地震資料
 q = Quake().get_data(src="EARTHQUAKE:CWB+NCREE", eventID="2022083")
+# 顯示所得的地震資料
 q
 # 獲得資料之格式和上述相同
 ```
@@ -343,7 +368,9 @@ q
 ### 獲取專案代碼 `Weather().get_source()`
 
 ```python
+# 使用 Weather 類別的 get_source 函式回傳所有天氣相關的專案代碼
 w = Weather().get_source()
+# 顯示所得的專案代碼
 w
 ```
 
@@ -377,7 +404,9 @@ w
 ### 獲取所有測站列表 `Weather().get_station()`
 
 ```python
+# 使用 Weather 類別的 get_station 函式，並指定資料來源為 "RAINFALL:CWB"，來獲取雨量站列表
 w = Weather().get_station(src="RAINFALL:CWB")
+# 顯示所得的雨量站列表
 w
 ```
 
@@ -395,11 +424,13 @@ w
 ]
 ```
 
-### 獲得測站資料 `Weather().get_data()`
+### 獲取測站資料 `Weather().get_data()`
 
 ```python
-# 南投縣 雨量站-U2HA40-臺大內茅埔 的雨量資料
+# 獲取測站 南投縣 雨量站-U2HA40-臺大內茅埔 的雨量資料
+# 使用 Weather 類別的 get_data 函式，指定資料來源和測站ID，來獲取該測站的雨量資料
 w = Weather().get_data(src="RAINFALL:CWB", stationID="U2HA40")
+# 顯示所得的雨量資料
 w
 ```
 
@@ -444,7 +475,9 @@ w
 ### 獲取專案代碼 `CCTV().get_source()`
 
 ```python
+# 使用 CCTV 類別的 get_source 函式回傳所有與影像相關的專案代碼
 cctv = CCTV().get_source()
+# 顯示所得的專案代碼
 cctv
 ```
 
@@ -461,7 +494,9 @@ cctv
 ### 獲取影像資料 `CCTV().get_data()`
 
 ```python
+# 使用 CCTV 類別的 get_data 函式，指定資料來源為 "IMAGE:EPA"，來獲取環保署空品監測即時影像資料
 cEPA = CCTV().get_data("IMAGE:EPA")
+# 顯示第三筆影像資料
 cEPA[2]
 ```
 
@@ -492,7 +527,9 @@ cEPA[2]
 ```
 
 ```python
+# 使用 CCTV 類別的 get_data 函式，指定資料來源為 "IMAGE:COA"，來獲取行政院農委會土石流觀測站影像資料
 cCOA = CCTV().get_data("IMAGE:COA")
+# 顯示第一筆影像資料
 cCOA[0]
 ```
 
@@ -520,10 +557,12 @@ cCOA[0]
 
 因專案代碼轉換列表過長，可參考 [pyCIOT Package Document](https://hackmd.io/@cclljj/pyCIOT_doc)。
 
-### 取得災情示警 `Disaster().get_alert()`
+### 獲取災情示警 `Disaster().get_alert()`
 
 ```python
+# 使用 Disaster 類別的 get_alert 函式，指定參數為 "5"，來獲取災害警報資訊
 d = Disaster().get_alert("5")
+# 顯示所得的災害警報資訊
 d
 ```
 
@@ -556,7 +595,9 @@ d
 ### 獲取災情通報歷史資料 `Disaster().get_notice()`
 
 ```python
-d = Disaster().get_notice("ERA2_F1") # 交通災情通報表（道路、橋梁部分）
+# 使用 Disaster 類別的 get_notice 函式，指定專案代碼為 "ERA2_F1"，來獲取交通災情通報表（道路、橋梁部分）
+d = Disaster().get_notice("ERA2_F1")
+# 顯示所得的交通災情通報資訊
 d
 ```
 
