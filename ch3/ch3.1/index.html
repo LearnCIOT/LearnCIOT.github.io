@@ -16,18 +16,18 @@
     <meta name="author" content="Ling-Jyh Chen">
     <title>3.1. 基本資料存取方法 :: Tutorial for CIoT Open Data Applications</title>
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="/css/fontawesome-all.min.css?1673602075" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1673602075" rel="stylesheet"></noscript>
-    <link href="/css/featherlight.min.css?1673602075" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1673602075" rel="stylesheet"></noscript>
-    <link href="/css/auto-complete.css?1673602075" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1673602075" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar.min.css?1673602075" rel="stylesheet">
-    <link href="/css/nucleus.css?1673602075" rel="stylesheet">
-    <link href="/css/fonts.css?1673602075" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1673602075" rel="stylesheet"></noscript>
-    <link href="/css/theme.css?1673602075" rel="stylesheet">
-    <link href="/css/theme-relearn-light.css?1673602075" rel="stylesheet" id="variant-style">
-    <link href="/css/ie.css?1673602075" rel="stylesheet">
-    <link href="/css/variant.css?1673602075" rel="stylesheet">
-    <link href="/css/print.css?1673602075" rel="stylesheet" media="print">
-    <script src="/js/variant.js?1673602075"></script>
+    <link href="/css/fontawesome-all.min.css?1695185610" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1695185610" rel="stylesheet"></noscript>
+    <link href="/css/featherlight.min.css?1695185610" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1695185610" rel="stylesheet"></noscript>
+    <link href="/css/auto-complete.css?1695185610" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1695185610" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar.min.css?1695185610" rel="stylesheet">
+    <link href="/css/nucleus.css?1695185610" rel="stylesheet">
+    <link href="/css/fonts.css?1695185610" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1695185610" rel="stylesheet"></noscript>
+    <link href="/css/theme.css?1695185610" rel="stylesheet">
+    <link href="/css/theme-relearn-light.css?1695185610" rel="stylesheet" id="variant-style">
+    <link href="/css/ie.css?1695185610" rel="stylesheet">
+    <link href="/css/variant.css?1695185610" rel="stylesheet">
+    <link href="/css/print.css?1695185610" rel="stylesheet" media="print">
+    <script src="/js/variant.js?1695185610"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -43,7 +43,7 @@
       var baseUriFull='https:\/\/LearnCIOT.github.io/';
       window.variants && variants.init( [ 'relearn-light' ] );
     </script>
-    <script src="/js/jquery.min.js?1673602075" defer></script>
+    <script src="/js/jquery.min.js?1695185610" defer></script>
 <meta property="fb:app_id" content="601826851395774" />
   </head>
   <body class="default-animation" data-url="/ch3/ch3.1/">
@@ -120,7 +120,7 @@
       <ul>
         <li><a href="#獲取專案代碼weatherget_source">獲取專案代碼 <code>Weather().get_source()</code></a></li>
         <li><a href="#獲取所有測站列表weatherget_station">獲取所有測站列表 <code>Weather().get_station()</code></a></li>
-        <li><a href="#獲得測站資料weatherget_data">獲得測站資料 <code>Weather().get_data()</code></a></li>
+        <li><a href="#獲取測站資料weatherget_data">獲取測站資料 <code>Weather().get_data()</code></a></li>
       </ul>
     </li>
     <li><a href="#影像資料存取">影像資料存取</a>
@@ -131,7 +131,7 @@
     </li>
     <li><a href="#災難警示資料存取">災難警示資料存取</a>
       <ul>
-        <li><a href="#取得災情示警-disasterget_alert">取得災情示警 <code>Disaster().get_alert()</code></a></li>
+        <li><a href="#獲取災情示警-disasterget_alert">獲取災情示警 <code>Disaster().get_alert()</code></a></li>
         <li><a href="#獲取災情通報歷史資料disasterget_notice">獲取災情通報歷史資料 <code>Disaster().get_notice()</code></a></li>
       </ul>
     </li>
@@ -358,7 +358,7 @@ if (!doNotTrack) {
       <ul>
         <li><a href="#獲取專案代碼weatherget_source">獲取專案代碼 <code>Weather().get_source()</code></a></li>
         <li><a href="#獲取所有測站列表weatherget_station">獲取所有測站列表 <code>Weather().get_station()</code></a></li>
-        <li><a href="#獲得測站資料weatherget_data">獲得測站資料 <code>Weather().get_data()</code></a></li>
+        <li><a href="#獲取測站資料weatherget_data">獲取測站資料 <code>Weather().get_data()</code></a></li>
       </ul>
     </li>
     <li><a href="#影像資料存取">影像資料存取</a>
@@ -369,7 +369,7 @@ if (!doNotTrack) {
     </li>
     <li><a href="#災難警示資料存取">災難警示資料存取</a>
       <ul>
-        <li><a href="#取得災情示警-disasterget_alert">取得災情示警 <code>Disaster().get_alert()</code></a></li>
+        <li><a href="#獲取災情示警-disasterget_alert">獲取災情示警 <code>Disaster().get_alert()</code></a></li>
         <li><a href="#獲取災情通報歷史資料disasterget_notice">獲取災情通報歷史資料 <code>Disaster().get_notice()</code></a></li>
       </ul>
     </li>
@@ -385,25 +385,29 @@ if (!doNotTrack) {
 <h2 id="pyciot-api-使用方法">pyCIOT API 使用方法</h2>
 <h3 id="下載函式庫">下載函式庫</h3>
 <p>為了使用 <a href="https://test.pypi.org/project/pyCIOT/">pyCIOT API</a> 服務，我們需要先將下載此服務的函式庫。pip 是一個以 Python 寫成的軟體包管理系統，用來安裝和管理 Python 軟體包。而這次使用的 pyCIOT 函式庫則是交由 Python Package Index (pypi) 管理，而我們可以在終端機上用這行指令將 pyCIOT 函式庫下載到本地，同時也會將其他必須的套件一起下載：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>!pip install pyCIOT
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># 使用 pip 安裝 pyCIOT 套件</span>
+</span></span><span style="display:flex;"><span>!pip install pyCIOT
 </span></span></code></pre></div><h3 id="使用函式庫">使用函式庫</h3>
 <p>欲使用本函式庫，僅需輸入匯入語法匯入 <code>pyCIOT.data</code> 即可：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Import pyCIOT.data</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 從 pyCIOT 的 data 模組中導入所有功能</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pyCIOT.data <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
 </span></span></code></pre></div><p>根據匯入函式庫的方式不同，呼叫函式的方法也不一樣。若是使用 <code>from ... import ...</code> 的語法，呼叫函式時不需加上前綴；但若是使用 <code>import ...</code> 的話，則是要在每次呼叫其函式庫下的函式時加上前綴，而使用 <code>import ... as ...</code> 則是可以根據在 <code>as</code> 後自定義前綴方便撰寫程式。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 引入函式的三種方式</span>
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 引入整個模組，使用時需加上模組名稱作為前綴</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> pyCIOT.data 
 </span></span><span style="display:flex;"><span>a <span style="color:#f92672">=</span> pyCIOT<span style="color:#f92672">.</span>data<span style="color:#f92672">.</span>Air()<span style="color:#f92672">.</span>get_source()
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#   ~~~~~~~~~~~~ 加虛線上的文字</span>
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用別名匯入模組，可以縮短模組名稱</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> pyCIOT.data <span style="color:#66d9ef">as</span> CIoT
 </span></span><span style="display:flex;"><span>a <span style="color:#f92672">=</span> CIoT<span style="color:#f92672">.</span>Air()<span style="color:#f92672">.</span>get_source()
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#   ~~~~~ 可自行定義前綴</span>
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 直接導入模組中的所有功能，使用時不需加任何前綴</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 注意：這種方法在匯入大量函式庫時可能會引起名稱衝突</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pyCIOT.data <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
 </span></span><span style="display:flex;"><span>a <span style="color:#f92672">=</span> Air()<span style="color:#f92672">.</span>get_source()
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 在匯入大量函式庫時盡量少用，避免函式庫名稱衝撞的問題</span>
 </span></span></code></pre></div><h2 id="pyciot-api-獲取資料方式">pyCIoT API 獲取資料方式</h2>
 <p>大部分的 API 資料格式都能夠透過下列方式獲取，包含空氣、水源、地震、天氣、影像資料等：</p>
 <ul>
@@ -419,8 +423,9 @@ if (!doNotTrack) {
 <p>若與 <a href="https://hackmd.io/JdFywArGS9uxcSRTyYDtBg">pyCIOT Package Document</a> 內容相悖，以其為準。</p>
 <h2 id="空氣資料存取">空氣資料存取</h2>
 <h3 id="獲取專案代碼airget_source">獲取專案代碼 <code>Air().get_source()</code></h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 回傳所有空氣相關的專案代碼</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 使用 Air 類別的 get_source 函式回傳所有空氣相關的專案代碼</span>
 </span></span><span style="display:flex;"><span>a <span style="color:#f92672">=</span> Air()<span style="color:#f92672">.</span>get_source()
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示所得的專案代碼</span>
 </span></span><span style="display:flex;"><span>print(a)
 </span></span></code></pre></div><pre tabindex="0"><code>[&#39;OBS:EPA&#39;, &#39;OBS:EPA_IoT&#39;, &#39;OBS:AS_IoT&#39;, &#39;OBS:MOST_IoT&#39;, &#39;OBS:NCNU_IoT&#39;]
 </code></pre><p>專案代碼轉換列表</p>
@@ -432,8 +437,9 @@ if (!doNotTrack) {
 <li><code>OBS:NCNU_IoT</code>: 暨南大學在地空品微型感測器</li>
 </ul>
 <h3 id="獲取所有測站列表airget_station">獲取所有測站列表 <code>Air().get_station()</code></h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 獲取環保署智慧城鄉空品微型感測的檢測站列表</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 使用 Air 類別的 get_station 函式，並指定資料來源為環保署的智慧城鄉空品微型感測，來獲取檢測站列表</span>
 </span></span><span style="display:flex;"><span>b <span style="color:#f92672">=</span> Air()<span style="color:#f92672">.</span>get_station(src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;OBS:EPA_IoT&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示前五個檢測站項目資料</span>
 </span></span><span style="display:flex;"><span>b[<span style="color:#ae81ff">0</span>:<span style="color:#ae81ff">5</span>]
 </span></span></code></pre></div><pre tabindex="0"><code>[
     {
@@ -459,7 +465,9 @@ if (!doNotTrack) {
     ...
 ]
 </code></pre><h3 id="獲取測站資料airget_data">獲取測站資料 <code>Air().get_data()</code></h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>f <span style="color:#f92672">=</span> Air()<span style="color:#f92672">.</span>get_data(src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;OBS:EPA_IoT&#34;</span>, stationID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;11613429495&#34;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 使用 Air 類別的 get_data 函式，指定資料來源和檢測站ID，來獲取該檢測站的空氣品質資料</span>
+</span></span><span style="display:flex;"><span>f <span style="color:#f92672">=</span> Air()<span style="color:#f92672">.</span>get_data(src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;OBS:EPA_IoT&#34;</span>, stationID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;11613429495&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示所得的空氣品質資料</span>
 </span></span><span style="display:flex;"><span>f
 </span></span></code></pre></div><pre tabindex="0"><code>[
 {&#39;name&#39;: &#39;智慧城鄉空品微型感測器-11613429495&#39;,
@@ -486,23 +494,28 @@ if (!doNotTrack) {
     &#39;values&#39;: [{&#39;timestamp&#39;: &#39;2022-08-28T06:22:08.000Z&#39;, &#39;value&#39;: 9.8}]}],
   &#39;location&#39;: {&#39;latitude&#39;: 24.81796, &#39;longitude&#39;: 120.92664, &#39;address&#39;: None}}
 ]
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>print(f[<span style="color:#ae81ff">0</span>][<span style="color:#e6db74">&#39;description&#39;</span>])
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 顯示空氣品質資料的 description 部分</span>
+</span></span><span style="display:flex;"><span>print(f[<span style="color:#ae81ff">0</span>][<span style="color:#e6db74">&#39;description&#39;</span>])
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 遍歷資料集中的 data 部分，尋找 &#34;溫度&#34; 的數據</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> f_data <span style="color:#f92672">in</span> f[<span style="color:#ae81ff">0</span>][<span style="color:#e6db74">&#39;data&#39;</span>]:
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 如果找到 &#34;溫度&#34; 的數據，則顯示相對應的值和時間戳記</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> f_data[<span style="color:#e6db74">&#39;description&#39;</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;溫度&#39;</span>:
 </span></span><span style="display:flex;"><span>    print(f_data[<span style="color:#e6db74">&#39;description&#39;</span>], <span style="color:#e6db74">&#39;: &#39;</span>, f_data[<span style="color:#e6db74">&#39;values&#39;</span>][<span style="color:#ae81ff">0</span>][<span style="color:#e6db74">&#39;value&#39;</span>], <span style="color:#e6db74">&#39; (&#39;</span>, f_data[<span style="color:#e6db74">&#39;values&#39;</span>][<span style="color:#ae81ff">0</span>][<span style="color:#e6db74">&#39;timestamp&#39;</span>], <span style="color:#e6db74">&#39;)&#39;</span>, sep<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;&#39;</span>)
 </span></span></code></pre></div><pre tabindex="0"><code>智慧城鄉空品微型感測器-11613429495
 溫度: 30.6 (2022-08-28T06:22:08.000Z)
 </code></pre><h2 id="水源資料存取">水源資料存取</h2>
 <h3 id="獲取專案代碼-waterget_source">獲取專案代碼 Water().get_source()</h3>
-<p>根據引數不同會回傳不同種類的專案名稱：</p>
+<p>根據引數不同會回傳不同種類的專案代碼：</p>
 <ul>
-<li><code>water_level_station</code>: 回傳水位站的專案名稱（目前合法的代碼僅有 <code>WRA</code>, <code>WRA2</code> 和 <code>IA</code>)。</li>
-<li><code>gate</code>: 回傳閘門的專案名稱（目前合法的代碼僅有 <code>WRA</code>, <code>WRA2</code> 和 <code>IA</code>)。</li>
-<li><code>pumping_station</code>: 回傳抽水站的專案名稱（目前合法的代碼有 <code>WRA2</code> 和 <code>TPE</code>)。</li>
-<li><code>sensor</code>: 回傳各式感測器的專案名稱（目前合法的代碼有 <code>WRA</code>, <code>WRA2</code>, <code>IA</code> 和 <code>CPAMI</code>)。</li>
-<li>`` (無輸入): 回傳所有水資源相關的專案名稱。</li>
+<li><code>water_level_station</code>: 回傳水位站的專案代碼（目前合法的代碼僅有 <code>WRA</code>, <code>WRA2</code> 和 <code>IA</code>)。</li>
+<li><code>gate</code>: 回傳閘門的專案代碼（目前合法的代碼僅有 <code>WRA</code>, <code>WRA2</code> 和 <code>IA</code>)。</li>
+<li><code>pumping_station</code>: 回傳抽水站的專案代碼（目前合法的代碼有 <code>WRA2</code> 和 <code>TPE</code>)。</li>
+<li><code>sensor</code>: 回傳各式感測器的專案代碼（目前合法的代碼有 <code>WRA</code>, <code>WRA2</code>, <code>IA</code> 和 <code>CPAMI</code>)。</li>
+<li>`` (無輸入): 回傳所有水資源相關的專案代碼。</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>wa <span style="color:#f92672">=</span> Water()<span style="color:#f92672">.</span>get_source()
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 使用 Water 類別的 get_source 函式回傳所有水資源相關的專案代碼</span>
+</span></span><span style="display:flex;"><span>wa <span style="color:#f92672">=</span> Water()<span style="color:#f92672">.</span>get_source()
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示所得的專案代碼</span>
 </span></span><span style="display:flex;"><span>wa
 </span></span></code></pre></div><pre tabindex="0"><code>[&#39;WATER_LEVEL:WRA_RIVER&#39;,
  &#39;WATER_LEVEL:WRA_GROUNDWATER&#39;,
@@ -525,7 +538,9 @@ if (!doNotTrack) {
 <li><code>TPE</code>: 臺北市</li>
 </ul>
 <h3 id="獲取所有測站列表waterget_station">獲取所有測站列表 <code>Water().get_station()</code></h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>wa <span style="color:#f92672">=</span> Water()<span style="color:#f92672">.</span>get_station(src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;WATER_LEVEL:WRA_RIVER&#34;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 使用 Water 類別的 get_station 函式，並指定資料來源為 &#34;WATER_LEVEL:WRA_RIVER&#34;，來獲取水位檢測站列表</span>
+</span></span><span style="display:flex;"><span>wa <span style="color:#f92672">=</span> Water()<span style="color:#f92672">.</span>get_station(src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;WATER_LEVEL:WRA_RIVER&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 只顯示檢測站列表的第一筆資料</span>
 </span></span><span style="display:flex;"><span>wa[<span style="color:#ae81ff">0</span>]
 </span></span></code></pre></div><pre tabindex="0"><code>{
   &#39;name&#39;: &#39;01790145-cd7e-4498-9240-f0fcd9061df2&#39;,
@@ -540,7 +555,9 @@ if (!doNotTrack) {
    &#39;address&#39;: None}
 }
 </code></pre><h3 id="獲取測站資料waterget_data">獲取測站資料 <code>Water().get_data()</code></h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>wa <span style="color:#f92672">=</span> Water()<span style="color:#f92672">.</span>get_data(src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;WATER_LEVEL:WRA_RIVER&#34;</span>, stationID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;01790145-cd7e-4498-9240-f0fcd9061df2&#34;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 使用 Water 類別的 get_data 函式，指定資料來源和檢測站ID，來獲取該檢測站的水位資料</span>
+</span></span><span style="display:flex;"><span>wa <span style="color:#f92672">=</span> Water()<span style="color:#f92672">.</span>get_data(src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;WATER_LEVEL:WRA_RIVER&#34;</span>, stationID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;01790145-cd7e-4498-9240-f0fcd9061df2&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示所得的水位資料</span>
 </span></span><span style="display:flex;"><span>wa
 </span></span></code></pre></div><pre tabindex="0"><code>[{&#39;name&#39;: &#39;01790145-cd7e-4498-9240-f0fcd9061df2&#39;,
   &#39;description&#39;: &#39;現場觀測&#39;,
@@ -557,7 +574,9 @@ if (!doNotTrack) {
    &#39;address&#39;: None}}]
 </code></pre><h2 id="地震資料存取">地震資料存取</h2>
 <h3 id="獲取專案代碼quakeget_source">獲取專案代碼 <code>Quake().get_source()</code></h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>q <span style="color:#f92672">=</span> Quake()<span style="color:#f92672">.</span>get_source()
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 使用 Quake 類別的 get_source 函式回傳所有地震相關的專案代碼</span>
+</span></span><span style="display:flex;"><span>q <span style="color:#f92672">=</span> Quake()<span style="color:#f92672">.</span>get_source()
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示所得的專案代碼</span>
 </span></span><span style="display:flex;"><span>q
 </span></span></code></pre></div><pre tabindex="0"><code>[&#39;EARTHQUAKE:CWB+NCREE&#39;]
 </code></pre><p>專案代碼轉換列表：</p>
@@ -565,7 +584,9 @@ if (!doNotTrack) {
 <li><code>EARTHQUAKE:CWB+NCREE</code>: 中央氣象局與國震中心地震監測站（因資料儲存方式不同，CWB 及 NCREE 的測站資料無法分別查詢，因此在每個事件中，會回傳來源中所有測站的監測資料）</li>
 </ul>
 <h3 id="獲取地震監測站列表quakeget_station">獲取地震監測站列表 <code>Quake().get_station()</code></h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>q <span style="color:#f92672">=</span> Quake()<span style="color:#f92672">.</span>get_station(src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;EARTHQUAKE:CWB+NCREE&#34;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 使用 Quake 類別的 get_station 函式，並指定資料來源為 &#34;EARTHQUAKE:CWB+NCREE&#34;，來獲取地震檢測站列表</span>
+</span></span><span style="display:flex;"><span>q <span style="color:#f92672">=</span> Quake()<span style="color:#f92672">.</span>get_station(src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;EARTHQUAKE:CWB+NCREE&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 只顯示檢測站列表的前兩筆資料</span>
 </span></span><span style="display:flex;"><span>q[<span style="color:#ae81ff">0</span>:<span style="color:#ae81ff">2</span>]
 </span></span></code></pre></div><pre tabindex="0"><code>[{&#39;name&#39;: &#39;地震監測站-Jiqi-EGC&#39;,
   &#39;description&#39;: &#39;地震監測站-Jiqi-EGC&#39;,
@@ -582,7 +603,9 @@ if (!doNotTrack) {
    &#39;stationName&#39;: &#39;Xilin&#39;},
   &#39;location&#39;: {&#39;latitude&#39;: 23.812, &#39;longitude&#39;: 121.442, &#39;address&#39;: None}}]
 </code></pre><h3 id="獲取地震資料quakeget_data">獲取地震資料 <code>Quake().get_data()</code></h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>q <span style="color:#f92672">=</span> Quake()<span style="color:#f92672">.</span>get_data(src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;EARTHQUAKE:CWB+NCREE&#34;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 使用 Quake 類別的 get_data 函式，指定資料來源為 &#34;EARTHQUAKE:CWB+NCREE&#34;，來獲取地震資料</span>
+</span></span><span style="display:flex;"><span>q <span style="color:#f92672">=</span> Quake()<span style="color:#f92672">.</span>get_data(src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;EARTHQUAKE:CWB+NCREE&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 只顯示最後一筆地震資料</span>
 </span></span><span style="display:flex;"><span>q[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
 </span></span></code></pre></div><pre tabindex="0"><code>{&#39;name&#39;: &#39;第2022083號地震&#39;,
  &#39;description&#39;: &#39;第2022083號地震&#39;,
@@ -603,12 +626,16 @@ if (!doNotTrack) {
    ]
  &#39;location&#39;: {&#39;latitude&#39;: 22.98, &#39;longitude&#39;: 121.37, &#39;address&#39;: None}}
 </code></pre><h3 id="獲取單一地震資料quakeget_data">獲取單一地震資料<code>Quake().get_data()</code></h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>q <span style="color:#f92672">=</span> Quake()<span style="color:#f92672">.</span>get_data(src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;EARTHQUAKE:CWB+NCREE&#34;</span>, eventID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;2022083&#34;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 使用 Quake 類別的 get_data 函式，指定資料來源和事件編號，來獲取該事件的地震資料</span>
+</span></span><span style="display:flex;"><span>q <span style="color:#f92672">=</span> Quake()<span style="color:#f92672">.</span>get_data(src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;EARTHQUAKE:CWB+NCREE&#34;</span>, eventID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;2022083&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示所得的地震資料</span>
 </span></span><span style="display:flex;"><span>q
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 獲得資料之格式和上述相同</span>
 </span></span></code></pre></div><h2 id="天氣資料存取">天氣資料存取</h2>
 <h3 id="獲取專案代碼weatherget_source">獲取專案代碼 <code>Weather().get_source()</code></h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>w <span style="color:#f92672">=</span> Weather()<span style="color:#f92672">.</span>get_source()
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 使用 Weather 類別的 get_source 函式回傳所有天氣相關的專案代碼</span>
+</span></span><span style="display:flex;"><span>w <span style="color:#f92672">=</span> Weather()<span style="color:#f92672">.</span>get_source()
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示所得的專案代碼</span>
 </span></span><span style="display:flex;"><span>w
 </span></span></code></pre></div><pre tabindex="0"><code>[&#39;GENERAL:CWB&#39;,
  &#39;GENERAL:CWB_IoT&#39;,
@@ -635,7 +662,9 @@ if (!doNotTrack) {
 <li><code>IMAGE:CWB</code>: 中央氣象局雷達整合回波圖</li>
 </ul>
 <h3 id="獲取所有測站列表weatherget_station">獲取所有測站列表 <code>Weather().get_station()</code></h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>w <span style="color:#f92672">=</span> Weather()<span style="color:#f92672">.</span>get_station(src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;RAINFALL:CWB&#34;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 使用 Weather 類別的 get_station 函式，並指定資料來源為 &#34;RAINFALL:CWB&#34;，來獲取雨量站列表</span>
+</span></span><span style="display:flex;"><span>w <span style="color:#f92672">=</span> Weather()<span style="color:#f92672">.</span>get_station(src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;RAINFALL:CWB&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示所得的雨量站列表</span>
 </span></span><span style="display:flex;"><span>w
 </span></span></code></pre></div><pre tabindex="0"><code>[{&#39;name&#39;: &#39;雨量站-C1R120-上德文&#39;,
   &#39;description&#39;: &#39;雨量站-C1R120-上德文&#39;,
@@ -648,9 +677,11 @@ if (!doNotTrack) {
   &#39;location&#39;: {&#39;latitude&#39;: 22.765, &#39;longitude&#39;: 120.6964, &#39;address&#39;: None}},
   ...
 ]
-</code></pre><h3 id="獲得測站資料weatherget_data">獲得測站資料 <code>Weather().get_data()</code></h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 南投縣 雨量站-U2HA40-臺大內茅埔 的雨量資料</span>
+</code></pre><h3 id="獲取測站資料weatherget_data">獲取測站資料 <code>Weather().get_data()</code></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 獲取測站 南投縣 雨量站-U2HA40-臺大內茅埔 的雨量資料</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用 Weather 類別的 get_data 函式，指定資料來源和測站ID，來獲取該測站的雨量資料</span>
 </span></span><span style="display:flex;"><span>w <span style="color:#f92672">=</span> Weather()<span style="color:#f92672">.</span>get_data(src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;RAINFALL:CWB&#34;</span>, stationID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;U2HA40&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示所得的雨量資料</span>
 </span></span><span style="display:flex;"><span>w
 </span></span></code></pre></div><pre tabindex="0"><code>[{&#39;name&#39;: &#39;雨量站-U2HA40-臺大內茅埔&#39;,
   &#39;description&#39;: &#39;雨量站-U2HA40-臺大內茅埔&#39;,
@@ -687,7 +718,9 @@ if (!doNotTrack) {
   &#39;location&#39;: {&#39;latitude&#39;: 23.6915, &#39;longitude&#39;: 120.843, &#39;address&#39;: None}}]
 </code></pre><h2 id="影像資料存取">影像資料存取</h2>
 <h3 id="獲取專案代碼-cctvget_source">獲取專案代碼 <code>CCTV().get_source()</code></h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>cctv <span style="color:#f92672">=</span> CCTV()<span style="color:#f92672">.</span>get_source()
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 使用 CCTV 類別的 get_source 函式回傳所有與影像相關的專案代碼</span>
+</span></span><span style="display:flex;"><span>cctv <span style="color:#f92672">=</span> CCTV()<span style="color:#f92672">.</span>get_source()
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示所得的專案代碼</span>
 </span></span><span style="display:flex;"><span>cctv
 </span></span></code></pre></div><pre tabindex="0"><code>[&#39;IMAGE:EPA&#39;, &#39;IMAGE:WRA&#39;, &#39;IMAGE:COA&#39;]
 </code></pre><p>專案代碼轉換列表：</p>
@@ -697,7 +730,9 @@ if (!doNotTrack) {
 <li>IMAGE:COA: 行政院農委會土石流觀測站影像</li>
 </ul>
 <h3 id="獲取影像資料-cctvget_data">獲取影像資料 <code>CCTV().get_data()</code></h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>cEPA <span style="color:#f92672">=</span> CCTV()<span style="color:#f92672">.</span>get_data(<span style="color:#e6db74">&#34;IMAGE:EPA&#34;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 使用 CCTV 類別的 get_data 函式，指定資料來源為 &#34;IMAGE:EPA&#34;，來獲取環保署空品監測即時影像資料</span>
+</span></span><span style="display:flex;"><span>cEPA <span style="color:#f92672">=</span> CCTV()<span style="color:#f92672">.</span>get_data(<span style="color:#e6db74">&#34;IMAGE:EPA&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示第三筆影像資料</span>
 </span></span><span style="display:flex;"><span>cEPA[<span style="color:#ae81ff">2</span>]
 </span></span></code></pre></div><pre tabindex="0"><code>{
     &#39;name&#39;: &#39;環保署空品監測即時影像器-萬里&#39;,
@@ -722,7 +757,9 @@ if (!doNotTrack) {
     ],
     &#39;location&#39;: {&#39;latitude&#39;: 25.179667, &#39;longitude&#39;: 121.689881, &#39;address&#39;: None}
 }
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>cCOA <span style="color:#f92672">=</span> CCTV()<span style="color:#f92672">.</span>get_data(<span style="color:#e6db74">&#34;IMAGE:COA&#34;</span>)
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 使用 CCTV 類別的 get_data 函式，指定資料來源為 &#34;IMAGE:COA&#34;，來獲取行政院農委會土石流觀測站影像資料</span>
+</span></span><span style="display:flex;"><span>cCOA <span style="color:#f92672">=</span> CCTV()<span style="color:#f92672">.</span>get_data(<span style="color:#e6db74">&#34;IMAGE:COA&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示第一筆影像資料</span>
 </span></span><span style="display:flex;"><span>cCOA[<span style="color:#ae81ff">0</span>]
 </span></span></code></pre></div><pre tabindex="0"><code>{&#39;name&#39;: &#39;行政院農委會土石流觀測站影像-大粗坑下游攝影機&#39;,
  &#39;description&#39;: &#39;行政院農委會-大粗坑下游攝影機-土石流觀測站影像&#39;,
@@ -742,8 +779,10 @@ if (!doNotTrack) {
 </code></pre><h2 id="災難警示資料存取">災難警示資料存取</h2>
 <p>民生公共物聯網資料平台上提供的災情示警有 58 個項目以上，而災情通報共計有 41 個項目以上；不同災情示警個由不同單位負責，而災情通報則為中央災害應變中心負責。</p>
 <p>因專案代碼轉換列表過長，可參考 <a href="https://hackmd.io/@cclljj/pyCIOT_doc">pyCIOT Package Document</a>。</p>
-<h3 id="取得災情示警-disasterget_alert">取得災情示警 <code>Disaster().get_alert()</code></h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>d <span style="color:#f92672">=</span> Disaster()<span style="color:#f92672">.</span>get_alert(<span style="color:#e6db74">&#34;5&#34;</span>)
+<h3 id="獲取災情示警-disasterget_alert">獲取災情示警 <code>Disaster().get_alert()</code></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 使用 Disaster 類別的 get_alert 函式，指定參數為 &#34;5&#34;，來獲取災害警報資訊</span>
+</span></span><span style="display:flex;"><span>d <span style="color:#f92672">=</span> Disaster()<span style="color:#f92672">.</span>get_alert(<span style="color:#e6db74">&#34;5&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示所得的災害警報資訊</span>
 </span></span><span style="display:flex;"><span>d
 </span></span></code></pre></div><pre tabindex="0"><code>{&#39;id&#39;: &#39;https://alerts.ncdr.nat.gov.tw/Json.aspx&#39;,
  &#39;title&#39;: &#39;NCDR_CAP-即時防災資訊(Json)&#39;,
@@ -769,7 +808,9 @@ if (!doNotTrack) {
    ]
 }
 </code></pre><h3 id="獲取災情通報歷史資料disasterget_notice">獲取災情通報歷史資料 <code>Disaster().get_notice()</code></h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>d <span style="color:#f92672">=</span> Disaster()<span style="color:#f92672">.</span>get_notice(<span style="color:#e6db74">&#34;ERA2_F1&#34;</span>) <span style="color:#75715e"># 交通災情通報表（道路、橋梁部分）</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 使用 Disaster 類別的 get_notice 函式，指定專案代碼為 &#34;ERA2_F1&#34;，來獲取交通災情通報表（道路、橋梁部分）</span>
+</span></span><span style="display:flex;"><span>d <span style="color:#f92672">=</span> Disaster()<span style="color:#f92672">.</span>get_notice(<span style="color:#e6db74">&#34;ERA2_F1&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示所得的交通災情通報資訊</span>
 </span></span><span style="display:flex;"><span>d
 </span></span></code></pre></div><pre tabindex="0"><code>&#34;maincmt&#34;:{
       &#34;prj_no&#34;:&#34;專案代號&#34;,
@@ -900,12 +941,12 @@ This work is licensed under a <a rel="license" href="http://creativecommons.org/
         <script>
           var contentLangs=['zh'];
         </script>
-        <script src="/js/auto-complete.js?1673602075" defer></script>
-        <script src="/js/lunr.min.js?1673602075" defer></script>
-        <script src="/js/lunr.stemmer.support.min.js?1673602075" defer></script>
-        <script src="/js/lunr.multi.min.js?1673602075" defer></script>
-        <script src="/js/lunr.zh.min.js?1673602075" defer></script>
-        <script src="/js/search.js?1673602075" defer></script>
+        <script src="/js/auto-complete.js?1695185610" defer></script>
+        <script src="/js/lunr.min.js?1695185610" defer></script>
+        <script src="/js/lunr.stemmer.support.min.js?1695185610" defer></script>
+        <script src="/js/lunr.multi.min.js?1695185610" defer></script>
+        <script src="/js/lunr.zh.min.js?1695185610" defer></script>
+        <script src="/js/search.js?1695185610" defer></script>
       </div>
       <div id="content-wrapper" class="highlightable">
         <ul class="topics">
@@ -982,14 +1023,14 @@ This work is licensed under a <a rel="license" href="http://creativecommons.org/
       </div>
     </aside>
 
-    <script src="/js/clipboard.min.js?1673602075" defer></script>
-    <script src="/js/perfect-scrollbar.min.js?1673602075" defer></script>
-    <script src="/js/featherlight.min.js?1673602075" defer></script>
-    <script src="/js/jquery.svg.pan.zoom.js?1673602075" defer></script>
-    <script src="/js/mermaid.min.js?1673602075" defer></script>
+    <script src="/js/clipboard.min.js?1695185610" defer></script>
+    <script src="/js/perfect-scrollbar.min.js?1695185610" defer></script>
+    <script src="/js/featherlight.min.js?1695185610" defer></script>
+    <script src="/js/jquery.svg.pan.zoom.js?1695185610" defer></script>
+    <script src="/js/mermaid.min.js?1695185610" defer></script>
     <script>
       window.themeUseMermaid = JSON.parse("{}");
     </script>
-    <script src="/js/theme.js?1673602075" defer></script>
+    <script src="/js/theme.js?1695185610" defer></script>
   </body>
 </html>
