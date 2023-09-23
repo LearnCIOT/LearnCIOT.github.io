@@ -40,39 +40,23 @@ authors: ["彭昱齊"]
 待安裝完畢後，即可使用下列的語法先行引入相關的套件，完成本章節的準備工作：
 
 ```python
-# 導入警告處理模塊，用於控制警告訊息
-import warnings
-# 導入日曆圖繪製函式庫
-import calplot
-# 導入資料處理函式庫 pandas
-import pandas as pd
-# 導入數學運算函式庫 NumPy
-import numpy as np
-# 導入繪圖函式庫 Matplotlib 的基礎設定
-import matplotlib as mpl
-# 導入繪圖函式庫 Matplotlib 的 pyplot 模塊
-import matplotlib.pyplot as plt
-# 導入統計模型函式庫 Statsmodels 的 API
-import statsmodels.api as sm
-# 導入檔案操作和壓縮函式庫
-import os, zipfile
+import warnings # 導入警告處理模塊，用於控制警告訊息
+import calplot # 導入日曆圖繪製函式庫
+import pandas as pd # 導入資料處理函式庫 pandas
+import numpy as np # 導入數學運算函式庫 NumPy
+import matplotlib as mpl # 導入繪圖函式庫 Matplotlib 的基礎設定
+import matplotlib.pyplot as plt # 導入繪圖函式庫 Matplotlib 的 pyplot 模塊
+import statsmodels.api as sm # 導入統計模型函式庫 Statsmodels 的 API
+import os, zipfile # 導入檔案操作和壓縮函式庫
 
-# 導入日期時間處理模塊
-from datetime import datetime, timedelta
-# 導入日期時間解析模塊
-from dateutil import parser as datetime_parser
-# 導入時序數據的統計檢定函式
-from statsmodels.tsa.stattools import adfuller, kpss
-# 導入季節分解函式
-from statsmodels.tsa.seasonal import seasonal_decompose
-# 導入異常值檢測器
-from kats.detectors.outlier import OutlierDetector
-# 導入 CUSUM 異常檢測器
-from kats.detectors.cusum_detection import CUSUMDetector
-# 導入 Kats 時序數據和迭代器類型
-from kats.consts import TimeSeriesData, TimeSeriesIterator
-# 導入 IPython 繪圖尺寸設定工具
-from IPython.core.pylabtools import figsize
+from datetime import datetime, timedelta # 導入日期時間處理模塊
+from dateutil import parser as datetime_parser # 導入日期時間解析模塊
+from statsmodels.tsa.stattools import adfuller, kpss # 導入時序數據的統計檢定函式
+from statsmodels.tsa.seasonal import seasonal_decompose # 導入季節分解函式
+from kats.detectors.outlier import OutlierDetector # 導入異常值檢測器
+from kats.detectors.cusum_detection import CUSUMDetector # 導入 CUSUM 異常檢測器
+from kats.consts import TimeSeriesData, TimeSeriesIterator # 導入 Kats 時序數據和迭代器類型
+from IPython.core.pylabtools import figsize # 導入 IPython 繪圖尺寸設定工具
 ```
 
 ## 讀取資料
