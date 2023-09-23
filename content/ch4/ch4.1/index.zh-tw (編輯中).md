@@ -72,51 +72,53 @@ from IPython.core.pylabtools import figsize # 導入 IPython 繪圖尺寸設定�
 同時，由於所下載的資料是 zip 壓縮檔案的格式，我們需要先逐一將其解壓縮，產生每日資料的壓縮檔案，接著再將每日資料的壓縮檔案解壓縮，存入 CSV_Air 資料夾中。
 
 ```python
-# 創建名為「Air」和「CSV_Air」的資料夾
-!mkdir Air CSV_Air
+!mkdir Air CSV_Air # 建立「Air」和「CSV_Air」資料夾
 
-# 下載各年度的氣象資料並儲存在 'Air' 資料夾
+# 從指定的網址下載四個 zip 檔案到「Air」資料夾
 !wget -O Air/2018.zip -q "https://history.colife.org.tw/?r=/download&path=L%2Bepuuawo%2BWTgeizqi%2FkuK3noJTpmaJf5qCh5ZyS56m65ZOB5b6u5Z6L5oSf5ris5ZmoLzIwMTguemlw"
 !wget -O Air/2019.zip -q "https://history.colife.org.tw/?r=/download&path=L%2Bepuuawo%2BWTgeizqi%2FkuK3noJTpmaJf5qCh5ZyS56m65ZOB5b6u5Z6L5oSf5ris5ZmoLzIwMTkuemlw"
 !wget -O Air/2020.zip -q "https://history.colife.org.tw/?r=/download&path=L%2Bepuuawo%2BWTgeizqi%2FkuK3noJTpmaJf5qCh5ZyS56m65ZOB5b6u5Z6L5oSf5ris5ZmoLzIwMjAuemlw"
 !wget -O Air/2021.zip -q "https://history.colife.org.tw/?r=/download&path=L%2Bepuuawo%2BWTgeizqi%2FkuK3noJTpmaJf5qCh5ZyS56m65ZOB5b6u5Z6L5oSf5ris5ZmoLzIwMjEuemlw"
 
-#開始進行解壓縮
+# 初始化資料夾和檔案副檔名。
 folder = 'Air'
 extension_zip = '.zip'
 extension_csv = '.csv'
 
+# 第一次解壓縮：遍歷「Air」資料夾，找到所有 ZIP 檔並解壓縮。
 for subfolder in os.listdir(folder):
     path = f'{folder}/{subfolder}'
     if path.endswith(extension_zip):
-      print(path)
+      print(path) # 輸出目前正在解壓縮的檔案路徑。
       zip_ref = zipfile.ZipFile(path)
-      zip_ref.extractall(folder)
+      zip_ref.extractall(folder) # 解壓縮到「Air」資料夾。
       zip_ref.close()
 
+# 第二次和第三次解壓縮：遍歷資料夾，解壓縮內層 ZIP 檔。
 for subfolder in os.listdir(folder):
     path = f'{folder}/{subfolder}'
     if os.path.isdir(path):
         for item in os.listdir(path):
             if item.endswith(extension_zip):
                 file_name = f'{path}/{item}'
-                print(file_name)
+                print(file_name) # 輸出目前正在解壓縮的檔案路徑。
                 zip_ref = zipfile.ZipFile(file_name)
-                zip_ref.extractall(path)
+                zip_ref.extractall(path) # 解壓縮到同一資料夾。
                 zip_ref.close()
 
+	# 第三次解壓縮和搬移 CSV 檔案。
         for item in os.listdir(path):
           path2 = f'{path}/{item}'
           if os.path.isdir(path2):
             for it in os.listdir(path2):
               if it.endswith(extension_zip):
                 file_name = f'{path2}/{it}'
-                print(file_name)
+                print(file_name) # 輸出目前正在解壓縮的檔案路徑。
                 zip_ref = zipfile.ZipFile(file_name)
-                zip_ref.extractall('CSV_Air') # decide path
+                zip_ref.extractall('CSV_Air') # decide path # 解壓縮到 'CSV_Air' 資料夾。
                 zip_ref.close()
           elif item.endswith(extension_csv):
-            os.rename(path2, f'CSV_Air/{item}')
+            os.rename(path2, f'CSV_Air/{item}') # 將 CSV 檔搬移到 'CSV_Air' 資料夾。
 ```
 
 現在 CSV_Air 資料夾中即有每日所有感測器資料的 csv 格式檔案，為了將單一測站 (例如代碼為 `74DA38C7D2AC` 的測站) 的資料過濾出來，我們需要讀取每個 csv 檔案，並將檔案中該測站的資料存入名叫 `air` 的 dataframe 中。最後我們將所有下載的資料與解壓縮後產生的資料移除，以節省雲端的儲存空間。
