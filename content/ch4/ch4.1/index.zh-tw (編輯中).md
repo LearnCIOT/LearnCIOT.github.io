@@ -115,7 +115,7 @@ for subfolder in os.listdir(folder):
                 file_name = f'{path2}/{it}'
                 print(file_name) # 輸出目前正在解壓縮的檔案路徑。
                 zip_ref = zipfile.ZipFile(file_name)
-                zip_ref.extractall('CSV_Air') # decide path # 解壓縮到「CSV_Air」資料夾。
+                zip_ref.extractall('CSV_Air') # 解壓縮到「CSV_Air」資料夾。
                 zip_ref.close()
           elif item.endswith(extension_csv):
             os.rename(path2, f'CSV_Air/{item}') # 將 CSV 檔搬移到「CSV_Air」資料夾。
