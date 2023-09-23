@@ -115,35 +115,51 @@ for subfolder in os.listdir(folder):
                 file_name = f'{path2}/{it}'
                 print(file_name) # 輸出目前正在解壓縮的檔案路徑。
                 zip_ref = zipfile.ZipFile(file_name)
-                zip_ref.extractall('CSV_Air') # decide path # 解壓縮到 'CSV_Air' 資料夾。
+                zip_ref.extractall('CSV_Air') # decide path # 解壓縮到「CSV_Air」資料夾。
                 zip_ref.close()
           elif item.endswith(extension_csv):
-            os.rename(path2, f'CSV_Air/{item}') # 將 CSV 檔搬移到 'CSV_Air' 資料夾。
+            os.rename(path2, f'CSV_Air/{item}') # 將 CSV 檔搬移到「CSV_Air」資料夾。
 ```
 
 現在 CSV_Air 資料夾中即有每日所有感測器資料的 csv 格式檔案，為了將單一測站 (例如代碼為 `74DA38C7D2AC` 的測站) 的資料過濾出來，我們需要讀取每個 csv 檔案，並將檔案中該測站的資料存入名叫 `air` 的 dataframe 中。最後我們將所有下載的資料與解壓縮後產生的資料移除，以節省雲端的儲存空間。
 
 ```python
+# 初始化資料夾名稱和 CSV 檔案的副檔名。
 folder = 'CSV_Air'
 extension_csv = '.csv'
-id = '74DA38C7D2AC'
+id = '74DA38C7D2AC' # 感測器 ID
 
+# 建立一個空的 DataFrame，名為「air」。
 air = pd.DataFrame()
+
+# 遍歷「CSV_Air」資料夾中的每一個檔案。
 for item in os.listdir(folder):
   file_name = f'{folder}/{item}'
-  df = pd.read_csv(file_name)
+  df = pd.read_csv(file_name) # 讀取 CSV 檔案到 DataFrame
+
+  # 若有「pm25」這個欄位，改名為「PM25」。
   if 'pm25' in list(df.columns):
     df.rename({'pm25':'PM25'}, axis=1, inplace=True)
+
+  # 過濾出指定設備 ID 的資料。
   filtered = df.query(f'device_id==@id')
+
+  # 合併過濾後的資料到「air」。
   air = pd.concat([air, filtered], ignore_index=True)
+
+# 去掉 timestamp 是空值的行。
 air.dropna(subset=['timestamp'], inplace=True)
 
+# 將 timestamp 的時區資訊移除。
 for i, row in air.iterrows():
-  aware = datetime_parser.parse(str(row['timestamp']))
-  naive = aware.replace(tzinfo=None)
-  air.at[i, 'timestamp'] = naive
+  aware = datetime_parser.parse(str(row['timestamp'])) # 解析有時區的時間。
+  naive = aware.replace(tzinfo=None) # 移除時區資訊。
+  air.at[i, 'timestamp'] = naive # 更新 DataFrame。
+
+# 將 timestamp 設為 DataFrame 的 index。
 air.set_index('timestamp', inplace=True)
 
+# 刪除「Air」和「CSV_Air」資料夾。
 !rm -rf Air CSV_Air
 ```
 
