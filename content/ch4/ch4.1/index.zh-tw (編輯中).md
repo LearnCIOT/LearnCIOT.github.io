@@ -1033,9 +1033,10 @@ plt.show()
 1. 將該筆缺失資料標示為 Nan (Not a number)：Nan 代表非數，用來表示未定義或不可表示的值，如果已知後續的資料分析會額外處理這些 Nan 的特例，便可採用此方法以維護資料的真實性。
 2. Forward fill 法：如果 Nan 對後續的資料分析有困難，必須將缺失的值填補適當的數值資料，最簡單的方法就是 forward fill，亦即用前一個數值來填補當下的缺失值。
 ```python
-# forward fill
+# 使用 forward fill（前向填充）方法填補空值，這個方法會用前一個非空數據點來填充後面的空值
 df_ffill = air.ffill(inplace=False)
 
+# 繪製使用 forward fill 方法填補後的數據
 df_ffill.plot()
 ```
 ![Python output](figures/4-1-4-4.png)
