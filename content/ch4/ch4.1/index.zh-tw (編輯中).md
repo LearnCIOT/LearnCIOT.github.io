@@ -338,82 +338,113 @@ timestamp
 同時，由於所下載的資料是 zip 壓縮檔案的格式，我們需要先逐一將其解壓縮，產生每日資料的壓縮檔案，接著再將每日資料的壓縮檔案解壓縮，存入 CSV_Weather 資料夾中。
 
 ```python
+# 創建 Weather 和 CSV_Weather 目錄
 !mkdir Weather CSV_Weather
+
+# 下載 2019、2020、2021 年的氣象資料壓縮檔
 !wget -O Weather/2019.zip "https://history.colife.org.tw/?r=/download&path=L%2Bawo%2BixoS%2FkuK3lpK7msKPosaHlsYBf6Ieq5YuV5rCj6LGh56uZLzIwMTkuemlw"
 !wget -O Weather/2020.zip "https://history.colife.org.tw/?r=/download&path=L%2Bawo%2BixoS%2FkuK3lpK7msKPosaHlsYBf6Ieq5YuV5rCj6LGh56uZLzIwMjAuemlw"
 !wget -O Weather/2021.zip "https://history.colife.org.tw/?r=/download&path=L%2Bawo%2BixoS%2FkuK3lpK7msKPosaHlsYBf6Ieq5YuV5rCj6LGh56uZLzIwMjEuemlw"
 
-#開始進行解壓縮
+# 變數設定，用來存放目錄名和檔案副檔名
 folder = 'Weather'
 extension_zip = '.zip'
 extension_csv = '.csv'
 
+# 解壓縮在 Weather 目錄下的所有壓縮檔
 for subfolder in os.listdir(folder):
     path = f'{folder}/{subfolder}'
-    if path.endswith(extension_zip):
+    if path.endswith(extension_zip): # 檢查是否為 .zip 檔
       print(path)
       zip_ref = zipfile.ZipFile(path)
-      zip_ref.extractall(folder)
+      zip_ref.extractall(folder) # 解壓縮到 Weather 目錄
       zip_ref.close()
 
+# 處理 Weather 目錄下的子目錄和檔案
 for subfolder in os.listdir(folder):
     path = f'{folder}/{subfolder}'
-    if os.path.isdir(path):
+    if os.path.isdir(path): # 檢查是否為目錄
         for item in os.listdir(path):
-            if item.endswith(extension_zip):
+            if item.endswith(extension_zip):  檢查是否為 .zip 檔
                 file_name = f'{path}/{item}'
                 print(file_name)
                 zip_ref = zipfile.ZipFile(file_name)
-                zip_ref.extractall(path)
+                zip_ref.extractall(path) # 解壓縮到該目錄
                 zip_ref.close()
 
+        # 移動 .csv 檔到 CSV_Weather 目錄
         for item in os.listdir(path):
           path2 = f'{path}/{item}'
-          if os.path.isdir(path2):
+          if os.path.isdir(path2): # 檢查是否為目錄
             for it in os.listdir(path2):
-              if it.endswith(extension_zip):
+              if it.endswith(extension_zip): # 再次檢查是否為 .zip 檔
                 file_name = f'{path2}/{it}'
                 print(file_name)
                 zip_ref = zipfile.ZipFile(file_name)
-                zip_ref.extractall('CSV_Weather') # decide path
+                zip_ref.extractall('CSV_Weather') # 解壓縮到 CSV_Weather 目錄
                 zip_ref.close()
-          elif item.endswith(extension_csv):
-            os.rename(path2, f'CSV_Weather/{item}')
+          elif item.endswith(extension_csv): # 檢查是否為 .csv 檔
+            os.rename(path2, f'CSV_Weather/{item}') # 移動到 CSV_Weather 目錄
 ```
 
 現在 CSV_Weather 資料夾中即有每日所有感測器資料的 csv 格式檔案，為了將單一測站 (例如代碼為 `C0U750` 的測站) 的資料過濾出來，我們需要讀取每個 csv 檔案，並將檔案中該測站的資料存入名叫 weather 的 dataframe 中。最後我們將所有下載的資料與解壓縮後產生的資料移除，以節省雲端的儲存空間。
 
 ```python
+# 設定目錄和檔案副檔名變數
 folder = 'CSV_Weather'
 extension_csv = '.csv'
-id = 'C0U750'
+id = 'C0U750' # 目標氣象站的 ID
 
+# 創建一個空的 DataFrame 來存放氣象數據
 weather = pd.DataFrame()
+
+# 讀取 CSV_Weather 目錄下的所有 .csv 檔案
 for item in os.listdir(folder):
   file_name = f'{folder}/{item}'
   df = pd.read_csv(file_name)
+
+  # 如果有 pm25 欄位，改名為 PM25
   if 'pm25' in list(df.columns):
     df.rename({'pm25':'PM25'}, axis=1, inplace=True)
+
+  # 篩選出特定氣象站的數據
   filtered = df.query(f'station_id==@id')
+
+  # 將篩選後的數據加入到主 DataFrame
   weather = pd.concat([weather, filtered], ignore_index=True)
+
+# 將 obsTime 改名為 timestamp
 weather.rename({'obsTime':'timestamp'}, axis=1, inplace=True)
+
+# 去掉沒有時間戳記的列
 weather.dropna(subset=['timestamp'], inplace=True)
 
+# 轉換時間戳記格式
 for i, row in weather.iterrows():
   aware = datetime_parser.parse(str(row['timestamp']))
   naive = aware.replace(tzinfo=None)
   weather.at[i, 'timestamp'] = naive
+
+# 將 timestamp 設為 DataFrame 的索引
 weather.set_index('timestamp', inplace=True)
 
+# 刪除暫存的資料夾
 !rm -rf Weather CSV_Weather
 ```
 
 最後，我們重新整理該測站的資料，將不需要用到的欄位資訊刪除，並且依照時間進行排序如下：
 
 ```python
+# 刪除 station_id 這個欄位，因為我們已經知道這是特定站點的數據
 weather.drop(columns=['station_id'], inplace=True)
+
+# 根據 timestamp 欄位對資料進行排序
 weather.sort_values(by='timestamp', inplace=True)
+
+# 查看 DataFrame 的基本資訊，包括欄位名稱、非空值數量等
 weather.info()
+
+# 印出排序後的前 5 筆資料，這樣可以快速檢查一下數據是否正確
 print(weather.head())
 ```
 
@@ -464,15 +495,23 @@ timestamp
 時間序列資料處理的第一個步驟，不外乎就是將資料依照時間順序一筆一筆的呈現出來，讓使用者可以看到整體資料的變化，並且衍生更多資料分析的想法與概念，其中使用折線圖進行資料的展示，是最常使用的一種資料視覺化方法。例如若以空品資料為例：
 
 ```python
+# 設定繪圖區域的大小和解析度
 plt.figure(figsize=(15, 10), dpi=60)
+
+# 繪製 PM2.5 的時序圖，用 Date 當 x 軸，PM2.5 當 y 軸
 plt.plot(air[:]["PM25"])
 
+# 設定 x 軸和 y 軸的標籤
 plt.xlabel("Date")
 plt.ylabel("PM2.5")
+
+# 設定圖表的標題
 plt.title("PM2.5 Time Series Plot")
 
+# 自動調整子圖參數，使之填充整個圖像區域
 plt.tight_layout()
 
+# 顯示圖表
 plt.show()
 ```
 
@@ -483,10 +522,16 @@ plt.show()
 從上圖空品資料的時序圖中，可以看到其實資料的分佈是很密集的，同時資料數值的變化有時很小有時卻很劇烈，這是因為目前空品資料的採樣頻率約略是每五分鐘一筆，同時採集的環境是生活中的周遭環境資訊，因此資料密集與起伏不定其實是必然的。由於每五分鐘一筆資料的採樣過於頻繁，不易呈現環境空品的整體變化趨勢，因此我們採用重新採樣的方法，在固定的時間間隔內計算資料的平均值，便能呈現資料資料在不同時間尺度的整體變化狀況。例如我們根據現有空品資料的特性，利用下列的語法以較大尺度 (小時、日、月) 的採樣率重新取樣：
 
 ```python
+# 用 resample('H') 來計算每小時的平均 PM2.5，並儲存到 air_hour
 air_hour = air.resample('H').mean() #每小時的平均
+
+# 用 resample('D') 來計算每天的平均 PM2.5，並儲存到 air_day
 air_day = air.resample('D').mean()  #每日的平均
+
+# 用 resample('M') 來計算每月的平均 PM2.5，並儲存到 air_month
 air_month = air.resample('M').mean()  #每月的平均
 
+# 顯示每個時間範圍的平均值的前五行來檢查
 print(air_hour.head())
 print(air_day.head())
 print(air_month.head())
@@ -518,15 +563,23 @@ timestamp
 接著我們使用每小時平均的重新採樣後資料再次進行作圖，可以看到線條曲線變得較為清晰，但曲線的波動還是很大。
 
 ```python
+# 設定畫布大小和解析度
 plt.figure(figsize=(15, 10), dpi=60)
+
+# 繪製 PM2.5 時間序列圖，只取用 'PM25' 這一欄
 plt.plot(air_hour[:]["PM25"])
 
+# 設定 x 軸和 y 軸的標籤
 plt.xlabel("Date")
 plt.ylabel("PM2.5")
+
+# 設定圖表標題
 plt.title("PM2.5 Time Series Plot")
 
+# 自動調整子圖參數，使之填充整個圖形區域
 plt.tight_layout()
 
+# 顯示圖表
 plt.show()
 ```
 
@@ -539,10 +592,18 @@ plt.show()
 
 ```python
 # plt.figure(figsize=(15, 10), dpi=60)
+
+# MA 儲存每小時的平均 PM2.5 數值
 MA = air_hour
+
+# 使用 rolling 函數計算窗口為 500 的移動平均，並儲存在 MA10
 MA10 = MA.rolling(window=500, min_periods=1).mean()
 
+# 將原始資料和 500 窗口的移動平均資料結合，然後畫出圖表
+# add_suffix 會在欄位名後加上「_mean_500」，以便於區分
 MA.join(MA10.add_suffix('_mean_500')).plot(figsize=(20, 15))
+
+# 如果單獨畫 MA10 的圖也可以用下面這行
 # MA10.plot(figsize(15, 10))
 ```
 
@@ -555,24 +616,36 @@ MA.join(MA10.add_suffix('_mean_500')).plot(figsize=(20, 15))
 除了將原始資料用單純的折線圖方式呈現外，另一個常見的資料時覺化手法，則是依照時間維度上的週期性，將資料切割為數個連續的片段，分別繪製折線圖，並疊加在同一張多曲線圖中。例如，我們可以將前述的空品資料，依照年份的不同切割出 2019, 2020, 2021, 和 2022 四個子資料集，並分別繪製各自的折線圖於同一張多曲線圖中，如下圖所示。
 
 ```python
+# 重新設定 air_month 的 index，並加入年份和月份兩個新欄位
 air_month.reset_index(inplace=True)
 air_month['year'] = [d.year for d in air_month.timestamp]
 air_month['month'] = [d.strftime('%b') for d in air_month.timestamp]
+
+# 取得唯一的年份資料
 years = air_month['year'].unique()
 print(air)
 
+# 設定隨機顏色
 np.random.seed(100)
 mycolors = np.random.choice(list(mpl.colors.XKCD_COLORS.keys()), len(years), replace=False)
 
+# 開始繪圖
 plt.figure(figsize=(15, 10), dpi=60)
 for i, y in enumerate(years):
-  if i > 0:
+  if i > 0: # 跳過第一個年份
+
+    # 繪製每一年的 PM25 折線圖
     plt.plot('month', 'PM25', data=air_month.loc[air_month.year==y, :], color=mycolors[i], label=y)
+
+    # 在每一年折線圖的最後一點加上年份標籤
     plt.text(air_month.loc[air_month.year==y, :].shape[0]-.9, air_month.loc[air_month.year==y, 'PM25'][-1:].values[0], y, fontsize=12, color=mycolors[i])
 
+# 其他可選設定，例如 x 和 y 軸的範圍、刻度、標題等
 # plt.gca().set(xlim=(-0.3, 11), ylim=(2, 30), ylabel='PM25', xlabel='Month')
 # plt.yticks(fontsize=12, alpha=.7)
 # plt.title('Seasonal Plot of PM25 Time Series', fontsize=20)
+
+# 顯示圖表
 plt.show()
 ```
 
@@ -585,6 +658,7 @@ plt.show()
 日曆熱力圖是一種結合日曆圖 (calendar map) 與熱力圖 (heat map) 的資料視覺化呈現方式，可以更直覺瀏覽資料的分佈狀況，並從中尋找不同時間尺度的規律性。我們使用 calplot 這個 Python 語言的日曆熱力圖套件，將每日的 PM2.5 平均值輸入後，再選擇搭配的顏色 (參數名稱為 `cmap`，在接下來的範例中，我們先設為 `GnBu`，詳細的顏色選項說明，可參閱參考資料)，便能得到下圖的效果，其中藍色代表數值較高，綠色或白色代表數值較低，如果沒有塗色或是數值為 0 則代表當天沒有資料。從產生的圖中，我們可以發現中間部分的月份（夏季）顏色較淡，左邊部分的月份（冬季）顏色#較深，恰與我們之前使用多曲線圖的觀察結果一致。
 
 ```python
+# 使用 calplot 套件繪製日曆熱圖（Calendar Heatmap）
 # cmap: 設定呈現的顏色色盤 (https://matplotlib.org/stable/gallery/color/colormap_reference.html)
 # textformat: 設定圖中數字呈現的樣式
 pl1 = calplot.calplot(data = air_day['PM25'], cmap = 'GnBu', textformat = '{:.0f}', 
@@ -604,7 +678,12 @@ pl1 = calplot.calplot(data = air_day['PM25'], cmap = 'GnBu', textformat = '{:.0f
 我們首先將原本使用 dataframe 資料格式的 `air_hour` 轉換成 kats 套件所使用的 `TimeSeriesData` 格式，並將轉換後的資料存成 `air_ts` 這個變數名稱。然後我們再次繪製原始時序資料的折線圖。
 
 ```python
+# 使用 TimeSeriesData 類別將 air_hour 資料框轉換為時間序列資料
+# time_col_name='timestamp' 指定時間欄位為 'timestamp'
 air_ts = TimeSeriesData(air_hour.reset_index(), time_col_name='timestamp')
+
+# 使用 plot 方法繪製 PM25 時間序列圖
+# cols=["PM25"] 表示只畫出 PM25 這一個欄位的資料
 air_ts.plot(cols=["PM25"])
 ```
 
@@ -613,8 +692,14 @@ air_ts.plot(cols=["PM25"])
 接著我們使用 kats 套件中的 `OutlierDetector` 工具偵測時序資料中的離群值。其中，[離群值](https://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_summarizingdata/bs704_summarizingdata7.html)指的是小於第一四分位數 (Q1) 減 1.5 倍四分位距 (IQR) 或大於第三四分位數 (Q3) 加 1.5 倍四分位距的數值。
 
 ```python
+# 創建 OutlierDetector 類別的實例，用於檢測異常值
+# 使用 'additive' 方法來設定異常檢測的模型
 outlierDetection = OutlierDetector(air_ts, 'additive')
+
+# 執行 detector 方法來開始異常檢測
 outlierDetection.detector()
+
+# 查看檢測到的異常值，儲存在 outliers 屬性中
 outlierDetection.outliers
 ```
 
@@ -914,14 +999,21 @@ outliers_removed.plot(cols=['y_0'])
 在以下的範例中，我們使用空品資料的日平均值來進行改變點偵測，同時也使用 kats 套件的 `TimeSeriesData` 資料格式來儲存資料，並使用 kats 提供的 `CUSUMDetector` 偵測器來進行偵測，並在作圖中用紅色的點來代表偵測到的改變點。很不湊巧的是，在本次的範例中一如肉眼觀察的結果，並無明顯的改變點存在，建議讀者可參考這次的範例，帶入其他的資料做更多的演練與偵測。
 
 ```python
+# 將每日平均數據 air_day 轉換為 TimeSeriesData 物件，方便後續分析
 air_ts = TimeSeriesData(air_day.reset_index(), time_col_name='timestamp')
+
+# 使用 CUSUMDetector（累積和檢測器）來找出數據中的變化點
 detector = CUSUMDetector(air_ts)
 
+# 執行 detector 方法，設定變化方向為「增加」和「減少」
 change_points = detector.detector(change_directions=["increase", "decrease"])
+
+# 可以用這行程式碼來打印出第一個變化點的時間
 # print("The change point is on", change_points[0][0].start_time)
 
+# 將結果繪製出來
 # plot the results
-plt.xticks(rotation=45)
+plt.xticks(rotation=45) # 旋轉 x 軸標籤方便觀看
 detector.plot(change_points)
 plt.show()
 ```
@@ -944,20 +1036,23 @@ df_ffill.plot()
 ![Python output](figures/4-1-4-4.png)
 3. K-Nearest Neighbor (KNN) 法：顧名思義，KNN 的方法是尋找距離缺失值最近的 k 個數值進行平均，並用來填補這個缺失值。
 ```python
+# 定義 knn_mean 函數，使用 k-近鄰 (KNN) 方法來填補缺失的 PM25 值
 def knn_mean(ts, n):
     out = np.copy(ts)
     for i, val in enumerate(ts):
-        if np.isnan(val):
-            n_by_2 = np.ceil(n/2)
-            lower = np.max([0, int(i-n_by_2)])
-            upper = np.min([len(ts)+1, int(i+n_by_2)])
-            ts_near = np.concatenate([ts[lower:i], ts[i:upper]])
-            out[i] = np.nanmean(ts_near)
+        if np.isnan(val): # 檢查是否為 NaN
+            n_by_2 = np.ceil(n/2) # k 的一半，方便找到左右鄰居
+            lower = np.max([0, int(i-n_by_2)]) # 算出左界
+            upper = np.min([len(ts)+1, int(i+n_by_2)]) # 算出右界
+            ts_near = np.concatenate([ts[lower:i], ts[i:upper]]) # 擷取鄰近數據
+            out[i] = np.nanmean(ts_near) # 計算鄰近數據的平均值（忽略 NaN）
     return out
 
-# KNN
-df_knn = air.copy()
-df_knn['PM25'] = knn_mean(air.PM25.to_numpy(), 5000)
+# 使用 KNN 方法填補 PM25 缺失值
+df_knn = air.copy() # 複製一份原始資料
+df_knn['PM25'] = knn_mean(air.PM25.to_numpy(), 5000) # 應用 KNN
+
+# 繪製圖表，顯示使用 KNN 填補後的 PM25 資料
 df_knn.plot()
 ```
 ![Python output](figures/4-1-4-5.png)
@@ -970,9 +1065,14 @@ df_knn.plot()
 我們首先將空品資料的每日平均資料另外複製一份為 `air_process`，並採用 forward fill 方法進行缺失資料的處理，然後把原始資料直接用圖表的方式呈現。
 
 ```python
+# 創建 air_process DataFrame，為 air_day 的複製版，方便後續操作
 air_process = air_day.copy()
-# new.round(1).head(12)
+
+# 使用前向填充（Forward Fill, ffill）來填補缺失的 PM25 值
+# 前向填充就是用前一個有效數據點來填充後面的缺失值
 air_process.ffill(inplace=True)
+
+# 繪製圖表，展示填充後的 PM25 數據
 air_process.plot()
 ```
 
@@ -981,8 +1081,14 @@ air_process.plot()
 接著我們使用 seasonal_decompose 方法對 `air_process` 資料進行分解，其中我們需要設定一個 period 參數，指的是資料被拆解的週期，我們先設定為 30天，接著在執行後便會依序產出四張圖：原始資料、趨勢圖、週期性圖與殘差圖。
 
 ```python
+# 使用 seasonal_decompose 進行季節分解，將 PM25 資料分為趨勢（trend）、季節性（seasonal）和殘差（residual）三部分
+# model='additive' 指定使用加法模型，period=30 表示每 30 天為一個季節週期
 decompose = seasonal_decompose(air_process['PM25'],model='additive', period=30)
+
+# 繪製季節分解的結果，並設定圖表大小
 decompose.plot().set_size_inches((15, 15))
+
+# 顯示圖表
 plt.show()
 ```
 
@@ -993,8 +1099,14 @@ plt.show()
 倘若我們將 period 變數改為 365，亦即以較大的時間尺度 (一年) 來進行資料分解，我們可以從週期性圖中發現一月附近數值較高，而七月附近數值較低的趨勢，而且這個趨勢變化是規律地週期性發生的；同時，在趨勢圖中也可以看到整體緩降的趨勢，說明 PM2.5 的濃度在大趨勢下是逐漸好轉降低的，從這邊也可以理解到為什麼在尋找 change point 時無法成功，因為 PM2.5 的趨勢變化是平順的遞減，並沒有發生突如其來的變化。
 
 ```python
+# 使用 seasonal_decompose 進行季節分解，這次 period 設為 365，即一年的天數
+# 這樣可以觀察到 PM25 在一整年內的變化趨勢和季節性
 decompose = seasonal_decompose(air_process['PM25'],model='additive', period=365)
+
+# 繪製季節分解的結果，並設定圖表大小為 15x15
 decompose.plot().set_size_inches((15, 15))
+
+# 顯示圖表
 plt.show()
 ```
 
