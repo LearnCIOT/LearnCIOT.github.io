@@ -983,7 +983,7 @@ outlierDetection.outliers
 
 最後我們把偵測出來的離群值從原始資料中刪除，然後再次做圖並與一開始的折線圖進行比較，便可以很清楚地發現一些異常值（例如 2022-07 有一個異常的高峰) 都被移除了。
 
-```
+```python
 # 使用 OutlierDetector 的 remover 函數移除異常值，這裡不進行內插（interpolate=False）
 outliers_removed = outlierDetection.remover(interpolate=False)
 
