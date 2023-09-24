@@ -166,9 +166,16 @@ air.set_index('timestamp', inplace=True)
 最後，我們重新整理該測站的資料，將不需要用到的欄位資訊刪除，並且依照時間進行排序如下：
 
 ```python
+# 刪除「device_id」和「SiteName」這兩個欄位。
 air.drop(columns=['device_id', 'SiteName'], inplace=True)
+
+# 根據「timestamp」欄位排序 DataFrame。
 air.sort_values(by='timestamp', inplace=True)
+
+# 顯示 DataFrame 的基本資訊。
 air.info()
+
+# 輸出 DataFrame 的前五行。
 print(air.head())
 ```
 
@@ -197,17 +204,21 @@ timestamp
 同時，由於所下載的資料是 zip 壓縮檔案的格式，我們需要先逐一將其解壓縮，產生每日資料的壓縮檔案，接著再將每日資料的壓縮檔案解壓縮，存入 CSV_Water 資料夾中。
 
 ```python
+# 建立「Water」和「CSV_Water」資料夾。
 !mkdir Water CSV_Water
+
+# 從指定網址下載四個年份的資料壓縮包。
 !wget -O Water/2018.zip "https://history.colife.org.tw/?r=/download&path=L%2BawtOizh%2Ba6kC%2FmsLTliKnnvbJf5rKz5bed5rC05L2N56uZLzIwMTguemlw"
 !wget -O Water/2019.zip "https://history.colife.org.tw/?r=/download&path=L%2BawtOizh%2Ba6kC%2FmsLTliKnnvbJf5rKz5bed5rC05L2N56uZLzIwMTkuemlw"
 !wget -O Water/2020.zip "https://history.colife.org.tw/?r=/download&path=L%2BawtOizh%2Ba6kC%2FmsLTliKnnvbJf5rKz5bed5rC05L2N56uZLzIwMjAuemlw"
 !wget -O Water/2021.zip "https://history.colife.org.tw/?r=/download&path=L%2BawtOizh%2Ba6kC%2FmsLTliKnnvbJf5rKz5bed5rC05L2N56uZLzIwMjEuemlw"
 
-#開始進行解壓縮
+# 初始化變數。
 folder = 'Water'
 extension_zip = '.zip'
 extension_csv = '.csv'
 
+# 第一次解壓縮：解壓縮下載的 zip 檔到「Water」資料夾。
 for subfolder in os.listdir(folder):
     path = f'{folder}/{subfolder}'
     if path.endswith(extension_zip):
@@ -215,6 +226,9 @@ for subfolder in os.listdir(folder):
       zip_ref = zipfile.ZipFile(path)
       zip_ref.extractall(folder)
       zip_ref.close()
+
+# 第二次解壓縮：解壓縮「Water」資料夾中的 zip 檔。
+# 第三次解壓縮：解壓縮嵌套在資料夾內的 zip 檔，排除以 'QC.zip' 結尾的檔。
 for subfolder in os.listdir(folder):
     path = f'{folder}/{subfolder}'
     if os.path.isdir(path):
@@ -226,6 +240,7 @@ for subfolder in os.listdir(folder):
                 zip_ref.extractall(path)
                 zip_ref.close()
 
+	# 移動 CSV 檔到「CSV_Water」資料夾。
         for item in os.listdir(path):
           path2 = f'{path}/{item}'
           if os.path.isdir(path2):
@@ -234,7 +249,7 @@ for subfolder in os.listdir(folder):
                 file_name = f'{path2}/{it}'
                 print(file_name)
                 zip_ref = zipfile.ZipFile(file_name)
-                zip_ref.extractall('CSV_Water') # decide path
+                zip_ref.extractall('CSV_Water')
                 zip_ref.close()
           elif item.endswith(extension_csv):
             os.rename(path2, f'CSV_Water/{item}')
@@ -243,35 +258,58 @@ for subfolder in os.listdir(folder):
 現在 CSV_Water 資料夾中即有每日所有感測器資料的 csv 格式檔案，為了將單一測站 (例如代碼為 `338c9c1c-57d8-41d7-9af2-731fb86e632c` 的測站) 的資料過濾出來，我們需要讀取每個 csv 檔案，並將檔案中該測站的資料存入名叫 `water` 的 dataframe 中。最後我們將所有下載的資料與解壓縮後產生的資料移除，以節省雲端的儲存空間。
 
 ```python
+# 設定資料夾和檔案副檔名變數
 folder = 'CSV_Water'
 extension_csv = '.csv'
 id = '338c9c1c-57d8-41d7-9af2-731fb86e632c'
 
+# 初始化一個空的 DataFrame 來儲存水質數據
 water = pd.DataFrame()
+
+# 開始讀取「CSV_Water」資料夾中的每個 .csv 檔
 for item in os.listdir(folder):
   file_name = f'{folder}/{item}'
   df = pd.read_csv(file_name)
+
+  # 如果存在「pm25」欄位，改名為「PM25」
   if 'pm25' in list(df.columns):
     df.rename({'pm25':'PM25'}, axis=1, inplace=True)
+
+  # 篩選出對應於特定 station_id 的資料
   filtered = df.query(f'station_id==@id')
+
+  # 將篩選出的資料加入到主 DataFrame 中
   water = pd.concat([water, filtered], ignore_index=True)
+
+# 去除 timestamp 為空的資料
 water.dropna(subset=['timestamp'], inplace=True)
 
+# 將 timestamp 轉換為 naive datetime（去除時區資訊）
 for i, row in water.iterrows():
   aware = datetime_parser.parse(str(row['timestamp']))
   naive = aware.replace(tzinfo=None)
   water.at[i, 'timestamp'] = naive
+
+# 將 DataFrame 的索引設為 timestamp
 water.set_index('timestamp', inplace=True)
 
+# 最後，刪除不再需要的資料夾
 !rm -rf Water CSV_Water
 ```
 
 最後，我們重新整理該測站的資料，將不需要用到的欄位資訊刪除，並且依照時間進行排序如下：
 
 ```python
+# 移除不必要的欄位
 water.drop(columns=['station_id', 'ciOrgname', 'ciCategory', 'Organize_Name', 'CategoryInfos_Name', 'PQ_name', 'PQ_fullname', 'PQ_description', 'PQ_unit', 'PQ_id'], inplace=True)
+
+# 依照 timestamp 欄位排序資料
 water.sort_values(by='timestamp', inplace=True)
+
+# 顯示 DataFrame 的基本資訊
 water.info()
+
+# 列印 DataFrame 的前五行來確認資料
 print(water.head())
 ```
 
