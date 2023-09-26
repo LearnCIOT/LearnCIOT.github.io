@@ -30,20 +30,22 @@ authors: ["洪軾凱"]
 以空氣資料為例，獲取之資料最多能夠回溯一天。因此當將 `end` 變數設定為一天之前不會獲得任何資料，請留意。此外，因為民生物聯網中各個感測器的更新頻率不同，所以不同感測器每「天」的資料筆數會有不同，詳可參閱：[https://ci.taiwan.gov.tw/dsp/dataset_air.aspx](https://ci.taiwan.gov.tw/dsp/dataset_air.aspx)
 
 ```python
+# 從 datetime 模組中引入 datetime 和 timedelta 類別
 from datetime import datetime, timedelta
 
 end_date = datetime.now() # 獲取現在時間
-isodate_end = end_date.isoformat().split(".")[0]+"Z" # 將格式轉換為 ISO8601 格式
+isodate_end = end_date.isoformat().split(".")[0]+"Z" # 將時間格式轉為 ISO8601，去除毫秒並加上"Z"
 start_date = datetime.now() + timedelta(days = -1) # 獲取前一天的時間
-isodate_start = start_date.isoformat().split(".")[0]+"Z" # 將格式轉換為 ISO8601 格式
+isodate_start = start_date.isoformat().split(".")[0]+"Z" # 將時間格式轉為 ISO8601，去除毫秒並加上"Z"
 
+# 定義時間區間及要取得的資料數量
 time = {
     "start": isodate_start, 
     "end": isodate_end, 
     "num_of_data": 15
 }
 
-# 從「智慧城鄉空品微型感測器-11613429495」獲得距離現在一天、最多 15 筆資料
+# 從「智慧城鄉空品微型感測器-11613429495」感測器獲取一天內的 15 筆資料
 data = Air().get_data("OBS:EPA_IoT", stationIds=["11613429495"], time_range=time) 
 data
 ```
@@ -125,12 +127,15 @@ data
 特定區域的資料格式也是以字典 (Dict) 傳入，其中緯度、經度及半徑分別為 “`latitude`”、“`longitude`” 及 “`distance`”。特定區域及特定時間的篩選功能可以同時使用，搜尋特定區域時也可以將有要觀察的測站放進 “`stationIds`” 中，可以順便將區域外的測站去除。
 
 ```python
+# 定義一個位置資訊，包含緯度、經度和搜尋的半徑
 loc = {
     "latitude": 24.990550, # 緯度
     "longitude": 121.507532, # 經度
-    "distance": 3.0 # 半徑(km)
+    "distance": 3.0 # 搜尋的半徑，以公里為單位
 }
+# 從指定的資料來源獲取與定義位置相關的空氣資訊
 c = Air().get_data(src="OBS:EPA_IoT", location = loc)
+# 顯示取得搜尋結果的第一筆資料
 c[0]
 ```
 
@@ -190,13 +195,17 @@ c[0]
 ```python
 # 獲取檢測站的資料（溫度、濕度、 PM2.5）
 
+# 定義一個位置資訊，包含緯度、經度和搜尋的半徑
 loc = {
-    "latitude": 24.990550, # 緯度
-    "longitude": 121.507532, # 經度
-    "distance": 3.0 # (km)
+    "latitude": 24.990550,  # 緯度
+    "longitude": 121.507532,  # 經度
+    "distance": 3.0 # (km)  # 搜尋的半徑，以公里為單位
 }
+# 從 OBS:EPA_IoT 這個資料來源中獲取與定義位置相關的空氣資料
 EPA_IoT_zhonghe_data_raw = Air().get_data(src="OBS:EPA_IoT", location = loc)
-print("len:", len(EPA_IoT_zhonghe_data_raw)) # 印出測站個數
+# 顯示所獲取的檢測站的總數
+print("len:", len(EPA_IoT_zhonghe_data_raw))
+# 顯示搜尋結果的第一筆資料
 EPA_IoT_zhonghe_data_raw[0]
 ```
 
@@ -232,13 +241,13 @@ len: 70
 在每個範圍內的測站中，不一定每個測站都還在順利運行。為了將這些測站去除，我們觀察無效測站的資料會有什麼特徵，發現三個資料（溫度、濕度、PM2.5 濃度）都會是 0。只要挑出並刪除這些資料便能夠進行下一步驟。
 
 ```python
-# Data cleaning
+# 資料清理
 EPA_IoT_zhonghe_data = []
 for datajson in EPA_IoT_zhonghe_data_raw:
-	# 確認資料存在
+  # 檢查是否存在 "data" 這個鍵，確認資料存在。
   if "data" not in datajson:
     continue;
-	# 將格式轉換為 Temperature, Relative_Humidity 和 PM2_5
+  # 將原始資料格式轉換成「Temperature」、「Relative_Humidity」和「PM2_5」的格式。
   for rawdata_array in datajson['data']:
     if(rawdata_array['name'] == 'Temperature'):
       datajson['Temperature'] = rawdata_array['values'][0]['value']
@@ -246,8 +255,9 @@ for datajson in EPA_IoT_zhonghe_data_raw:
       datajson['Relative_Humidity'] = rawdata_array['values'][0]['value']
     if(rawdata_array['name'] == 'PM2.5'):
       datajson['PM2_5'] = rawdata_array['values'][0]['value']
+  # 移除 'data' 這個鍵，因為我們已經取出我們需要的資訊。
   datajson.pop('data')
-	# 確認所有資料皆為有效，同時去除無資料之檢測站
+  # 確認資料中包含了我們所需的所有鍵，同時去除無資料（值全為 0）的檢測站
   if "Relative_Humidity" not in datajson.keys():
     continue
   if "PM2_5" not in datajson.keys():
@@ -258,7 +268,9 @@ for datajson in EPA_IoT_zhonghe_data_raw:
     continue
   EPA_IoT_zhonghe_data.append(datajson)
 
+# 顯示清理後的資料筆數
 print("len:", len(EPA_IoT_zhonghe_data))
+# 顯示結果的第一筆資料
 EPA_IoT_zhonghe_data[0]
 ```
 
@@ -290,8 +302,9 @@ len: 70
 我們可以利用點到點距離公式計算並排序找到最接近目標地點的測站，可以直接使用在 `math` 內的 `pow()` 函式，計算平方及平方根距離。但在這裡我們使用比較標準的 Haversine 公式計算[地球上兩點間的球面距離](https://web.math.sinica.edu.tw/math_media/d232/23204.pdf)，以下為在 WGS84 坐標系下的實作：
 
 ```python
-# 增加與南勢角站距離欄位
+# 為資料增加一個欄位，用來表示與南勢角站的距離
 import math
+# 定義一個函式，計算兩點的緯度和經度之間的距離
 def LLs2Dist(lat1, lon1, lat2, lon2):
     R = 6371
     dLat = (lat2 - lat1) * math.pi / 180.0
@@ -301,8 +314,9 @@ def LLs2Dist(lat1, lon1, lat2, lon2):
     dist = R * c
     return dist
 
+# 計算每個資料點與南勢角站的距離，並將結果儲存在 'distance' 欄位中
 for data in EPA_IoT_zhonghe_data:
-  data['distance'] = LLs2Dist(data['location']['latitude'], data['location']['longitude'], 24.990550, 121.507532)# (24.990550, 121.507532)
+  data['distance'] = LLs2Dist(data['location']['latitude'], data['location']['longitude'], 24.990550, 121.507532)  # (24.990550, 121.507532)
 EPA_IoT_zhonghe_data[0]
 ```
 
@@ -332,15 +346,19 @@ EPA_IoT_zhonghe_data[0]
 Pandas 是用於資料操縱和分析的函式庫，其中的 DataFrame 格式用來儲存雙維度或多欄位的資料格式，非常適合用來進行資料分析。我們將處理好的資料轉換成 DataFrame，並挑選出需要的欄位並根據先前計算的距離排序由小到大。
 
 ```python
-# 轉換成 Pandas.DataFrame 格式
+# 將資料轉換為 Pandas.DataFrame 格式，以便於資料分析。
 import pandas as pd
 
+# 使用 pandas 的 json_normalize 方法將 JSON 格式的資料轉換為 DataFrame。
 df = pd.json_normalize(EPA_IoT_zhonghe_data) 
-#Results contain the required data
+# 顯示轉換後的完整資料。
 df
 
+# 從完整資料中選擇我們所需要的欄位。
 EPA_IoT_zhonghe_data_raw = df[['distance', 'PM2_5', 'Temperature', 'Relative_Humidity', 'properties.stationID', 'location.latitude', 'location.longitude', 'properties.areaType']]
+# 根據 'distance' 和 'PM2_5' 欄位排序資料。
 EPA_IoT_zhonghe_data_raw = EPA_IoT_zhonghe_data_raw.sort_values(by=['distance', 'PM2_5'], ascending=True)
+# 顯示處理後的資料。
 EPA_IoT_zhonghe_data_raw
 ```
 
@@ -353,15 +371,21 @@ EPA_IoT_zhonghe_data_raw
 
 ```python
 import numpy as np
+# 從 EPA_IoT_zhonghe_data_raw 取得最近測站的 PM2.5 值。
+# [0,1] 這裡的兩個數字是指定的行和列的索引。0 表示第一行，1 表示第二列。
 zhonghe_target = EPA_IoT_zhonghe_data_raw.iloc[0,1]
+# 計算 PM2.5 （[:,1]：第二列）的平均值和標準差
 zhonghe_ave = np.mean(EPA_IoT_zhonghe_data_raw.iloc[:,1].values)
 zhonghe_std = np.std(EPA_IoT_zhonghe_data_raw.iloc[:,1].values)
+# 計算目標 PM2.5 值與平均值之間的差異，並以標準差為單位表示
 result = (zhonghe_target-zhonghe_ave)/zhonghe_std
 
+# 顯示計算的結果
 print('mean:', zhonghe_ave, 'std:', zhonghe_std)
 print('最近測站 PM2.5 濃度:', zhonghe_target)
 print('目標離平均', result, '個標準差\n')
 
+# 根據計算結果顯示出空氣品質的評估
 if(result>0):
     print('Result: 現在家裡附近的空氣比附近糟')
 else:
