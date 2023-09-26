@@ -28,7 +28,7 @@
 datetime, math, numpy, pandas 等函式庫應用 json 資料格式處理 Pandas DataFrame 資料處理 獲取特定時間序列之資料 在 pyCIOT 中在執行 get_data() 時，能夠根據時間起始及結束時間獲取資料。格式以字典 (Dict) 傳入 time_range，分別為 start, end 及 num_of_data。
 start 與 end 指資料搜集的開始及結束時間，格式為 ISO8601 或 Datetime。num_of_data 則是會控制獲取資料的筆數不會超過此數字。若在範圍內的資料超過 num_of_data 則會隔一段時間搜集，使資料與資料之間的時間間隔趨於平均。
 以空氣資料為例，獲取之資料最多能夠回溯一天。因此當將 end 變數設定為一天之前不會獲得任何資料，請留意。此外，因為民生物聯網中各個感測器的更新頻率不同，所以不同感測器每「天」的資料筆數會有不同，詳可參閱：https://ci.taiwan.gov.tw/dsp/dataset_air.aspx
-from datetime import datetime, timedelta end_date = datetime.now() # 獲取現在時間 isodate_end = end_date.isoformat().split(&amp;#34;.&amp;#34;)[0]+&amp;#34;Z&amp;#34; # 將格式轉換為 ISO8601 格式 start_date = datetime.</description>
+# 從 datetime 模組中引入 datetime 和 timedelta 類別 from datetime import datetime, timedelta end_date = datetime.now() # 獲取現在時間 isodate_end = end_date.</description>
     </item>
     <item>
       <title>4.2. 時間序列資料預測</title>
