@@ -16,18 +16,18 @@
     <meta name="author" content="Ling-Jyh Chen">
     <title>4.1. 時間序列資料處理 :: Tutorial for CIoT Open Data Applications</title>
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="/css/fontawesome-all.min.css?1695185610" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1695185610" rel="stylesheet"></noscript>
-    <link href="/css/featherlight.min.css?1695185610" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1695185610" rel="stylesheet"></noscript>
-    <link href="/css/auto-complete.css?1695185610" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1695185610" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar.min.css?1695185610" rel="stylesheet">
-    <link href="/css/nucleus.css?1695185610" rel="stylesheet">
-    <link href="/css/fonts.css?1695185610" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1695185610" rel="stylesheet"></noscript>
-    <link href="/css/theme.css?1695185610" rel="stylesheet">
-    <link href="/css/theme-relearn-light.css?1695185610" rel="stylesheet" id="variant-style">
-    <link href="/css/ie.css?1695185610" rel="stylesheet">
-    <link href="/css/variant.css?1695185610" rel="stylesheet">
-    <link href="/css/print.css?1695185610" rel="stylesheet" media="print">
-    <script src="/js/variant.js?1695185610"></script>
+    <link href="/css/fontawesome-all.min.css?1695711356" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1695711356" rel="stylesheet"></noscript>
+    <link href="/css/featherlight.min.css?1695711356" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1695711356" rel="stylesheet"></noscript>
+    <link href="/css/auto-complete.css?1695711356" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1695711356" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar.min.css?1695711356" rel="stylesheet">
+    <link href="/css/nucleus.css?1695711356" rel="stylesheet">
+    <link href="/css/fonts.css?1695711356" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1695711356" rel="stylesheet"></noscript>
+    <link href="/css/theme.css?1695711356" rel="stylesheet">
+    <link href="/css/theme-relearn-light.css?1695711356" rel="stylesheet" id="variant-style">
+    <link href="/css/ie.css?1695711356" rel="stylesheet">
+    <link href="/css/variant.css?1695711356" rel="stylesheet">
+    <link href="/css/print.css?1695711356" rel="stylesheet" media="print">
+    <script src="/js/variant.js?1695711356"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -43,7 +43,7 @@
       var baseUriFull='https:\/\/LearnCIOT.github.io/';
       window.variants && variants.init( [ 'relearn-light' ] );
     </script>
-    <script src="/js/jquery.min.js?1695185610" defer></script>
+    <script src="/js/jquery.min.js?1695711356" defer></script>
 <meta property="fb:app_id" content="601826851395774" />
   </head>
   <body class="default-animation" data-url="/ch4/ch4.1/">
@@ -66,7 +66,7 @@
              <a class="nav nav-prev" href="/ch4/" title="4. 時間維度資料分析"><i class="fas fa-chevron-left fa-fw"></i></a>
           </div>
           <div id="top-github-link">
-            <a class="github-link" title='編輯網頁' href="https://github.com/LearnCIOT/LearnCIOT.github.io/tree/main/content/ch4/ch4.1/index.zh-tw.md" target="blank">
+            <a class="github-link" title='編輯網頁' href="https://github.com/LearnCIOT/LearnCIOT.github.io/tree/main/content/ch4/ch4.1/index.zh-tw%20%28%e7%b7%a8%e8%bc%af%e4%b8%ad%29.md" target="blank">
               <i class="fas fa-pen fa-fw"></i>
             </a>
           </div>
@@ -336,105 +336,134 @@ if (!doNotTrack) {
 </ul>
 <h2 id="套件安裝與引用">套件安裝與引用</h2>
 <p>在本章節中，我們將會使用到 pandas, matplotlib, numpy, seaborn, statsmodels, warnings 等套件，這些套件由於在我們使用的開發平台 Colab 上皆已預先安裝好，因此不需要再另行安裝。然而，我們還會另外使用兩個 Colab 並未預先安裝好的套件：kats 和 calplot，需使用下列的方式自行安裝：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>pip install <span style="color:#f92672">--</span>upgrade pip
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 升級 pip，確保使用最新版</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>pip install <span style="color:#f92672">--</span>upgrade pip
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Kats</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 安裝 Kats 套件，版本指定為 0.1，以及相依的 ax-platform 和 statsmodels 套件</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>pip install kats<span style="color:#f92672">==</span><span style="color:#ae81ff">0.1</span> ax<span style="color:#f92672">-</span>platform<span style="color:#f92672">==</span><span style="color:#ae81ff">0.2.3</span> statsmodels<span style="color:#f92672">==</span><span style="color:#ae81ff">0.12.2</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># calplot</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 安裝 calplot 套件，用於繪製日曆熱圖</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>pip install calplot
 </span></span></code></pre></div><p>待安裝完畢後，即可使用下列的語法先行引入相關的套件，完成本章節的準備工作：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> warnings
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> calplot
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> pandas <span style="color:#66d9ef">as</span> pd
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib <span style="color:#66d9ef">as</span> mpl
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> statsmodels.api <span style="color:#66d9ef">as</span> sm
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> os<span style="color:#f92672">,</span> zipfile
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> warnings <span style="color:#75715e"># 導入警告處理模塊，用於控制警告訊息</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> calplot <span style="color:#75715e"># 導入日曆圖繪製函式庫</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> pandas <span style="color:#66d9ef">as</span> pd <span style="color:#75715e"># 導入資料處理函式庫 pandas</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np <span style="color:#75715e"># 導入數學運算函式庫 NumPy</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib <span style="color:#66d9ef">as</span> mpl <span style="color:#75715e"># 導入繪圖函式庫 Matplotlib 的基礎設定</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt <span style="color:#75715e"># 導入繪圖函式庫 Matplotlib 的 pyplot 模塊</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> statsmodels.api <span style="color:#66d9ef">as</span> sm <span style="color:#75715e"># 導入統計模型函式庫 Statsmodels 的 API</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> os<span style="color:#f92672">,</span> zipfile <span style="color:#75715e"># 導入檔案操作和壓縮函式庫</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> datetime <span style="color:#f92672">import</span> datetime, timedelta
-</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> dateutil <span style="color:#f92672">import</span> parser <span style="color:#66d9ef">as</span> datetime_parser
-</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> statsmodels.tsa.stattools <span style="color:#f92672">import</span> adfuller, kpss
-</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> statsmodels.tsa.seasonal <span style="color:#f92672">import</span> seasonal_decompose
-</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> kats.detectors.outlier <span style="color:#f92672">import</span> OutlierDetector
-</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> kats.detectors.cusum_detection <span style="color:#f92672">import</span> CUSUMDetector
-</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> kats.consts <span style="color:#f92672">import</span> TimeSeriesData, TimeSeriesIterator
-</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> IPython.core.pylabtools <span style="color:#f92672">import</span> figsize
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> datetime <span style="color:#f92672">import</span> datetime, timedelta <span style="color:#75715e"># 導入日期時間處理模塊</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> dateutil <span style="color:#f92672">import</span> parser <span style="color:#66d9ef">as</span> datetime_parser <span style="color:#75715e"># 導入日期時間解析模塊</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> statsmodels.tsa.stattools <span style="color:#f92672">import</span> adfuller, kpss <span style="color:#75715e"># 導入時序數據的統計檢定函式</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> statsmodels.tsa.seasonal <span style="color:#f92672">import</span> seasonal_decompose <span style="color:#75715e"># 導入季節分解函式</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> kats.detectors.outlier <span style="color:#f92672">import</span> OutlierDetector <span style="color:#75715e"># 導入異常值檢測器</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> kats.detectors.cusum_detection <span style="color:#f92672">import</span> CUSUMDetector <span style="color:#75715e"># 導入 CUSUM 異常檢測器</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> kats.consts <span style="color:#f92672">import</span> TimeSeriesData, TimeSeriesIterator <span style="color:#75715e"># 導入 Kats 時序數據和迭代器類型</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> IPython.core.pylabtools <span style="color:#f92672">import</span> figsize <span style="color:#75715e"># 導入 IPython 繪圖尺寸設定工具</span>
 </span></span></code></pre></div><h2 id="讀取資料">讀取資料</h2>
 <p>我們使用 pandas 進行資料的處理，pandas 是 Python 語言常使用到的資料科學套件，也可以想成是程式語言中類似 Microsoft Excel 的試算表，而 pandas 所提供的 dataframe 物件，更可以想成是一種二維的資料結構，可以用行、列的方式儲存資料，方便各式的資料處理與運算。</p>
 <p>本章節的探討主題為時序資料 (time series data) 的分析處理，因此我們將分別以民生公共物聯網資料平台上的空品、水位和氣象資料進行資料讀取的演示，接著再使用空品資料進行更進一步的資料分析。其中，每一類別的資料處理都將使用其中一個測站長期以來觀測到的資料作為資料集，而在 dataframe 的時間欄位名稱則設為 <code>timestamp</code>，由於時間欄位的數值具有唯一性，因此我們也將使用此欄位作為 dataframe 的索引 (index)。</p>
 <h3 id="空品資料">空品資料</h3>
 <p>由於我們這次要使用的是長時間的歷史資料，因此我們不直接使用 pyCIOT 套件的讀取資料功能，而直接從民生公共物聯網資料平台的歷史資料庫下載「中研院校園空品微型感測器」的歷史資料，並存入 Air 資料夾中。</p>
 <p>同時，由於所下載的資料是 zip 壓縮檔案的格式，我們需要先逐一將其解壓縮，產生每日資料的壓縮檔案，接著再將每日資料的壓縮檔案解壓縮，存入 CSV_Air 資料夾中。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>mkdir Air CSV_Air
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>mkdir Air CSV_Air <span style="color:#75715e"># 建立「Air」和「CSV_Air」資料夾</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 從指定的網址下載四個 zip 檔案到「Air」資料夾</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>wget <span style="color:#f92672">-</span>O Air<span style="color:#f92672">/</span><span style="color:#ae81ff">2018.</span>zip <span style="color:#f92672">-</span>q <span style="color:#e6db74">&#34;https://history.colife.org.tw/?r=/download&amp;path=L%2Bepuuawo%2BWTgeizqi</span><span style="color:#e6db74">%2F</span><span style="color:#e6db74">kuK3noJTpmaJf5qCh5ZyS56m65ZOB5b6u5Z6L5oSf5ris5ZmoLzIwMTguemlw&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>wget <span style="color:#f92672">-</span>O Air<span style="color:#f92672">/</span><span style="color:#ae81ff">2019.</span>zip <span style="color:#f92672">-</span>q <span style="color:#e6db74">&#34;https://history.colife.org.tw/?r=/download&amp;path=L%2Bepuuawo%2BWTgeizqi</span><span style="color:#e6db74">%2F</span><span style="color:#e6db74">kuK3noJTpmaJf5qCh5ZyS56m65ZOB5b6u5Z6L5oSf5ris5ZmoLzIwMTkuemlw&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>wget <span style="color:#f92672">-</span>O Air<span style="color:#f92672">/</span><span style="color:#ae81ff">2020.</span>zip <span style="color:#f92672">-</span>q <span style="color:#e6db74">&#34;https://history.colife.org.tw/?r=/download&amp;path=L%2Bepuuawo%2BWTgeizqi</span><span style="color:#e6db74">%2F</span><span style="color:#e6db74">kuK3noJTpmaJf5qCh5ZyS56m65ZOB5b6u5Z6L5oSf5ris5ZmoLzIwMjAuemlw&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>wget <span style="color:#f92672">-</span>O Air<span style="color:#f92672">/</span><span style="color:#ae81ff">2021.</span>zip <span style="color:#f92672">-</span>q <span style="color:#e6db74">&#34;https://history.colife.org.tw/?r=/download&amp;path=L%2Bepuuawo%2BWTgeizqi</span><span style="color:#e6db74">%2F</span><span style="color:#e6db74">kuK3noJTpmaJf5qCh5ZyS56m65ZOB5b6u5Z6L5oSf5ris5ZmoLzIwMjEuemlw&#34;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#開始進行解壓縮</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 初始化資料夾和檔案副檔名。</span>
 </span></span><span style="display:flex;"><span>folder <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Air&#39;</span>
 </span></span><span style="display:flex;"><span>extension_zip <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;.zip&#39;</span>
 </span></span><span style="display:flex;"><span>extension_csv <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;.csv&#39;</span>
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 第一次解壓縮：遍歷「Air」資料夾，找到所有 ZIP 檔並解壓縮。</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> subfolder <span style="color:#f92672">in</span> os<span style="color:#f92672">.</span>listdir(folder):
 </span></span><span style="display:flex;"><span>    path <span style="color:#f92672">=</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>folder<span style="color:#e6db74">}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">{</span>subfolder<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> path<span style="color:#f92672">.</span>endswith(extension_zip):
-</span></span><span style="display:flex;"><span>      print(path)
+</span></span><span style="display:flex;"><span>      print(path) <span style="color:#75715e"># 輸出目前正在解壓縮的檔案路徑。</span>
 </span></span><span style="display:flex;"><span>      zip_ref <span style="color:#f92672">=</span> zipfile<span style="color:#f92672">.</span>ZipFile(path)
-</span></span><span style="display:flex;"><span>      zip_ref<span style="color:#f92672">.</span>extractall(folder)
+</span></span><span style="display:flex;"><span>      zip_ref<span style="color:#f92672">.</span>extractall(folder) <span style="color:#75715e"># 解壓縮到「Air」資料夾。</span>
 </span></span><span style="display:flex;"><span>      zip_ref<span style="color:#f92672">.</span>close()
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 第二次和第三次解壓縮：遍歷資料夾，解壓縮內層 ZIP 檔。</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> subfolder <span style="color:#f92672">in</span> os<span style="color:#f92672">.</span>listdir(folder):
 </span></span><span style="display:flex;"><span>    path <span style="color:#f92672">=</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>folder<span style="color:#e6db74">}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">{</span>subfolder<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>isdir(path):
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> item <span style="color:#f92672">in</span> os<span style="color:#f92672">.</span>listdir(path):
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> item<span style="color:#f92672">.</span>endswith(extension_zip):
 </span></span><span style="display:flex;"><span>                file_name <span style="color:#f92672">=</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>path<span style="color:#e6db74">}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">{</span>item<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>
-</span></span><span style="display:flex;"><span>                print(file_name)
+</span></span><span style="display:flex;"><span>                print(file_name) <span style="color:#75715e"># 輸出目前正在解壓縮的檔案路徑。</span>
 </span></span><span style="display:flex;"><span>                zip_ref <span style="color:#f92672">=</span> zipfile<span style="color:#f92672">.</span>ZipFile(file_name)
-</span></span><span style="display:flex;"><span>                zip_ref<span style="color:#f92672">.</span>extractall(path)
+</span></span><span style="display:flex;"><span>                zip_ref<span style="color:#f92672">.</span>extractall(path) <span style="color:#75715e"># 解壓縮到同一資料夾。</span>
 </span></span><span style="display:flex;"><span>                zip_ref<span style="color:#f92672">.</span>close()
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e"># 第三次解壓縮和搬移 CSV 檔案。</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> item <span style="color:#f92672">in</span> os<span style="color:#f92672">.</span>listdir(path):
 </span></span><span style="display:flex;"><span>          path2 <span style="color:#f92672">=</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>path<span style="color:#e6db74">}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">{</span>item<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>
 </span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">if</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>isdir(path2):
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> it <span style="color:#f92672">in</span> os<span style="color:#f92672">.</span>listdir(path2):
 </span></span><span style="display:flex;"><span>              <span style="color:#66d9ef">if</span> it<span style="color:#f92672">.</span>endswith(extension_zip):
 </span></span><span style="display:flex;"><span>                file_name <span style="color:#f92672">=</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>path2<span style="color:#e6db74">}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">{</span>it<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>
-</span></span><span style="display:flex;"><span>                print(file_name)
+</span></span><span style="display:flex;"><span>                print(file_name) <span style="color:#75715e"># 輸出目前正在解壓縮的檔案路徑。</span>
 </span></span><span style="display:flex;"><span>                zip_ref <span style="color:#f92672">=</span> zipfile<span style="color:#f92672">.</span>ZipFile(file_name)
-</span></span><span style="display:flex;"><span>                zip_ref<span style="color:#f92672">.</span>extractall(<span style="color:#e6db74">&#39;CSV_Air&#39;</span>) <span style="color:#75715e"># decide path</span>
+</span></span><span style="display:flex;"><span>                zip_ref<span style="color:#f92672">.</span>extractall(<span style="color:#e6db74">&#39;CSV_Air&#39;</span>) <span style="color:#75715e"># 解壓縮到「CSV_Air」資料夾。</span>
 </span></span><span style="display:flex;"><span>                zip_ref<span style="color:#f92672">.</span>close()
 </span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">elif</span> item<span style="color:#f92672">.</span>endswith(extension_csv):
-</span></span><span style="display:flex;"><span>            os<span style="color:#f92672">.</span>rename(path2, <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;CSV_Air/</span><span style="color:#e6db74">{</span>item<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
-</span></span></code></pre></div><p>現在 CSV_Air 資料夾中即有每日所有感測器資料的 csv 格式檔案，為了將單一測站 (例如代碼為 <code>74DA38C7D2AC</code> 的測站) 的資料過濾出來，我們需要讀取每個 csv 檔案，並將檔案中該測站的資料存入名叫 <code>air</code> 的 dataframe 中。最後我們將所有下載的資料與解壓縮後產生的資料移除，以節省雲端的儲存空間。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>folder <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;CSV_Air&#39;</span>
+</span></span><span style="display:flex;"><span>            os<span style="color:#f92672">.</span>rename(path2, <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;CSV_Air/</span><span style="color:#e6db74">{</span>item<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>) <span style="color:#75715e"># 將 CSV 檔搬移到「CSV_Air」資料夾。</span>
+</span></span></code></pre></div><p>現在 CSV_Air 資料夾中即有每日所有感測器資料的 csv 格式檔案，為了將單一測站 (例如代碼為 <code>74DA38C7D2AC</code> 的測站) 的資料過濾出來，我們需要讀取每個 csv 檔案，並將檔案中該測站的資料存入名叫 <code>air</code> 的 dataframe 中。最後我們將所有下載的資料與解壓縮後產生的資料移除，以節省雲端的儲存空間。 test</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 初始化資料夾名稱和 CSV 檔案的副檔名。</span>
+</span></span><span style="display:flex;"><span>folder <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;CSV_Air&#39;</span>
 </span></span><span style="display:flex;"><span>extension_csv <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;.csv&#39;</span>
-</span></span><span style="display:flex;"><span>id <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;74DA38C7D2AC&#39;</span>
+</span></span><span style="display:flex;"><span>id <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;74DA38C7D2AC&#39;</span> <span style="color:#75715e"># 感測器 ID</span>
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 建立一個空的 DataFrame，名為「air」。</span>
 </span></span><span style="display:flex;"><span>air <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 遍歷「CSV_Air」資料夾中的每一個檔案。</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> item <span style="color:#f92672">in</span> os<span style="color:#f92672">.</span>listdir(folder):
 </span></span><span style="display:flex;"><span>  file_name <span style="color:#f92672">=</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>folder<span style="color:#e6db74">}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">{</span>item<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>
-</span></span><span style="display:flex;"><span>  df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(file_name)
+</span></span><span style="display:flex;"><span>  df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(file_name) <span style="color:#75715e"># 讀取 CSV 檔案到 DataFrame</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 若有「pm25」這個欄位，改名為「PM25」。</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> <span style="color:#e6db74">&#39;pm25&#39;</span> <span style="color:#f92672">in</span> list(df<span style="color:#f92672">.</span>columns):
 </span></span><span style="display:flex;"><span>    df<span style="color:#f92672">.</span>rename({<span style="color:#e6db74">&#39;pm25&#39;</span>:<span style="color:#e6db74">&#39;PM25&#39;</span>}, axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 過濾出指定設備 ID 的資料。</span>
 </span></span><span style="display:flex;"><span>  filtered <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>query(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;device_id==@id&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 合併過濾後的資料到「air」。</span>
 </span></span><span style="display:flex;"><span>  air <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>concat([air, filtered], ignore_index<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 去掉 timestamp 是空值的行。</span>
 </span></span><span style="display:flex;"><span>air<span style="color:#f92672">.</span>dropna(subset<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;timestamp&#39;</span>], inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 將 timestamp 的時區資訊移除。</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i, row <span style="color:#f92672">in</span> air<span style="color:#f92672">.</span>iterrows():
-</span></span><span style="display:flex;"><span>  aware <span style="color:#f92672">=</span> datetime_parser<span style="color:#f92672">.</span>parse(str(row[<span style="color:#e6db74">&#39;timestamp&#39;</span>]))
-</span></span><span style="display:flex;"><span>  naive <span style="color:#f92672">=</span> aware<span style="color:#f92672">.</span>replace(tzinfo<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>)
-</span></span><span style="display:flex;"><span>  air<span style="color:#f92672">.</span>at[i, <span style="color:#e6db74">&#39;timestamp&#39;</span>] <span style="color:#f92672">=</span> naive
+</span></span><span style="display:flex;"><span>  aware <span style="color:#f92672">=</span> datetime_parser<span style="color:#f92672">.</span>parse(str(row[<span style="color:#e6db74">&#39;timestamp&#39;</span>])) <span style="color:#75715e"># 解析有時區的時間。</span>
+</span></span><span style="display:flex;"><span>  naive <span style="color:#f92672">=</span> aware<span style="color:#f92672">.</span>replace(tzinfo<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>) <span style="color:#75715e"># 移除時區資訊。</span>
+</span></span><span style="display:flex;"><span>  air<span style="color:#f92672">.</span>at[i, <span style="color:#e6db74">&#39;timestamp&#39;</span>] <span style="color:#f92672">=</span> naive <span style="color:#75715e"># 更新 DataFrame。</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 將 timestamp 設為 DataFrame 的 index。</span>
 </span></span><span style="display:flex;"><span>air<span style="color:#f92672">.</span>set_index(<span style="color:#e6db74">&#39;timestamp&#39;</span>, inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 刪除「Air」和「CSV_Air」資料夾。</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>rm <span style="color:#f92672">-</span>rf Air CSV_Air
 </span></span></code></pre></div><p>最後，我們重新整理該測站的資料，將不需要用到的欄位資訊刪除，並且依照時間進行排序如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>air<span style="color:#f92672">.</span>drop(columns<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;device_id&#39;</span>, <span style="color:#e6db74">&#39;SiteName&#39;</span>], inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 刪除「device_id」和「SiteName」這兩個欄位。</span>
+</span></span><span style="display:flex;"><span>air<span style="color:#f92672">.</span>drop(columns<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;device_id&#39;</span>, <span style="color:#e6db74">&#39;SiteName&#39;</span>], inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 根據「timestamp」欄位排序 DataFrame。</span>
 </span></span><span style="display:flex;"><span>air<span style="color:#f92672">.</span>sort_values(by<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;timestamp&#39;</span>, inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示 DataFrame 的基本資訊。</span>
 </span></span><span style="display:flex;"><span>air<span style="color:#f92672">.</span>info()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 輸出 DataFrame 的前五行。</span>
 </span></span><span style="display:flex;"><span>print(air<span style="color:#f92672">.</span>head())
 </span></span></code></pre></div><pre tabindex="0"><code>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
 DatetimeIndex: 195305 entries, 2018-08-01 00:00:05 to 2021-12-31 23:54:46
@@ -454,17 +483,21 @@ timestamp
 </code></pre><h3 id="水位資料">水位資料</h3>
 <p>和空品資料的範例一樣，由於我們這次要使用的是長時間的歷史資料，因此我們不直接使用 pyCIOT 套件的讀取資料功能，而直接從民生公共物聯網資料平台的歷史資料庫下載「水利署地下水位站」的歷史資料，並存入 Water 資料夾中。</p>
 <p>同時，由於所下載的資料是 zip 壓縮檔案的格式，我們需要先逐一將其解壓縮，產生每日資料的壓縮檔案，接著再將每日資料的壓縮檔案解壓縮，存入 CSV_Water 資料夾中。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>mkdir Water CSV_Water
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 建立「Water」和「CSV_Water」資料夾。</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>mkdir Water CSV_Water
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 從指定網址下載四個年份的資料壓縮包。</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>wget <span style="color:#f92672">-</span>O Water<span style="color:#f92672">/</span><span style="color:#ae81ff">2018.</span>zip <span style="color:#e6db74">&#34;https://history.colife.org.tw/?r=/download&amp;path=L%2BawtOizh%2Ba6kC</span><span style="color:#e6db74">%2F</span><span style="color:#e6db74">msLTliKnnvbJf5rKz5bed5rC05L2N56uZLzIwMTguemlw&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>wget <span style="color:#f92672">-</span>O Water<span style="color:#f92672">/</span><span style="color:#ae81ff">2019.</span>zip <span style="color:#e6db74">&#34;https://history.colife.org.tw/?r=/download&amp;path=L%2BawtOizh%2Ba6kC</span><span style="color:#e6db74">%2F</span><span style="color:#e6db74">msLTliKnnvbJf5rKz5bed5rC05L2N56uZLzIwMTkuemlw&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>wget <span style="color:#f92672">-</span>O Water<span style="color:#f92672">/</span><span style="color:#ae81ff">2020.</span>zip <span style="color:#e6db74">&#34;https://history.colife.org.tw/?r=/download&amp;path=L%2BawtOizh%2Ba6kC</span><span style="color:#e6db74">%2F</span><span style="color:#e6db74">msLTliKnnvbJf5rKz5bed5rC05L2N56uZLzIwMjAuemlw&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>wget <span style="color:#f92672">-</span>O Water<span style="color:#f92672">/</span><span style="color:#ae81ff">2021.</span>zip <span style="color:#e6db74">&#34;https://history.colife.org.tw/?r=/download&amp;path=L%2BawtOizh%2Ba6kC</span><span style="color:#e6db74">%2F</span><span style="color:#e6db74">msLTliKnnvbJf5rKz5bed5rC05L2N56uZLzIwMjEuemlw&#34;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#開始進行解壓縮</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 初始化變數。</span>
 </span></span><span style="display:flex;"><span>folder <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Water&#39;</span>
 </span></span><span style="display:flex;"><span>extension_zip <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;.zip&#39;</span>
 </span></span><span style="display:flex;"><span>extension_csv <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;.csv&#39;</span>
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 第一次解壓縮：解壓縮下載的 zip 檔到「Water」資料夾。</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> subfolder <span style="color:#f92672">in</span> os<span style="color:#f92672">.</span>listdir(folder):
 </span></span><span style="display:flex;"><span>    path <span style="color:#f92672">=</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>folder<span style="color:#e6db74">}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">{</span>subfolder<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> path<span style="color:#f92672">.</span>endswith(extension_zip):
@@ -472,6 +505,9 @@ timestamp
 </span></span><span style="display:flex;"><span>      zip_ref <span style="color:#f92672">=</span> zipfile<span style="color:#f92672">.</span>ZipFile(path)
 </span></span><span style="display:flex;"><span>      zip_ref<span style="color:#f92672">.</span>extractall(folder)
 </span></span><span style="display:flex;"><span>      zip_ref<span style="color:#f92672">.</span>close()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 第二次解壓縮：解壓縮「Water」資料夾中的 zip 檔。</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 第三次解壓縮：解壓縮嵌套在資料夾內的 zip 檔，排除以 &#39;QC.zip&#39; 結尾的檔。</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> subfolder <span style="color:#f92672">in</span> os<span style="color:#f92672">.</span>listdir(folder):
 </span></span><span style="display:flex;"><span>    path <span style="color:#f92672">=</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>folder<span style="color:#e6db74">}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">{</span>subfolder<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>isdir(path):
@@ -483,6 +519,7 @@ timestamp
 </span></span><span style="display:flex;"><span>                zip_ref<span style="color:#f92672">.</span>extractall(path)
 </span></span><span style="display:flex;"><span>                zip_ref<span style="color:#f92672">.</span>close()
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e"># 移動 CSV 檔到「CSV_Water」資料夾。</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> item <span style="color:#f92672">in</span> os<span style="color:#f92672">.</span>listdir(path):
 </span></span><span style="display:flex;"><span>          path2 <span style="color:#f92672">=</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>path<span style="color:#e6db74">}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">{</span>item<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>
 </span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">if</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>isdir(path2):
@@ -491,36 +528,59 @@ timestamp
 </span></span><span style="display:flex;"><span>                file_name <span style="color:#f92672">=</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>path2<span style="color:#e6db74">}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">{</span>it<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>
 </span></span><span style="display:flex;"><span>                print(file_name)
 </span></span><span style="display:flex;"><span>                zip_ref <span style="color:#f92672">=</span> zipfile<span style="color:#f92672">.</span>ZipFile(file_name)
-</span></span><span style="display:flex;"><span>                zip_ref<span style="color:#f92672">.</span>extractall(<span style="color:#e6db74">&#39;CSV_Water&#39;</span>) <span style="color:#75715e"># decide path</span>
+</span></span><span style="display:flex;"><span>                zip_ref<span style="color:#f92672">.</span>extractall(<span style="color:#e6db74">&#39;CSV_Water&#39;</span>)
 </span></span><span style="display:flex;"><span>                zip_ref<span style="color:#f92672">.</span>close()
 </span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">elif</span> item<span style="color:#f92672">.</span>endswith(extension_csv):
 </span></span><span style="display:flex;"><span>            os<span style="color:#f92672">.</span>rename(path2, <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;CSV_Water/</span><span style="color:#e6db74">{</span>item<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
 </span></span></code></pre></div><p>現在 CSV_Water 資料夾中即有每日所有感測器資料的 csv 格式檔案，為了將單一測站 (例如代碼為 <code>338c9c1c-57d8-41d7-9af2-731fb86e632c</code> 的測站) 的資料過濾出來，我們需要讀取每個 csv 檔案，並將檔案中該測站的資料存入名叫 <code>water</code> 的 dataframe 中。最後我們將所有下載的資料與解壓縮後產生的資料移除，以節省雲端的儲存空間。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>folder <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;CSV_Water&#39;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 設定資料夾和檔案副檔名變數</span>
+</span></span><span style="display:flex;"><span>folder <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;CSV_Water&#39;</span>
 </span></span><span style="display:flex;"><span>extension_csv <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;.csv&#39;</span>
 </span></span><span style="display:flex;"><span>id <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;338c9c1c-57d8-41d7-9af2-731fb86e632c&#39;</span>
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 初始化一個空的 DataFrame 來儲存水質數據</span>
 </span></span><span style="display:flex;"><span>water <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 開始讀取「CSV_Water」資料夾中的每個 .csv 檔</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> item <span style="color:#f92672">in</span> os<span style="color:#f92672">.</span>listdir(folder):
 </span></span><span style="display:flex;"><span>  file_name <span style="color:#f92672">=</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>folder<span style="color:#e6db74">}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">{</span>item<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>
 </span></span><span style="display:flex;"><span>  df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(file_name)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 如果存在「pm25」欄位，改名為「PM25」</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> <span style="color:#e6db74">&#39;pm25&#39;</span> <span style="color:#f92672">in</span> list(df<span style="color:#f92672">.</span>columns):
 </span></span><span style="display:flex;"><span>    df<span style="color:#f92672">.</span>rename({<span style="color:#e6db74">&#39;pm25&#39;</span>:<span style="color:#e6db74">&#39;PM25&#39;</span>}, axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 篩選出對應於特定 station_id 的資料</span>
 </span></span><span style="display:flex;"><span>  filtered <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>query(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;station_id==@id&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 將篩選出的資料加入到主 DataFrame 中</span>
 </span></span><span style="display:flex;"><span>  water <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>concat([water, filtered], ignore_index<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 去除 timestamp 為空的資料</span>
 </span></span><span style="display:flex;"><span>water<span style="color:#f92672">.</span>dropna(subset<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;timestamp&#39;</span>], inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 將 timestamp 轉換為 naive datetime（去除時區資訊）</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i, row <span style="color:#f92672">in</span> water<span style="color:#f92672">.</span>iterrows():
 </span></span><span style="display:flex;"><span>  aware <span style="color:#f92672">=</span> datetime_parser<span style="color:#f92672">.</span>parse(str(row[<span style="color:#e6db74">&#39;timestamp&#39;</span>]))
 </span></span><span style="display:flex;"><span>  naive <span style="color:#f92672">=</span> aware<span style="color:#f92672">.</span>replace(tzinfo<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>)
 </span></span><span style="display:flex;"><span>  water<span style="color:#f92672">.</span>at[i, <span style="color:#e6db74">&#39;timestamp&#39;</span>] <span style="color:#f92672">=</span> naive
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 將 DataFrame 的索引設為 timestamp</span>
 </span></span><span style="display:flex;"><span>water<span style="color:#f92672">.</span>set_index(<span style="color:#e6db74">&#39;timestamp&#39;</span>, inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 最後，刪除不再需要的資料夾</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>rm <span style="color:#f92672">-</span>rf Water CSV_Water
 </span></span></code></pre></div><p>最後，我們重新整理該測站的資料，將不需要用到的欄位資訊刪除，並且依照時間進行排序如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>water<span style="color:#f92672">.</span>drop(columns<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;station_id&#39;</span>, <span style="color:#e6db74">&#39;ciOrgname&#39;</span>, <span style="color:#e6db74">&#39;ciCategory&#39;</span>, <span style="color:#e6db74">&#39;Organize_Name&#39;</span>, <span style="color:#e6db74">&#39;CategoryInfos_Name&#39;</span>, <span style="color:#e6db74">&#39;PQ_name&#39;</span>, <span style="color:#e6db74">&#39;PQ_fullname&#39;</span>, <span style="color:#e6db74">&#39;PQ_description&#39;</span>, <span style="color:#e6db74">&#39;PQ_unit&#39;</span>, <span style="color:#e6db74">&#39;PQ_id&#39;</span>], inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 移除不必要的欄位</span>
+</span></span><span style="display:flex;"><span>water<span style="color:#f92672">.</span>drop(columns<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;station_id&#39;</span>, <span style="color:#e6db74">&#39;ciOrgname&#39;</span>, <span style="color:#e6db74">&#39;ciCategory&#39;</span>, <span style="color:#e6db74">&#39;Organize_Name&#39;</span>, <span style="color:#e6db74">&#39;CategoryInfos_Name&#39;</span>, <span style="color:#e6db74">&#39;PQ_name&#39;</span>, <span style="color:#e6db74">&#39;PQ_fullname&#39;</span>, <span style="color:#e6db74">&#39;PQ_description&#39;</span>, <span style="color:#e6db74">&#39;PQ_unit&#39;</span>, <span style="color:#e6db74">&#39;PQ_id&#39;</span>], inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 依照 timestamp 欄位排序資料</span>
 </span></span><span style="display:flex;"><span>water<span style="color:#f92672">.</span>sort_values(by<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;timestamp&#39;</span>, inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示 DataFrame 的基本資訊</span>
 </span></span><span style="display:flex;"><span>water<span style="color:#f92672">.</span>info()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 列印 DataFrame 的前五行來確認資料</span>
 </span></span><span style="display:flex;"><span>print(water<span style="color:#f92672">.</span>head())
 </span></span></code></pre></div><pre tabindex="0"><code>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
 DatetimeIndex: 213466 entries, 2018-01-01 00:20:00 to 2021-12-07 11:00:00
@@ -540,74 +600,105 @@ timestamp
 </code></pre><h3 id="氣象資料">氣象資料</h3>
 <p>我們從民生公共物聯網資料平台的歷史資料庫下載「中央氣象局自動氣象站」的歷史資料，並存入 Weather 資料夾中。</p>
 <p>同時，由於所下載的資料是 zip 壓縮檔案的格式，我們需要先逐一將其解壓縮，產生每日資料的壓縮檔案，接著再將每日資料的壓縮檔案解壓縮，存入 CSV_Weather 資料夾中。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>mkdir Weather CSV_Weather
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 創建 Weather 和 CSV_Weather 目錄</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>mkdir Weather CSV_Weather
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 下載 2019、2020、2021 年的氣象資料壓縮檔</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>wget <span style="color:#f92672">-</span>O Weather<span style="color:#f92672">/</span><span style="color:#ae81ff">2019.</span>zip <span style="color:#e6db74">&#34;https://history.colife.org.tw/?r=/download&amp;path=L%2Bawo%2BixoS</span><span style="color:#e6db74">%2F</span><span style="color:#e6db74">kuK3lpK7msKPosaHlsYBf6Ieq5YuV5rCj6LGh56uZLzIwMTkuemlw&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>wget <span style="color:#f92672">-</span>O Weather<span style="color:#f92672">/</span><span style="color:#ae81ff">2020.</span>zip <span style="color:#e6db74">&#34;https://history.colife.org.tw/?r=/download&amp;path=L%2Bawo%2BixoS</span><span style="color:#e6db74">%2F</span><span style="color:#e6db74">kuK3lpK7msKPosaHlsYBf6Ieq5YuV5rCj6LGh56uZLzIwMjAuemlw&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>wget <span style="color:#f92672">-</span>O Weather<span style="color:#f92672">/</span><span style="color:#ae81ff">2021.</span>zip <span style="color:#e6db74">&#34;https://history.colife.org.tw/?r=/download&amp;path=L%2Bawo%2BixoS</span><span style="color:#e6db74">%2F</span><span style="color:#e6db74">kuK3lpK7msKPosaHlsYBf6Ieq5YuV5rCj6LGh56uZLzIwMjEuemlw&#34;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#開始進行解壓縮</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 變數設定，用來存放目錄名和檔案副檔名</span>
 </span></span><span style="display:flex;"><span>folder <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Weather&#39;</span>
 </span></span><span style="display:flex;"><span>extension_zip <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;.zip&#39;</span>
 </span></span><span style="display:flex;"><span>extension_csv <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;.csv&#39;</span>
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 解壓縮在 Weather 目錄下的所有壓縮檔</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> subfolder <span style="color:#f92672">in</span> os<span style="color:#f92672">.</span>listdir(folder):
 </span></span><span style="display:flex;"><span>    path <span style="color:#f92672">=</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>folder<span style="color:#e6db74">}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">{</span>subfolder<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> path<span style="color:#f92672">.</span>endswith(extension_zip):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> path<span style="color:#f92672">.</span>endswith(extension_zip): <span style="color:#75715e"># 檢查是否為 .zip 檔</span>
 </span></span><span style="display:flex;"><span>      print(path)
 </span></span><span style="display:flex;"><span>      zip_ref <span style="color:#f92672">=</span> zipfile<span style="color:#f92672">.</span>ZipFile(path)
-</span></span><span style="display:flex;"><span>      zip_ref<span style="color:#f92672">.</span>extractall(folder)
+</span></span><span style="display:flex;"><span>      zip_ref<span style="color:#f92672">.</span>extractall(folder) <span style="color:#75715e"># 解壓縮到 Weather 目錄</span>
 </span></span><span style="display:flex;"><span>      zip_ref<span style="color:#f92672">.</span>close()
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 處理 Weather 目錄下的子目錄和檔案</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> subfolder <span style="color:#f92672">in</span> os<span style="color:#f92672">.</span>listdir(folder):
 </span></span><span style="display:flex;"><span>    path <span style="color:#f92672">=</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>folder<span style="color:#e6db74">}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">{</span>subfolder<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>isdir(path):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>isdir(path): <span style="color:#75715e"># 檢查是否為目錄</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> item <span style="color:#f92672">in</span> os<span style="color:#f92672">.</span>listdir(path):
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> item<span style="color:#f92672">.</span>endswith(extension_zip):
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> item<span style="color:#f92672">.</span>endswith(extension_zip):  檢查是否為 <span style="color:#f92672">.</span>zip 檔
 </span></span><span style="display:flex;"><span>                file_name <span style="color:#f92672">=</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>path<span style="color:#e6db74">}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">{</span>item<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>
 </span></span><span style="display:flex;"><span>                print(file_name)
 </span></span><span style="display:flex;"><span>                zip_ref <span style="color:#f92672">=</span> zipfile<span style="color:#f92672">.</span>ZipFile(file_name)
-</span></span><span style="display:flex;"><span>                zip_ref<span style="color:#f92672">.</span>extractall(path)
+</span></span><span style="display:flex;"><span>                zip_ref<span style="color:#f92672">.</span>extractall(path) <span style="color:#75715e"># 解壓縮到該目錄</span>
 </span></span><span style="display:flex;"><span>                zip_ref<span style="color:#f92672">.</span>close()
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 移動 .csv 檔到 CSV_Weather 目錄</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> item <span style="color:#f92672">in</span> os<span style="color:#f92672">.</span>listdir(path):
 </span></span><span style="display:flex;"><span>          path2 <span style="color:#f92672">=</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>path<span style="color:#e6db74">}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">{</span>item<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>
-</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">if</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>isdir(path2):
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">if</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>isdir(path2): <span style="color:#75715e"># 檢查是否為目錄</span>
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> it <span style="color:#f92672">in</span> os<span style="color:#f92672">.</span>listdir(path2):
-</span></span><span style="display:flex;"><span>              <span style="color:#66d9ef">if</span> it<span style="color:#f92672">.</span>endswith(extension_zip):
+</span></span><span style="display:flex;"><span>              <span style="color:#66d9ef">if</span> it<span style="color:#f92672">.</span>endswith(extension_zip): <span style="color:#75715e"># 再次檢查是否為 .zip 檔</span>
 </span></span><span style="display:flex;"><span>                file_name <span style="color:#f92672">=</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>path2<span style="color:#e6db74">}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">{</span>it<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>
 </span></span><span style="display:flex;"><span>                print(file_name)
 </span></span><span style="display:flex;"><span>                zip_ref <span style="color:#f92672">=</span> zipfile<span style="color:#f92672">.</span>ZipFile(file_name)
-</span></span><span style="display:flex;"><span>                zip_ref<span style="color:#f92672">.</span>extractall(<span style="color:#e6db74">&#39;CSV_Weather&#39;</span>) <span style="color:#75715e"># decide path</span>
+</span></span><span style="display:flex;"><span>                zip_ref<span style="color:#f92672">.</span>extractall(<span style="color:#e6db74">&#39;CSV_Weather&#39;</span>) <span style="color:#75715e"># 解壓縮到 CSV_Weather 目錄</span>
 </span></span><span style="display:flex;"><span>                zip_ref<span style="color:#f92672">.</span>close()
-</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">elif</span> item<span style="color:#f92672">.</span>endswith(extension_csv):
-</span></span><span style="display:flex;"><span>            os<span style="color:#f92672">.</span>rename(path2, <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;CSV_Weather/</span><span style="color:#e6db74">{</span>item<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">elif</span> item<span style="color:#f92672">.</span>endswith(extension_csv): <span style="color:#75715e"># 檢查是否為 .csv 檔</span>
+</span></span><span style="display:flex;"><span>            os<span style="color:#f92672">.</span>rename(path2, <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;CSV_Weather/</span><span style="color:#e6db74">{</span>item<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>) <span style="color:#75715e"># 移動到 CSV_Weather 目錄</span>
 </span></span></code></pre></div><p>現在 CSV_Weather 資料夾中即有每日所有感測器資料的 csv 格式檔案，為了將單一測站 (例如代碼為 <code>C0U750</code> 的測站) 的資料過濾出來，我們需要讀取每個 csv 檔案，並將檔案中該測站的資料存入名叫 weather 的 dataframe 中。最後我們將所有下載的資料與解壓縮後產生的資料移除，以節省雲端的儲存空間。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>folder <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;CSV_Weather&#39;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 設定目錄和檔案副檔名變數</span>
+</span></span><span style="display:flex;"><span>folder <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;CSV_Weather&#39;</span>
 </span></span><span style="display:flex;"><span>extension_csv <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;.csv&#39;</span>
-</span></span><span style="display:flex;"><span>id <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;C0U750&#39;</span>
+</span></span><span style="display:flex;"><span>id <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;C0U750&#39;</span> <span style="color:#75715e"># 目標氣象站的 ID</span>
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 創建一個空的 DataFrame 來存放氣象數據</span>
 </span></span><span style="display:flex;"><span>weather <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 讀取 CSV_Weather 目錄下的所有 .csv 檔案</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> item <span style="color:#f92672">in</span> os<span style="color:#f92672">.</span>listdir(folder):
 </span></span><span style="display:flex;"><span>  file_name <span style="color:#f92672">=</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>folder<span style="color:#e6db74">}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">{</span>item<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>
 </span></span><span style="display:flex;"><span>  df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(file_name)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 如果有 pm25 欄位，改名為 PM25</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> <span style="color:#e6db74">&#39;pm25&#39;</span> <span style="color:#f92672">in</span> list(df<span style="color:#f92672">.</span>columns):
 </span></span><span style="display:flex;"><span>    df<span style="color:#f92672">.</span>rename({<span style="color:#e6db74">&#39;pm25&#39;</span>:<span style="color:#e6db74">&#39;PM25&#39;</span>}, axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 篩選出特定氣象站的數據</span>
 </span></span><span style="display:flex;"><span>  filtered <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>query(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;station_id==@id&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 將篩選後的數據加入到主 DataFrame</span>
 </span></span><span style="display:flex;"><span>  weather <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>concat([weather, filtered], ignore_index<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 將 obsTime 改名為 timestamp</span>
 </span></span><span style="display:flex;"><span>weather<span style="color:#f92672">.</span>rename({<span style="color:#e6db74">&#39;obsTime&#39;</span>:<span style="color:#e6db74">&#39;timestamp&#39;</span>}, axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 去掉沒有時間戳記的列</span>
 </span></span><span style="display:flex;"><span>weather<span style="color:#f92672">.</span>dropna(subset<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;timestamp&#39;</span>], inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 轉換時間戳記格式</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i, row <span style="color:#f92672">in</span> weather<span style="color:#f92672">.</span>iterrows():
 </span></span><span style="display:flex;"><span>  aware <span style="color:#f92672">=</span> datetime_parser<span style="color:#f92672">.</span>parse(str(row[<span style="color:#e6db74">&#39;timestamp&#39;</span>]))
 </span></span><span style="display:flex;"><span>  naive <span style="color:#f92672">=</span> aware<span style="color:#f92672">.</span>replace(tzinfo<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>)
 </span></span><span style="display:flex;"><span>  weather<span style="color:#f92672">.</span>at[i, <span style="color:#e6db74">&#39;timestamp&#39;</span>] <span style="color:#f92672">=</span> naive
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 將 timestamp 設為 DataFrame 的索引</span>
 </span></span><span style="display:flex;"><span>weather<span style="color:#f92672">.</span>set_index(<span style="color:#e6db74">&#39;timestamp&#39;</span>, inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 刪除暫存的資料夾</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>rm <span style="color:#f92672">-</span>rf Weather CSV_Weather
 </span></span></code></pre></div><p>最後，我們重新整理該測站的資料，將不需要用到的欄位資訊刪除，並且依照時間進行排序如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>weather<span style="color:#f92672">.</span>drop(columns<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;station_id&#39;</span>], inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 刪除 station_id 這個欄位，因為我們已經知道這是特定站點的數據</span>
+</span></span><span style="display:flex;"><span>weather<span style="color:#f92672">.</span>drop(columns<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;station_id&#39;</span>], inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 根據 timestamp 欄位對資料進行排序</span>
 </span></span><span style="display:flex;"><span>weather<span style="color:#f92672">.</span>sort_values(by<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;timestamp&#39;</span>, inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 查看 DataFrame 的基本資訊，包括欄位名稱、非空值數量等</span>
 </span></span><span style="display:flex;"><span>weather<span style="color:#f92672">.</span>info()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 印出排序後的前 5 筆資料，這樣可以快速檢查一下數據是否正確</span>
 </span></span><span style="display:flex;"><span>print(weather<span style="color:#f92672">.</span>head())
 </span></span></code></pre></div><pre tabindex="0"><code>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
 DatetimeIndex: 27093 entries, 2019-01-01 00:00:00 to 2021-12-31 23:00:00
@@ -649,23 +740,37 @@ timestamp
 </code></pre><p>以上我們已經成功示範空品資料 (air)、水位資料 (water) 和氣象資料 (weather) 的讀取範例，在接下來的探討中，我們將以空品資料示範初步的時間序列資料處理，相同的方法也可以輕易改成使用水位資料或氣象資料而得到類似的結果，大家可以自行嘗試看看。</p>
 <h2 id="資料視覺化-visualization">資料視覺化 (Visualization)</h2>
 <p>時間序列資料處理的第一個步驟，不外乎就是將資料依照時間順序一筆一筆的呈現出來，讓使用者可以看到整體資料的變化，並且衍生更多資料分析的想法與概念，其中使用折線圖進行資料的展示，是最常使用的一種資料視覺化方法。例如若以空品資料為例：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>figure(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">15</span>, <span style="color:#ae81ff">10</span>), dpi<span style="color:#f92672">=</span><span style="color:#ae81ff">60</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 設定繪圖區域的大小和解析度</span>
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>figure(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">15</span>, <span style="color:#ae81ff">10</span>), dpi<span style="color:#f92672">=</span><span style="color:#ae81ff">60</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 繪製 PM2.5 的時序圖，用 Date 當 x 軸，PM2.5 當 y 軸</span>
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>plot(air[:][<span style="color:#e6db74">&#34;PM25&#34;</span>])
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 設定 x 軸和 y 軸的標籤</span>
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>xlabel(<span style="color:#e6db74">&#34;Date&#34;</span>)
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">&#34;PM2.5&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 設定圖表的標題</span>
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>title(<span style="color:#e6db74">&#34;PM2.5 Time Series Plot&#34;</span>)
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 自動調整子圖參數，使之填充整個圖像區域</span>
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>tight_layout()
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示圖表</span>
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>show()
 </span></span></code></pre></div><p><img src="figures/4-1-3-1.png" alt="Python output"></p>
 <h3 id="重新採樣-resample">重新採樣 (resample)</h3>
 <p>從上圖空品資料的時序圖中，可以看到其實資料的分佈是很密集的，同時資料數值的變化有時很小有時卻很劇烈，這是因為目前空品資料的採樣頻率約略是每五分鐘一筆，同時採集的環境是生活中的周遭環境資訊，因此資料密集與起伏不定其實是必然的。由於每五分鐘一筆資料的採樣過於頻繁，不易呈現環境空品的整體變化趨勢，因此我們採用重新採樣的方法，在固定的時間間隔內計算資料的平均值，便能呈現資料資料在不同時間尺度的整體變化狀況。例如我們根據現有空品資料的特性，利用下列的語法以較大尺度 (小時、日、月) 的採樣率重新取樣：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>air_hour <span style="color:#f92672">=</span> air<span style="color:#f92672">.</span>resample(<span style="color:#e6db74">&#39;H&#39;</span>)<span style="color:#f92672">.</span>mean() <span style="color:#75715e">#每小時的平均</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 用 resample(&#39;H&#39;) 來計算每小時的平均 PM2.5，並儲存到 air_hour</span>
+</span></span><span style="display:flex;"><span>air_hour <span style="color:#f92672">=</span> air<span style="color:#f92672">.</span>resample(<span style="color:#e6db74">&#39;H&#39;</span>)<span style="color:#f92672">.</span>mean() <span style="color:#75715e">#每小時的平均</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 用 resample(&#39;D&#39;) 來計算每天的平均 PM2.5，並儲存到 air_day</span>
 </span></span><span style="display:flex;"><span>air_day <span style="color:#f92672">=</span> air<span style="color:#f92672">.</span>resample(<span style="color:#e6db74">&#39;D&#39;</span>)<span style="color:#f92672">.</span>mean()  <span style="color:#75715e">#每日的平均</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 用 resample(&#39;M&#39;) 來計算每月的平均 PM2.5，並儲存到 air_month</span>
 </span></span><span style="display:flex;"><span>air_month <span style="color:#f92672">=</span> air<span style="color:#f92672">.</span>resample(<span style="color:#e6db74">&#39;M&#39;</span>)<span style="color:#f92672">.</span>mean()  <span style="color:#75715e">#每月的平均</span>
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示每個時間範圍的平均值的前五行來檢查</span>
 </span></span><span style="display:flex;"><span>print(air_hour<span style="color:#f92672">.</span>head())
 </span></span><span style="display:flex;"><span>print(air_day<span style="color:#f92672">.</span>head())
 </span></span><span style="display:flex;"><span>print(air_month<span style="color:#f92672">.</span>head())
@@ -690,53 +795,82 @@ timestamp
 2018-10-31  37.217788
 2018-11-30  43.228939
 </code></pre><p>接著我們使用每小時平均的重新採樣後資料再次進行作圖，可以看到線條曲線變得較為清晰，但曲線的波動還是很大。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>figure(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">15</span>, <span style="color:#ae81ff">10</span>), dpi<span style="color:#f92672">=</span><span style="color:#ae81ff">60</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 設定畫布大小和解析度</span>
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>figure(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">15</span>, <span style="color:#ae81ff">10</span>), dpi<span style="color:#f92672">=</span><span style="color:#ae81ff">60</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 繪製 PM2.5 時間序列圖，只取用 &#39;PM25&#39; 這一欄</span>
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>plot(air_hour[:][<span style="color:#e6db74">&#34;PM25&#34;</span>])
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 設定 x 軸和 y 軸的標籤</span>
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>xlabel(<span style="color:#e6db74">&#34;Date&#34;</span>)
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">&#34;PM2.5&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 設定圖表標題</span>
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>title(<span style="color:#e6db74">&#34;PM2.5 Time Series Plot&#34;</span>)
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 自動調整子圖參數，使之填充整個圖形區域</span>
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>tight_layout()
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示圖表</span>
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>show()
 </span></span></code></pre></div><p><img src="figures/4-1-3-2.png" alt="Python output"></p>
 <h3 id="移動平均-moving-average">移動平均 (moving average)</h3>
 <p>針對原始資料的變化圖，如果想看到更平滑的曲線變化趨勢圖，可以套用移動平均的方法，其中最主要的觀念就是在原始資料的時間軸上設定一個取樣窗 (window)，並在取樣窗內計算所有數值的平均數，並且用平滑移動的方式滑動取樣窗的位置，計算當下資料與窗內前幾筆資料的平均值。例如，若取樣窗的大小為 10，就代表每次要將當下的資料和前面 9 次的資料做平均，經過這樣的處理後每筆資料所代表的意義就不只是某一個時間點，而是原本時間點加上前幾個時間點的平均，如此一來，可以消除突發的變化讓整體曲線的呈現更加圓滑，也更容易觀察整體的變化趨勢。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># plt.figure(figsize=(15, 10), dpi=60)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># MA 儲存每小時的平均 PM2.5 數值</span>
 </span></span><span style="display:flex;"><span>MA <span style="color:#f92672">=</span> air_hour
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用 rolling 函數計算窗口為 500 的移動平均，並儲存在 MA10</span>
 </span></span><span style="display:flex;"><span>MA10 <span style="color:#f92672">=</span> MA<span style="color:#f92672">.</span>rolling(window<span style="color:#f92672">=</span><span style="color:#ae81ff">500</span>, min_periods<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">.</span>mean()
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 將原始資料和 500 窗口的移動平均資料結合，然後畫出圖表</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># add_suffix 會在欄位名後加上「_mean_500」，以便於區分</span>
 </span></span><span style="display:flex;"><span>MA<span style="color:#f92672">.</span>join(MA10<span style="color:#f92672">.</span>add_suffix(<span style="color:#e6db74">&#39;_mean_500&#39;</span>))<span style="color:#f92672">.</span>plot(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">15</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 如果單獨畫 MA10 的圖也可以用下面這行</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># MA10.plot(figsize(15, 10))</span>
 </span></span></code></pre></div><p><img src="figures/4-1-3-3.png" alt="Python output"></p>
 <p>上圖中的藍色線為原始資料，橘色線則是經過移動平均後的曲線，可以清楚發現橘色線更能代表整體數值的變化趨勢，同時也存在某種程度的規律起伏，值得後續進一步的分析。</p>
 <h3 id="多曲線圖">多曲線圖</h3>
 <p>除了將原始資料用單純的折線圖方式呈現外，另一個常見的資料時覺化手法，則是依照時間維度上的週期性，將資料切割為數個連續的片段，分別繪製折線圖，並疊加在同一張多曲線圖中。例如，我們可以將前述的空品資料，依照年份的不同切割出 2019, 2020, 2021, 和 2022 四個子資料集，並分別繪製各自的折線圖於同一張多曲線圖中，如下圖所示。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>air_month<span style="color:#f92672">.</span>reset_index(inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 重新設定 air_month 的 index，並加入年份和月份兩個新欄位</span>
+</span></span><span style="display:flex;"><span>air_month<span style="color:#f92672">.</span>reset_index(inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
 </span></span><span style="display:flex;"><span>air_month[<span style="color:#e6db74">&#39;year&#39;</span>] <span style="color:#f92672">=</span> [d<span style="color:#f92672">.</span>year <span style="color:#66d9ef">for</span> d <span style="color:#f92672">in</span> air_month<span style="color:#f92672">.</span>timestamp]
 </span></span><span style="display:flex;"><span>air_month[<span style="color:#e6db74">&#39;month&#39;</span>] <span style="color:#f92672">=</span> [d<span style="color:#f92672">.</span>strftime(<span style="color:#e6db74">&#39;%b&#39;</span>) <span style="color:#66d9ef">for</span> d <span style="color:#f92672">in</span> air_month<span style="color:#f92672">.</span>timestamp]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 取得唯一的年份資料</span>
 </span></span><span style="display:flex;"><span>years <span style="color:#f92672">=</span> air_month[<span style="color:#e6db74">&#39;year&#39;</span>]<span style="color:#f92672">.</span>unique()
 </span></span><span style="display:flex;"><span>print(air)
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 設定隨機顏色</span>
 </span></span><span style="display:flex;"><span>np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>seed(<span style="color:#ae81ff">100</span>)
 </span></span><span style="display:flex;"><span>mycolors <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>choice(list(mpl<span style="color:#f92672">.</span>colors<span style="color:#f92672">.</span>XKCD_COLORS<span style="color:#f92672">.</span>keys()), len(years), replace<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 開始繪圖</span>
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>figure(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">15</span>, <span style="color:#ae81ff">10</span>), dpi<span style="color:#f92672">=</span><span style="color:#ae81ff">60</span>)
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i, y <span style="color:#f92672">in</span> enumerate(years):
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> i <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> i <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>: <span style="color:#75715e"># 跳過第一個年份</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 繪製每一年的 PM25 折線圖</span>
 </span></span><span style="display:flex;"><span>    plt<span style="color:#f92672">.</span>plot(<span style="color:#e6db74">&#39;month&#39;</span>, <span style="color:#e6db74">&#39;PM25&#39;</span>, data<span style="color:#f92672">=</span>air_month<span style="color:#f92672">.</span>loc[air_month<span style="color:#f92672">.</span>year<span style="color:#f92672">==</span>y, :], color<span style="color:#f92672">=</span>mycolors[i], label<span style="color:#f92672">=</span>y)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 在每一年折線圖的最後一點加上年份標籤</span>
 </span></span><span style="display:flex;"><span>    plt<span style="color:#f92672">.</span>text(air_month<span style="color:#f92672">.</span>loc[air_month<span style="color:#f92672">.</span>year<span style="color:#f92672">==</span>y, :]<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">-</span><span style="color:#ae81ff">.9</span>, air_month<span style="color:#f92672">.</span>loc[air_month<span style="color:#f92672">.</span>year<span style="color:#f92672">==</span>y, <span style="color:#e6db74">&#39;PM25&#39;</span>][<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>:]<span style="color:#f92672">.</span>values[<span style="color:#ae81ff">0</span>], y, fontsize<span style="color:#f92672">=</span><span style="color:#ae81ff">12</span>, color<span style="color:#f92672">=</span>mycolors[i])
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 其他可選設定，例如 x 和 y 軸的範圍、刻度、標題等</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># plt.gca().set(xlim=(-0.3, 11), ylim=(2, 30), ylabel=&#39;PM25&#39;, xlabel=&#39;Month&#39;)</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># plt.yticks(fontsize=12, alpha=.7)</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># plt.title(&#39;Seasonal Plot of PM25 Time Series&#39;, fontsize=20)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示圖表</span>
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>show()
 </span></span></code></pre></div><p><img src="figures/4-1-3-4.png" alt="Python output"></p>
 <p>在這張多曲線圖中，我們可以發現 2019 年的資料有大片段的缺失值，2022 年的資料只記載到本文寫作時的七月份，同時也可以發現在這四個年份的折線圖中，不同年份的曲線皆在夏季時達到最低點，秋季時 PM2.5 數值則開始攀升，並且在冬季時達到最高點，呈現約略相同的變化趨勢。</p>
 <h3 id="日曆熱力圖">日曆熱力圖</h3>
 <p>日曆熱力圖是一種結合日曆圖 (calendar map) 與熱力圖 (heat map) 的資料視覺化呈現方式，可以更直覺瀏覽資料的分佈狀況，並從中尋找不同時間尺度的規律性。我們使用 calplot 這個 Python 語言的日曆熱力圖套件，將每日的 PM2.5 平均值輸入後，再選擇搭配的顏色 (參數名稱為 <code>cmap</code>，在接下來的範例中，我們先設為 <code>GnBu</code>，詳細的顏色選項說明，可參閱參考資料)，便能得到下圖的效果，其中藍色代表數值較高，綠色或白色代表數值較低，如果沒有塗色或是數值為 0 則代表當天沒有資料。從產生的圖中，我們可以發現中間部分的月份（夏季）顏色較淡，左邊部分的月份（冬季）顏色#較深，恰與我們之前使用多曲線圖的觀察結果一致。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># cmap: 設定呈現的顏色色盤 (https://matplotlib.org/stable/gallery/color/colormap_reference.html)</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 使用 calplot 套件繪製日曆熱圖（Calendar Heatmap）</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># cmap: 設定呈現的顏色色盤 (https://matplotlib.org/stable/gallery/color/colormap_reference.html)</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># textformat: 設定圖中數字呈現的樣式</span>
 </span></span><span style="display:flex;"><span>pl1 <span style="color:#f92672">=</span> calplot<span style="color:#f92672">.</span>calplot(data <span style="color:#f92672">=</span> air_day[<span style="color:#e6db74">&#39;PM25&#39;</span>], cmap <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;GnBu&#39;</span>, textformat <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{:.0f}</span><span style="color:#e6db74">&#39;</span>, 
 </span></span><span style="display:flex;"><span>											figsize <span style="color:#f92672">=</span> (<span style="color:#ae81ff">24</span>, <span style="color:#ae81ff">12</span>), suptitle <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;PM25 by Month and Year&#34;</span>)
@@ -746,12 +880,23 @@ timestamp
 <h3 id="離群值偵測-outlier-detection">離群值偵測 (Outlier detection)</h3>
 <p>離群值指的是資料中某些數值與其他數值存在顯著的差異，這些差異可能會影響我們對資料的判斷與分析結果，因此需要將離群值找出來後予以標示、刪除、或特別處理。</p>
 <p>我們首先將原本使用 dataframe 資料格式的 <code>air_hour</code> 轉換成 kats 套件所使用的 <code>TimeSeriesData</code> 格式，並將轉換後的資料存成 <code>air_ts</code> 這個變數名稱。然後我們再次繪製原始時序資料的折線圖。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>air_ts <span style="color:#f92672">=</span> TimeSeriesData(air_hour<span style="color:#f92672">.</span>reset_index(), time_col_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;timestamp&#39;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 使用 TimeSeriesData 類別將 air_hour 資料框轉換為時間序列資料</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># time_col_name=&#39;timestamp&#39; 指定時間欄位為 &#39;timestamp&#39;</span>
+</span></span><span style="display:flex;"><span>air_ts <span style="color:#f92672">=</span> TimeSeriesData(air_hour<span style="color:#f92672">.</span>reset_index(), time_col_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;timestamp&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用 plot 方法繪製 PM25 時間序列圖</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># cols=[&#34;PM25&#34;] 表示只畫出 PM25 這一個欄位的資料</span>
 </span></span><span style="display:flex;"><span>air_ts<span style="color:#f92672">.</span>plot(cols<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#34;PM25&#34;</span>])
 </span></span></code></pre></div><p><img src="figures/4-1-4-1.png" alt="Python output"></p>
 <p>接著我們使用 kats 套件中的 <code>OutlierDetector</code> 工具偵測時序資料中的離群值。其中，<a href="https://sphweb.bumc.bu.edu/otlt/mph-modules/bs/bs704_summarizingdata/bs704_summarizingdata7.html">離群值</a>指的是小於第一四分位數 (Q1) 減 1.5 倍四分位距 (IQR) 或大於第三四分位數 (Q3) 加 1.5 倍四分位距的數值。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>outlierDetection <span style="color:#f92672">=</span> OutlierDetector(air_ts, <span style="color:#e6db74">&#39;additive&#39;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 創建 OutlierDetector 類別的實例，用於檢測異常值</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用 &#39;additive&#39; 方法來設定異常檢測的模型</span>
+</span></span><span style="display:flex;"><span>outlierDetection <span style="color:#f92672">=</span> OutlierDetector(air_ts, <span style="color:#e6db74">&#39;additive&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 執行 detector 方法來開始異常檢測</span>
 </span></span><span style="display:flex;"><span>outlierDetection<span style="color:#f92672">.</span>detector()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 查看檢測到的異常值，儲存在 outliers 屬性中</span>
 </span></span><span style="display:flex;"><span>outlierDetection<span style="color:#f92672">.</span>outliers
 </span></span></code></pre></div><pre tabindex="0"><code>[[Timestamp(&#39;2018-08-10 16:00:00&#39;),
   Timestamp(&#39;2018-08-10 17:00:00&#39;),
@@ -1029,21 +1174,33 @@ timestamp
   Timestamp(&#39;2021-11-29 10:00:00&#39;),
   Timestamp(&#39;2021-12-21 11:00:00&#39;)]]
 </code></pre><p>最後我們把偵測出來的離群值從原始資料中刪除，然後再次做圖並與一開始的折線圖進行比較，便可以很清楚地發現一些異常值（例如 2022-07 有一個異常的高峰) 都被移除了。</p>
-<pre tabindex="0"><code>outliers_removed = outlierDetection.remover(interpolate=False)
-outliers_removed
-outliers_removed.plot(cols=[&#39;y_0&#39;])
-</code></pre><p><img src="figures/4-1-4-2.png" alt="Python output"></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 使用 OutlierDetector 的 remover 函數移除異常值，這裡不進行內插（interpolate=False）</span>
+</span></span><span style="display:flex;"><span>outliers_removed <span style="color:#f92672">=</span> outlierDetection<span style="color:#f92672">.</span>remover(interpolate<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示移除異常值後的數據</span>
+</span></span><span style="display:flex;"><span>print(outliers_removed)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 繪製移除異常值後的數據，y_0 表示原始數據的第一個變數（通常是 y 軸上的數據）</span>
+</span></span><span style="display:flex;"><span>outliers_removed<span style="color:#f92672">.</span>plot(cols<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;y_0&#39;</span>])
+</span></span></code></pre></div><p><img src="figures/4-1-4-2.png" alt="Python output"></p>
 <h3 id="改變點偵測-change-point-detection">改變點偵測 (Change point detection)</h3>
 <p>改變點是資料中突然發生重大改變的時間點，代表的是事件的發生、資料狀態的轉變或資料分布的轉變，因此改變點偵測也常被視為資料分析與資料預測的重要前處理步驟。</p>
 <p>在以下的範例中，我們使用空品資料的日平均值來進行改變點偵測，同時也使用 kats 套件的 <code>TimeSeriesData</code> 資料格式來儲存資料，並使用 kats 提供的 <code>CUSUMDetector</code> 偵測器來進行偵測，並在作圖中用紅色的點來代表偵測到的改變點。很不湊巧的是，在本次的範例中一如肉眼觀察的結果，並無明顯的改變點存在，建議讀者可參考這次的範例，帶入其他的資料做更多的演練與偵測。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>air_ts <span style="color:#f92672">=</span> TimeSeriesData(air_day<span style="color:#f92672">.</span>reset_index(), time_col_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;timestamp&#39;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 將每日平均數據 air_day 轉換為 TimeSeriesData 物件，方便後續分析</span>
+</span></span><span style="display:flex;"><span>air_ts <span style="color:#f92672">=</span> TimeSeriesData(air_day<span style="color:#f92672">.</span>reset_index(), time_col_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;timestamp&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用 CUSUMDetector（累積和檢測器）來找出數據中的變化點</span>
 </span></span><span style="display:flex;"><span>detector <span style="color:#f92672">=</span> CUSUMDetector(air_ts)
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 執行 detector 方法，設定變化方向為「增加」和「減少」</span>
 </span></span><span style="display:flex;"><span>change_points <span style="color:#f92672">=</span> detector<span style="color:#f92672">.</span>detector(change_directions<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#34;increase&#34;</span>, <span style="color:#e6db74">&#34;decrease&#34;</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 可以用這行程式碼來打印出第一個變化點的時間</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># print(&#34;The change point is on&#34;, change_points[0][0].start_time)</span>
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 將結果繪製出來</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># plot the results</span>
-</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>xticks(rotation<span style="color:#f92672">=</span><span style="color:#ae81ff">45</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>xticks(rotation<span style="color:#f92672">=</span><span style="color:#ae81ff">45</span>) <span style="color:#75715e"># 旋轉 x 軸標籤方便觀看</span>
 </span></span><span style="display:flex;"><span>detector<span style="color:#f92672">.</span>plot(change_points)
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>show()
 </span></span></code></pre></div><p><img src="figures/4-1-4-3.png" alt="Python output"></p>
@@ -1054,45 +1211,66 @@ outliers_removed.plot(cols=[&#39;y_0&#39;])
 <li>將該筆缺失資料標示為 Nan (Not a number)：Nan 代表非數，用來表示未定義或不可表示的值，如果已知後續的資料分析會額外處理這些 Nan 的特例，便可採用此方法以維護資料的真實性。</li>
 <li>Forward fill 法：如果 Nan 對後續的資料分析有困難，必須將缺失的值填補適當的數值資料，最簡單的方法就是 forward fill，亦即用前一個數值來填補當下的缺失值。</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># forward fill</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 使用 forward fill（前向填充）方法填補空值，這個方法會用前一個非空數據點來填充後面的空值</span>
 </span></span><span style="display:flex;"><span>df_ffill <span style="color:#f92672">=</span> air<span style="color:#f92672">.</span>ffill(inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 繪製使用 forward fill 方法填補後的數據</span>
 </span></span><span style="display:flex;"><span>df_ffill<span style="color:#f92672">.</span>plot()
 </span></span></code></pre></div><p><img src="figures/4-1-4-4.png" alt="Python output">
 3. K-Nearest Neighbor (KNN) 法：顧名思義，KNN 的方法是尋找距離缺失值最近的 k 個數值進行平均，並用來填補這個缺失值。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">knn_mean</span>(ts, n):
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 定義 knn_mean 函數，使用 k-近鄰 (KNN) 方法來填補缺失的 PM25 值</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">knn_mean</span>(ts, n):
 </span></span><span style="display:flex;"><span>    out <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>copy(ts)
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i, val <span style="color:#f92672">in</span> enumerate(ts):
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> np<span style="color:#f92672">.</span>isnan(val):
-</span></span><span style="display:flex;"><span>            n_by_2 <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>ceil(n<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>)
-</span></span><span style="display:flex;"><span>            lower <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>max([<span style="color:#ae81ff">0</span>, int(i<span style="color:#f92672">-</span>n_by_2)])
-</span></span><span style="display:flex;"><span>            upper <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>min([len(ts)<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, int(i<span style="color:#f92672">+</span>n_by_2)])
-</span></span><span style="display:flex;"><span>            ts_near <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>concatenate([ts[lower:i], ts[i:upper]])
-</span></span><span style="display:flex;"><span>            out[i] <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>nanmean(ts_near)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> np<span style="color:#f92672">.</span>isnan(val): <span style="color:#75715e"># 檢查是否為 NaN</span>
+</span></span><span style="display:flex;"><span>            n_by_2 <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>ceil(n<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>) <span style="color:#75715e"># k 的一半，方便找到左右鄰居</span>
+</span></span><span style="display:flex;"><span>            lower <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>max([<span style="color:#ae81ff">0</span>, int(i<span style="color:#f92672">-</span>n_by_2)]) <span style="color:#75715e"># 算出左界</span>
+</span></span><span style="display:flex;"><span>            upper <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>min([len(ts)<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, int(i<span style="color:#f92672">+</span>n_by_2)]) <span style="color:#75715e"># 算出右界</span>
+</span></span><span style="display:flex;"><span>            ts_near <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>concatenate([ts[lower:i], ts[i:upper]]) <span style="color:#75715e"># 擷取鄰近數據</span>
+</span></span><span style="display:flex;"><span>            out[i] <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>nanmean(ts_near) <span style="color:#75715e"># 計算鄰近數據的平均值（忽略 NaN）</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> out
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># KNN</span>
-</span></span><span style="display:flex;"><span>df_knn <span style="color:#f92672">=</span> air<span style="color:#f92672">.</span>copy()
-</span></span><span style="display:flex;"><span>df_knn[<span style="color:#e6db74">&#39;PM25&#39;</span>] <span style="color:#f92672">=</span> knn_mean(air<span style="color:#f92672">.</span>PM25<span style="color:#f92672">.</span>to_numpy(), <span style="color:#ae81ff">5000</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用 KNN 方法填補 PM25 缺失值</span>
+</span></span><span style="display:flex;"><span>df_knn <span style="color:#f92672">=</span> air<span style="color:#f92672">.</span>copy() <span style="color:#75715e"># 複製一份原始資料</span>
+</span></span><span style="display:flex;"><span>df_knn[<span style="color:#e6db74">&#39;PM25&#39;</span>] <span style="color:#f92672">=</span> knn_mean(air<span style="color:#f92672">.</span>PM25<span style="color:#f92672">.</span>to_numpy(), <span style="color:#ae81ff">5000</span>) <span style="color:#75715e"># 應用 KNN</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 繪製圖表，顯示使用 KNN 填補後的 PM25 資料</span>
 </span></span><span style="display:flex;"><span>df_knn<span style="color:#f92672">.</span>plot()
 </span></span></code></pre></div><p><img src="figures/4-1-4-5.png" alt="Python output"></p>
 <h2 id="資料分解decomposition">資料分解(Decomposition)</h2>
 <p>在前面的基本資料處理範例中，我們已能約略觀察資料數值的變化趨勢，並且發現可能的規律變化，為了能更近一步深入探討時序資料的變化規律性，我們接著介紹時序資料所常使用的資料分解分法，將原本的時序資料拆解成趨勢波 (trend)、週期波 (seasonal) 及殘差波(residual)。</p>
 <p>我們首先將空品資料的每日平均資料另外複製一份為 <code>air_process</code>，並採用 forward fill 方法進行缺失資料的處理，然後把原始資料直接用圖表的方式呈現。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>air_process <span style="color:#f92672">=</span> air_day<span style="color:#f92672">.</span>copy()
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># new.round(1).head(12)</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 創建 air_process DataFrame，為 air_day 的複製版，方便後續操作</span>
+</span></span><span style="display:flex;"><span>air_process <span style="color:#f92672">=</span> air_day<span style="color:#f92672">.</span>copy()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用前向填充（Forward Fill, ffill）來填補缺失的 PM25 值</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 前向填充就是用前一個有效數據點來填充後面的缺失值</span>
 </span></span><span style="display:flex;"><span>air_process<span style="color:#f92672">.</span>ffill(inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 繪製圖表，展示填充後的 PM25 數據</span>
 </span></span><span style="display:flex;"><span>air_process<span style="color:#f92672">.</span>plot()
 </span></span></code></pre></div><p><img src="figures/4-1-5-1.png" alt="Python output"></p>
 <p>接著我們使用 seasonal_decompose 方法對 <code>air_process</code> 資料進行分解，其中我們需要設定一個 period 參數，指的是資料被拆解的週期，我們先設定為 30天，接著在執行後便會依序產出四張圖：原始資料、趨勢圖、週期性圖與殘差圖。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>decompose <span style="color:#f92672">=</span> seasonal_decompose(air_process[<span style="color:#e6db74">&#39;PM25&#39;</span>],model<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;additive&#39;</span>, period<span style="color:#f92672">=</span><span style="color:#ae81ff">30</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 使用 seasonal_decompose 進行季節分解，將 PM25 資料分為趨勢（trend）、季節性（seasonal）和殘差（residual）三部分</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># model=&#39;additive&#39; 指定使用加法模型，period=30 表示每 30 天為一個季節週期</span>
+</span></span><span style="display:flex;"><span>decompose <span style="color:#f92672">=</span> seasonal_decompose(air_process[<span style="color:#e6db74">&#39;PM25&#39;</span>],model<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;additive&#39;</span>, period<span style="color:#f92672">=</span><span style="color:#ae81ff">30</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 繪製季節分解的結果，並設定圖表大小</span>
 </span></span><span style="display:flex;"><span>decompose<span style="color:#f92672">.</span>plot()<span style="color:#f92672">.</span>set_size_inches((<span style="color:#ae81ff">15</span>, <span style="color:#ae81ff">15</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示圖表</span>
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>show()
 </span></span></code></pre></div><p><img src="figures/4-1-5-2.png" alt="Python output"></p>
 <p>在趨勢圖 (trend) 中，我們也可以發現與原始資料的圖表有著十分雷同的特性，在一月附近的數值較高，七月附近的數值則較低；而在週期性圖 (Seasonal) 中，我們可以發現資料在每個週期 (30天) 內存在固定的週期變化，代表空品資料存在著以月為週期的變動。</p>
 <p>倘若我們將 period 變數改為 365，亦即以較大的時間尺度 (一年) 來進行資料分解，我們可以從週期性圖中發現一月附近數值較高，而七月附近數值較低的趨勢，而且這個趨勢變化是規律地週期性發生的；同時，在趨勢圖中也可以看到整體緩降的趨勢，說明 PM2.5 的濃度在大趨勢下是逐漸好轉降低的，從這邊也可以理解到為什麼在尋找 change point 時無法成功，因為 PM2.5 的趨勢變化是平順的遞減，並沒有發生突如其來的變化。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>decompose <span style="color:#f92672">=</span> seasonal_decompose(air_process[<span style="color:#e6db74">&#39;PM25&#39;</span>],model<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;additive&#39;</span>, period<span style="color:#f92672">=</span><span style="color:#ae81ff">365</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 使用 seasonal_decompose 進行季節分解，這次 period 設為 365，即一年的天數</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 這樣可以觀察到 PM25 在一整年內的變化趨勢和季節性</span>
+</span></span><span style="display:flex;"><span>decompose <span style="color:#f92672">=</span> seasonal_decompose(air_process[<span style="color:#e6db74">&#39;PM25&#39;</span>],model<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;additive&#39;</span>, period<span style="color:#f92672">=</span><span style="color:#ae81ff">365</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 繪製季節分解的結果，並設定圖表大小為 15x15</span>
 </span></span><span style="display:flex;"><span>decompose<span style="color:#f92672">.</span>plot()<span style="color:#f92672">.</span>set_size_inches((<span style="color:#ae81ff">15</span>, <span style="color:#ae81ff">15</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示圖表</span>
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>show()
 </span></span></code></pre></div><p><img src="figures/4-1-5-3.png" alt="Python output"></p>
 <h2 id="參考資料">參考資料</h2>
@@ -1206,12 +1384,12 @@ This work is licensed under a <a rel="license" href="http://creativecommons.org/
         <script>
           var contentLangs=['zh'];
         </script>
-        <script src="/js/auto-complete.js?1695185610" defer></script>
-        <script src="/js/lunr.min.js?1695185610" defer></script>
-        <script src="/js/lunr.stemmer.support.min.js?1695185610" defer></script>
-        <script src="/js/lunr.multi.min.js?1695185610" defer></script>
-        <script src="/js/lunr.zh.min.js?1695185610" defer></script>
-        <script src="/js/search.js?1695185610" defer></script>
+        <script src="/js/auto-complete.js?1695711356" defer></script>
+        <script src="/js/lunr.min.js?1695711356" defer></script>
+        <script src="/js/lunr.stemmer.support.min.js?1695711356" defer></script>
+        <script src="/js/lunr.multi.min.js?1695711356" defer></script>
+        <script src="/js/lunr.zh.min.js?1695711356" defer></script>
+        <script src="/js/search.js?1695711356" defer></script>
       </div>
       <div id="content-wrapper" class="highlightable">
         <ul class="topics">
@@ -1259,7 +1437,6 @@ This work is licensed under a <a rel="license" href="http://creativecommons.org/
                 <span>&nbsp;</span>
                 <div class="select-style">
                   <select id="select-language" onchange="location = baseUri + this.value;">
-                    <option id="en" value="/en/ch4/ch4.1/">English</option>
                     <option id="zh-tw" value="/ch4/ch4.1/" selected>中文</option>
                   </select>
                 </div>
@@ -1288,14 +1465,14 @@ This work is licensed under a <a rel="license" href="http://creativecommons.org/
       </div>
     </aside>
 
-    <script src="/js/clipboard.min.js?1695185610" defer></script>
-    <script src="/js/perfect-scrollbar.min.js?1695185610" defer></script>
-    <script src="/js/featherlight.min.js?1695185610" defer></script>
-    <script src="/js/jquery.svg.pan.zoom.js?1695185610" defer></script>
-    <script src="/js/mermaid.min.js?1695185610" defer></script>
+    <script src="/js/clipboard.min.js?1695711356" defer></script>
+    <script src="/js/perfect-scrollbar.min.js?1695711356" defer></script>
+    <script src="/js/featherlight.min.js?1695711356" defer></script>
+    <script src="/js/jquery.svg.pan.zoom.js?1695711356" defer></script>
+    <script src="/js/mermaid.min.js?1695711356" defer></script>
     <script>
       window.themeUseMermaid = JSON.parse("{}");
     </script>
-    <script src="/js/theme.js?1695185610" defer></script>
+    <script src="/js/theme.js?1695711356" defer></script>
   </body>
 </html>
