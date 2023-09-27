@@ -20,70 +20,80 @@ authors: ["鍾明光", "沈姿雨"]
 這個章節中，我們會利用環保署的空品測站、氣象局的局屬測站以及水利署在各縣市佈建的淹水感測器，示範如何利用地理空間篩選測站，並以其「位置」與「數值」為基礎，轉化成可利用的空間資訊。
 
 ```python
+# 引入 matplotlib、seaborn 等繪圖庫
 import matplotlib.pyplot as plt
 import seaborn as sns
+# 引入 pandas 和 numpy 進行數據分析
 import pandas as pd
 import numpy as np
+# 引入 urllib.request 來處理網路資源
 import urllib.request
+# 引入 ssl 和 json 來處理安全連線和 JSON 格式
 import ssl
 import json
-#install geopython libraries
+
+# 安裝 geopython 相關套件，主要是用在地理資料處理
 !apt install gdal-bin python-gdal python3-gdal
-#install python3-rtree - Geopandas requirement
-!apt install python3-rtree 
-#install geopandas
+# 安裝 python3-rtree，這是 Geopandas 的需求
+!apt install python3-rtree
+# 安裝 Geopandas，用於處理地理資料
 !pip install geopandas
 
-#install descartes - Geopandas requirement
+# 安裝 descartes，也是 Geopandas 的需求
 !pip install descartes
+# 引入 geopandas 庫
 import geopandas as gpd
+# 安裝 pyCIOT 庫，這是專門用於 CIoT 數據處理的
 !pip install pyCIOT
+# 引入 pyCIOT 的數據處理模組
 import pyCIOT.data as CIoT
 ```
 
 ```python
 # 前往政府開放資料庫下載 縣市界線(TWD97經緯度) 的資料，並解壓縮到名為 shp 的資料夾
+# 使用 wget 指令下載一個名為 "shp.zip" 的壓縮檔，檔案來源網址是內政部開放資料平台
 !wget -O "shp.zip" -q "https://data.moi.gov.tw/MoiOD/System/DownloadFile.aspx?DATA=72874C55-884D-4CEA-B7D6-F60B0BE85AB0"
+# 使用 unzip 指令解壓縮 "shp.zip"，並將解壓縮的內容存到 "shp" 資料夾
 !unzip shp.zip -d shp
 ```
 
 ```python
-# 以水利署淹水感測器資料為例，其中，資料集 gpd 為感測器數值與位置資料、basemap 為 county.shp (台灣縣市邊界)
-# 以pyCIOT取得資料
+# 從 pyCIOT 取得水利署淹水感測器資料和天氣資料
 wa = CIoT.Water().get_data(src="FLOODING:WRA")
 wa2 = CIoT.Water().get_data(src="FLOODING:WRA2")
 wea_list = CIoT.Weather().get_station('GENERAL:CWB')
+# 讀取台灣縣市邊界的 shapefile
 county = gpd.read_file('county.shp')
+# 篩選出嘉義縣和嘉義市的資料作為底圖
 basemap = county.loc[county['COUNTYNAME'].isin(["嘉義縣","嘉義市"])]
 
-# 整理資料並轉成 geopandas.GeoDataFrame 格式
+# 合併淹水感測器的資料並轉成 DataFrame 格式
 flood_list = wa + wa2
-
 flood_df = pd.DataFrame([],columns = ['name',  'Observations','lon', 'lat'])
+# 迴圈處理每個感測器的資料
 for i in flood_list:
-    #print(i['data'][0])
     if len(i['data'])>0:
         df = pd.DataFrame([[i['properties']['stationName'],i['data'][0]['values'][0]['value'],i['location']['longitude'],i['location']['latitude']]],columns = ['name',  'Observations','lon', 'lat'])
-    else :
+    else:
         df = pd.DataFrame([[i['properties']['stationName'],-999,-999,-999]],columns = ['name',  'Observations','lon', 'lat'])
     flood_df = pd.concat([flood_df,df])
-    #print(df)
 
+# 去除重複站點並排序
 result_df = flood_df.drop_duplicates(subset=['name'], keep='first')
 station=result_df.sort_values(by=['lon', 'lat'])
 station = station[station.lon!=-999]
 station.reset_index(inplace=True, drop=True)
+# 轉成 GeoDataFrame 格式，方便地理資訊處理
 gdf_flood = gpd.GeoDataFrame(
     station, geometry=gpd.points_from_xy(station.lon, station.lat),crs="EPSG:4326")
 
+# 同樣地，整理天氣資料
 weather_df = pd.DataFrame([],columns = ['name','lon', 'lat'])
 for i in wea_list:
-    #print(i['data'][0])
     df = pd.DataFrame([[i['name'],i['location']['longitude'],i['location']['latitude']]],columns = ['name','lon', 'lat'])
-
     weather_df = pd.concat([weather_df,df])
-    #print(df)
 
+# 去除重複站點並排序，然後轉成 GeoDataFrame
 result_df = weather_df.drop_duplicates(subset=['name'], keep='first')
 station=result_df.sort_values(by=['lon', 'lat'])
 station.reset_index(inplace=True, drop=True)
@@ -96,32 +106,39 @@ gdf_weather = gpd.GeoDataFrame(
 一般而言，手邊有很多的測站點位時，我們可以利用村里或鄉鎮等行政區界為範圍，利用資料的在空間上的交集 (intersect) 以篩選出特定行政區內的測站ID，並以API擷取這些測站的：瞬時值、小時平均值、日平均值、週平均值，這樣我們就可以檢視同一行政區內的測站，是否有類似的數值趨勢，抑或哪些測站的數值與其他測站有明顯的差異。
 
 ```python
+# 引入 matplotlib 和 seaborn 用於繪圖
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+# 設置畫布和子圖大小
 fig, ax = plt.subplots(figsize=(6, 10))
-ax = sns.scatterplot(x='lon', y='lat', data=gdf_weather) 
-# this is plotting the datapoints from the EPA dataframe
+# 使用 seaborn 的 scatterplot 功能，繪製氣象站的經緯度
+ax = sns.scatterplot(x='lon', y='lat', data=gdf_weather)
+
+# 使用 Geopandas 的 plot 功能，繪製嘉義縣和嘉義市的邊界
 basemap.plot(ax=ax, facecolor='none', edgecolor='purple');
-# plotting the city's boundaries here, with facecolor = none to 
-# remove the polygon's fill color
+
+# 調整畫布的排版
 plt.tight_layout();
 ```
 
 ![Python output](figures/5-1-1-1.png)
 
 ```python
-basemap = basemap.set_crs(4326,allow_override=True)
-intersected_data = gpd.overlay(gdf_weather, basemap, how='intersection') 
-# selecting the polygon's geometry field to filter out points that 
-# are not overlaid
+# 將 basemap 的坐標系統設為 EPSG:4326，這樣才能和 gdf_weather 進行操作
+basemap = basemap.set_crs(4326, allow_override=True)
+# 使用 Geopandas 的 overlay 函數來找出和嘉義縣、嘉義市邊界重疊的氣象站
+intersected_data = gpd.overlay(gdf_weather, basemap, how='intersection')
 ```
 
 ```python
-# 資料剩下感測器與地理邊界交集重疊的點位
+# 設置畫布和子圖大小
 fig, ax = plt.subplots(figsize=(6, 10))
-ax = sns.scatterplot(x='lon', y='lat', data=intersected_data) 
+# 繪製過濾後，只在嘉義縣和嘉義市內的氣象站位置
+ax = sns.scatterplot(x='lon', y='lat', data=intersected_data)
+# 繪製嘉義縣和嘉義市的邊界
 basemap.plot(ax=ax, facecolor='none', edgecolor='purple');
+# 調整畫布的排版
 plt.tight_layout();
 ```
 
@@ -137,12 +154,17 @@ plt.tight_layout();
 
 
 ```python
-# 設定buffer 緩衝帶邊界距離 （此處設定0.05，因為x,y 為經緯度，1單位距離約100km）
+# 設置畫布和子圖大小
 fig, ax = plt.subplots(figsize=(6, 10))
+# 使用 Geopandas 的 buffer 函數建立緩衝帶，這邊緩衝帶的寬度設為 0.05
 buffer = intersected_data.buffer(0.05)
+# 繪製緩衝帶，透明度設為 0.5
 buffer.plot(ax=ax, alpha=0.5)
+# 繪製過濾後的氣象站位置，顏色設為紅色，透明度為 0.5
 intersected_data.plot(ax=ax, color='red', alpha=0.5)
+# 繪製嘉義縣和嘉義市的邊界
 basemap.plot(ax=ax, facecolor='none', edgecolor='purple');
+# 調整畫布的排版
 plt.tight_layout();
 ```
 
@@ -157,7 +179,9 @@ plt.tight_layout();
 
 ```python
 # 利用不同的經緯度作為半徑以建立多重緩衝區，並依照 0.05度=藍色；0.1度=綠色；0.2度=橘色；0.3=紅色 進行顏色設定
+# 設置畫布和子圖大小
 fig, ax = plt.subplots(figsize=(6, 10))
+# 建立不同寬度的緩衝帶，並分別以不同顏色繪製
 buffer_03 = intersected_data.buffer(0.3)
 buffer_03.plot(ax=ax, color='red', alpha=1)
 buffer_02 = intersected_data.buffer(0.2)
@@ -166,14 +190,18 @@ buffer_01 = intersected_data.buffer(0.1)
 buffer_01.plot(ax=ax, color='green', alpha=1)
 buffer_005 = intersected_data.buffer(0.05)
 buffer_005.plot(ax=ax, alpha=1)
+# 繪製原始交集點，用黑色表示
 intersected_data.plot(ax=ax, color='black', alpha=0.5)
 
-# 用最大的 buffer 跟淹水感測器 intersect
-buffer = gpd.GeoDataFrame(buffer_03,geometry=buffer_03)
+# 建立最大緩衝帶（0.3）的 GeoDataFrame，然後和淹水感測器進行空間交集運算
+buffer = gpd.GeoDataFrame(buffer_03, geometry=buffer_03)
 buffer = buffer.to_crs(4326)
-intersected_flood = gpd.overlay(gdf_flood, buffer, how='intersection') 
+intersected_flood = gpd.overlay(gdf_flood, buffer, how='intersection')
+# 繪製交集後的淹水感測器位置，用淺灰色表示
 intersected_flood.plot(ax=ax, color='lightgray', alpha=0.5)
+# 繪製嘉義縣和嘉義市的邊界
 basemap.plot(ax=ax, facecolor='none', edgecolor='purple');
+# 調整畫布的排版
 plt.tight_layout();
 ```
 
@@ -187,20 +215,23 @@ plt.tight_layout();
 
 
 ```python
-# 製作每個感測器位置之間的距離矩陣，首先將資料整理成座標資料
+# 為了製作距離矩陣，先將 gdf_weather 資料整理一下，新增一個 'ID' 欄位來存放 index
 gdf_weather["ID"] = gdf_weather.index
+# 挑選出需要的欄位（'ID', 'lon', 'lat'），並建立一個新的 DataFrame
 df = pd.DataFrame(gdf_weather, columns=['ID','lon', 'lat'])
-df.set_index('ID')
+# 將 'ID' 設定為 DataFrame 的 index
+df.set_index('ID', inplace=True)
 ```
 
 ![Python output](figures/5-1-4-2.png)
 
 ```python
-# 計算感測器位置彼此的距離，並轉化為距離矩陣
+# 引入 scipy 的 distance_matrix 函式來計算距離
 from scipy.spatial import distance_matrix
 
-pd.DataFrame(distance_matrix(df.values, df.values), 
-							index=df.index, columns=df.index)
+# 使用 distance_matrix 函式計算 df（感測器的經緯度）彼此之間的距離
+# 輸出會是一個距離矩陣，然後再轉成 DataFrame 格式
+distance_df = pd.DataFrame(distance_matrix(df.values, df.values), index=df.index, columns=df.index)
 ```
 
 ![Python output](figures/5-1-4-3.png)
