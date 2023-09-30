@@ -14,60 +14,73 @@ authors: ["黃仁暐","陳宏穎"]
 
 ## 基本介紹
 
-我們在之前的章節中，已經介紹民生公共物聯網豐富的開放資料內容，同時介紹從時間維度與空間維度的角度出發，進行各種不同的資料分析與處理，在這個章節中，我們將開進一步初探機器學習的應用，介紹兩個經典的機器學習問題，分別是分類問題 (Classification) 與分群問題 (Clustering)。
+我們在之前的章節中，已經介紹民生公共物聯網豐富的開放資料內容，同時介紹從時間維度與空間維度的角度出發，進行各種不同的資料分析與處理，在這個章節中，我們將進一步初探機器學習的應用，介紹兩個經典的機器學習問題，分別是分類問題 (Classification) 與分群問題 (Clustering)。
 
 ### 分類問題 (Classification)
 
-分類問題是機器學習理論中的一個經典問題，若用比較數學的方式來描述這個問題，我們可以假設有一組已經分類好的數據 `X`，以及每一筆資料在分類之後所得到的標籤集合 `Y`，而分類問題就是希望能透過這組分類好的數據與標籤，建構一個有效的分類器 (Classifier)，可以將尚未分類的數據 `X’`，並找到其中每一筆資料相對應得標籤 `Y’`。
+分類問題是機器學習理論中的一個經典問題，若用比較數學的方式來描述這個問題，我們可以假設有一組已經分類好的數據 `X`，以及每一筆資料在分類之後所得到的標籤集合 `Y`，而分類問題就是希望能透過這組分類好的數據與標籤，建構一個有效的分類器 (Classifier)，可以將尚未分類的數據 `X’`，並找到其中每一筆資料相對應的標籤 `Y’`。
 
-因此，分類問題的重點，就是要構造一個有效的分類器 (Classifier)，為了達到這個目的，我們會先建立一個模型，利用已經標籤好 (labeled) 的數據進行訓練，並且讓這個模型盡可能地貼近與適應 (fit) 這些數據分佈狀態，再使用最後成品的模型做為分類器，用來推測未知數據的標籤。
+因此，分類問題的重點，就是要構造一個有效的分類器 (Classifier)，為了達到這個目的，我們會先建立一個模型，利用已經標籤好 (labeled) 的數據進行訓練，並且讓這個模型盡可能地貼近與適應 (fit) 這些數據分佈狀態，完成訓練後，我們再利用此模型作為分類器，用來推測未知數據的標籤。
 
-這個建立分類器的過程，在機器學習中被稱為監督式學習 (supervised learning)，而常見的分類器模型有 *[Nearest Neighbors](https://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm)*、*[SVM Classifier](https://en.wikipedia.org/wiki/Support-vector_machine)*、*[Decision Tree](https://en.wikipedia.org/wiki/Decision_tree)*、*[Random Forest](https://en.wikipedia.org/wiki/Random_forest) *****等，在我們稍後的文章中，我們並不會針對每一種模型進行深入的講解，只會把這些模型直接拿來當工具使用，對於這些模型有興趣的讀者，可以參考相關資源，自行再做更深入的探究。
+這個建立分類器的過程，在機器學習中被稱為監督式學習 (supervised learning)，而常見的分類器模型有 *[Nearest Neighbors](https://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm)*、*[SVM Classifier](https://en.wikipedia.org/wiki/Support-vector_machine)*、*[Decision Tree](https://en.wikipedia.org/wiki/Decision_tree)*、*[Random Forest](https://en.wikipedia.org/wiki/Random_forest) *****等，在我們稍後的文章中，我們並不會針對每一種模型進行深入的講解，只會把這些模型直接拿來當作工具使用，對於這些模型有興趣的讀者，可以參考相關資源，自行再做更深入的探究。
 
 ### 分群問題 (Clustering)
 
-分群問題和分類問題非常相似，主要差異在於分類問題是用已知的標籤數據資料推論未知的數據資料，而分群問題則是完全「無中生有」，從數據資料中自行歸類出不同的群組。
+分群問題和分類問題非常相似，主要差異在於分類問題是用已知的標籤數據資料推論未知的數據資料，而分群問題則是完全「無中生有」，在沒有事先標籤的情況下，根據數據的特徵自動將它們歸類出不同的群組。
 
-若以比較數學的方式來描述這個問題，我們可以假設有一組完全沒有標記的數據 `X`，而分類問題就是希望能透過某種的演算法，將 `X` 的資料區分為 `k` 個群組，其中每一個群組內的資料彼此相似度大，而不同群組的資料彼此相異度大。
+若以比較數學的方式來描述這個問題，我們可以假設有一組完全沒有標記的數據 `X`，而分類問題就是希望能透過某種演算法，將 `X` 的資料區分為 `k` 個群組，其中每一個群組內的資料彼此相似度大，而不同群組的資料彼此相異度大。
 
 因此，分群問題的演算法主要就是根據數據的特性，不斷地判斷資料間的相似與相異度，並且讓相似的資料群聚在一起，讓相異的資料在分佈中彼此互斥，而常見的分群演算法有 [K-Means](https://en.wikipedia.org/wiki/K-means_clustering)、[DBSCAN](https://en.wikipedia.org/wiki/DBSCAN)、[Hierarchical Clustering](https://en.wikipedia.org/wiki/Hierarchical_clustering)、[BIRCH](https://en.wikipedia.org/wiki/BIRCH) ******等，我們一樣不會針對每一種演算法進行深入的講解，只會把這些演算直接拿來當工具使用，對於這些模型有興趣的讀者，可以參考相關資源，自行再做更深入的探究。
 
 ## 套件安裝與引用
 
-在本章節中，我們除了使用 pyCIOT 套件獲取相關的民生公共物聯網開放資料外，將會使用到 pandas, numpy, matplotlib, json, os, glob, math, seaborn, warnings, tqdm, datetime,  geopy, scipy 等套件，這些套件由於在我們使用的開發平台 Colab 上皆已預先安裝好，因此不需要再另行安裝。然而，我們還會另外使用兩個 Colab 並未預先安裝好的套件：fastdtw 和 sklearn，以及為了讓輸出的圖形美觀而使用 TaipeiSansTCBeta-Regular 字型，需使用下列的方式進行安裝：
+在本章節中，我們除了使用 pyCIOT 套件獲取相關的民生公共物聯網開放資料外，將會使用到 pandas, numpy, matplotlib, json, os, glob, math, seaborn, warnings, tqdm, datetime,  geopy, scipy 等套件，這些套件由於在我們使用的開發平台 Colab 上皆已預先安裝好，因此不需要再另行安裝。然而，我們還會另外使用兩個 Colab 上並未預先安裝好的套件：fastdtw 和 sklearn，以及為了讓輸出的圖形美觀而使用 TaipeiSansTCBeta-Regular 字型，需使用下列的方式進行安裝：
 
 ```python
+# 安裝 fastdtw 套件，用於快速動態時間扭曲。
 !pip3 install fastdtw --quiet
+# 安裝 scikit-learn 套件，用於機器學習。
 !pip3 install scikit-learn --quiet
+# 安裝 pyCIOT 套件。
 !pip3 install pyCIOT --quiet
+# 從 Google Drive 下載 TaipeiSansTCBeta-Regular.ttf 字型檔案。
 !wget -q -O TaipeiSansTCBeta-Regular.ttf https://drive.google.com/uc?id=1eGAsTN1HBpJAkeVM57_C7ccp7hbgSz3_&export=download
 ```
 
-待安裝完畢後，即可使用下列的語法先行引入相關的套件，完成本章節的準備工作：
+待安裝完畢後，即可使用下列的語法先行引入相關的套件模組，完成本章節的準備工作：
 
 ```python
+# 引入 pyCIOT 模組中的 data 模組。
 from pyCIOT.data import *
+# 引入常用的模組。
 import json, os, glob, math
 import numpy as np
 import pandas as pd
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+# 引入字型管理相關模組，用於設定圖表字型。
 from matplotlib.font_manager import fontManager
 from tqdm import tqdm_notebook as tqdm
+# 引入日期時間相關模組。
 from datetime import datetime, timedelta
 
+# 引入 seaborn 資料視覺化套件，並設定字型大小。
 import seaborn as sns
 sns.set(font_scale=0.8)
+# 新增字型，並設定 matplotlib 的預設字型。
 fontManager.addfont('TaipeiSansTCBeta-Regular.ttf')
 mpl.rc('font', family='Taipei Sans TC Beta')
 
+# 隱藏警告訊息。
 import warnings
 warnings.simplefilter(action='ignore')
 
+# 引入距離計算模組及 fastdtw 套件。
 import geopy.distance
 from scipy.spatial.distance import euclidean
 from fastdtw import fastdtw
 
+# 引入 scikit-learn 相關模組，用於機器學習。
 import sklearn
 from sklearn.metrics import accuracy_score, confusion_matrix
 from sklearn.neural_network import MLPClassifier
@@ -82,18 +95,22 @@ from sklearn.cluster import KMeans
 
 ```
 
-安裝與引用完畢後，我們接下來依照民生公共物聯網的空品資料與水資源資料兩個案例解析，介紹資料分類與分群。
+安裝與引入所需模組完畢後，我們接下來依照民生公共物聯網的空氣品質資料與水資源資料兩個案例解析，介紹資料分類與分群。
 
 ## 案例一：空品資料的場所型態分類
 
 在這個案例中，我們使用民生公共物聯網資料平台中，環保署智慧城鄉空品微型感測器 (‘`OBS:EPA_IoT`’) 的資料，進行資料分類的示範。
 
-我們首先使用 pyCIOT 所提供的 `Air().get_data()` 方法，下載所有環保署智慧城鄉空品微型感測器的最近一筆感測資料。注意，由於內容數量龐大，因此這個步驟可能需要等多一點的時間。
+我們首先使用 pyCIOT 所提供的 `Air().get_data()` 方法，下載取得所有環保署智慧城鄉空品微型感測器的最近一筆感測資料。注意，由於內容數量龐大，因此這個步驟可能需要等待較長的時間。
 
 ```python
+# 定義資料來源為環保署智慧城鄉空品微型感測器 (OBS:EPA_IoT)。
 Source = 'OBS:EPA_IoT'
+# 從 Air() 中獲取資料。
 Data = Air().get_data(src=Source)
+# 過濾 Data 資料，只保留 data 長度為 3 且 properties 中有 'areaType' 的資料點。。
 Data = [datapoint for datapoint in Data if len(datapoint['data']) == 3 and 'areaType' in datapoint['properties'].keys()]
+# 輸出過濾後的第一筆資料，以 JSON 格式顯示，且縮排為 4。
 print(json.dumps(Data[0], indent=4, ensure_ascii=False))
 ```
 
@@ -145,11 +162,16 @@ print(json.dumps(Data[0], indent=4, ensure_ascii=False))
 我們可以發現每一個感測器的資料中，都同時有溫度、相對濕度、細懸浮微粒濃度等感測資料，同時也記載了感測器的基本資訊，例如所在城市、所在鄉鎮、機器編號、位置編號、場所型態等。在我們這個範例中，我們將以「場所型態」為標籤資料，並搭配感測資料（溫度、相對濕度、細懸浮微粒濃度）進行分類器的訓練。我們首先觀察目前「場所型態」的內容狀態。
 
 ```python
+# 從 Data 資料集中取得所有不重複的 'areaType' 標籤。
 Label = list(dict.fromkeys([datapoint['properties']['areaType'] for datapoint in Data if datapoint['properties']['areaType']]))
+# 初始化一個計數器，用於計算每個 'areaType' 的出現次數。
 count = dict.fromkeys(Label, 0)
+# 迴圈遍歷 Data 資料集，計算每個 'areaType' 的出現次數。
 for datapoint in Data:
     count[datapoint['properties']['areaType']] += 1
+# 輸出資料清理前的記錄總數。
 print("Before data cleaning, There are {} records.".format(len(Data)))
+# 以 JSON 格式輸出每個 'areaType' 的計數結果，且縮排為 4。
 print(json.dumps(count, indent=4, ensure_ascii=False))
 ```
 
@@ -183,6 +205,7 @@ Before data cleaning, There are 8620 records.
 由於目前資料中共有 8620 筆資料散佈在 19 種場所型態中，為了符合資料的意義，我們首先將類似的場所型態進行合併，同時也為了讓分類器的示範能更順利，我們只專注在一般社區、交通區、工業區、鄰近工業區社區等四大場所型態。因此，我們用下列的程式進行資料的重新整理：
 
 ```python
+# 迴圈遍歷 Data 資料集，對 'areaType' 進行資料清理和重新命名。
 for datapoint in Data:
     if datapoint['properties']['areaType'] == '社區':
         datapoint['properties']['areaType'] = '一般社區'
@@ -196,14 +219,21 @@ for datapoint in Data:
         datapoint['properties']['areaType'] = '工業區'
     elif datapoint['properties']['areaType'] == '工業感測':
         datapoint['properties']['areaType'] = '工業區'
+    # 若 'areaType' 不在指定的四種類別中，則設為 None。
     if not datapoint['properties']['areaType'] in ['一般社區', '交通區', '工業區', '鄰近工業區社區']:
         datapoint['properties']['areaType'] = None
+# 過濾資料，去除 'areaType' 為 None 的資料點。
 Data = [datapoint for datapoint in Data if datapoint['properties']['areaType'] != None]
+# 定義我們希望計數的標籤。
 Label = ['一般社區', '交通區', '工業區', '鄰近工業區社區']
+# 初始化一個計數器，用於計算每個 'areaType' 的出現次數。
 count = dict.fromkeys(Label, 0)
+# 迴圈遍歷 Data 資料集，計算每個 'areaType' 的出現次數。
 for datapoint in Data:
     count[datapoint['properties']['areaType']] += 1
+# 輸出資料清理後的記錄數量。
 print("After data cleaning, There are {} records.".format(len(Data)))
+# 以 JSON 格式顯示每個 'areaType' 的計數結果，且縮排為 4。
 print(json.dumps(count, indent=4, ensure_ascii=False))
 ```
 
@@ -220,32 +250,46 @@ After data cleaning, There are 7709 records.
 經過資料清理後，總共剩下 7709 筆資料，並且散佈在四大類的場所型態中。針對這些資料，我們接著考慮每筆資料的溫度、相對濕度、細懸浮微粒濃度感測值，並用不同的顏色代表不同場所型態的資料，繪製成一張三維的資料分佈圖。
 
 ```python
+# 初始化存放資料的列表。
 DataX, DataY = [], []
+# 迴圈遍歷 Data 資料集，從每一個資料點中提取特徵和標籤。
 for datapoint in Data:
-    TmpX = [None]*3
-    TmpY = None
+    TmpX = [None]*3  # 初始化暫存特徵列表。
+    TmpY = None  # 初始化暫存標籤值。
     for rawdata_array in datapoint['data']:
+        # 提取資料點名稱為 'Temperature' 的值。
         if(rawdata_array['name'] == 'Temperature'):
             TmpX[0] = rawdata_array['values'][0].get('value')
+        # 提取資料點名稱為 'Relative humidity' 的值。
         if(rawdata_array['name'] == 'Relative humidity'):
             TmpX[1] = rawdata_array['values'][0].get('value')
+        # 提取資料點名稱為 'PM2.5' 的值。
         if(rawdata_array['name'] == 'PM2.5'):
             TmpX[2] = rawdata_array['values'][0].get('value')
+    # 將 'areaType' 轉換為整數索引。
     TmpY = Label.index(datapoint['properties']['areaType'])
+    # 將暫存的特徵和標籤加入至 DataX 和 DataY 列表。
     DataX.append(TmpX)
     DataY.append(TmpY)
 
+# 將 DataX 和 DataY 列表資料轉換為 Numpy 陣列。
 DataX_Numpy = np.array(DataX)
 DataY_Numpy = np.array(DataY)
+# 設定圖例字體大小。
 plt.rc('legend',fontsize="xx-small")
+# 創建一個 8x6 大小，150 dpi 的圖形。
 fig = plt.figure(figsize=(8, 6), dpi=150)
 ax = fig.add_subplot(projection='3d')
+# 迴圈遍歷每一種標籤，並在 3D 空間中繪製對應的資料點。
 for i in range(len(Label)):
     ax.scatter(DataX_Numpy[DataY_Numpy==i][:,0],DataX_Numpy[DataY_Numpy==i][:,1],DataX_Numpy[DataY_Numpy==i][:,2], s=0.1, label=Label[i])
-ax.legend()
+# 顯示圖例。
+ax.legend() 
+# 設定 X 軸標籤為 Temperatur， y 軸標籤為 Relative humidity， z 軸標籤為 PM2.5。
 ax.set_xlabel('Temperature')
 ax.set_ylabel('Relative humidity')
 ax.set_zlabel('PM2.5')
+# 顯示圖形。
 plt.show()
 ```
 
