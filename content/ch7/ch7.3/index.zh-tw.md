@@ -73,7 +73,7 @@ df_air = pd.json_normalize(epa_station)
 # 初始化一個新的欄位 'O3'（臭氧），並設定其初始值為 0
 df_air['O3'] = 0  
 
-# 遍歷 DataFrame 的每一行，提取臭氧（O3）數據
+# 迴圈歷遍 DataFrame 的每一行，提取臭氧（O3）數據
 for index, row in df_air.iterrows():
   sensors = row['data']
   for sensor in sensors:
