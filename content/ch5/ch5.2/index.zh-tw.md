@@ -28,7 +28,7 @@ import urllib.request
 import ssl
 import json
 
-# 安裝 Geopython 相關函式庫
+# 安裝 Geopython 相關函式模組
 !apt install gdal-bin python-gdal python3-gdal
 # 安裝 Geopandas 需要的 python3-rtree
 !apt install python3-rtree 
@@ -72,7 +72,7 @@ basemap = county.loc[county['COUNTYNAME'].isin(["嘉義縣", "嘉義市"])]
 # 創建一個 DataFrame 來儲存水位觀測站的資料
 flood_df = pd.DataFrame([], columns=['name', 'Observations', 'lon', 'lat'])
 
-# 迭代每一個水位觀測站
+# 迴圈歷遍每一個水位觀測站
 for i in flood_list:
     if len(i['data']) > 0:  # 如果有資料
         df = pd.DataFrame([[i['properties']['stationName'], i['data'][0]['values'][0]['value'], i['location']['longitude'], i['location']['latitude']]], columns=['name', 'Observations', 'lon', 'lat'])
@@ -95,7 +95,7 @@ intersected_data = gpd.overlay(gdf_flood, basemap, how='intersection')
 ```
 
 ```python
-# 引入 scipy 的 Voronoi 和 voronoi_plot_2d 函數
+# 引入 scipy 的 Voronoi 和 voronoi_plot_2d 函式
 from scipy.spatial import Voronoi, voronoi_plot_2d
 
 # 創建一個 6x10 英寸的圖形和座標軸
@@ -124,9 +124,9 @@ plt.show()
 整體而言，這兩個演算法都可以協助我們以圖形的方式，理解感測器在空間上的分佈，及其所建立的空間結構。
 
 ```python
-# 引入 scipy 的 Delaunay 和 delaunay_plot_2d 函數
+# 引入 scipy 的 Delaunay 和 delaunay_plot_2d 函式
 from scipy.spatial import Delaunay, delaunay_plot_2d
-import numpy as np  # 引入 numpy 函式庫
+import numpy as np  # 引入 numpy 函式模組
 
 # 創建一個 6x10 英寸的圖形和座標軸
 fig, ax = plt.subplots(figsize=(6, 10))
@@ -154,13 +154,13 @@ plt.show()
 最小範圍多邊形的演算法，是從一群測站中，選出位於最邊緣的若干個測站構成一個能含納所有的點位、且邊長最小的多邊形，這樣我們就可以在一堆測站中，找到一個群聚的範圍，並用這個範圍來發展一些計算。最小範圍多邊形的演算法，主要是依照測站的x座標排序測站位置，而當 X 座標相同則以 Y 座標大小排序，從而找到最外圍的端點並連接成為多邊形 (當然類似的概念還有許多方法)，透過最小範圍多邊形的演算，我們可以評估測站的有效監測範圍。所以，我們也可以利用嘉義縣、嘉義市的淹水感測器分佈，已瞭解這些淹水感測器的覆蓋範圍。
 
 ```python
-# 引入 scipy 的 ConvexHull 和 convex_hull_plot_2d 函數
+# 引入 scipy 的 ConvexHull 和 convex_hull_plot_2d 函式
 from scipy.spatial import ConvexHull, convex_hull_plot_2d
 
 # 創建一個 6x10 英寸的圖形和座標軸
 fig, ax = plt.subplots(figsize=(6, 10))
 
-# 使用 ConvexHull 函數來計算凸包
+# 使用 ConvexHull 函式來計算凸包
 hull = ConvexHull(inputp)
 
 # 繪製基本地圖，面顏色為空，邊界顏色為紫色
@@ -246,11 +246,11 @@ intersected_data = gpd.overlay(gdf_level, basemap, how='intersection')
 ```
 
 ```python
-# 引入 KMeans 分群演算法的函式庫
+# 引入 KMeans 分群演算法的函式模組
 from sklearn.cluster import KMeans
-# 引入 scipy 的 ConvexHull 函式庫，用於繪製凸包圖
+# 引入 scipy 的 ConvexHull 函式模組，用於繪製凸包圖
 from scipy.spatial import ConvexHull
-# 引入 folium 函式庫，用於繪製地圖
+# 引入 folium 函式模組，用於繪製地圖
 import folium
 
 # 從交集數據中選取需要的欄位：名稱、經度、緯度和觀測值
@@ -399,7 +399,7 @@ gdf = gpd.overlay(gdf_level, basemap, how='intersection')
 # 載入 plotly.express 套件，用於繪製核密度地圖
 import plotly.express as px
 
-# 使用 density_mapbox 函數來繪製核密度地圖
+# 使用 density_mapbox 函式來繪製核密度地圖
 # 參數設定：
 # - lat, lon, z 來自 gdf DataFrame，分別代表緯度、經度和觀測值
 # - radius 是用來計算密度的半徑，設為 25
@@ -433,10 +433,10 @@ fig.show()
 import numpy as np
 # 引入 matplotlib.pyplot 用於數據繪製
 import matplotlib.pyplot as plt
-# 引入 scipy.interpolate 的 Rbf 函數用於進行徑向基函數插值
+# 引入 scipy.interpolate 的 Rbf 函式用於進行徑向基函式插值
 from scipy.interpolate import Rbf
 
-# 定義一個函數計算兩組點之間的距離矩陣
+# 定義一個函式計算兩組點之間的距離矩陣
 def distance_matrix(x0, y0, x1, y1):
     # 垂直堆疊 x 和 y 坐標，並轉置
     obs = np.vstack((x0, y0)).T
@@ -451,7 +451,7 @@ def distance_matrix(x0, y0, x1, y1):
     # 計算歐式距離並返回
     return np.hypot(d0, d1)
 
-# 定義一個簡單的 IDW（Inverse Distance Weighting）函數
+# 定義一個簡單的 IDW（Inverse Distance Weighting）函式
 def simple_idw(x, y, z, xi, yi, pows):
     # 計算距離矩陣
     dist = distance_matrix(x, y, xi, yi)
@@ -535,7 +535,7 @@ gridy = np.arange(23, 24, resolution)
 import itertools
 from shapely.geometry import Polygon
 
-# 定義 raster to polygon 函數
+# 定義 raster to polygon 函式
 def pixel2poly(x, y, z, resolution):
     """
     x: x座標的網格點
@@ -569,7 +569,7 @@ def pixel2poly(x, y, z, resolution):
 # 引入 pykrige 套件中的 OrdinaryKriging 類別進行克里金內插
 from pykrige.ok import OrdinaryKriging
 
-# 初始化 OrdinaryKriging 類別，設定變異函數模型為 "spherical"，並啟用偽逆矩陣計算
+# 初始化 OrdinaryKriging 類別，設定變異函式模型為 "spherical"，並啟用偽逆矩陣計算
 krig = OrdinaryKriging(x=gdf["lon"], y=gdf["lat"], z=gdf['Observations'], variogram_model="spherical", pseudo_inv=True)
 
 # 執行克里金內插，對 gridx 和 gridy 進行計算，返回數值 z 和半方差 ss
@@ -586,7 +586,7 @@ plt.imshow(z);
 # 引入 plotly.express 進行視覺化
 import plotly.express as px
 
-# 使用先前定義的 pixel2poly 函數將網格轉換為多邊形和相應的數值
+# 使用先前定義的 pixel2poly 函式將網格轉換為多邊形和相應的數值
 polygons, values = pixel2poly(gridx, gridy, z, resolution)
 
 # 將多邊形和數值組合成 GeoDataFrame，並設定座標系統
@@ -667,15 +667,15 @@ plt.show()
 一般來說，我們將測站依照其位置與數值進行空間內插後，就會得到一個全面性的網格資料，然而，我們可以如何解析這些網格資料呢？首先，最容易的方式就是依照網格的數值與位置，去將數值相近的點連成一條線，其概念類似於在起伏不定的地形上，劃設等高線，而我們這樣的話法可以將其視為等值線。
 
 ```python
-# 引入 GDAL 庫，用於地理空間數據操作
+# 引入 GDAL 模組，用於地理空間數據操作
 from osgeo import gdal  
-# 引入 NumPy 庫，用於數組運算
+# 引入 NumPy 模組，用於數組運算
 import numpy as np  
-# 引入 Matplotlib 庫，用於繪圖
+# 引入 Matplotlib 模組，用於繪圖
 import matplotlib  
 # 引入 pyplot，用於 2D 圖形繪製
 import matplotlib.pyplot as plt  
-# 引入 elevation 庫，用於處理高程數據
+# 引入 elevation 模組，用於處理高程數據
 import elevation  
 
 # 初始化 Matplotlib 的 figure 和 axis
@@ -709,11 +709,11 @@ plt.show()
 劃設等值線可以讓我們獲知數值的分佈梯度與範圍，而另一個協助我們瞭解數值分佈的方式則是剖面線，其原理就是在兩點之間劃設一條直線，並依照直線的位置去擷取相對應的推估數值。這樣的方法可以協助我們知道兩點之間的數值變化起伏，在某些空氣品質的研究中，科學家就會利用剖面線的方式評估道路兩側的PM2.5變化。
 
 ```python
-# 引入 Affine 和 rasterio 庫，用於處理地理轉換和寫入 GeoTIFF 檔
+# 引入 Affine 和 rasterio 模組，用於處理地理轉換和寫入 GeoTIFF 檔
 from affine import Affine
 import rasterio
 
-# 定義將內核密度估計輸出為 raster 格式的函數
+# 定義將內核密度估計輸出為 raster 格式的函式
 def export_kde_raster(Z, XX, YY, min_x, max_x, min_y, max_y, proj, filename):
     '''Export and save a kernel density raster.'''
 
@@ -724,7 +724,7 @@ def export_kde_raster(Z, XX, YY, min_x, max_x, min_y, max_y, proj, filename):
     # 創建轉換矩陣，用於定義地理空間的定位
     transform = Affine.translation(min_x - xres / 2, min_y - yres / 2) * Affine.scale(xres, yres)
 
-    # 使用 rasterio 庫開啟一個新的 GeoTIFF 檔案來儲存輸出
+    # 使用 rasterio 模組開啟一個新的 GeoTIFF 檔案來儲存輸出
     with rasterio.open(
             filename,
             mode="w",
@@ -741,19 +741,19 @@ def export_kde_raster(Z, XX, YY, min_x, max_x, min_y, max_y, proj, filename):
 ```
 
 ```python
-# 引入 Kriging 插值需要的 pykrige 庫
+# 引入 Kriging 插值需要的 pykrige 模組
 from pykrige.ok import OrdinaryKriging
-# 引入 affine 庫，用於處理坐標轉換
+# 引入 affine 模組，用於處理坐標轉換
 from affine import Affine
-# 引入 rasterio 庫，用於讀寫 raster 格式的地理資料
+# 引入 rasterio 模組，用於讀寫 raster 格式的地理資料
 import rasterio
-# 引入 math 庫，用於數學運算，如平方根等
+# 引入 math 模組，用於數學運算，如平方根等
 import math
-# 引入 pandas 庫，用於數據分析
+# 引入 pandas 模組，用於數據分析
 import pandas as pd
-# 引入 geopandas 庫，用於處理地理空間資料
+# 引入 geopandas 模組，用於處理地理空間資料
 import geopandas as gpd
-# 引入 numpy 庫，用於數值計算
+# 引入 numpy 模組，用於數值計算
 import numpy as np
 
 # 設定起點和終點的座標，以及網格解析度
@@ -773,7 +773,7 @@ zd = interpolatep['Observations'].astype("float64")
 krig = OrdinaryKriging(x=xd, y=yd, z=zd, variogram_model="spherical")
 zr, ss = krig.execute("grid", X, Y)
 
-# 使用之前定義的函數輸出 Kriging 插值結果為 raster 格式
+# 使用之前定義的函式輸出 Kriging 插值結果為 raster 格式
 export_kde_raster(Z=zr, XX=X, YY=Y,
                   min_x=xmin, max_x=xmax, min_y=ymin, max_y=ymax,
                   proj=4326, filename="kriging_result.tif")
