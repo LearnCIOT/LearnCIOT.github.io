@@ -19,7 +19,7 @@ authors: ["鍾明光", "吳姃家"]
 首先，我們可能需要釐清個別測站的服務/防守範圍，並以此範圍中的測站數據來代表該區的現況。這個時候，我們可以利用沃羅諾伊圖（voronoi diagram）的方法去找尋這個範圍。沃羅諾伊圖的原理是在兩個相鄰測站間建立一條垂直平分線段，並藉由整合這些線段以構成一個多邊形；每個多邊形範圍的中心點就是測站，而該測站的數值則約可代表這個範圍內的數值。在這個範例中，我們嘗試利用嘉義縣、嘉義市的淹水感測器資料，去練習建立沃羅諾伊圖，這樣我們就可以初略知道這些淹水感測器的勢力分佈範圍。
 
 ```python
-# 引入所需的模組
+# 引用所需的模組
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
@@ -43,9 +43,9 @@ import json
 
 # 安裝 Geopandas 需要的 Descartes
 !pip install descartes
-# 引入 Geopandas
+# 引用 Geopandas
 import geopandas as gpd
-# 安裝和引入 pyCIOT
+# 安裝和引用 pyCIOT
 !pip install pyCIOT
 import pyCIOT.data as CIoT
 ```
@@ -95,7 +95,7 @@ intersected_data = gpd.overlay(gdf_flood, basemap, how='intersection')
 ```
 
 ```python
-# 引入 scipy 的 Voronoi 和 voronoi_plot_2d 函式
+# 引用 scipy 的 Voronoi 和 voronoi_plot_2d 函式
 from scipy.spatial import Voronoi, voronoi_plot_2d
 
 # 創建一個 6x10 英寸的圖形和座標軸
@@ -124,9 +124,9 @@ plt.show()
 整體而言，這兩個演算法都可以協助我們以圖形的方式，理解感測器在空間上的分佈，及其所建立的空間結構。
 
 ```python
-# 引入 scipy 的 Delaunay 和 delaunay_plot_2d 函式
+# 引用 scipy 的 Delaunay 和 delaunay_plot_2d 函式
 from scipy.spatial import Delaunay, delaunay_plot_2d
-import numpy as np  # 引入 numpy 函式模組
+import numpy as np  # 引用 numpy 函式模組
 
 # 創建一個 6x10 英寸的圖形和座標軸
 fig, ax = plt.subplots(figsize=(6, 10))
@@ -154,7 +154,7 @@ plt.show()
 最小範圍多邊形的演算法，是從一群測站中，選出位於最邊緣的若干個測站構成一個能含納所有的點位、且邊長最小的多邊形，這樣我們就可以在一堆測站中，找到一個群聚的範圍，並用這個範圍來發展一些計算。最小範圍多邊形的演算法，主要是依照測站的x座標排序測站位置，而當 X 座標相同則以 Y 座標大小排序，從而找到最外圍的端點並連接成為多邊形 (當然類似的概念還有許多方法)，透過最小範圍多邊形的演算，我們可以評估測站的有效監測範圍。所以，我們也可以利用嘉義縣、嘉義市的淹水感測器分佈，已瞭解這些淹水感測器的覆蓋範圍。
 
 ```python
-# 引入 scipy 的 ConvexHull 和 convex_hull_plot_2d 函式
+# 引用 scipy 的 ConvexHull 和 convex_hull_plot_2d 函式
 from scipy.spatial import ConvexHull, convex_hull_plot_2d
 
 # 創建一個 6x10 英寸的圖形和座標軸
@@ -246,11 +246,11 @@ intersected_data = gpd.overlay(gdf_level, basemap, how='intersection')
 ```
 
 ```python
-# 引入 KMeans 分群演算法的函式模組
+# 引用 KMeans 分群演算法的函式模組
 from sklearn.cluster import KMeans
-# 引入 scipy 的 ConvexHull 函式模組，用於繪製凸包圖
+# 引用 scipy 的 ConvexHull 函式模組，用於繪製凸包圖
 from scipy.spatial import ConvexHull
-# 引入 folium 函式模組，用於繪製地圖
+# 引用 folium 函式模組，用於繪製地圖
 import folium
 
 # 從交集數據中選取需要的欄位：名稱、經度、緯度和觀測值
@@ -429,11 +429,11 @@ fig.show()
 在反距離加權法的模式中，我們會利用已知樣本點間的數值差與間距建立推估模型。一般而言，若兩點的差值為10單位、而間距為100公尺，則理論上每10公尺的差值應該為1，但是考量到差值的分佈不應該是線性關係，所以反距離加權法利用地理學第一定律：越鄰近的事物越相近，去以距離作為評估兩點之間數值差異的依據，其策略就是把差值X距離次方的倒數，以獲得該位置的推估值。所以，距離越大權數越小，反之距離越近，權數愈大。 
 
 ```python
-# 引入 numpy 套件用於數值運算
+# 引用 numpy 套件用於數值運算
 import numpy as np
-# 引入 matplotlib.pyplot 用於數據繪製
+# 引用 matplotlib.pyplot 用於數據繪製
 import matplotlib.pyplot as plt
-# 引入 scipy.interpolate 的 Rbf 函式用於進行徑向基函式插值
+# 引用 scipy.interpolate 的 Rbf 函式用於進行徑向基函式插值
 from scipy.interpolate import Rbf
 
 # 定義一個函式計算兩組點之間的距離矩陣
@@ -517,7 +517,7 @@ plt.show()
 克利金法的原理則是利用已知點的位置與數值，去建立一個半變異圖 (semi-variogram)，並依據這個圖進行樣本點的分組，以得到數個區域性變量 (regionalized variable)，並以其為基礎進行數值推估。克利金法與前述反距離加權法相似，都是利用已知點的數值與距離去推估鄰近地區的未知點數值，比較大的差異是克力金法會將樣本的依照距離作分組，從而依照距離調整其不同的推估公式。
 
 ```python
-# 引入 NumPy 套件
+# 引用 NumPy 套件
 import numpy as np
 
 # 設定網格解析度，以公尺為單位
@@ -566,7 +566,7 @@ def pixel2poly(x, y, z, resolution):
 ```
 
 ```python
-# 引入 pykrige 套件中的 OrdinaryKriging 類別進行克里金內插
+# 引用 pykrige 套件中的 OrdinaryKriging 類別進行克里金內插
 from pykrige.ok import OrdinaryKriging
 
 # 初始化 OrdinaryKriging 類別，設定變異函式模型為 "spherical"，並啟用偽逆矩陣計算
@@ -583,7 +583,7 @@ plt.imshow(z);
 
 ```python
 # 利用plotly 將網格與地圖疊合呈現
-# 引入 plotly.express 進行視覺化
+# 引用 plotly.express 進行視覺化
 import plotly.express as px
 
 # 使用先前定義的 pixel2poly 函式將網格轉換為多邊形和相應的數值
@@ -612,7 +612,7 @@ fig.update_traces(marker_line_width=0)
 最近鄰居法的方法其實很簡單，若我們想得知空間上某一個位置的數值，只需要找到最鄰近且有數值的測站，就可以當作是這個位置的數值。這個方法基本上也是依循越鄰近越相似的原理去設計，且常被應用在影像處理及放大的案例上。
 
 ```python
-# 引入所需的套件
+# 引用所需的套件
 from scipy.interpolate import NearestNDInterpolator
 import matplotlib.pyplot as plt
 
@@ -667,15 +667,15 @@ plt.show()
 一般來說，我們將測站依照其位置與數值進行空間內插後，就會得到一個全面性的網格資料，然而，我們可以如何解析這些網格資料呢？首先，最容易的方式就是依照網格的數值與位置，去將數值相近的點連成一條線，其概念類似於在起伏不定的地形上，劃設等高線，而我們這樣的話法可以將其視為等值線。
 
 ```python
-# 引入 GDAL 模組，用於地理空間數據操作
+# 引用 GDAL 模組，用於地理空間數據操作
 from osgeo import gdal  
-# 引入 NumPy 模組，用於數組運算
+# 引用 NumPy 模組，用於數組運算
 import numpy as np  
-# 引入 Matplotlib 模組，用於繪圖
+# 引用 Matplotlib 模組，用於繪圖
 import matplotlib  
-# 引入 pyplot，用於 2D 圖形繪製
+# 引用 pyplot，用於 2D 圖形繪製
 import matplotlib.pyplot as plt  
-# 引入 elevation 模組，用於處理高程數據
+# 引用 elevation 模組，用於處理高程數據
 import elevation  
 
 # 初始化 Matplotlib 的 figure 和 axis
@@ -709,7 +709,7 @@ plt.show()
 劃設等值線可以讓我們獲知數值的分佈梯度與範圍，而另一個協助我們瞭解數值分佈的方式則是剖面線，其原理就是在兩點之間劃設一條直線，並依照直線的位置去擷取相對應的推估數值。這樣的方法可以協助我們知道兩點之間的數值變化起伏，在某些空氣品質的研究中，科學家就會利用剖面線的方式評估道路兩側的PM2.5變化。
 
 ```python
-# 引入 Affine 和 rasterio 模組，用於處理地理轉換和寫入 GeoTIFF 檔
+# 引用 Affine 和 rasterio 模組，用於處理地理轉換和寫入 GeoTIFF 檔
 from affine import Affine
 import rasterio
 
@@ -741,19 +741,19 @@ def export_kde_raster(Z, XX, YY, min_x, max_x, min_y, max_y, proj, filename):
 ```
 
 ```python
-# 引入 Kriging 插值需要的 pykrige 模組
+# 引用 Kriging 插值需要的 pykrige 模組
 from pykrige.ok import OrdinaryKriging
-# 引入 affine 模組，用於處理坐標轉換
+# 引用 affine 模組，用於處理坐標轉換
 from affine import Affine
-# 引入 rasterio 模組，用於讀寫 raster 格式的地理資料
+# 引用 rasterio 模組，用於讀寫 raster 格式的地理資料
 import rasterio
-# 引入 math 模組，用於數學運算，如平方根等
+# 引用 math 模組，用於數學運算，如平方根等
 import math
-# 引入 pandas 模組，用於數據分析
+# 引用 pandas 模組，用於數據分析
 import pandas as pd
-# 引入 geopandas 模組，用於處理地理空間資料
+# 引用 geopandas 模組，用於處理地理空間資料
 import geopandas as gpd
-# 引入 numpy 模組，用於數值計算
+# 引用 numpy 模組，用於數值計算
 import numpy as np
 
 # 設定起點和終點的座標，以及網格解析度
