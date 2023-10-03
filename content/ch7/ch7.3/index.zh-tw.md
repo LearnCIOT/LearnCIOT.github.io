@@ -53,7 +53,7 @@ import osmnx
 import geocoder  
 # 引入 streamlit 用於快速建立 web 應用
 import streamlit  
-# 引入 pyCIOT 的 data 模組，具體用途不明
+# 引入 pyCIOT
 from pyCIOT.data import *  
 ```
 
