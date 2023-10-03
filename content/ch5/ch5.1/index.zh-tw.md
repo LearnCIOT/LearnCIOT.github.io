@@ -20,15 +20,15 @@ authors: ["鍾明光", "沈姿雨"]
 這個章節中，我們會利用環保署的空品測站、氣象局的局屬測站以及水利署在各縣市佈建的淹水感測器，示範如何利用地理空間篩選測站，並以其「位置」與「數值」為基礎，轉化成可利用的空間資訊。
 
 ```python
-# 引入 matplotlib、seaborn 等繪圖模組
+# 引用 matplotlib、seaborn 等繪圖模組
 import matplotlib.pyplot as plt
 import seaborn as sns
-# 引入 pandas 和 numpy 進行數據分析
+# 引用 pandas 和 numpy 進行數據分析
 import pandas as pd
 import numpy as np
-# 引入 urllib.request 來處理網路資源
+# 引用 urllib.request 來處理網路資源
 import urllib.request
-# 引入 ssl 和 json 來處理安全連線和 JSON 格式
+# 引用 ssl 和 json 來處理安全連線和 JSON 格式
 import ssl
 import json
 
@@ -41,11 +41,11 @@ import json
 
 # 安裝 descartes，也是 Geopandas 的需求
 !pip install descartes
-# 引入 geopandas 模組
+# 引用 geopandas 模組
 import geopandas as gpd
 # 安裝 pyCIOT 模組，這是專門用於 CIoT 數據處理的
 !pip install pyCIOT
-# 引入 pyCIOT 的數據處理模組
+# 引用 pyCIOT 的數據處理模組
 import pyCIOT.data as CIoT
 ```
 
@@ -106,7 +106,7 @@ gdf_weather = gpd.GeoDataFrame(
 一般而言，手邊有很多的測站點位時，我們可以利用村里或鄉鎮等行政區界為範圍，利用資料的在空間上的交集 (intersect) 以篩選出特定行政區內的測站ID，並以API擷取這些測站的：瞬時值、小時平均值、日平均值、週平均值，這樣我們就可以檢視同一行政區內的測站，是否有類似的數值趨勢，抑或哪些測站的數值與其他測站有明顯的差異。
 
 ```python
-# 引入 matplotlib 和 seaborn 用於繪圖
+# 引用 matplotlib 和 seaborn 用於繪圖
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -226,7 +226,7 @@ df.set_index('ID', inplace=True)
 ![Python output](figures/5-1-4-2.png)
 
 ```python
-# 引入 scipy 的 distance_matrix 函式來計算距離
+# 引用 scipy 的 distance_matrix 函式來計算距離
 from scipy.spatial import distance_matrix
 
 # 使用 distance_matrix 函式計算 df（感測器的經緯度）彼此之間的距離
