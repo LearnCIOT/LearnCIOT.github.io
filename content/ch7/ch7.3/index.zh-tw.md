@@ -416,7 +416,7 @@ m.to_streamlit()
 針對步驟二的部分，我們則用下列的指令執行：
 
 ```python
-# 使用 Streamlit 運行 app.py，並將其放在後台執行（&）
+# 使用 Streamlit 運行 app.py，並將其放在後台執行
 # 使用 npx 來運行 localtunnel，將本地 8501 端口暴露到外網
 !streamlit run app.py & npx localtunnel --port 8501
 ```
