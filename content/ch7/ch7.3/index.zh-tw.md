@@ -15,31 +15,46 @@ authors: ["鄭宇伸", "鍾明光", "陳伶志"]
 
 我們在之前的章節中，已經示範了如何使用程式語言針對地理屬性的資料進行分析，同時也示範了如何使用 GIS 軟體進行簡易的地理資料分析與呈現。接下來我們介紹如何使用 Python 語言中的 Leafmap 套件進行 GIS 應用，以及 Streamlit 套件進行網站開發。最後，我們將結合 Leafmap 和 Streamlit，自行製作簡單的網頁 GIS 系統，並將資料處理與分析後的結果，透過網頁方式來呈現。
 
-## 套件安裝與引用
+## 套件安裝與引入
 
 在本章節中，我們將會使用到 pandas, geopandas, leafmap, ipyleaflet, osmnx, streamlit, geocoder 及 pyCIOT 等套件，這些套件除了 pandas 外，在我們使用的開發平台 Colab 上皆沒有預先提供，因此我們需要先自行安裝。由於本次安裝的套件數量較多，為了避免指令在執行後產生大量的文字輸出訊息，因此我們在安裝的指令中，增加了 ‘-q’ 的參數，可以讓畫面的輸出更精簡。
 
 ```python
-!pip install -q geopandas
-!pip install -q leafmap
-!pip install -q ipyleaflet
-!pip install -q osmnx
-!pip install -q streamlit
-!pip install -q geocoder
-!pip install -q pyCIOT
+# 引入 geopandas 用於地理空間資料處理
+!pip install -q geopandas  
+# 引入 leafmap 用於地圖視覺化
+!pip install -q leafmap    
+# 引入 ipyleaflet 也是用於地圖視覺化，但有更多互動功能
+!pip install -q ipyleaflet 
+# 引入 osmnx 用於從 OpenStreetMap 下載、建模、分析街道網絡
+!pip install -q osmnx      
+# 引入 streamlit 用於快速建立 web 應用
+!pip install -q streamlit  
+# 引入 geocoder 用於地理編碼和逆地理編碼
+!pip install -q geocoder   
+# 引入 pyCIOT
+!pip install -q pyCIOT     
 ```
 
 待安裝完畢後，即可使用下列的語法先行引入相關的套件，完成本章節的準備工作：
 
 ```python
-import pandas as pd
-import geopandas as gpd
-import leafmap
-import ipyleaflet
-import osmnx
-import geocoder
-import streamlit
-from pyCIOT.data import *
+# 引入 pandas 用於資料處理和分析
+import pandas as pd  
+# 引入 geopandas 用於地理空間資料處理
+import geopandas as gpd  
+# 引入 leafmap 用於地圖視覺化
+import leafmap  
+# 引入 ipyleaflet 也是用於地圖視覺化，但有更多互動功能
+import ipyleaflet  
+# 引入 osmnx 用於從 OpenStreetMap 下載、建模、分析街道網絡
+import osmnx  
+# 引入 geocoder 用於地理編碼和逆地理編碼
+import geocoder  
+# 引入 streamlit 用於快速建立 web 應用
+import streamlit  
+# 引入 pyCIOT 的 data 模組，具體用途不明
+from pyCIOT.data import *  
 ```
 
 ## 讀取資料
@@ -49,16 +64,24 @@ from pyCIOT.data import *
 在環保署空品測站的部分，我們使用 pyCIOT 套件擷取所有環保署空品測站的最新一筆量測結果，並且透過 pandas 套件的 `json_normalize()` 方法，將所獲得的 JSON 格式資料，轉換成 DataFrame 格式，並且只留下其中測站名稱、緯度、經度與臭氧 (O3) 濃度資訊，以待後面操作時使用。這部分資料擷取與處理的程式碼如下：
 
 ```python
-epa_station = Air().get_data(src="OBS:EPA")
-df_air = pd.json_normalize(epa_station) 
-df_air['O3'] = 0
+# 引入 pyCIOT 中的 Air 類別來取得環保署（EPA）觀測站的數據
+epa_station = Air().get_data(src="OBS:EPA")  
+
+# 將 JSON 格式的數據轉換為 DataFrame
+df_air = pd.json_normalize(epa_station)  
+
+# 初始化一個新的欄位 'O3'（臭氧），並設定其初始值為 0
+df_air['O3'] = 0  
+
+# 遍歷 DataFrame 的每一行，提取臭氧（O3）數據
 for index, row in df_air.iterrows():
   sensors = row['data']
   for sensor in sensors:
     if sensor['name'] == 'O3':
       df_air.at[index, 'O3'] =  sensor['values'][0]['value']
-df_air = df_air[['name','location.latitude','location.longitude','O3']]
-df_air
+
+# 篩選我們需要的欄位：站點名稱、緯度、經度和 O3 數據
+df_air = df_air[['name','location.latitude','location.longitude','O3']]  
 ```
 
 ![Python output](figures/7-3-2-1.png)
@@ -66,9 +89,16 @@ df_air
 接著我們用類似的方法，擷取中央氣象局與國震中心地震監測站的測站資料，並且只留下其中測站名稱、緯度與經度資訊，以待後面操作時使用。這部分資料擷取與處理的程式碼如下：
 
 ```python
+# 引入 pyCIOT 中的 Quake 類別來取得地震觀測站的數據，來源為中央氣象局和國家地震工程研究中心
 quake_station = Quake().get_station(src="EARTHQUAKE:CWB+NCREE")
-df_quake = pd.json_normalize(quake_station) 
+
+# 將 JSON 格式的數據轉換為 DataFrame
+df_quake = pd.json_normalize(quake_station)
+
+# 篩選我們需要的欄位：站點名稱、緯度和經度
 df_quake = df_quake[['name','location.latitude','location.longitude']]
+
+# 顯示篩選結果
 df_quake
 ```
 
@@ -83,12 +113,18 @@ df_quake
 根據我們目前已處理好的空品測站資料 `df_air` 與地震測站資料 `df_quake`，我們首先這兩份資料的格式，從原本 pandas 套件所提供的 DataFrame 格式，轉成支援地理資訊屬性的 geopandas 套件所提供的 GeoDataFrame 格式；接著我們利用 leafmap 的 `add_gdf()` 方法，將兩份資料分為兩個圖層一次加入地圖。
 
 ```python
+# 將空氣品質站和地震觀測站的 DataFrame 轉換為 GeoDataFrame
 gdf_air = gpd.GeoDataFrame(df_air, geometry=gpd.points_from_xy(df_air['location.longitude'], df_air['location.latitude']), crs='epsg:4326')
 gdf_quake = gpd.GeoDataFrame(df_quake, geometry=gpd.points_from_xy(df_quake['location.longitude'], df_quake['location.latitude']), crs='epsg:4326')
 
+# 初始化一個 leafmap 地圖，設定中心點和控制項
 m1 = leafmap.Map(center=(23.8, 121), toolbar_control=False, layers_control=True)
+
+# 在地圖上添加空氣品質站和地震觀測站的 GeoDataFrame
 m1.add_gdf(gdf_air, layer_name="EPA Station")
 m1.add_gdf(gdf_quake, layer_name="Quake Station")
+
+# 顯示地圖
 m1
 ```
 
@@ -99,6 +135,7 @@ m1
 為了解決這個問題，我們介紹另外一種資料呈現的方式，使用 ipyleaflet 套件所提供的 GeoData 圖層資料格式，並使用 leafmap 的 `add_layer()` 方法將 GeoData 圖層加入地圖。為了方便辨認，我們使用藍色的小圓形圖案表示空品測站的資料，並使用紅色的小圓形圖案表示地震測站的資料。
 
 ```python
+# 使用 ipyleaflet.GeoData 來定義地理資料的顯示方式（例如：點的樣式）對於空氣品質站和地震觀測站
 geo_data_air = ipyleaflet.GeoData(
     geo_dataframe=gdf_air,
     point_style={'radius': 5, 'color': 'black', 'fillOpacity': 0.8, 'fillColor': 'blue', 'weight': 3},
@@ -110,9 +147,14 @@ geo_data_quake = ipyleaflet.GeoData(
     name="Quake stations",
 )
 
+# 初始化另一個 leafmap 地圖，設定中心點和控制項
 m2 = leafmap.Map(center=(23.8, 121), toolbar_control=False, layers_control=True)
+
+# 在地圖上添加空氣品質站和地震觀測站的 GeoData 層
 m2.add_layer(geo_data_air)
 m2.add_layer(geo_data_quake)
+
+# 顯示地圖
 m2
 ```
 
@@ -125,8 +167,14 @@ m2
 我們使用地震測站的資料進行示範，使用 leafmap 的 `add_points_from_xy()` 方法，便能將 df2 的資料以叢集的方式放上地圖。
 
 ```python
+# 初始化一個新的 leafmap 地圖，設定中心點和其他控制項
 m3 = leafmap.Map(center=(23.8, 121), toolbar_control=False, layers_control=True)
+
+# 使用 add_points_from_xy 方法直接從 DataFrame 中添加地震觀測站的座標點
+# 這個方法會自動把座標點轉換成地圖上的點並添加到地圖層
 m3.add_points_from_xy(data=df_quake, x = 'location.longitude', y = 'location.latitude', layer_name="Quake Station")
+
+# 顯示地圖
 m3
 ```
 
@@ -137,6 +185,7 @@ m3
 Leafmap 使用 OpenStreetMap 的圖層做為預設的地圖底圖，但是也提供了超過百種的其他底圖選項，使用者可以依照自己的喜好與需求進行更改，並且可以使用下列語法獲知目前 leafmap 所支援的底圖：
 
 ```python
+# 獲取 leafmap 中所有基礎地圖的名稱，存儲到變數 'layers' 中
 layers = list(leafmap.basemaps.keys())
 layers
 ```
@@ -144,11 +193,19 @@ layers
 我們從這些底圖中挑選 SATELLITE 和 Stamen.Terrain 作為示範，使用 leafmap 套件的 `add_basemap()` 方法將底圖加入成為新的圖層，加入後 leafmap 預設會開啟所有圖層，並按照加入順序進行疊加，但仍然可以透過右上角的圖層選單，點選自己所要使用的圖層。
 
 ```python
+# 創建一個新的 leafmap 地圖，中心點設在 (23.8, 121)，並關閉工具欄和開啟圖層控制
 m4 = leafmap.Map(center=(23.8, 121), toolbar_control=False, layers_control=True)
+
+# 將環保署的空氣監測站資料（GeoDataFrame）加到地圖上，命名為 "EPA Station"
 m4.add_gdf(gdf_air, layer_name="EPA Station")
 
+# 在地圖上加入衛星影像圖層
 m4.add_basemap("SATELLITE")
+
+# 在地圖上加入 Stamen.Terrain 圖層
 m4.add_basemap("Stamen.Terrain")
+
+# 顯示地圖
 m4
 ```
 
@@ -157,11 +214,13 @@ m4
 除了使用 leafmap 所提供的底圖外，也可以使用 Google Map 的 XYZ Tiles 服務，加入 Google 衛星影像的圖層，其方法如下：
 
 ```python
+# 加入 Google 的衛星圖層到地圖上
 m4.add_tile_layer(
     url="https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}",
     name="Google Satellite",
     attribution="Google",
 )
+# 顯示結果
 m4
 ```
 
@@ -175,11 +234,15 @@ Leafmap 除了內建的多項資源外，也整合了許多外部的地理資訊
 在下列的範例中，我們透過 leafmap 套件提供的 `add_osm_from_geocode()` 方法，示範如何獲取城市的邊界輪廓，作為地圖呈現使用。我們以台中市為例，搭配之前使用的環保署空品測站點位資料，可以清楚看到哪些測站位於台中市內。
 
 ```python
+# 定義一個變數用於儲存城市名稱，這裡選擇的是台中
 city_name = "Taichung, Taiwan"
-
+# 建立一個新的 leafmap 地圖實例，並設置中心點和控制項
+# 添加先前定義的空氣品質監測站資料
+# 利用地名來從 OpenStreetMap 中獲取地圖資料，並添加到地圖中
 m5 = leafmap.Map(center=(23.8, 121), toolbar_control=False, layers_control=True)
 m5.add_layer(geo_data_air)
 m5.add_osm_from_geocode(city_name, layer_name=city_name)
+# 顯示地圖
 m5
 ```
 
@@ -188,7 +251,10 @@ m5
 我們接著繼續使用 leafmap 套件提供的 `add_osm_from_place()` 方法，針對台中市境內進一步尋找特定的設施，並加入地圖圖層。下方的程式以工廠設施為例，透過 OSM 的土地利用資料，找出台中市內的相關工廠地點與區域，可以與空品測站位置搭配進行分析判讀使用。有關 OSM 更多的設施種類，可以參考[完整的屬性列表](https://wiki.openstreetmap.org/wiki/Map_features)。
 
 ```python
+# 使用 add_osm_from_place 方法添加特定於「工業用地」的地圖層
+# 這裡選擇的是台中市的工業用地
 m5.add_osm_from_place(city_name, tags={"landuse": "industrial"}, layer_name=city_name+": Industrial")
+# 顯示結果
 m5
 ```
 
@@ -197,12 +263,18 @@ m5
 此外，leafmap 套件也提供以特定地點為中心，搜尋 OSM 鄰近設施的方法，對於分析與判讀資料，提供十分便利的功能。例如，在以下的範例中，我們使用 `add_osm_from_address()` 方法，搜尋台中清水車站 (Qingshui Station, Taichung) 方圓 1,000 公尺內的相關宗教設施 (屬性為 "amenity": "place_of_worship")；同時，我們使用 `add_osm_from_point()` 方法，搜尋台中清水車站 GPS 座標  (24.26365, 120.56917) 方圓 1,000 公尺內的相關學校設施 (屬性為 "amenity": "school”)。最後，我們將這兩項查詢的結果，分別用不同的圖層疊加到既有的地圖上。
 
 ```python
+# 使用 add_osm_from_address 方法添加以「台中清水車站」為中心的「宗教設施」地圖層
+# 這裡設置的搜索半徑是 1000 公尺
 m5.add_osm_from_address(
     address="Qingshui Station, Taichung", tags={"amenity": "place_of_worship"}, dist=1000, layer_name="Shalu worship"
 )
+
+# 使用 add_osm_from_point 方法添加以給定座標（24.26365, 120.56917）為中心的「學校」地圖層
+# 這裡設置的搜索半徑是 1000 公尺
 m5.add_osm_from_point(
     center_point=(24.26365, 120.56917), tags={"amenity": "school"}, dist=1000, layer_name="Shalu schools"
 )
+# 顯示結果
 m5
 ```
 
@@ -214,8 +286,15 @@ m5
 [熱力圖](https://en.wikipedia.org/wiki/Heat_map)是一種以顏色變化來顯示事件強度的一種二維空間表示法，將熱力圖與地圖搭配時，可以根據所使用的地圖比例不同，表達不同尺度下的事件強度狀態，是資料視覺化表示方法中一個非常普遍使用與功能強大的工具。然而，在繪製熱力圖時，使用者必須確認資料本身的特性適合使用熱力圖來呈現，否則極易與我們在單元五所介紹的 IDW 和 Kriging 等圖形化資料內插表示法產生混淆。例如，我們以上面空品測站資料的 O3 濃度資料為例，繪製對應的熱力圖如下：
 
 ```python
+# 初始化一個新的地圖，中心點設在 (23.8, 121)，並將其命名為 m6
 m6 = leafmap.Map(center=(23.8, 121), toolbar_control=False, layers_control=True)
+
+# 在地圖 m6 上添加 EPA 空氣站的資料層
 m6.add_layer(geo_data_air)
+
+# 使用 add_heatmap 方法，在地圖上添加一個熱圖層來顯示臭氧（O3）的濃度
+# 這裡用 df_air 的 'location.latitude' 和 'location.longitude' 列作為座標，
+# 用 臭氧'O3' 列作為熱圖的值。設置半徑為 100
 m6.add_heatmap(
     df_air,
     latitude='location.latitude',
@@ -224,6 +303,7 @@ m6.add_heatmap(
     name="O3 Heat map",
     radius=100,
 )
+# 顯示結果
 m6
 ```
 
@@ -240,9 +320,18 @@ m6
 為了呈現熱力圖的真實效果，我們改用地震測站的點位資料，並且加入一個新的欄位 num，且預設值設為 10，接著我們用下列的程式碼產製台灣地震測站狀態的熱力圖。
 
 ```python
+# 為地震站數據（df_quake）新增一列 'num'，並設置其值為 10
 df_quake['num'] = 10
+
+# 初始化一個新的地圖，中心點設在 (23.8, 121)，並將其命名為 m7
 m7 = leafmap.Map(center=(23.8, 121), toolbar_control=False, layers_control=True)
+
+# 在地圖 m7 上添加地震站的資料層
 m7.add_layer(geo_data_quake)
+
+# 使用 add_heatmap 方法，在地圖上添加一個熱圖層來顯示地震站的數量
+# 這裡用 df_quake 的 'location.latitude' 和 'location.longitude' 列作為座標，
+# 用 'num' 列作為熱圖的值。設置半徑為 200
 m7.add_heatmap(
     df_quake,
     latitude='location.latitude',
@@ -251,6 +340,7 @@ m7.add_heatmap(
     name="Number of Quake stations",
     radius=200,
 )
+# 顯示結果
 m7
 ```
 
@@ -261,12 +351,19 @@ m7
 在資料分析判讀的過程中，有時常需要切換不同的底圖以獲取不同的地理資訊，leafmap 套件因此提供 `split_map()` 的方法，可以將原本的地圖輸出分為所有兩個子畫面，並且各自套用不同的底圖，以方便地圖資訊的閱讀。其範例程式碼如下：
 
 ```python
+# 初始化一個新的地圖，中心點設在 (23.8, 121)，並將其命名為 m8
 m8 = leafmap.Map(center=(23.8, 121), toolbar_control=False, layers_control=True)
+
+# 在地圖 m8 上添加環保局（EPA）的觀測站資料層
 m8.add_gdf(gdf_air, layer_name="EPA Station")
+
+# 使用 split_map 方法，將地圖拆分為兩個面板。
+# 左側面板使用 "SATELLITE" 圖層，右側面板使用 "Stamen.Terrain" 圖層。
 m8.split_map(
     left_layer="SATELLITE",
     right_layer="Stamen.Terrain"
 )
+# 顯示結果
 m8
 ```
 
@@ -284,7 +381,7 @@ Leafmap 套件的功能十分強大，為了能將處理好的地圖資訊快速
 由於我們的操作過程都是使用 Google Colab 平台，在這個平台中我們可以直接將 app.py 用特殊的語法 `%%writefile` 寫入特殊的暫存區中，接著再由 Colab 直接從暫存區中讀取與執行。因此，針對步驟一的檔案寫入部分，我們可以按照下列的方式進行：
 
 ```python
-%%writefile app.py
+# 引入所需的模組
 import streamlit as st
 import leafmap.foliumap as leafmap
 import json
@@ -292,29 +389,35 @@ import pandas as pd
 import geopandas as gpd
 from pyCIOT.data import *
 
-contnet = """
-Hello World!
-"""
+# 初始化 Streamlit 應用的標題和內容
 st.title('Streamlit Demo')
 st.write("## Leafmap Example")
-st.markdown(contnet)
+content = """
+Hello World!
+"""
+st.markdown(content)
 
+# 從 EPA 獲取空氣品質數據，並將其轉換為 GeoDataFrame
 epa_station = Air().get_data(src="OBS:EPA")
-from pandas import json_normalize
-df_air = json_normalize(epa_station) 
+df_air = pd.json_normalize(epa_station)
 geodata_air = gpd.GeoDataFrame(df_air, geometry=gpd.points_from_xy(df_air['location.longitude'], df_air['location.latitude']), crs='epsg:4326')
 
+# 在 Streamlit 應用中創建一個可展開的程式碼區塊
 with st.expander("See source code"):
+  # 使用 st.echo 函式來顯示源程式碼
   with st.echo():
     m = leafmap.Map(center=(23.8, 121), toolbar_control=False, layers_control=True)
-    m.add_gdf(geodata_air, layer_name="EPA Station")  
+    m.add_gdf(geodata_air, layer_name="EPA Station")
         
+# 將 leafmap 地圖嵌入到 Streamlit 應用中
 m.to_streamlit()
 ```
 
 針對步驟二的部分，我們則用下列的指令執行：
 
 ```python
+# 使用 Streamlit 運行 app.py，並將其放在後台執行（&）
+# 使用 npx 來運行 localtunnel，將本地 8501 端口暴露到外網
 !streamlit run app.py & npx localtunnel --port 8501
 ```
 
