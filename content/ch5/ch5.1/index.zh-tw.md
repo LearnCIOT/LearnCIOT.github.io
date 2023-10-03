@@ -20,7 +20,7 @@ authors: ["鍾明光", "沈姿雨"]
 這個章節中，我們會利用環保署的空品測站、氣象局的局屬測站以及水利署在各縣市佈建的淹水感測器，示範如何利用地理空間篩選測站，並以其「位置」與「數值」為基礎，轉化成可利用的空間資訊。
 
 ```python
-# 引入 matplotlib、seaborn 等繪圖庫
+# 引入 matplotlib、seaborn 等繪圖模組
 import matplotlib.pyplot as plt
 import seaborn as sns
 # 引入 pandas 和 numpy 進行數據分析
@@ -41,9 +41,9 @@ import json
 
 # 安裝 descartes，也是 Geopandas 的需求
 !pip install descartes
-# 引入 geopandas 庫
+# 引入 geopandas 模組
 import geopandas as gpd
-# 安裝 pyCIOT 庫，這是專門用於 CIoT 數據處理的
+# 安裝 pyCIOT 模組，這是專門用於 CIoT 數據處理的
 !pip install pyCIOT
 # 引入 pyCIOT 的數據處理模組
 import pyCIOT.data as CIoT
@@ -127,7 +127,7 @@ plt.tight_layout();
 ```python
 # 將 basemap 的坐標系統設為 EPSG:4326，這樣才能和 gdf_weather 進行操作
 basemap = basemap.set_crs(4326, allow_override=True)
-# 使用 Geopandas 的 overlay 函數來找出和嘉義縣、嘉義市邊界重疊的氣象站
+# 使用 Geopandas 的 overlay 函式來找出和嘉義縣、嘉義市邊界重疊的氣象站
 intersected_data = gpd.overlay(gdf_weather, basemap, how='intersection')
 ```
 
@@ -156,7 +156,7 @@ plt.tight_layout();
 ```python
 # 設置畫布和子圖大小
 fig, ax = plt.subplots(figsize=(6, 10))
-# 使用 Geopandas 的 buffer 函數建立緩衝帶，這邊緩衝帶的寬度設為 0.05
+# 使用 Geopandas 的 buffer 函式建立緩衝帶，這邊緩衝帶的寬度設為 0.05
 buffer = intersected_data.buffer(0.05)
 # 繪製緩衝帶，透明度設為 0.5
 buffer.plot(ax=ax, alpha=0.5)
@@ -209,7 +209,7 @@ plt.tight_layout();
 
 ## 距離矩陣 (Distance Matrix)
 
-最後，因為每一個測站都有具體的座標數值，所以我們也可以三角函數結合座標數值，取得兩兩測站間的絕對距離，從而建立所有測站間的距離矩陣 (distance matrix)，而這樣的矩陣可以協助我們快速檢視兩兩測站間的距離關係，並從中確認測站是否具有鄰近性，從而以更一步確認感測間的數值趨勢是否與其距離具有相關性 (圖3)。在這個範例中，我們可以利用台北市內的淹水感測器位置，並將其轉換成為距離矩陣，以協助我們掌握淹水是否具有鄰近關係。
+最後，因為每一個測站都有具體的座標數值，所以我們也可以三角函式結合座標數值，取得兩兩測站間的絕對距離，從而建立所有測站間的距離矩陣 (distance matrix)，而這樣的矩陣可以協助我們快速檢視兩兩測站間的距離關係，並從中確認測站是否具有鄰近性，從而以更一步確認感測間的數值趨勢是否與其距離具有相關性 (圖3)。在這個範例中，我們可以利用台北市內的淹水感測器位置，並將其轉換成為距離矩陣，以協助我們掌握淹水是否具有鄰近關係。
 
 ![圖3：距離矩陣的概念圖](figures/5-1-4-1.png)
 
