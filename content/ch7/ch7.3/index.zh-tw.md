@@ -292,9 +292,9 @@ m6 = leafmap.Map(center=(23.8, 121), toolbar_control=False, layers_control=True)
 # 在地圖 m6 上添加 EPA 空氣站的資料層
 m6.add_layer(geo_data_air)
 
-# 使用 add_heatmap 方法，在地圖上添加一個熱圖層來顯示臭氧（O3）的濃度
+# 使用 add_heatmap 方法，在地圖上添加一個熱力圖層來顯示臭氧（O3）的濃度
 # 這裡用 df_air 的 'location.latitude' 和 'location.longitude' 列作為座標，
-# 用 臭氧'O3' 列作為熱圖的值。設置半徑為 100
+# 用 臭氧'O3' 列作為熱力圖的值。設置半徑為 100
 m6.add_heatmap(
     df_air,
     latitude='location.latitude',
@@ -329,9 +329,9 @@ m7 = leafmap.Map(center=(23.8, 121), toolbar_control=False, layers_control=True)
 # 在地圖 m7 上添加地震站的資料層
 m7.add_layer(geo_data_quake)
 
-# 使用 add_heatmap 方法，在地圖上添加一個熱圖層來顯示地震站的數量
+# 使用 add_heatmap 方法，在地圖上添加一個熱力圖層來顯示地震站的數量
 # 這裡用 df_quake 的 'location.latitude' 和 'location.longitude' 列作為座標，
-# 用 'num' 列作為熱圖的值。設置半徑為 200
+# 用 'num' 列作為熱力圖的值。設置半徑為 200
 m7.add_heatmap(
     df_quake,
     latitude='location.latitude',
