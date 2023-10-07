@@ -173,7 +173,7 @@ air.sort_values(by='timestamp', inplace=True)
 # 顯示資料集的簡要資訊
 air.info()
 
-# 列印資料集的簡要資訊
+# 顯示資料集的簡要資訊
 print(air.info())
 ```
 
@@ -304,7 +304,7 @@ water.sort_values(by='timestamp', inplace=True)
 # 顯示資料的基本資訊
 water.info()
 
-# 列印前五筆資料
+# 顯示前五筆資料
 print(water.head())
 ```
 
@@ -439,7 +439,7 @@ weather.sort_values(by='timestamp', inplace=True)
 # 顯示 DataFrame 的資訊摘要，包括每列的非空值數、資料型態等
 weather.info()
 
-# 列印 DataFrame 的前五行以確認資料結構
+# 顯示 DataFrame 的前五行以確認資料結構
 print(weather.head())
 ```
 
