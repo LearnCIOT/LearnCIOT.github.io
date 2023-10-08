@@ -20,19 +20,19 @@ authors: ["鄭宇伸", "鍾明光", "陳伶志"]
 在本章節中，我們將會使用到 pandas, geopandas, leafmap, ipyleaflet, osmnx, streamlit, geocoder 及 pyCIOT 等套件，這些套件除了 pandas 外，在我們使用的開發平台 Colab 上皆沒有預先提供，因此我們需要先自行安裝。由於本次安裝的套件數量較多，為了避免指令在執行後產生大量的文字輸出訊息，因此我們在安裝的指令中，增加了 ‘-q’ 的參數，可以讓畫面的輸出更精簡。
 
 ```python
-# 引入 geopandas 用於地理空間資料處理
+# 安裝 geopandas 用於地理空間資料處理
 !pip install -q geopandas  
-# 引入 leafmap 用於地圖視覺化
+# 安裝 leafmap 用於地圖視覺化
 !pip install -q leafmap    
-# 引入 ipyleaflet 也是用於地圖視覺化，但有更多互動功能
+# 安裝 ipyleaflet 也是用於地圖視覺化，但有更多互動功能
 !pip install -q ipyleaflet 
-# 引入 osmnx 用於從 OpenStreetMap 下載、建模、分析街道網絡
+# 安裝 osmnx 用於從 OpenStreetMap 下載、建模、分析街道網絡
 !pip install -q osmnx      
-# 引入 streamlit 用於快速建立 web 應用
+# 安裝 streamlit 用於快速建立 web 應用
 !pip install -q streamlit  
-# 引入 geocoder 用於地理編碼和逆地理編碼
+# 安裝 geocoder 用於地理編碼和逆地理編碼
 !pip install -q geocoder   
-# 引入 pyCIOT
+# 安裝 pyCIOT
 !pip install -q pyCIOT     
 ```
 
@@ -124,7 +124,7 @@ m1 = leafmap.Map(center=(23.8, 121), toolbar_control=False, layers_control=True)
 m1.add_gdf(gdf_air, layer_name="EPA Station")
 m1.add_gdf(gdf_quake, layer_name="Quake Station")
 
-# 顯示地圖
+# 顯示結果
 m1
 ```
 
@@ -150,11 +150,11 @@ geo_data_quake = ipyleaflet.GeoData(
 # 初始化另一個 leafmap 地圖，設定中心點和控制項
 m2 = leafmap.Map(center=(23.8, 121), toolbar_control=False, layers_control=True)
 
-# 在地圖上添加空氣品質站和地震觀測站的 GeoData 層
+# 在地圖上添加空氣品質站和地震觀測站的圖層
 m2.add_layer(geo_data_air)
 m2.add_layer(geo_data_quake)
 
-# 顯示地圖
+# 顯示結果
 m2
 ```
 
@@ -171,10 +171,10 @@ m2
 m3 = leafmap.Map(center=(23.8, 121), toolbar_control=False, layers_control=True)
 
 # 使用 add_points_from_xy 方法直接從 DataFrame 中添加地震觀測站的座標點
-# 這個方法會自動把座標點轉換成地圖上的點並添加到地圖層
+# 這個方法會自動把座標點轉換成地圖上的點並添加到圖層
 m3.add_points_from_xy(data=df_quake, x = 'location.longitude', y = 'location.latitude', layer_name="Quake Station")
 
-# 顯示地圖
+# 顯示結果
 m3
 ```
 
@@ -205,7 +205,7 @@ m4.add_basemap("SATELLITE")
 # 在地圖上加入 Stamen.Terrain 圖層
 m4.add_basemap("Stamen.Terrain")
 
-# 顯示地圖
+# 顯示結果
 m4
 ```
 
@@ -242,7 +242,7 @@ city_name = "Taichung, Taiwan"
 m5 = leafmap.Map(center=(23.8, 121), toolbar_control=False, layers_control=True)
 m5.add_layer(geo_data_air)
 m5.add_osm_from_geocode(city_name, layer_name=city_name)
-# 顯示地圖
+# 顯示結果
 m5
 ```
 
@@ -251,7 +251,7 @@ m5
 我們接著繼續使用 leafmap 套件提供的 `add_osm_from_place()` 方法，針對台中市境內進一步尋找特定的設施，並加入地圖圖層。下方的程式以工廠設施為例，透過 OSM 的土地利用資料，找出台中市內的相關工廠地點與區域，可以與空品測站位置搭配進行分析判讀使用。有關 OSM 更多的設施種類，可以參考[完整的屬性列表](https://wiki.openstreetmap.org/wiki/Map_features)。
 
 ```python
-# 使用 add_osm_from_place 方法添加特定於「工業用地」的地圖層
+# 使用 add_osm_from_place 方法添加特定於「工業用地」的圖層
 # 這裡選擇的是台中市的工業用地
 m5.add_osm_from_place(city_name, tags={"landuse": "industrial"}, layer_name=city_name+": Industrial")
 # 顯示結果
@@ -263,13 +263,13 @@ m5
 此外，leafmap 套件也提供以特定地點為中心，搜尋 OSM 鄰近設施的方法，對於分析與判讀資料，提供十分便利的功能。例如，在以下的範例中，我們使用 `add_osm_from_address()` 方法，搜尋台中清水車站 (Qingshui Station, Taichung) 方圓 1,000 公尺內的相關宗教設施 (屬性為 "amenity": "place_of_worship")；同時，我們使用 `add_osm_from_point()` 方法，搜尋台中清水車站 GPS 座標  (24.26365, 120.56917) 方圓 1,000 公尺內的相關學校設施 (屬性為 "amenity": "school”)。最後，我們將這兩項查詢的結果，分別用不同的圖層疊加到既有的地圖上。
 
 ```python
-# 使用 add_osm_from_address 方法添加以「台中清水車站」為中心的「宗教設施」地圖層
+# 使用 add_osm_from_address 方法添加以「台中清水車站」為中心的「宗教設施」圖層
 # 這裡設置的搜索半徑是 1000 公尺
 m5.add_osm_from_address(
     address="Qingshui Station, Taichung", tags={"amenity": "place_of_worship"}, dist=1000, layer_name="Shalu worship"
 )
 
-# 使用 add_osm_from_point 方法添加以給定座標（24.26365, 120.56917）為中心的「學校」地圖層
+# 使用 add_osm_from_point 方法添加以給定座標（24.26365, 120.56917）為中心的「學校」圖層
 # 這裡設置的搜索半徑是 1000 公尺
 m5.add_osm_from_point(
     center_point=(24.26365, 120.56917), tags={"amenity": "school"}, dist=1000, layer_name="Shalu schools"
@@ -289,7 +289,7 @@ m5
 # 初始化一個新的地圖，中心點設在 (23.8, 121)，並將其命名為 m6
 m6 = leafmap.Map(center=(23.8, 121), toolbar_control=False, layers_control=True)
 
-# 在地圖 m6 上添加 EPA 空氣站的資料層
+# 在地圖 m6 上添加 EPA 空氣站的圖層
 m6.add_layer(geo_data_air)
 
 # 使用 add_heatmap 方法，在地圖上添加一個熱力圖層來顯示臭氧（O3）的濃度
@@ -326,7 +326,7 @@ df_quake['num'] = 10
 # 初始化一個新的地圖，中心點設在 (23.8, 121)，並將其命名為 m7
 m7 = leafmap.Map(center=(23.8, 121), toolbar_control=False, layers_control=True)
 
-# 在地圖 m7 上添加地震站的資料層
+# 在地圖 m7 上添加地震站的圖層
 m7.add_layer(geo_data_quake)
 
 # 使用 add_heatmap 方法，在地圖上添加一個熱力圖層來顯示地震站的數量
@@ -354,7 +354,7 @@ m7
 # 初始化一個新的地圖，中心點設在 (23.8, 121)，並將其命名為 m8
 m8 = leafmap.Map(center=(23.8, 121), toolbar_control=False, layers_control=True)
 
-# 在地圖 m8 上添加環保局（EPA）的觀測站資料層
+# 在地圖 m8 上添加環保局（EPA）的觀測站圖層
 m8.add_gdf(gdf_air, layer_name="EPA Station")
 
 # 使用 split_map 方法，將地圖拆分為兩個面板。
