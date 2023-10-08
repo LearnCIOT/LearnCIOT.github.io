@@ -656,7 +656,10 @@ timestamp
 我們可以看到第一筆資料為 *Nan*，這是因為第一筆資料無法減去前一筆資料，所以我們要將第一筆資料捨棄。
 
 ```python
+# 從 data_diff 中移除第一筆資料
 data_diff = data_diff[1:]
+
+# 顯示修改後的 data_diff
 data_diff
 ```
 

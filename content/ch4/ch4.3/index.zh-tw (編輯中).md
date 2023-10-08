@@ -26,22 +26,39 @@ authors: ["彭昱齊"]
 在本章節中，我們將會使用到 pandas, numpy, matplotlib, pywt 等 Colab 開發平台已預先安裝好的套件，以及另外一個 Colab 並未預先安裝的套件 tslearn ，需使用下列的方式自行安裝：
 
 ```python
+# 更新 pip 至最新版本
 !pip install --upgrade pip
+
+# 安裝 tslearn 套件，它是一個針對時間序列分析的套件
 !pip install tslearn
 ```
 
 待安裝完畢後，即可使用下列的語法先行引入相關的套件，完成本章節的準備工作：
 
 ```python
+# 引入 numpy 和 pandas，這兩個套件是進行資料分析時非常基本且常用的。
 import numpy as np
 import pandas as pd
+
+# pywt 是進行小波轉換的套件，通常用於訊號處理。
 import pywt
+
+# os 和 zipfile 用於處理文件和壓縮檔。
 import os, zipfile
+
+# 引入 matplotlib.pyplot 來繪製圖表。
 import matplotlib.pyplot as plt
 
+# datetime 和 timedelta 是兩個處理日期和時間的模組。
 from datetime import datetime, timedelta
+
+# fft 和 ifft 是進行快速傅立葉轉換的函式。
 from numpy.fft import fft, ifft
+
+# cwt 是連續小波轉換的函式。
 from pywt import cwt
+
+# TimeSeriesKMeans 是 tslearn 套件裡的一個用於時間序列資料集的 k-均值聚類方法。
 from tslearn.clustering import TimeSeriesKMeans
 ```
 
@@ -50,40 +67,63 @@ from tslearn.clustering import TimeSeriesKMeans
 由於我們這次要使用的是長時間的歷史資料，因此我們不直接使用 pyCIOT 套件的讀取資料功能，而直接從民生公共物聯網資料平台的歷史資料庫下載「中研院校園空品微型感測器」的 2021 年歷史資料，並存入 Air 資料夾中。
 
 ```python
+# 建立名為 Air 和 CSV_Air 的資料夾
 !mkdir Air CSV_Air
+
+# 下載 2021.zip 壓縮檔到 Air 資料夾
 !wget -O Air/2021.zip -q "https://history.colife.org.tw/?r=/download&path=L%2Bepuuawo%2BWTgeizqi%2FkuK3noJTpmaJf5qCh5ZyS56m65ZOB5b6u5Z6L5oSf5ris5ZmoLzIwMjEuemlw"
+
+# 將 Air/2021.zip 這個壓縮檔解壓縮到 Air 資料夾
 !unzip Air/2021.zip -d Air
 ```
 
 同時，由於所下載的資料是 zip 壓縮檔案的格式，我們需要先將其解壓縮，產生每日資料的壓縮檔案。由於我們在接下來的範例中只會使用到 2021/08 的資料，因此我們將 202108 子資料夾中的檔案進行解壓縮，讀取當中 csv 檔的資料，再存入 `air_month` 這個 dataframe 中。
 
 ```python
+# 設定想要操作的資料夾路徑和兩種檔案的副檔名
 folder = 'Air/2021/202108'
 extension_zip = 'zip'
 extension_csv = 'csv'
 
+# 遍歷該資料夾下的所有檔案
 for item in os.listdir(folder):
+  # 如果檔案是 .zip 壓縮檔
   if item.endswith(extension_zip):
-    file_name = f'{folder}/{item}'
-    zip_ref = zipfile.ZipFile(file_name)
-    zip_ref.extractall(folder)
-    zip_ref.close()
+    file_name = f'{folder}/{item}' # 獲取該壓縮檔的完整路徑
+    zip_ref = zipfile.ZipFile(file_name) # 開啟該壓縮檔
+    zip_ref.extractall(folder) # 解壓縮到指定資料夾
+    zip_ref.close() # 關閉該壓縮檔
 
+# 創建一個空的 DataFrame 用來存放合併後的資料
 air_month = pd.DataFrame()
+
+# 再次遍歷該資料夾下的所有檔案
 for item in os.listdir(folder):
+  # 如果檔案是 .csv 檔
   if item.endswith(extension_csv):
-    file_name = f'{folder}/{item}'
+    file_name = f'{folder}/{item}' # 獲取該 .csv 檔的完整路徑
+
+    # 讀取該 .csv 檔，並將「timestamp」欄位解析為 datetime 格式
     df = pd.read_csv(file_name, parse_dates=['timestamp'])
-    air_month = air_month.append(df)
+    air_month = air_month.append(df) # 將讀取到的資料加到 air_month DataFrame 中
+
+# 將「timestamp」欄位設為索引
 air_month.set_index('timestamp', inplace=True)
+
+# 根據「timestamp」欄位對資料進行排序
 air_month.sort_values(by='timestamp', inplace=True)
 ```
 
 目前 `air_month` 的格式還不符合我們的需求，需要先將其整理成以站點資料為欄，以時間資料為列的資料格式。我們先找出資料中共有多少站點，並將這些站點資訊存在一個序列中。
 
 ```python
+# 從 air_month 資料框中取出「device_id」欄位的所有資料，並儲存為 numpy 陣列
 id_list = air_month['device_id'].to_numpy()
+
+# 使用 numpy 的 unique 函數找出 id_list 中的唯一裝置ID
 id_uniques = np.unique(id_list)
+
+# 這時，id_uniques 陣列會包含所有唯一的裝置ID
 id_uniques
 ```
 
@@ -92,25 +132,41 @@ array(['08BEAC07D3E2', '08BEAC09FF12', '08BEAC09FF22', ...,
        '74DA38F7C648', '74DA38F7C64A', '74DA38F7C64C'], dtype=object)
 ```
 
-接著我們將每個站點的資料存成一個欄，並放入 `air` 這個 dataframe 中。最後我們將所有下載的資料與解壓縮後產生的資料移除，以節省雲端的儲存空間。
+接著我們將每個站點的資料存成一個欄，並放入 「air」 這個 dataframe 中。最後我們將所有下載的資料與解壓縮後產生的資料移除，以節省雲端的儲存空間。
 
 ```python
+# 創建一個空的 DataFrame
 air = pd.DataFrame()
+
+# 遍歷每一個裝置ID
 for i in range(len(id_uniques)):
   # print('device_id=="' + id_uniques[i] + '"')
+  # 從 air_month 中過濾出當前裝置的資料
   query = air_month.query('device_id=="' + id_uniques[i] + '"')
+
+  # 根據時間戳對資料進行排序
   query.sort_values(by='timestamp', inplace=True)
+
+  # 按小時重新取樣，計算平均值
   query_mean = query.resample('H').mean()
+
+  # 將 PM25 的列名重新命名為當前裝置 ID
   query_mean.rename(columns={'PM25': id_uniques[i]}, inplace=True)
+
+  # 將重新取樣的資料添加到 air DataFrame 中
   air = pd.concat([air, query_mean], axis=1)
 
+# 刪除 Air 目錄
 !rm -rf Air
 ```
 
 我們可以用下列的語法快速查看 air 的內容。
 
 ```python
+# 從資料框 air 取得資訊，如資料的形狀、列名稱、非空資料的數量等。
 air.info()
+
+# 顯示資料框 air 的前五行，幫助使用者初步了解資料的樣子。
 print(air.head())
 ```
 
@@ -173,8 +229,14 @@ timestamp
 接下來，我們首先將資料中有資料缺漏的部分 (數值為 Nan) 予以刪除，並且先將資料繪製成圖形，觀察資料的分布狀況。
 
 ```python
+# 將資料框 air 的最後一行刪除
 air = air[:-1]
-air_clean = air.dropna(1, how='any') # 將具有Nan值的欄位捨棄
+
+# 使用 dropna 方法移除在任何欄位中有缺失值的列
+# axis=1 代表操作在欄位上；how='any' 代表只要欄位中有任何缺失值就刪除整個欄位
+air_clean = air.dropna(1, how='any')
+
+# 繪製資料框 air_clean 中的所有資料，不顯示圖例
 air_clean.plot(figsize=(20, 15), legend=None)
 ```
 
@@ -183,7 +245,10 @@ air_clean.plot(figsize=(20, 15), legend=None)
 由於原始資料中感測器的瞬間數值容易因為環境變化而有瞬間劇烈的變動，因此我們使用移動平均的方式，將每十次的感測值進行移動平均，讓處理過的資料可以較為平順並反映感測器周遭的整體趨勢，以方便進入接下來的集群分析。
 
 ```python
-air_clean = air_clean.rolling(window=10, min_periods=1).mean() # 使用移動平均使曲線變化更為平順
+# 使用移動平均法對 air_clean 進行平滑處理。window 設定為 10 代表考慮前 10 個資料點的平均值；min_periods=1 表示資料點數量至少有 1 個時才計算平均。
+air_clean = air_clean.rolling(window=10, min_periods=1).mean()
+
+# 繪製平滑後的 air_clean 資料，設定圖片大小並不顯示圖例。
 air_clean.plot(figsize=(20, 15), legend=None)
 ```
 
@@ -205,9 +270,16 @@ KMeans 分群法的內部運作大致分為下列幾個步驟：
 我們先設定 *k*=10，並使用 `TimeSeriesKMeans`，將資料分為 10 群 (0~9) 如下：
 
 ```python
+# 將 air_clean 資料框進行轉置，使得時間序列資料位於列上，各感測器的資料為行。
 air_transpose = air_clean.transpose()
-model = TimeSeriesKMeans(n_clusters=10, metric="dtw", max_iter=5) # n_cluster:分群數量, max_iter: 分群的步驟最多重複幾次
+
+# 建立時間序列分群模型。指定分群數量為10，使用動態時間規整 (DTW) 作為計算距離的指標，最多迭代 5 次進行分群。
+model = TimeSeriesKMeans(n_clusters=10, metric="dtw", max_iter=5)
+
+# 使用轉置後的資料訓練分群模型。
 pre = model.fit(air_transpose)
+
+# 顯示模型對各感測器資料的分群結果。
 pre.labels_
 ```
 
@@ -236,16 +308,24 @@ array([3, 3, 6, 3, 3, 3, 3, 6, 9, 6, 3, 6, 3, 3, 3, 3, 3, 1, 3, 3, 6, 3,
 由於分群的結果有可能因為少數感測器擁有特殊的資料特徵而自成一個群集，而這些感測器其實可以被視為偏離測站，並沒有進一步分析的價值，因此我們下一步便要先統計一下每一個分離出來的群集，其內部感測器的個數是否只有一個，如果是的話，便將該群集捨棄掉。例如在這個範例中，我們便會捨棄掉其中只有一個感測器的群集如下：
 
 ```python
-# build helper df to map metrics to their cluster labels
+# 建立一個輔助用的資料框，將每一個 metric (即原始資料的欄位名稱) 對應到它所屬的分群編號。
 df_cluster = pd.DataFrame(list(zip(air_clean.columns, pre.labels_)), columns=['metric', 'cluster'])
 
-# make some helper dictionaries and lists
+# 建立一些輔助用的字典和清單。
+# 將每一個分群裡的 metrics 彙整到一個清單中。
 cluster_metrics_dict = df_cluster.groupby(['cluster'])['metric'].apply(lambda x: [x for x in x]).to_dict()
+
+# 計算每一個分群中有多少 metrics。
 cluster_len_dict = df_cluster['cluster'].value_counts().to_dict()
+
+# 找出那些只有一個 metric 的分群。
 clusters_dropped = [cluster for cluster in cluster_len_dict if cluster_len_dict[cluster]==1]
+
+# 找出那些有超過一個 metric 的分群。
 clusters_final = [cluster for cluster in cluster_len_dict if cluster_len_dict[cluster]>1]
 clusters_final.sort()
 
+# 顯示那些只有一個 metric 的分群。
 clusters_dropped
 ```
 
@@ -256,16 +336,32 @@ clusters_dropped
 最後，我們將剩下的群集分別用繪圖的方式展示，可以發現每一個群集內的資料皆呈現極高的相似度，而不同群集的資料，彼此則呈現明顯可分辨的差異。為了量化群集內資料的相似度，我們定義一個新的變數 `qualiuty`，且這個變數的值等於內部每筆資料與其他資料的相關性 (correlation) 的平均值，且 `quality` 的值越低代表這個群集內部的資料越相似。
 
 ```python
+# 根據最終的分群數量，設定子圖的數量並初始化圖形。
 fig, axes = plt.subplots(nrows=len(clusters_final), ncols=1, figsize=(20, 15), dpi=500)
 # legend = axes.legend(loc="upper left", bbox_to_anchor=(1.02, 0, 0.07, 1))
+
+# 遍歷所有的分群。
 for idx, cluster_number in enumerate(clusters_final):
+
+  # 計算該分群中的時間序列之間的相關性。
   x_corr = air_clean[cluster_metrics_dict[cluster_number]].corr().abs().values
+
+  # 計算相關性矩陣中上三角形部分的平均值，排除對角線。
   x_corr_mean = round(x_corr[np.triu_indices(x_corr.shape[0],1)].mean(),2)
+
+  # 設定子圖的標題，包含分群編號、平均相關性以及該分群中的時間序列數量。
   plot_title = f'cluster {cluster_number} (quality={x_corr_mean}, n={cluster_len_dict[cluster_number]})'
+
+  # 繪製該分群中的所有時間序列。
   air_clean[cluster_metrics_dict[cluster_number]].plot(ax=axes[idx], title=plot_title)
+
+  # 移除圖例。
   axes[idx].get_legend().remove()
 
+# 調整子圖的間距，確保不會重疊。
 fig.tight_layout()
+
+# 顯示圖形。
 plt.show()
 ```
 
@@ -280,7 +376,8 @@ plt.show()
 我們首先針對單一測站 (‘`08BEAC07D3E2`’) 透過繪圖的方式，觀察其在時域下的變化圖。
 
 ```python
-air_clean['08BEAC07D3E2'].plot() # 畫出id=08BEAC07D3E2的測站資料
+# 根據指定的測站ID，繪製該測站的資料。
+air_clean['08BEAC07D3E2'].plot()
 ```
 
 ![Python output](figures/4-3-4-2.png)
@@ -288,24 +385,26 @@ air_clean['08BEAC07D3E2'].plot() # 畫出id=08BEAC07D3E2的測站資料
 接著我們使用 numpy 套件中的快速傅立葉轉換工具 `fft`，將測站的資料輸入進行轉換，並用繪圖的方式觀察轉換到頻域後的資料分佈狀況。
 
 ```python
+# 使用快速傅立葉轉換 (FFT) 計算資料的頻譜
 X = fft(air_clean['08BEAC07D3E2'])
-N = len(X)
-n = np.arange(N)
-# get the sampling rate
-sr = 1 / (60*60)
-T = N/sr
-freq = n/T 
+N = len(X) # 取得資料的長度
+n = np.arange(N) # 產生 0 到 N-1 的序列
 
-# Get the one-sided specturm
+# 獲得取樣率，這裡是每小時一次，所以取樣率為 1/3600
+sr = 1 / (60*60)
+T = N/sr # 總取樣時間
+freq = n/T # 計算每個頻率成分
+
+# 取得單側的頻譜，因為 FFT 結果是對稱的
 n_oneside = N//2
-# get the one side frequency
 f_oneside = freq[:n_oneside]
 
+# 繪製頻譜
 plt.figure(figsize = (12, 6))
-plt.plot(f_oneside, np.abs(X[:n_oneside]), 'b')
-plt.xlabel('Freq (Hz)')
-plt.ylabel('FFT Amplitude |X(freq)|')
-plt.show()
+plt.plot(f_oneside, np.abs(X[:n_oneside]), 'b') # 使用絕對值表示振幅
+plt.xlabel('Freq (Hz)') # x軸標籤
+plt.ylabel('FFT Amplitude |X(freq)|') # y 軸標籤
+plt.show() # 顯示圖形
 ```
 
 ![Python output](figures/4-3-4-3.png)
@@ -313,22 +412,31 @@ plt.show()
 然後我們將相同的轉換步驟，擴及到所有的感測器，並且將所有感測器完成快速傅立葉轉換後的結果，儲存在 `air_fft` 變數中。
 
 ```python
+# 創建一個空的資料框來存放每個測站的 FFT 結果
 air_fft = pd.DataFrame()
-col_names = list(air_clean.columns)
-for name in col_names:
-  X = fft(air_clean[name])
-  N = len(X)
-  n = np.arange(N)
-  # get the sampling rate
-  sr = 1 / (60*60)
-  T = N/sr
-  freq = n/T 
 
-  # Get the one-sided specturm
+# 獲取所有測站的名稱
+col_names = list(air_clean.columns)
+
+# 對每個測站的資料執行 FFT
+for name in col_names:
+  X = fft(air_clean[name]) # 計算 FFT
+  N = len(X) # 獲取資料的長度
+  n = np.arange(N) # 產生 0 到 N-1 的序列
+
+  # 獲取取樣率，這裡是每小時一次，所以取樣率為 1/3600
+  sr = 1 / (60*60)
+  T = N/sr # 計算總取樣時間
+  freq = n/T # 計算每個頻率成分
+
+  # 取得單側的頻譜，因為 FFT 結果是對稱的
   n_oneside = N//2
-  # get the one side frequency
+
+  # 將計算的 FFT 振幅存到資料框中
   f_oneside = freq[:n_oneside]
   air_fft[name] = np.abs(X[:n_oneside])
+
+# 顯示 FFT 資料框的前五行
 print(air_fft.head())
 ```
 
@@ -367,20 +475,28 @@ print(air_fft.head())
 我們接著使用和前面相同的方法，使用 `TimeSeriesKMeans` 針對已轉換到頻域的感測器資料分成 10 個群集，並將分群後只有單一感測器的群集予以刪除，在這個範例中，最後會剩下 9 個群集，我們把每個感測器所屬的群集代碼列印出來。
 
 ```python
+# 將 FFT 的結果進行轉置，因為後面的分群模型需要的輸入格式是每列是一段時間序列，每行是不同的時間點。
 fft_transpose = air_fft.transpose() # 將資料行列交換以符合分群模型輸入的需求
+
+# 使用時間序列 K 均值進行分群，這裡選擇了 10 個群，使用動態時間歪曲 (DTW) 作為距離度量。
 model = TimeSeriesKMeans(n_clusters=10, metric="dtw", max_iter=5)
 pre = model.fit(fft_transpose)
 
-# build helper df to map metrics to their cluster labels
+# 建立一個輔助資料框，將每個測站 (即每個資料行) 映射到其對應的群標籤。
 df_cluster = pd.DataFrame(list(zip(air_fft.columns, pre.labels_)), columns=['metric', 'cluster'])
 
-# make some helper dictionaries and lists
+# 創建輔助的字典和列表來了解每個群中有多少測站，以及哪些測站屬於哪個群。
 cluster_metrics_dict = df_cluster.groupby(['cluster'])['metric'].apply(lambda x: [x for x in x]).to_dict()
 cluster_len_dict = df_cluster['cluster'].value_counts().to_dict()
+
+# 找出只有一個測站的群 (這些群對我們可能沒有太大的意義)。
 clusters_dropped = [cluster for cluster in cluster_len_dict if cluster_len_dict[cluster]==1]
+
+# 找出有多於一個測站的群。
 clusters_final = [cluster for cluster in cluster_len_dict if cluster_len_dict[cluster]>1]
 clusters_final.sort()
 
+# 顯示每個測站及其所屬的群標籤。
 print(df_cluster.head(10))
 ```
 
@@ -401,15 +517,31 @@ print(df_cluster.head(10))
 最後，我們把九個群集的感測器資料分別繪製出來，可以發現每個群集內的感測器在頻域上的資料皆有極度的相似性，同時不同群集的感測器在頻域上的資料彼此相異程度，亦明顯比同群集內的感測器資料差異度為大。
 
 ```python
+# 根據分群的結果建立多個子圖，每個子圖對應一個群。
 fig, axes = plt.subplots(nrows=len(clusters_final), ncols=1, figsize=(20, 15), dpi=500)
+
+# 遍歷每一個群，並在對應的子圖上畫出該群內所有測站的FFT結果。
 for idx, cluster_number in enumerate(clusters_final):
+
+  # 計算該群內所有測站之間的相關係數，並取絕對值。
   x_corr = air_fft[cluster_metrics_dict[cluster_number]].corr().abs().values
+
+  # 計算上三角矩陣中所有相關係數的平均值，得到該群的平均相關度。
   x_corr_mean = round(x_corr[np.triu_indices(x_corr.shape[0],1)].mean(),2)
+
+  # 設置子圖的標題，顯示群號、群的平均相關度和群內測站的數量。
   plot_title = f'cluster {cluster_number} (quality={x_corr_mean}, n={cluster_len_dict[cluster_number]})'
+
+  # 畫出該群內所有測站的 FFT 結果。
   air_fft[cluster_metrics_dict[cluster_number]].plot(ax=axes[idx], title=plot_title)
+
+  # 移除圖例，因為對於這樣的圖而言，圖例沒有太大的意義。
   axes[idx].get_legend().remove()
 
+# 調整子圖之間的間距，使得整體圖形看起來更加整齊。
 fig.tight_layout()
+
+# 顯示整體圖形。
 plt.show()
 ```
 
@@ -422,7 +554,10 @@ plt.show()
 我們使用 pywt 套件進行小波轉換的資料處理，由於小波轉換會使用到母小波來擷取時序資料中的特徵，因此我們先用下列的語法查看可使用的母小波名稱。
 
 ```python
+# 從 pywt 模組中取得所有連續小波的名稱列表。
 wavlist = pywt.wavelist(kind="continuous")
+
+# 顯示這些連續小波的名稱。
 print(wavlist)
 ```
 
@@ -433,15 +568,26 @@ print(wavlist)
 不同於傅立葉轉換只能看到頻率上的變化，小波轉換可以將有限長的母小波進行縮放並在一段資料上擷取特徵，而在挑選母小波時可以先將其作圖觀察後再做決定，若以 *morl* 母小波為例，我們可以使用下列的語法進行作圖。
 
 ```python
+# 使用 Morlet 小波建立一個連續小波物件。
 wav = pywt.ContinuousWavelet("morl")
+
+# 定義小波的尺度。
 scale = 1
 
+# 計算指定小波的連續小波變換整合。
 int_psi, x = pywt.integrate_wavelet(wav, precision=10)
+
+# 正規化整合小波以使其最大絕對值為 1。
 int_psi /= np.abs(int_psi).max()
+
+# 反轉整合小波，得到小波濾波器。
 wav_filter = int_psi[::-1]
 
+# 定義時間軸。
 nt = len(wav_filter)
 t = np.linspace(-nt // 2, nt // 2, nt)
+
+# 繪製小波濾波器的實部。
 plt.plot(t, wav_filter.real)
 plt.ylim([-1, 1])
 plt.xlabel("time (samples)")
@@ -453,25 +599,28 @@ plt.xlabel("time (samples)")
 
 ```python
 # 參數設定
-F = 1  #Samples per hour
-hours = 744
-nos = np.int(F*hours)  #No of samples in 31 days
+F = 1  # 每小時取樣次數
+hours = 744 # 31 天的小時數
+nos = np.int(F*hours)  # 31 天內的總取樣次數
 
+# 從資料框中選擇某一測站的資料
 x = air_clean['08BEAC09FF2A']
 scales = np.arange(1, 31, 1)
+
+# 使用 Morlet 小波進行連續小波變換
 coef, freqs = cwt(x, scales, 'morl')
 
-# scalogram
+# 繪製 scalogram
 plt.figure(figsize=(15, 10))
 plt.imshow(abs(coef), extent=[0, 744, 30, 1], interpolation='bilinear', cmap='viridis',
-           aspect='auto', vmax=abs(coef).max(), vmin=abs(coef).min())
-plt.gca().invert_yaxis()
+           aspect='auto', vmax=abs(coef).max(), vmin=abs(coef).min()) # 顯示小波變換的絕對值
+plt.gca().invert_yaxis() # Y 軸反向，使尺度從大到小排列
 plt.yticks(np.arange(1, 31, 1))
-plt.xticks(np.arange(0, nos/F, nos/(20*F)))
-plt.ylabel("scales")
-plt.xlabel("hour")
-plt.colorbar()
-plt.show()
+plt.xticks(np.arange(0, nos/F, nos/(20*F))) # 設定 X 軸的刻度
+plt.ylabel("scales") # 設定 Y 軸標籤
+plt.xlabel("hour") # 設定 X 軸標籤
+plt.colorbar() # 顯示色條
+plt.show() # 顯示圖形
 ```
 
 ![Python output](figures/4-3-4-6.png)
@@ -481,13 +630,21 @@ plt.show()
 不過，由於經過小波轉換後，每個測站的資料已經轉為二維的特徵數值，在開始進行資料分群前，我們需要先將原本二維資料的每一個欄位串接起來，變成一維的資料格式，並存入 `air_cwt` 變數中。
 
 ```python
+# 初始化空的資料框用於存儲所有測站的小波連續變換結果
 air_cwt = pd.DataFrame()
-scales = np.arange(28, 31, 2)
-col_names = list(air_clean.columns)
-for name in col_names:
-  coef, freqs = cwt(air_clean[name], scales, 'morl')
-  air_cwt[name] = np.abs(coef.reshape(coef.shape[0]*coef.shape[1]))
 
+# 定義要使用的小波尺度範圍，此處選擇了 28, 30 這兩個尺度
+scales = np.arange(28, 31, 2)
+
+# 從 air_clean 中獲取所有測站的名稱
+col_names = list(air_clean.columns)
+
+# 對每一個測站的資料進行小波連續變換
+for name in col_names:
+  coef, freqs = cwt(air_clean[name], scales, 'morl') # 使用 Morlet 小波進行連續小波變換
+  air_cwt[name] = np.abs(coef.reshape(coef.shape[0]*coef.shape[1])) # 重塑 coef 陣列並取其絕對值
+
+# 顯示資料框 air_cwt 的前五行
 print(air_cwt.head())
 ```
 
@@ -528,22 +685,29 @@ print(air_cwt.head())
 由於小波轉換可以得到更細微的資料特徵，因此我們在資料分群的過程中，預設分為 20 個群集（讀者可自行測試不同的群集數目設定，觀察結果會產生哪些變化）；此外，我們對於分群結果也一樣先檢查是否存在只有單一感測器的小群集，並將其剔除，以避免少數特殊狀況的感測器，影響整體資料分群的結果。
 
 ```python
+# 選擇 air_cwt 資料框的前 101 列作為一個子集
 air_cwt_less = air_cwt.iloc[:, 0:101]
 
-cwt_transpose = air_cwt_less.transpose() # 將資料行列交換以符合分群模型輸入的需求
+# 由於 TimeSeriesKMeans 模型需要資料的每一列為一個時間序列，因此我們將資料框轉置
+cwt_transpose = air_cwt_less.transpose()
+
+# 初始化 TimeSeriesKMeans 模型，設定分群數量為 20，使用 DTW 作為相似度指標，並設定其他參數
 model = TimeSeriesKMeans(n_clusters=20, metric="dtw", max_iter=10, verbose=1, n_jobs=-1)
+
+# 擬合模型到資料
 pre = model.fit(cwt_transpose)
 
-# build helper df to map metrics to their cluster labels
+# 創建一個幫助資料框，將資料的名稱映射到其相應的分群標籤
 df_cluster = pd.DataFrame(list(zip(air_cwt.columns, pre.labels_)), columns=['metric', 'cluster'])
 
-# make some helper dictionaries and lists
+# 創建一些幫助字典和列表
 cluster_metrics_dict = df_cluster.groupby(['cluster'])['metric'].apply(lambda x: [x for x in x]).to_dict()
 cluster_len_dict = df_cluster['cluster'].value_counts().to_dict()
-clusters_dropped = [cluster for cluster in cluster_len_dict if cluster_len_dict[cluster]==1]
-clusters_final = [cluster for cluster in cluster_len_dict if cluster_len_dict[cluster]>1]
-clusters_final.sort()
+clusters_dropped = [cluster for cluster in cluster_len_dict if cluster_len_dict[cluster]==1] # 被捨棄的分群
+clusters_final = [cluster for cluster in cluster_len_dict if cluster_len_dict[cluster]>1] # 最終使用的分群
+clusters_final.sort() # 對分群編號進行排序
 
+# 顯示 df_cluster 的前 10 行以供查看
 print(df_cluster.head(10))
 ```
 
@@ -564,16 +728,30 @@ metric  cluster
 在我們的範例中，經過上述的程序後，最後留下 14 個群集，我們將每個群集內的感測器原始資料一一繪出，我們可以發現相同群集內的感測器資料一致性更加明顯，同時不同群集間的差異也更加細緻明確，比之前使用原始資料或傅立葉轉換時的成效更為明顯。
 
 ```python
+# 根據我們的分群數量，建立一個多行、單列的子圖結構
 fig, axes = plt.subplots(nrows=len(clusters_final), ncols=1, figsize=(20, 15), dpi=500)
-# legend = axes.legend(loc="upper left", bbox_to_anchor=(1.02, 0, 0.07, 1))
+
+# 對於每個分群，我們會做以下操作：
 for idx, cluster_number in enumerate(clusters_final):
+  # 計算這個分群中的時間序列的相關性
   x_corr = air_cwt[cluster_metrics_dict[cluster_number]].corr().abs().values
+
+  # 計算平均相關性
   x_corr_mean = round(x_corr[np.triu_indices(x_corr.shape[0],1)].mean(),2)
+
+  # 設定子圖的標題，包括分群號、平均相關性和該分群中的時間序列數量
   plot_title = f'cluster {cluster_number} (quality={x_corr_mean}, n={cluster_len_dict[cluster_number]})'
+
+  # 在子圖上繪製該分群中的所有時間序列
   air_cwt[cluster_metrics_dict[cluster_number]].plot(ax=axes[idx], title=plot_title)
+
+  # 移除子圖的圖例，以保持視覺清晰
   axes[idx].get_legend().remove()
 
+# 調整子圖的間距，使其適應畫布
 fig.tight_layout()
+
+# 顯示圖表
 plt.show()
 ```
 
