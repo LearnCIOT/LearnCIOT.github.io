@@ -49,7 +49,7 @@ from sklearn.feature_selection import f_regression
 # 引入 scipy.stats 用於統計計算
 import scipy.stats as stats
 
-# 引入scipy.stats用於統計計算
+# 引入 scipy.stats 用於統計計算
 import joblib
 ```
 
@@ -442,7 +442,7 @@ def SlideDay( Hourly_DF, day, enddate ):
     # 計算起始日期，這是根據提供的結束日期減去指定的天數得出的
     startdate= enddate- timedelta( days= (day-1) )
 
-    # 使用 boolean 遮罩（mask）來選出介於起始日期和結束日期之間的資料
+    # 使用 boolean 遮罩 (mask) 來選出介於起始日期和結束日期之間的資料
     time_mask= Hourly_DF["timestamp"].between( pd.Timestamp(startdate, tz='utc'), pd.Timestamp(enddate, tz='utc') )
     
     # 返回選出的資料
@@ -458,7 +458,7 @@ def BuildModel( site, enddate, feature, day, method, Training_DF ):
     # 從提供的資料框中提取相對應的特徵資料
     X_train = Training_DF[ FEATURES_METHOD[ feature ] ]
 
-    # 提取預測目標欄位，即EPA的PM2.5數值
+    # 提取預測目標欄位，即 EPA 的 PM2.5 數值
     Y_train = Training_DF[ "EPA_PM25" ]
 
     # 初始化一個字典來儲存模型的相關結果
@@ -503,7 +503,6 @@ def TestModel( site, feature, modelname, Testing_DF, lm ):
     # 加入測試時間欄位
     Now_Time = datetime.utcnow().strftime( "%Y-%m-%d %H:%M:%S" )
 
-    ### 測試模型 ###
     # 使用模型預測測試資料
     Y_pred = lm.predict( X_test )
 
