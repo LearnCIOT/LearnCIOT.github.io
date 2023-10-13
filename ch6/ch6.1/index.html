@@ -16,18 +16,18 @@
     <meta name="author" content="Ling-Jyh Chen">
     <title>6.1. 機器學習初探 :: Tutorial for CIoT Open Data Applications</title>
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="/css/fontawesome-all.min.css?1695739189" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1695739189" rel="stylesheet"></noscript>
-    <link href="/css/featherlight.min.css?1695739189" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1695739189" rel="stylesheet"></noscript>
-    <link href="/css/auto-complete.css?1695739189" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1695739189" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar.min.css?1695739189" rel="stylesheet">
-    <link href="/css/nucleus.css?1695739189" rel="stylesheet">
-    <link href="/css/fonts.css?1695739189" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1695739189" rel="stylesheet"></noscript>
-    <link href="/css/theme.css?1695739189" rel="stylesheet">
-    <link href="/css/theme-relearn-light.css?1695739189" rel="stylesheet" id="variant-style">
-    <link href="/css/ie.css?1695739189" rel="stylesheet">
-    <link href="/css/variant.css?1695739189" rel="stylesheet">
-    <link href="/css/print.css?1695739189" rel="stylesheet" media="print">
-    <script src="/js/variant.js?1695739189"></script>
+    <link href="/css/fontawesome-all.min.css?1697155758" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1697155758" rel="stylesheet"></noscript>
+    <link href="/css/featherlight.min.css?1697155758" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1697155758" rel="stylesheet"></noscript>
+    <link href="/css/auto-complete.css?1697155758" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1697155758" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar.min.css?1697155758" rel="stylesheet">
+    <link href="/css/nucleus.css?1697155758" rel="stylesheet">
+    <link href="/css/fonts.css?1697155758" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1697155758" rel="stylesheet"></noscript>
+    <link href="/css/theme.css?1697155758" rel="stylesheet">
+    <link href="/css/theme-relearn-light.css?1697155758" rel="stylesheet" id="variant-style">
+    <link href="/css/ie.css?1697155758" rel="stylesheet">
+    <link href="/css/variant.css?1697155758" rel="stylesheet">
+    <link href="/css/print.css?1697155758" rel="stylesheet" media="print">
+    <script src="/js/variant.js?1697155758"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -43,7 +43,7 @@
       var baseUriFull='https:\/\/LearnCIOT.github.io/';
       window.variants && variants.init( [ 'relearn-light' ] );
     </script>
-    <script src="/js/jquery.min.js?1695739189" defer></script>
+    <script src="/js/jquery.min.js?1697155758" defer></script>
 <meta property="fb:app_id" content="601826851395774" />
   </head>
   <body class="default-animation" data-url="/ch6/ch6.1/">
@@ -342,44 +342,57 @@ if (!doNotTrack) {
 </div>
 
 <h2 id="基本介紹">基本介紹</h2>
-<p>我們在之前的章節中，已經介紹民生公共物聯網豐富的開放資料內容，同時介紹從時間維度與空間維度的角度出發，進行各種不同的資料分析與處理，在這個章節中，我們將開進一步初探機器學習的應用，介紹兩個經典的機器學習問題，分別是分類問題 (Classification) 與分群問題 (Clustering)。</p>
+<p>我們在之前的章節中，已經介紹民生公共物聯網豐富的開放資料內容，同時介紹從時間維度與空間維度的角度出發，進行各種不同的資料分析與處理，在這個章節中，我們將進一步初探機器學習的應用，介紹兩個經典的機器學習問題，分別是分類問題 (Classification) 與分群問題 (Clustering)。</p>
 <h3 id="分類問題-classification">分類問題 (Classification)</h3>
-<p>分類問題是機器學習理論中的一個經典問題，若用比較數學的方式來描述這個問題，我們可以假設有一組已經分類好的數據 <code>X</code>，以及每一筆資料在分類之後所得到的標籤集合 <code>Y</code>，而分類問題就是希望能透過這組分類好的數據與標籤，建構一個有效的分類器 (Classifier)，可以將尚未分類的數據 <code>X’</code>，並找到其中每一筆資料相對應得標籤 <code>Y’</code>。</p>
-<p>因此，分類問題的重點，就是要構造一個有效的分類器 (Classifier)，為了達到這個目的，我們會先建立一個模型，利用已經標籤好 (labeled) 的數據進行訓練，並且讓這個模型盡可能地貼近與適應 (fit) 這些數據分佈狀態，再使用最後成品的模型做為分類器，用來推測未知數據的標籤。</p>
-<p>這個建立分類器的過程，在機器學習中被稱為監督式學習 (supervised learning)，而常見的分類器模型有 <em><a href="https://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm">Nearest Neighbors</a></em>、<em><a href="https://en.wikipedia.org/wiki/Support-vector_machine">SVM Classifier</a></em>、<em><a href="https://en.wikipedia.org/wiki/Decision_tree">Decision Tree</a></em>、*<a href="https://en.wikipedia.org/wiki/Random_forest">Random Forest</a> *****等，在我們稍後的文章中，我們並不會針對每一種模型進行深入的講解，只會把這些模型直接拿來當工具使用，對於這些模型有興趣的讀者，可以參考相關資源，自行再做更深入的探究。</p>
+<p>分類問題是機器學習理論中的一個經典問題，若用比較數學的方式來描述這個問題，我們可以假設有一組已經分類好的數據 <code>X</code>，以及每一筆資料在分類之後所得到的標籤集合 <code>Y</code>，而分類問題就是希望能透過這組分類好的數據與標籤，建構一個有效的分類器 (Classifier)，可以將尚未分類的數據 <code>X’</code>，並找到其中每一筆資料相對應的標籤 <code>Y’</code>。</p>
+<p>因此，分類問題的重點，就是要構造一個有效的分類器 (Classifier)，為了達到這個目的，我們會先建立一個模型，利用已經標籤好 (labeled) 的數據進行訓練，並且讓這個模型盡可能地貼近與適應 (fit) 這些數據分佈狀態，完成訓練後，我們再利用此模型作為分類器，用來推測未知數據的標籤。</p>
+<p>這個建立分類器的過程，在機器學習中被稱為監督式學習 (supervised learning)，而常見的分類器模型有 <em><a href="https://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm">Nearest Neighbors</a></em>、<em><a href="https://en.wikipedia.org/wiki/Support-vector_machine">SVM Classifier</a></em>、<em><a href="https://en.wikipedia.org/wiki/Decision_tree">Decision Tree</a></em>、*<a href="https://en.wikipedia.org/wiki/Random_forest">Random Forest</a> *****等，在我們稍後的文章中，我們並不會針對每一種模型進行深入的講解，只會把這些模型直接拿來當作工具使用，對於這些模型有興趣的讀者，可以參考相關資源，自行再做更深入的探究。</p>
 <h3 id="分群問題-clustering">分群問題 (Clustering)</h3>
-<p>分群問題和分類問題非常相似，主要差異在於分類問題是用已知的標籤數據資料推論未知的數據資料，而分群問題則是完全「無中生有」，從數據資料中自行歸類出不同的群組。</p>
-<p>若以比較數學的方式來描述這個問題，我們可以假設有一組完全沒有標記的數據 <code>X</code>，而分類問題就是希望能透過某種的演算法，將 <code>X</code> 的資料區分為 <code>k</code> 個群組，其中每一個群組內的資料彼此相似度大，而不同群組的資料彼此相異度大。</p>
+<p>分群問題和分類問題非常相似，主要差異在於分類問題是用已知的標籤數據資料推論未知的數據資料，而分群問題則是完全「無中生有」，在沒有事先標籤的情況下，根據數據的特徵自動將它們歸類出不同的群組。</p>
+<p>若以比較數學的方式來描述這個問題，我們可以假設有一組完全沒有標記的數據 <code>X</code>，而分類問題就是希望能透過某種演算法，將 <code>X</code> 的資料區分為 <code>k</code> 個群組，其中每一個群組內的資料彼此相似度大，而不同群組的資料彼此相異度大。</p>
 <p>因此，分群問題的演算法主要就是根據數據的特性，不斷地判斷資料間的相似與相異度，並且讓相似的資料群聚在一起，讓相異的資料在分佈中彼此互斥，而常見的分群演算法有 <a href="https://en.wikipedia.org/wiki/K-means_clustering">K-Means</a>、<a href="https://en.wikipedia.org/wiki/DBSCAN">DBSCAN</a>、<a href="https://en.wikipedia.org/wiki/Hierarchical_clustering">Hierarchical Clustering</a>、<a href="https://en.wikipedia.org/wiki/BIRCH">BIRCH</a> ******等，我們一樣不會針對每一種演算法進行深入的講解，只會把這些演算直接拿來當工具使用，對於這些模型有興趣的讀者，可以參考相關資源，自行再做更深入的探究。</p>
 <h2 id="套件安裝與引用">套件安裝與引用</h2>
-<p>在本章節中，我們除了使用 pyCIOT 套件獲取相關的民生公共物聯網開放資料外，將會使用到 pandas, numpy, matplotlib, json, os, glob, math, seaborn, warnings, tqdm, datetime,  geopy, scipy 等套件，這些套件由於在我們使用的開發平台 Colab 上皆已預先安裝好，因此不需要再另行安裝。然而，我們還會另外使用兩個 Colab 並未預先安裝好的套件：fastdtw 和 sklearn，以及為了讓輸出的圖形美觀而使用 TaipeiSansTCBeta-Regular 字型，需使用下列的方式進行安裝：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>pip3 install fastdtw <span style="color:#f92672">--</span>quiet
+<p>在本章節中，我們除了使用 pyCIOT 套件獲取相關的民生公共物聯網開放資料外，將會使用到 pandas, numpy, matplotlib, json, os, glob, math, seaborn, warnings, tqdm, datetime,  geopy, scipy 等套件，這些套件由於在我們使用的開發平台 Colab 上皆已預先安裝好，因此不需要再另行安裝。然而，我們還會另外使用兩個 Colab 上並未預先安裝好的套件：fastdtw 和 sklearn，以及為了讓輸出的圖形美觀而使用 TaipeiSansTCBeta-Regular 字型，需使用下列的方式進行安裝：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 安裝 fastdtw 套件，用於快速動態時間扭曲。</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>pip3 install fastdtw <span style="color:#f92672">--</span>quiet
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 安裝 scikit-learn 套件，用於機器學習。</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>pip3 install scikit<span style="color:#f92672">-</span>learn <span style="color:#f92672">--</span>quiet
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 安裝 pyCIOT 套件。</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>pip3 install pyCIOT <span style="color:#f92672">--</span>quiet
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 從 Google Drive 下載 TaipeiSansTCBeta-Regular.ttf 字型檔案。</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>wget <span style="color:#f92672">-</span>q <span style="color:#f92672">-</span>O TaipeiSansTCBeta<span style="color:#f92672">-</span>Regular<span style="color:#f92672">.</span>ttf https:<span style="color:#f92672">//</span>drive<span style="color:#f92672">.</span>google<span style="color:#f92672">.</span>com<span style="color:#f92672">/</span>uc<span style="color:#960050;background-color:#1e0010">?</span>id<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>eGAsTN1HBpJAkeVM57_C7ccp7hbgSz3_<span style="color:#f92672">&amp;</span>export<span style="color:#f92672">=</span>download
-</span></span></code></pre></div><p>待安裝完畢後，即可使用下列的語法先行引入相關的套件，完成本章節的準備工作：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> pyCIOT.data <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+</span></span></code></pre></div><p>待安裝完畢後，即可使用下列的語法先行引入相關的套件模組，完成本章節的準備工作：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 引入 pyCIOT 模組中的 data 模組。</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pyCIOT.data <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 引入常用的模組。</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> json<span style="color:#f92672">,</span> os<span style="color:#f92672">,</span> glob<span style="color:#f92672">,</span> math
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> pandas <span style="color:#66d9ef">as</span> pd
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib <span style="color:#66d9ef">as</span> mpl
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 引入字型管理相關模組，用於設定圖表字型。</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> matplotlib.font_manager <span style="color:#f92672">import</span> fontManager
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> tqdm <span style="color:#f92672">import</span> tqdm_notebook <span style="color:#66d9ef">as</span> tqdm
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 引入日期時間相關模組。</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> datetime <span style="color:#f92672">import</span> datetime, timedelta
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 引入 seaborn 資料視覺化套件，並設定字型大小。</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> seaborn <span style="color:#66d9ef">as</span> sns
 </span></span><span style="display:flex;"><span>sns<span style="color:#f92672">.</span>set(font_scale<span style="color:#f92672">=</span><span style="color:#ae81ff">0.8</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 新增字型，並設定 matplotlib 的預設字型。</span>
 </span></span><span style="display:flex;"><span>fontManager<span style="color:#f92672">.</span>addfont(<span style="color:#e6db74">&#39;TaipeiSansTCBeta-Regular.ttf&#39;</span>)
 </span></span><span style="display:flex;"><span>mpl<span style="color:#f92672">.</span>rc(<span style="color:#e6db74">&#39;font&#39;</span>, family<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;Taipei Sans TC Beta&#39;</span>)
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 隱藏警告訊息。</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> warnings
 </span></span><span style="display:flex;"><span>warnings<span style="color:#f92672">.</span>simplefilter(action<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;ignore&#39;</span>)
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 引入距離計算模組及 fastdtw 套件。</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> geopy.distance
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> scipy.spatial.distance <span style="color:#f92672">import</span> euclidean
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> fastdtw <span style="color:#f92672">import</span> fastdtw
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 引入 scikit-learn 相關模組，用於機器學習。</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> sklearn
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> sklearn.metrics <span style="color:#f92672">import</span> accuracy_score, confusion_matrix
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> sklearn.neural_network <span style="color:#f92672">import</span> MLPClassifier
@@ -391,13 +404,17 @@ if (!doNotTrack) {
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> sklearn.naive_bayes <span style="color:#f92672">import</span> GaussianNB
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> sklearn.discriminant_analysis <span style="color:#f92672">import</span> QuadraticDiscriminantAnalysis
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> sklearn.cluster <span style="color:#f92672">import</span> KMeans
-</span></span></code></pre></div><p>安裝與引用完畢後，我們接下來依照民生公共物聯網的空品資料與水資源資料兩個案例解析，介紹資料分類與分群。</p>
+</span></span></code></pre></div><p>安裝與引入所需模組完畢後，我們接下來依照民生公共物聯網的空氣品質資料與水資源資料兩個案例解析，介紹資料分類與分群。</p>
 <h2 id="案例一空品資料的場所型態分類">案例一：空品資料的場所型態分類</h2>
 <p>在這個案例中，我們使用民生公共物聯網資料平台中，環保署智慧城鄉空品微型感測器 (‘<code>OBS:EPA_IoT</code>’) 的資料，進行資料分類的示範。</p>
-<p>我們首先使用 pyCIOT 所提供的 <code>Air().get_data()</code> 方法，下載所有環保署智慧城鄉空品微型感測器的最近一筆感測資料。注意，由於內容數量龐大，因此這個步驟可能需要等多一點的時間。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>Source <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;OBS:EPA_IoT&#39;</span>
+<p>我們首先使用 pyCIOT 所提供的 <code>Air().get_data()</code> 方法，下載取得所有環保署智慧城鄉空品微型感測器的最近一筆感測資料。注意，由於內容數量龐大，因此這個步驟可能需要等待較長的時間。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 定義資料來源為環保署智慧城鄉空品微型感測器 (OBS:EPA_IoT)。</span>
+</span></span><span style="display:flex;"><span>Source <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;OBS:EPA_IoT&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 從 Air() 中獲取資料。</span>
 </span></span><span style="display:flex;"><span>Data <span style="color:#f92672">=</span> Air()<span style="color:#f92672">.</span>get_data(src<span style="color:#f92672">=</span>Source)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 過濾 Data 資料，只保留 data 長度為 3 且 properties 中有 &#39;areaType&#39; 的資料點。。</span>
 </span></span><span style="display:flex;"><span>Data <span style="color:#f92672">=</span> [datapoint <span style="color:#66d9ef">for</span> datapoint <span style="color:#f92672">in</span> Data <span style="color:#66d9ef">if</span> len(datapoint[<span style="color:#e6db74">&#39;data&#39;</span>]) <span style="color:#f92672">==</span> <span style="color:#ae81ff">3</span> <span style="color:#f92672">and</span> <span style="color:#e6db74">&#39;areaType&#39;</span> <span style="color:#f92672">in</span> datapoint[<span style="color:#e6db74">&#39;properties&#39;</span>]<span style="color:#f92672">.</span>keys()]
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 輸出過濾後的第一筆資料，以 JSON 格式顯示，且縮排為 4。</span>
 </span></span><span style="display:flex;"><span>print(json<span style="color:#f92672">.</span>dumps(Data[<span style="color:#ae81ff">0</span>], indent<span style="color:#f92672">=</span><span style="color:#ae81ff">4</span>, ensure_ascii<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>))
 </span></span></code></pre></div><pre tabindex="0"><code>{
     &#34;name&#34;: &#34;智慧城鄉空品微型感測器-10287974676&#34;,
@@ -442,11 +459,16 @@ if (!doNotTrack) {
     }
 }
 </code></pre><p>我們可以發現每一個感測器的資料中，都同時有溫度、相對濕度、細懸浮微粒濃度等感測資料，同時也記載了感測器的基本資訊，例如所在城市、所在鄉鎮、機器編號、位置編號、場所型態等。在我們這個範例中，我們將以「場所型態」為標籤資料，並搭配感測資料（溫度、相對濕度、細懸浮微粒濃度）進行分類器的訓練。我們首先觀察目前「場所型態」的內容狀態。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>Label <span style="color:#f92672">=</span> list(dict<span style="color:#f92672">.</span>fromkeys([datapoint[<span style="color:#e6db74">&#39;properties&#39;</span>][<span style="color:#e6db74">&#39;areaType&#39;</span>] <span style="color:#66d9ef">for</span> datapoint <span style="color:#f92672">in</span> Data <span style="color:#66d9ef">if</span> datapoint[<span style="color:#e6db74">&#39;properties&#39;</span>][<span style="color:#e6db74">&#39;areaType&#39;</span>]]))
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 從 Data 資料集中取得所有不重複的 &#39;areaType&#39; 標籤。</span>
+</span></span><span style="display:flex;"><span>Label <span style="color:#f92672">=</span> list(dict<span style="color:#f92672">.</span>fromkeys([datapoint[<span style="color:#e6db74">&#39;properties&#39;</span>][<span style="color:#e6db74">&#39;areaType&#39;</span>] <span style="color:#66d9ef">for</span> datapoint <span style="color:#f92672">in</span> Data <span style="color:#66d9ef">if</span> datapoint[<span style="color:#e6db74">&#39;properties&#39;</span>][<span style="color:#e6db74">&#39;areaType&#39;</span>]]))
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 初始化一個計數器，用於計算每個 &#39;areaType&#39; 的出現次數。</span>
 </span></span><span style="display:flex;"><span>count <span style="color:#f92672">=</span> dict<span style="color:#f92672">.</span>fromkeys(Label, <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 迴圈遍歷 Data 資料集，計算每個 &#39;areaType&#39; 的出現次數。</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> datapoint <span style="color:#f92672">in</span> Data:
 </span></span><span style="display:flex;"><span>    count[datapoint[<span style="color:#e6db74">&#39;properties&#39;</span>][<span style="color:#e6db74">&#39;areaType&#39;</span>]] <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 輸出資料清理前的記錄總數。</span>
 </span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;Before data cleaning, There are </span><span style="color:#e6db74">{}</span><span style="color:#e6db74"> records.&#34;</span><span style="color:#f92672">.</span>format(len(Data)))
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 以 JSON 格式輸出每個 &#39;areaType&#39; 的計數結果，且縮排為 4。</span>
 </span></span><span style="display:flex;"><span>print(json<span style="color:#f92672">.</span>dumps(count, indent<span style="color:#f92672">=</span><span style="color:#ae81ff">4</span>, ensure_ascii<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>))
 </span></span></code></pre></div><pre tabindex="0"><code>Before data cleaning, There are 8620 records.
 {
@@ -472,7 +494,8 @@ if (!doNotTrack) {
 }
 </code></pre><h3 id="資料清理">資料清理</h3>
 <p>由於目前資料中共有 8620 筆資料散佈在 19 種場所型態中，為了符合資料的意義，我們首先將類似的場所型態進行合併，同時也為了讓分類器的示範能更順利，我們只專注在一般社區、交通區、工業區、鄰近工業區社區等四大場所型態。因此，我們用下列的程式進行資料的重新整理：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> datapoint <span style="color:#f92672">in</span> Data:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 迴圈遍歷 Data 資料集，對 &#39;areaType&#39; 進行資料清理和重新命名。</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> datapoint <span style="color:#f92672">in</span> Data:
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> datapoint[<span style="color:#e6db74">&#39;properties&#39;</span>][<span style="color:#e6db74">&#39;areaType&#39;</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;社區&#39;</span>:
 </span></span><span style="display:flex;"><span>        datapoint[<span style="color:#e6db74">&#39;properties&#39;</span>][<span style="color:#e6db74">&#39;areaType&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;一般社區&#39;</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> datapoint[<span style="color:#e6db74">&#39;properties&#39;</span>][<span style="color:#e6db74">&#39;areaType&#39;</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;社區感測&#39;</span>:
@@ -485,14 +508,21 @@ if (!doNotTrack) {
 </span></span><span style="display:flex;"><span>        datapoint[<span style="color:#e6db74">&#39;properties&#39;</span>][<span style="color:#e6db74">&#39;areaType&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;工業區&#39;</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> datapoint[<span style="color:#e6db74">&#39;properties&#39;</span>][<span style="color:#e6db74">&#39;areaType&#39;</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;工業感測&#39;</span>:
 </span></span><span style="display:flex;"><span>        datapoint[<span style="color:#e6db74">&#39;properties&#39;</span>][<span style="color:#e6db74">&#39;areaType&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;工業區&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 若 &#39;areaType&#39; 不在指定的四種類別中，則設為 None。</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> datapoint[<span style="color:#e6db74">&#39;properties&#39;</span>][<span style="color:#e6db74">&#39;areaType&#39;</span>] <span style="color:#f92672">in</span> [<span style="color:#e6db74">&#39;一般社區&#39;</span>, <span style="color:#e6db74">&#39;交通區&#39;</span>, <span style="color:#e6db74">&#39;工業區&#39;</span>, <span style="color:#e6db74">&#39;鄰近工業區社區&#39;</span>]:
 </span></span><span style="display:flex;"><span>        datapoint[<span style="color:#e6db74">&#39;properties&#39;</span>][<span style="color:#e6db74">&#39;areaType&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 過濾資料，去除 &#39;areaType&#39; 為 None 的資料點。</span>
 </span></span><span style="display:flex;"><span>Data <span style="color:#f92672">=</span> [datapoint <span style="color:#66d9ef">for</span> datapoint <span style="color:#f92672">in</span> Data <span style="color:#66d9ef">if</span> datapoint[<span style="color:#e6db74">&#39;properties&#39;</span>][<span style="color:#e6db74">&#39;areaType&#39;</span>] <span style="color:#f92672">!=</span> <span style="color:#66d9ef">None</span>]
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 定義我們希望計數的標籤。</span>
 </span></span><span style="display:flex;"><span>Label <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;一般社區&#39;</span>, <span style="color:#e6db74">&#39;交通區&#39;</span>, <span style="color:#e6db74">&#39;工業區&#39;</span>, <span style="color:#e6db74">&#39;鄰近工業區社區&#39;</span>]
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 初始化一個計數器，用於計算每個 &#39;areaType&#39; 的出現次數。</span>
 </span></span><span style="display:flex;"><span>count <span style="color:#f92672">=</span> dict<span style="color:#f92672">.</span>fromkeys(Label, <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 迴圈遍歷 Data 資料集，計算每個 &#39;areaType&#39; 的出現次數。</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> datapoint <span style="color:#f92672">in</span> Data:
 </span></span><span style="display:flex;"><span>    count[datapoint[<span style="color:#e6db74">&#39;properties&#39;</span>][<span style="color:#e6db74">&#39;areaType&#39;</span>]] <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 輸出資料清理後的記錄數量。</span>
 </span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;After data cleaning, There are </span><span style="color:#e6db74">{}</span><span style="color:#e6db74"> records.&#34;</span><span style="color:#f92672">.</span>format(len(Data)))
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 以 JSON 格式顯示每個 &#39;areaType&#39; 的計數結果，且縮排為 4。</span>
 </span></span><span style="display:flex;"><span>print(json<span style="color:#f92672">.</span>dumps(count, indent<span style="color:#f92672">=</span><span style="color:#ae81ff">4</span>, ensure_ascii<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>))
 </span></span></code></pre></div><pre tabindex="0"><code>After data cleaning, There are 7709 records.
 {
@@ -502,32 +532,46 @@ if (!doNotTrack) {
     &#34;鄰近工業區社區&#34;: 948
 }
 </code></pre><p>經過資料清理後，總共剩下 7709 筆資料，並且散佈在四大類的場所型態中。針對這些資料，我們接著考慮每筆資料的溫度、相對濕度、細懸浮微粒濃度感測值，並用不同的顏色代表不同場所型態的資料，繪製成一張三維的資料分佈圖。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>DataX, DataY <span style="color:#f92672">=</span> [], []
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 初始化存放資料的列表。</span>
+</span></span><span style="display:flex;"><span>DataX, DataY <span style="color:#f92672">=</span> [], []
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 迴圈遍歷 Data 資料集，從每一個資料點中提取特徵和標籤。</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> datapoint <span style="color:#f92672">in</span> Data:
-</span></span><span style="display:flex;"><span>    TmpX <span style="color:#f92672">=</span> [<span style="color:#66d9ef">None</span>]<span style="color:#f92672">*</span><span style="color:#ae81ff">3</span>
-</span></span><span style="display:flex;"><span>    TmpY <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>
+</span></span><span style="display:flex;"><span>    TmpX <span style="color:#f92672">=</span> [<span style="color:#66d9ef">None</span>]<span style="color:#f92672">*</span><span style="color:#ae81ff">3</span>  <span style="color:#75715e"># 初始化暫存特徵列表。</span>
+</span></span><span style="display:flex;"><span>    TmpY <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>  <span style="color:#75715e"># 初始化暫存標籤值。</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> rawdata_array <span style="color:#f92672">in</span> datapoint[<span style="color:#e6db74">&#39;data&#39;</span>]:
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 提取資料點名稱為 &#39;Temperature&#39; 的值。</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(rawdata_array[<span style="color:#e6db74">&#39;name&#39;</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;Temperature&#39;</span>):
 </span></span><span style="display:flex;"><span>            TmpX[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> rawdata_array[<span style="color:#e6db74">&#39;values&#39;</span>][<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;value&#39;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 提取資料點名稱為 &#39;Relative humidity&#39; 的值。</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(rawdata_array[<span style="color:#e6db74">&#39;name&#39;</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;Relative humidity&#39;</span>):
 </span></span><span style="display:flex;"><span>            TmpX[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> rawdata_array[<span style="color:#e6db74">&#39;values&#39;</span>][<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;value&#39;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 提取資料點名稱為 &#39;PM2.5&#39; 的值。</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(rawdata_array[<span style="color:#e6db74">&#39;name&#39;</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;PM2.5&#39;</span>):
 </span></span><span style="display:flex;"><span>            TmpX[<span style="color:#ae81ff">2</span>] <span style="color:#f92672">=</span> rawdata_array[<span style="color:#e6db74">&#39;values&#39;</span>][<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;value&#39;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 將 &#39;areaType&#39; 轉換為整數索引。</span>
 </span></span><span style="display:flex;"><span>    TmpY <span style="color:#f92672">=</span> Label<span style="color:#f92672">.</span>index(datapoint[<span style="color:#e6db74">&#39;properties&#39;</span>][<span style="color:#e6db74">&#39;areaType&#39;</span>])
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 將暫存的特徵和標籤加入至 DataX 和 DataY 列表。</span>
 </span></span><span style="display:flex;"><span>    DataX<span style="color:#f92672">.</span>append(TmpX)
 </span></span><span style="display:flex;"><span>    DataY<span style="color:#f92672">.</span>append(TmpY)
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 將 DataX 和 DataY 列表資料轉換為 Numpy 陣列。</span>
 </span></span><span style="display:flex;"><span>DataX_Numpy <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array(DataX)
 </span></span><span style="display:flex;"><span>DataY_Numpy <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array(DataY)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 設定圖例字體大小。</span>
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>rc(<span style="color:#e6db74">&#39;legend&#39;</span>,fontsize<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;xx-small&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 創建一個 8x6 大小，150 dpi 的圖形。</span>
 </span></span><span style="display:flex;"><span>fig <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>figure(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">6</span>), dpi<span style="color:#f92672">=</span><span style="color:#ae81ff">150</span>)
 </span></span><span style="display:flex;"><span>ax <span style="color:#f92672">=</span> fig<span style="color:#f92672">.</span>add_subplot(projection<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;3d&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 迴圈遍歷每一種標籤，並在 3D 空間中繪製對應的資料點。</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(len(Label)):
 </span></span><span style="display:flex;"><span>    ax<span style="color:#f92672">.</span>scatter(DataX_Numpy[DataY_Numpy<span style="color:#f92672">==</span>i][:,<span style="color:#ae81ff">0</span>],DataX_Numpy[DataY_Numpy<span style="color:#f92672">==</span>i][:,<span style="color:#ae81ff">1</span>],DataX_Numpy[DataY_Numpy<span style="color:#f92672">==</span>i][:,<span style="color:#ae81ff">2</span>], s<span style="color:#f92672">=</span><span style="color:#ae81ff">0.1</span>, label<span style="color:#f92672">=</span>Label[i])
-</span></span><span style="display:flex;"><span>ax<span style="color:#f92672">.</span>legend()
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示圖例。</span>
+</span></span><span style="display:flex;"><span>ax<span style="color:#f92672">.</span>legend() 
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 設定 X 軸標籤為 Temperatur， y 軸標籤為 Relative humidity， z 軸標籤為 PM2.5。</span>
 </span></span><span style="display:flex;"><span>ax<span style="color:#f92672">.</span>set_xlabel(<span style="color:#e6db74">&#39;Temperature&#39;</span>)
 </span></span><span style="display:flex;"><span>ax<span style="color:#f92672">.</span>set_ylabel(<span style="color:#e6db74">&#39;Relative humidity&#39;</span>)
 </span></span><span style="display:flex;"><span>ax<span style="color:#f92672">.</span>set_zlabel(<span style="color:#e6db74">&#39;PM2.5&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示圖形。</span>
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>show()
 </span></span></code></pre></div><p><img src="figures/6-1-3-1.png" alt="Python output"></p>
 <p>從資料分布圖中，我們可以發現絕大多數的資料都群聚在某一個特定的空間內，但仍有少數的資料零散地分布在很外圍的地方，這些遠離群體的資料我們稱為離群值 (Outlier)，對於資料分類或資料分群而言，離群值很容易導致我們的模型或演算法走向極端化，因而失去其通用性，因此我們需要先將這些資料予以移除。</p>
@@ -1151,12 +1195,12 @@ This work is licensed under a <a rel="license" href="http://creativecommons.org/
         <script>
           var contentLangs=['zh'];
         </script>
-        <script src="/js/auto-complete.js?1695739189" defer></script>
-        <script src="/js/lunr.min.js?1695739189" defer></script>
-        <script src="/js/lunr.stemmer.support.min.js?1695739189" defer></script>
-        <script src="/js/lunr.multi.min.js?1695739189" defer></script>
-        <script src="/js/lunr.zh.min.js?1695739189" defer></script>
-        <script src="/js/search.js?1695739189" defer></script>
+        <script src="/js/auto-complete.js?1697155758" defer></script>
+        <script src="/js/lunr.min.js?1697155758" defer></script>
+        <script src="/js/lunr.stemmer.support.min.js?1697155758" defer></script>
+        <script src="/js/lunr.multi.min.js?1697155758" defer></script>
+        <script src="/js/lunr.zh.min.js?1697155758" defer></script>
+        <script src="/js/search.js?1697155758" defer></script>
       </div>
       <div id="content-wrapper" class="highlightable">
         <ul class="topics">
@@ -1233,14 +1277,14 @@ This work is licensed under a <a rel="license" href="http://creativecommons.org/
       </div>
     </aside>
 
-    <script src="/js/clipboard.min.js?1695739189" defer></script>
-    <script src="/js/perfect-scrollbar.min.js?1695739189" defer></script>
-    <script src="/js/featherlight.min.js?1695739189" defer></script>
-    <script src="/js/jquery.svg.pan.zoom.js?1695739189" defer></script>
-    <script src="/js/mermaid.min.js?1695739189" defer></script>
+    <script src="/js/clipboard.min.js?1697155758" defer></script>
+    <script src="/js/perfect-scrollbar.min.js?1697155758" defer></script>
+    <script src="/js/featherlight.min.js?1697155758" defer></script>
+    <script src="/js/jquery.svg.pan.zoom.js?1697155758" defer></script>
+    <script src="/js/mermaid.min.js?1697155758" defer></script>
     <script>
       window.themeUseMermaid = JSON.parse("{}");
     </script>
-    <script src="/js/theme.js?1695739189" defer></script>
+    <script src="/js/theme.js?1697155758" defer></script>
   </body>
 </html>
