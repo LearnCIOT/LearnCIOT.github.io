@@ -27,7 +27,7 @@ authors: ["羅泉恆"]
 
 ### 異常事件種類
 
-在 ADF 框架中，TSAD 模組在微型感測器每次收到新的感測資料後，便會進行時間類或空間類的異常事件判斷，我們已微型空品感測器為例，進行說明：
+在 ADF 框架中，TSAD 模組在微型感測器每次收到新的感測資料後，便會進行時間類或空間類的異常事件判斷，我們以微型空品感測器為例，進行說明：
 
 - 時間類異常事件：我們假設空氣的擴散是均勻緩慢的，因此同一台微型空品感測器在短時間內的數值變化應極為平緩，如果有某台微型空品感測器的感測數值在短時間內出現劇烈的變化，代表在時間維度上可能出現異常事件。
 - 空間類異常事件：我們可以假設戶外的空氣在地理空間上是會均勻擴散的，因此微型空品感測器的感測數值，理應與周圍鄰近的感測器相似，如果有某台微型空品感測器的感測數值，與同時間鄰近區域的微型空品感測器的感測數值出現極大的差異，代表該感測器所處的空間可能出現異常事件。
@@ -49,10 +49,12 @@ authors: ["羅泉恆"]
 在這個案例中，我們將會使用到 pandas, numpy, plotly 和 geopy 等套件，這些套件在我們使用的開發平台 Google Colab 上已有預先提供，因此我們不需要另行安裝，可以直接用下列的方法引用，以備之後資料處理與分析使用。
 
 ```python
+# 引入 pandas 與 numpy 模組，用於資料分析和處理。
 import pandas as pd
 import numpy as np
-
+# 引入 plotly.express 模組，用於資料視覺化。
 import plotly.express as px
+# 引入 geopy.distance 中的 geodesic 模組，用於計算兩地點之間的距離。
 from geopy.distance import geodesic
 ```
 
@@ -68,7 +70,9 @@ from geopy.distance import geodesic
 我們首先載入資料檔案，並預覽資料的內容：
 
 ```python
+# 使用 pandas 的 read_csv 方法從指定的 URL 讀取 CSV 檔案，並將其存入 DF 這個 DataFrame 中。
 DF = pd.read_csv("https://LearnCIOT.github.io/data/allLoc.csv")
+# 呼叫 DataFrame 的 head 方法，預設顯示前五筆資料以檢查其內容。
 DF.head()
 ```
 
@@ -77,7 +81,9 @@ DF.head()
 接著我們擷取資料檔中每個感測器的 GPS 地理位置座標，由於這些感測器的 GPS 座標都不會改變，我們使用比較特別的方式，將資料檔中每個感測器的經度和緯度資料各自取平均值，做為該感測器的地理位置座標。
 
 ```python
+# 從 DF 中選取 "device_id", "lon", "lat" 這三列，然後按照 "device_id" 進行分組，計算平均值，再重設索引。
 dfId = DF[["device_id","lon","lat"]].groupby("device_id").mean().reset_index()
+# 輸出 dfId 的前五筆資料以檢查其內容。
 print(dfId.head())
 ```
 
@@ -93,9 +99,12 @@ print(dfId.head())
 為了大致了解資料檔內感測器的地理位置分布，我們將感測器的位置繪製在地圖上。
 
 ```python
+# 使用 plotly.express 的 scatter_mapbox 函數，根據 dfId 的經緯度數據繪製散點地圖。
+# 設定連續色階為 IceFire，初始放大級別為 9，並使用 "carto-positron" 的地圖風格。
 fig_map = px.scatter_mapbox(dfId, lat="lat", lon="lon",
                   color_continuous_scale=px.colors.cyclical.IceFire, zoom=9,
                   mapbox_style="carto-positron")
+# 顯示地圖視覺化結果。
 fig_map.show()
 ```
 
@@ -108,6 +117,8 @@ fig_map.show()
 我們首先撰寫一個小函式 `countDis`，可以針對輸入的兩個 GPS 地理座標位置，計算兩者之間的實體公里距離。
 
 ```python
+# 定義一個 countDis 函式，用於計算兩個裝置間的地理距離。
+# 輸入為兩個裝置的資訊（含經緯度），輸出為兩裝置間的距離（公里）。
 def countDis(deviceA, deviceB):
     return geodesic((deviceA["lat"], deviceB['lon']), (deviceB["lat"], deviceB['lon'])).km
 ```
@@ -115,23 +126,23 @@ def countDis(deviceA, deviceB):
 接著我們將原有資料的感測器列表從 DataFrame 資料型態，轉化成 Dictionary 資料型態，並且計算所有任意兩個感測器間的距離，只要兩者間的距離小於 3km，便將彼此存入對方的鄰居感測器列表 `dicNeighbor` 中。
 
 ```python
-# set the maximum distance of two neighbors
+# 設定兩個鄰近裝置間的最大距離為 3 公里。
 DISTENCE = 3
 
-## convert Dataframe -> Dictionary
-# {iD: {'lon': 0.0, 'lat': 0.0}, ...}
+# 將 DataFrame 轉換成字典格式。
+# 格式為：{iD: {'lon': 經度值, 'lat': 緯度值}, ...}。
 dictId = dfId.set_index("device_id").to_dict("index")
 
-## obtain the list of sensor device_id
+# 取得感測器 device_id 的列表。
 listId = dfId["device_id"].to_list()
 
-## initialize dicNeighbor
-# {iD: []}
+# 初始化 dicNeighbor 字典。
+# 格式為：{iD: []}。
 dicNeighbor = {iD: [] for iD in listId}
 
-## use countDis to calculate distance of every two sensors
-# The two sensors are deem to be neighbors of each other if their distance is less than 3km
-# Time complexity: N!
+# 使用 countDis 函數計算每兩個感測器之間的距離。
+# 如果兩感測器間的距離小於 3 公里，則認定它們為彼此的鄰居。
+# 時間複雜度：N!
 for x in range(len(listId)):
     for y in range(x+1, len(listId)):
         if ( countDis( dictId[listId[x]], dictId[listId[y]]) < DISTENCE ):
@@ -144,24 +155,27 @@ for x in range(len(listId)):
 由於原始資料中每個感測器的感測資料在時間上並未同步，在 ADF 框架中提出將感測資料以每單位時間為間隔，獲取整體感測結果的時間切片 (time slice)。我們首先將原始資料中的 `date` 和 `time` 兩個欄位進行整併，並以 Python 語言中的 datetime 時間資料型態，儲存形成 `datetime` 新欄位，接著再將原有的 `date`、`time`、`RH`、`temperature`、`lat`、`lon` 等不需要的欄位刪除。
 
 ```python
-# combine the 'date' and 'time' columns to a new column 'datetime'
+# 將 'date' 和 'time' 這兩列結合，創建一個新的列 'datetime'。
 DF["datetime"] = DF["date"] + " " + DF["time"]
 
-# remove some non-necessary columns
+# 移除一些不必要的列。
 DF.drop(columns=["date","time", "RH","temperature","lat","lon"], inplace=True)
 
-# convert the new 'datetime' column to datetime data type
+# 將新的 'datetime' 列轉換為 datetime 資料型態。
 DF['datetime'] = pd.to_datetime(DF.datetime)
 ```
 
 由於我們所處理的校園微型空氣品質感測器的資料頻率約為 5 分鐘，因此我們將時間切片的單位時間 `FREQ` 也設為 5 分鐘，並計算每五分鐘內，每個感測器所回傳的感測值的平均值。為了確保資料正確性，我們也多做了一道檢查，將 PM2.5 感測值為負數的資料予以刪除。
 
 ```python
+# 設定分組的頻率為 '5min'。
 FREQ = '5min'
+# 根據 'device_id' 和頻率為 '5min' 的 'datetime' 進行分組，然後計算每組的平均值。
 dfMean = DF.groupby(['device_id', pd.Grouper(key = 'datetime', freq = FREQ)]).agg('mean')
 
-# remove invalid records (i.e., PM2.5 < 0)
+# 移除無效紀錄，即 PM2.5 小於 0 的資料。
 dfMean = dfMean[ dfMean['PM2.5'] >= 0 ]
+# 輸出 dfMean 的前五筆資料以檢查。
 print(dfMean.head())
 ```
 
@@ -180,14 +194,19 @@ device_id    datetime
 為了計算在特定時間切片上，特定感測器的鄰居感測器的平均感測值，我們撰寫 `cal_mean` 函式，可以根據輸入的特定感測器代碼 `iD` 與時間戳記 `dt`，回傳該感測器的鄰居感測器數量與平均感測值。
 
 ```python
+# 定義一個函數 cal_mean，用於計算某個裝置在某個時間點的鄰居裝置的 PM2.5 平均值。
 def cal_mean(iD, dt):
+  # 從 dfMean 中選取符合指定時間 dt 和指定裝置 iD 的鄰居裝置的 PM2.5 資料。
   neighborPM25 = dfMean[ 
               (dfMean.index.get_level_values('datetime') == dt) 
               & (dfMean.index.get_level_values(0).isin(dicNeighbor[iD])) 
               ]["PM2.5"]
 
+  # 計算鄰居裝置的 PM2.5 平均值。
   avg = neighborPM25.mean()
+  # 計算有多少鄰居裝置的 PM2.5 資料被考慮。
   neighbor_num = neighborPM25.count()
+  # 回傳平均值和鄰居裝置的數量。
   return avg, neighbor_num
 ```
 
@@ -197,10 +216,15 @@ def cal_mean(iD, dt):
 2. 我們使用 `apply` 的語法，以配合 DataFrame 的規則，接收 `apply_func` 的回傳值。
 
 ```python
+# 定義一個函數 apply_func，將 cal_mean 函式適用於 dfMean 的每一列。
+# 使用 x.name 取得當前列的索引值 (裝置ID 和時間)，並傳遞給 cal_mean 函式。
 def apply_func(x):
   return cal_mean(x.name[0], x.name[1])
 
+# 使用 apply 函式和 apply_func，計算 dfMean 中每一列的 PM2.5 平均值和鄰居裝置的數量。
+# 結果會被分解並分別存儲在 'avg' 和 'neighbor_num' 這兩列。
 dfMean['avg'], dfMean['neighbor_num'] = zip(*dfMean.apply(apply_func, axis=1))
+# 輸出 dfMean 的前五筆資料以檢查。
 print(dfMean.head())
 ```
 
@@ -232,10 +256,10 @@ device_id    datetime
 | 65-70 | 33.5 |
 | 71+ | 91.5 |
 
-根據這個對照表，我們撰寫下列的函示 `THRESHOLD`，根據輸入的感測數值，回傳對應的門檻值，並將此門檻值存入 `dfMEAN` 的新欄位 `PM_thr` 中。
+根據這個對照表，我們撰寫下列的函式 `THRESHOLD`，根據輸入的感測數值，回傳對應的門檻值，並將此門檻值存入 `dfMEAN` 的新欄位 `PM_thr` 中。
 
 ```python
-
+# 定義一個函數 THRESHOLD，根據 PM2.5 的值傳回相應的閾值。
 def THRESHOLD(value):
     if value<12:
         return 6.6
@@ -258,14 +282,20 @@ def THRESHOLD(value):
     else:
         return 91.5
 
+# 使用 apply 方法和 THRESHOLD 函式，計算 dfMean 中每一列 PM2.5 的閾值。
+# 結果存入新的 'PM_thr' 列中。
 dfMean['PM_thr'] = dfMean['PM2.5'].apply(THRESHOLD)
 ```
 
 由於原始資料的最後一筆紀錄的時間是 2022-10-28 23:45，因此我們將資料判斷的時間設為 2022-10-29 日，並將原始資料中每一筆紀錄與資料判斷時間的差距，存入 `dfMEAN` 的新欄位 `days` 中。接著我們先預覽一下目前 `dfMEAN` 資料表的狀況。
 
 ```python
+# 設定目標日期為 "2022-10-29"。
 TARGET_DATE = "2022-10-29"
+# 使用 assign 方法，計算 dfMean 中每一列時間與目標日期的天數差距。
+# 結果存入在新的 'days' 列中。
 dfMean = dfMean.assign(days = lambda x: ( (pd.to_datetime(TARGET_DATE + " 23:59:59") - x.index.get_level_values('datetime')).days ) )
+# 輸出 dfMean 的前五筆資料以檢查。
 print(dfMean.head())
 ```
 
@@ -281,14 +311,20 @@ device_id    datetime
 
 ### 非正常使用機器偵測模組 (MD) 實作
 
-在接下來的範例中，我們實作 ADF 中的非正常使用機器偵測模組 (Malfunction Detection, MD)，其核心觀念為，倘若我們將某一個微型感測器的 PM2.5 數值與其周圍 3 公里內的其他感測器進行比較，如果其感測數值低於鄰近感測器的平均值 (`avg`) 減掉可接受的門檻值 (`PM_thr`)，則將該機器 ˋ視為裝設在室內的機器（標記為`indoor`）；如果其感測數值高於鄰近感測器的平均值 (`avg`) 加上可接受的門檻值 (`PM_thr`)，則將該機器視為裝設在污染源旁的機器（標記為`emission`）。為了避免因為參考的鄰近感測器數量不夠導致誤判，我們只採計鄰近區域存有多於 2 個其他感測器的案例。
+在接下來的範例中，我們實作 ADF 中的非正常使用機器偵測模組 (Malfunction Detection, MD)，其核心觀念為，倘若我們將某一個微型感測器的 PM2.5 數值與其周圍 3 公里內的其他感測器進行比較，如果其感測數值低於鄰近感測器的平均值 (`avg`) 減掉可接受的門檻值 (`PM_thr`)，則將該機器視為裝設在室內的機器（標記為`indoor`）；如果其感測數值高於鄰近感測器的平均值 (`avg`) 加上可接受的門檻值 (`PM_thr`)，則將該機器視為裝設在污染源旁的機器（標記為`emission`）。為了避免因為參考的鄰近感測器數量不夠導致誤判，我們只採計鄰近區域存有多於 2 個其他感測器的案例。
 
 ```python
+# 設定最小鄰居數量為 2。
 MINIMUM_NEIGHBORS = 2
 
+# 計算 "indoor" 標籤。
+# 如果當前裝置的 PM2.5 平均值與該裝置的 PM2.5 值的差大於閾值，且該裝置的鄰居數量大於或等於最小鄰居數量，則為 True，否則為 False。
 dfMean["indoor"] = ((dfMean['avg'] - dfMean['PM2.5']) > dfMean['PM_thr']) & (dfMean['neighbor_num'] >= MINIMUM_NEIGHBORS)
+# 計算 "emission" 標籤。
+# 如果該裝置的 PM2.5 值與 PM2.5 平均值的差大於閾值，且該裝置的鄰居數量大於或等於最小鄰居數量，則為 True，否則為 False。
 dfMean["emission"] = ((dfMean['PM2.5'] - dfMean['avg']) > dfMean['PM_thr']) & (dfMean['neighbor_num'] >= MINIMUM_NEIGHBORS)
 
+# 顯示 dfMean 的內容。
 dfMean
 ```
 
@@ -297,27 +333,35 @@ dfMean
 由於每日的空氣品質狀況不同，對於 `indoor` 和 `emission` 的判斷結果也會產生不同程度的影響，為了獲得更有說服力的判斷結果，我們考慮過去 1 天、7 天、 14 天等三個時間長度，分別計算在不同時間長度下，同一個感測器被判斷為 `indoor` 或 `emission` 的比例。同時，為了避免外在環境導致的誤判影響最後的判斷結果，我們強制修改計算出來的結果，將比例小於 1/3 的數值，強制改為 0。
 
 ```python
-# initialize
+# 初始化兩個字典，用於儲存每個裝置的 "indoor" 和 "emission" 的紀錄。
 dictIndoor = {iD: [] for iD in listId}
 dictEmission = {iD: [] for iD in listId}
 
+# 迴圈遍歷每一個裝置 iD 進行計算。
 for iD in listId:
+    # 選取與當前裝置 iD 相符的資料。
     dfId = dfMean.loc[iD]
+    # 對於 [1, 7, 14] 這三個天數，計算其 "indoor" 和 "emission" 的比例。
     for day in [1, 7, 14]:
+        # 計算 "indoor" 的比例，並四捨五入到小數點後三位。
         indoor = (dfId[ dfId['days'] <= day]['indoor'].sum() / len(dfId[ dfId['days'] <= day])).round(3)
+        # 若 "indoor" 的比例大於 0.333，則記錄該裝置的 iD 值，否則記錄 0。
         dictIndoor[iD].append( 
             indoor if indoor > 0.333 else 0
         )
-        
+
+        # 計算 "emission" 的比例，並四捨五入到小數點後三位。
         emission = (dfId[ dfId['days'] <= day]['emission'].sum() / len(dfId[ dfId['days'] <= day])).round(3)
+        # 若 "emission" 的比例大於 0.333，則記錄該裝置的 iD 值，否則記錄 0。
         dictEmission[iD].append(
             emission if emission > 0.333 else 0
         )
 ```
 
-我們接著分別列印出 `dictIndoor` 和 `dictEmission` 的內容，觀察判斷出來的結果。
+我們接著分別輸出 `dictIndoor` 和 `dictEmission` 的內容，觀察判斷出來的結果。
 
 ```python
+# 輸出 dictIndoor 的內容。
 dictIndoor
 ```
 
@@ -345,6 +389,7 @@ dictIndoor
 ```
 
 ```python
+# 輸出 dictEmission 的內容。
 dictEmission
 ```
 
@@ -371,7 +416,7 @@ dictEmission
  '74DA38F210FE': [0, 0, 0]}
 ```
 
-由上述的結果可以發現，對於 indoor 和 emission 的判斷結果，隨著參考的過往時間長短，存在不小的差異，由於不同過往時間的長度代表不同的參考意義，因此我們使用權重的方式，給予 1 天參考時間 `A` 的權重，給予 7 天參考時間 `B` 的權重，最後給予 14 天參考時間 `1-A-B` 的權重。
+由上述的結果可以發現，對於 indoor 和 emission 的判斷結果，隨著參考的過往時間長短，存在不小的差異，由於不同過往時間的長度代表不同的參考意義，因此我們使用權重的方式，給予 1 天參考時間的權重為 `A` ，給予 7 天參考時間的權重為 `B` ，最後給予 14 天參考時間的權重為 `1-A-B` 。
 
 同時，我們考量在一天參考時間內的工作時間約為 24 小時中的 8 小時，七天參考時間內的工作時間約為 168 小時中的 40 小時，14 天參考時間內的工作時間約為 336 小時中的 80 小時，因此若一個感測器被判斷為 `indoor` 或 `emission` 類型，其在 MD 中所佔的加權比重應大於等於 `MD_thresh`，且 
 
@@ -380,26 +425,35 @@ dictEmission
 在我們的範例中，我們假定 `A=0.2`，`B=0.3`，因此我們可以透過下列的程式獲得加權判斷後的 `indoor` 和 `emission` 類別感測器清單。
 
 ```python
+# 定義常數 A 為 1 天參考時間的權重， B 表示 7 天參考時間的權重。
 A=0.2
 B=0.3
+# 計算 MD_thresh 的值，此值將用作後續的閾值。
 MD_thresh=(8.0/24.0)*A+(40.0/168.0)*B+(80.0/336.0)*(1-A-B)
 
+# 初始化兩個列表，用於儲存超過閾值的 "indoor" 和 "emission" 的裝置ID及其比例。
 listIndoorDevice = []
 listEmissionDevice = []
 
+# 迴圈遍歷每一個裝置 iD 進行計算。
 for iD in listId:
+    # 計算 "indoor" 的加權比重。
+    # 如果加權比重超過 MD_thresh，則將其加入 listIndoorDevice。
     rate1 = A*dictIndoor[iD][0] + B*dictIndoor[iD][1] + (1-A-B)*dictIndoor[iD][2]
     if rate1 > MD_thresh:
         listIndoorDevice.append( (iD, rate1) )
 
+    # 計算 "emission" 的加權比重。
+    # 如果加權比率超過 MD_thresh，則將其加入 listEmissionDevice。
     rate2 = A*dictEmission[iD][0] + B*dictEmission[iD][1] + (1-A-B)*dictEmission[iD][2]
     if rate2 > MD_thresh:
         listEmissionDevice.append( (iD, rate2) )
 ```
 
-我們接著分別列印出 `listIndoorDevice` 和 `listEmissionDevice` 的內容，觀察透過加權判斷出來的結果。
+我們接著分別輸出 `listIndoorDevice` 和 `listEmissionDevice` 的內容，觀察透過加權判斷出來的結果。
 
 ```python
+# 輸出 listIndoorDevice 的內容。
 listIndoorDevice
 ```
 
@@ -415,6 +469,7 @@ listIndoorDevice
 ```
 
 ```python
+# 輸出 listEmissionDevice 的內容。
 listEmissionDevice
 ```
 
@@ -434,22 +489,30 @@ listEmissionDevice
 針對即時污染偵測 (Real-time Emission Detection, RED)，我們假設某個微型感測器在連續的取樣中，如果最新的感測數值比前一次的感測數值多出 1/5 以上，代表其周遭環境出現劇烈的變化，極有可能是因為周遭出現空汙的排放現象。由於當感測數值較小時，1/5 的變化量其實在 PM2.5 的真實濃度變化上仍十分輕微，因此我們也排除感測數值小於 20 的狀況，以避免因為感測器本身的誤差導致即時污染偵測的誤判。
 
 ```python
+# 初始化 'red' 列，預設為 False。
 dfMean['red'] = False
+# 迴圈遍歷每一個裝置 iD 進行計算。
 for iD in listId:
+    # 選取與當前裝置 iD 相符的資料。
     dfId = dfMean.loc[iD]
-    p_index = ''
-    p_row = []
+    p_index = ''  # 前一筆資料的索引。
+    p_row = []  # 前一筆資料的內容。
+    # 遍歷當前裝置 iD 的每一筆資料。
     for index, row in dfId.iterrows():
-      red = False
+      red = False  # 初始化當前資料的 'red' 值為 False。
+      # 如果有前一筆資料，計算當前資料和前一筆資料的 PM2.5 差值。
       if p_index:
         diff = row['PM2.5'] - p_row['PM2.5']
+        # 若前一筆資料的 PM2.5 值大於 20 且差值大於前一筆資料的 PM2.5 值的 1/5，將 'red' 設為 True。
         if p_row['PM2.5']>20 and diff>p_row['PM2.5']/5:
           red = True
 
+      # 更新 dfMean 中對應的 'red' 值。
       dfMean.loc[pd.IndexSlice[iD, index.strftime('%Y-%m-%d %H:%M:%S')], pd.IndexSlice['red']] = red
-      p_index = index
-      p_row = row
+      p_index = index  # 更新前一筆資料的索引。
+      p_row = row  # 更新前一筆資料的內容。
 
+# 顯示 dfMean 的內容。
 dfMean
 ```
 
@@ -465,22 +528,33 @@ dfMean
 我們以日為單位，根據每個感測器每日的所有感測資料，統計曾經被判斷為時間類異常 (red=True) 或空間類異常 (indoor=True 或 emission=True) 的總次數，並計算其占一日所有資料筆數中的比例，以此做為感測器的資訊是否可靠的依據。
 
 ```python
+# 初始化一個空的 DataFrame 來存放每個裝置的排名資訊。
 device_rank = pd.DataFrame()
+# 迴圈遍歷每一個裝置 iD 進行計算。
 for iD in listId:
+    # 選取與當前裝置 iD 相符的資料。
     dfId = dfMean.loc[iD]
+    # 初始化異常計數和總數的字典。
     abnormal = {}
     num = {}
+    # 遍歷當前裝置 iD 的每一筆資料。
     for index, row in dfId.iterrows():
+      # 初始化日期的計數值
       d = index.strftime('%Y-%m-%d')
       if d not in abnormal:
         abnormal[d] = 0
       if d not in num:
         num[d] = 0
       num[d] = num[d] + 1
-			if row['indoor'] or row['emission'] or row['red']:
+
+      # 檢查每一筆資料是否符合異常條件。
+      if row['indoor'] or row['emission'] or row['red']:
         abnormal[d] = abnormal[d] + 1
+    # 根據異常計數和總數，計算每個裝置的排名。
     for d in num:
+      # 將排名資訊加入 device_rank。
       device_rank = device_rank.append(pd.DataFrame({'device_id': [iD], 'date': [d], 'rank': [1 - abnormal[d]/num[d]]}))
+# 設定 device_rank 的索引為 'device_id' 和 'date'。
 device_rank.set_index(['device_id','date'])
 ```
 
