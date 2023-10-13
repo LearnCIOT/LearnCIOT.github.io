@@ -11,10 +11,9 @@
       <link>https://LearnCIOT.github.io/ch3/ch3.1/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://LearnCIOT.github.io/ch3/ch3.1/</guid>
-      <description>Table Of Contents pyCIOT API 是什麼 pyCIOT API 使用方法 下載函式庫 使用函式庫 pyCIoT API 獲取資料方式 空氣資料存取 獲取專案代碼 Air().get_source() 獲取所有測站列表 Air().get_station() 獲取測站資料 Air().get_data() 水源資料存取 獲取專案代碼 Water().get_source() 獲取所有測站列表 Water().get_station() 獲取測站資料 Water().get_data() 地震資料存取 獲取專案代碼 Quake().get_source() 獲取地震監測站列表 Quake().get_station() 獲取地震資料 Quake().get_data() 獲取單一地震資料Quake().get_data() 天氣資料存取 獲取專案代碼 Weather().get_source() 獲取所有測站列表 Weather().get_station() 獲取測站資料 Weather().get_data() 影像資料存取 獲取專案代碼 CCTV().get_source() 獲取影像資料 CCTV().get_data() 災難警示資料存取 獲取災情示警 Disaster().get_alert() 獲取災情通報歷史資料 Disaster().get_notice() 參考資料 本章節涵蓋 pyCIOT API 使用方法，以及空氣、水源、地震、天氣、影像資料、以及災難警示資料的基本存取方法。包含單一測站的最新一筆感測資料、獲取所有測站的列表，以及如何獲取所有測站當下最新的一筆感測資料。
+      <description>Table Of Contents pyCIOT API 是什麼 pyCIOT API 使用方法 下載 pyCIOT 模組套件 使用 pyCIOT 模組 pyCIoT API 獲取資料方式 空氣資料存取 獲取專案代碼 Air().get_source() 獲取所有測站列表 Air().get_station() 獲取測站資料 Air().get_data() 水源資料存取 獲取專案代碼 Water().get_source() 獲取所有測站列表 Water().get_station() 獲取測站資料 Water().get_data() 地震資料存取 獲取專案代碼 Quake().get_source() 獲取地震監測站列表 Quake().get_station() 獲取地震資料 Quake().get_data() 獲取單一地震資料Quake().get_data() 天氣資料存取 獲取專案代碼 Weather().get_source() 獲取所有測站列表 Weather().get_station() 獲取測站資料 Weather().get_data() 影像資料存取 獲取專案代碼 CCTV().get_source() 獲取影像資料 CCTV().get_data() 災難警示資料存取 獲取災情示警 Disaster().get_alert() 獲取災情通報歷史資料 Disaster().get_notice() 參考資料 本章節涵蓋 pyCIOT API 的使用方法，以及空氣、水源、地震、天氣、影像資料、以及災難警示資料的基本存取方法。包含單一測站的最新一筆感測資料、獲取所有測站的列表，以及如何獲取所有測站當下最新的一筆感測資料。
 本章節需要讀者有基本的終端機操作能力及接觸過 Python 程式基本語法。
-pyCIOT API 是什麼 政府開放資料現已有非常多種類的資料及窗口讓我們查詢，而不同的窗口有各自不同的資料存取方式。即便這些資料逐漸使用開放授權，但在進行資料搜集時，因為下載取得資料的方式各有差異，若要將這些資料整理會變得極為麻煩。本函式庫為了解決窗口不一的困難，將所有有提供 API 的政府民生開放資料的開放搜集至此，嘗試讓開放資料獲取門檻降低，降低自動化及二手資料處理成本。****
-pyCIOT API 使用方法 下載函式庫 為了使用 pyCIOT API 服務，我們需要先將下載此服務的函式庫。pip 是一個以 Python 寫成的軟體包管理系統，用來安裝和管理 Python 軟體包。而這次使用的 pyCIOT 函式庫則是交由 Python Package Index (pypi) 管理，而我們可以在終端機上用這行指令將 pyCIOT 函式庫下載到本地，同時也會將其他必須的套件一起下載：</description>
+pyCIOT API 是什麼 政府開放資料現已有非常多種類的資料及窗口讓我們查詢，而不同的窗口有各自不同的資料存取方式。即便這些資料逐漸使用開放授權，但在進行資料搜集時，因為下載取得資料的方式各有差異，若要將這些資料整理會變得極為麻煩。本函式庫（python 模組）為了解決窗口不一的困難，將所有有提供 API 的政府民生開放資料的開放搜集至此，嘗試讓開放資料獲取門檻降低，降低自動化及二手資料處理成本。****</description>
     </item>
     <item>
       <title>7.3. Leafmap 應用</title>

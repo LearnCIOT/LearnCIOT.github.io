@@ -16,18 +16,18 @@
     <meta name="author" content="Ling-Jyh Chen">
     <title>3.1. 基本資料存取方法 :: Tutorial for CIoT Open Data Applications</title>
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="/css/fontawesome-all.min.css?1697155758" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1697155758" rel="stylesheet"></noscript>
-    <link href="/css/featherlight.min.css?1697155758" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1697155758" rel="stylesheet"></noscript>
-    <link href="/css/auto-complete.css?1697155758" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1697155758" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar.min.css?1697155758" rel="stylesheet">
-    <link href="/css/nucleus.css?1697155758" rel="stylesheet">
-    <link href="/css/fonts.css?1697155758" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1697155758" rel="stylesheet"></noscript>
-    <link href="/css/theme.css?1697155758" rel="stylesheet">
-    <link href="/css/theme-relearn-light.css?1697155758" rel="stylesheet" id="variant-style">
-    <link href="/css/ie.css?1697155758" rel="stylesheet">
-    <link href="/css/variant.css?1697155758" rel="stylesheet">
-    <link href="/css/print.css?1697155758" rel="stylesheet" media="print">
-    <script src="/js/variant.js?1697155758"></script>
+    <link href="/css/fontawesome-all.min.css?1697155777" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1697155777" rel="stylesheet"></noscript>
+    <link href="/css/featherlight.min.css?1697155777" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1697155777" rel="stylesheet"></noscript>
+    <link href="/css/auto-complete.css?1697155777" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1697155777" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar.min.css?1697155777" rel="stylesheet">
+    <link href="/css/nucleus.css?1697155777" rel="stylesheet">
+    <link href="/css/fonts.css?1697155777" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1697155777" rel="stylesheet"></noscript>
+    <link href="/css/theme.css?1697155777" rel="stylesheet">
+    <link href="/css/theme-relearn-light.css?1697155777" rel="stylesheet" id="variant-style">
+    <link href="/css/ie.css?1697155777" rel="stylesheet">
+    <link href="/css/variant.css?1697155777" rel="stylesheet">
+    <link href="/css/print.css?1697155777" rel="stylesheet" media="print">
+    <script src="/js/variant.js?1697155777"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -43,7 +43,7 @@
       var baseUriFull='https:\/\/LearnCIOT.github.io/';
       window.variants && variants.init( [ 'relearn-light' ] );
     </script>
-    <script src="/js/jquery.min.js?1697155758" defer></script>
+    <script src="/js/jquery.min.js?1697155777" defer></script>
 <meta property="fb:app_id" content="601826851395774" />
   </head>
   <body class="default-animation" data-url="/ch3/ch3.1/">
@@ -89,8 +89,8 @@
     <li><a href="#pyciot-api-是什麼">pyCIOT API 是什麼</a></li>
     <li><a href="#pyciot-api-使用方法">pyCIOT API 使用方法</a>
       <ul>
-        <li><a href="#下載函式庫">下載函式庫</a></li>
-        <li><a href="#使用函式庫">使用函式庫</a></li>
+        <li><a href="#下載-pyciot-模組套件">下載 pyCIOT 模組套件</a></li>
+        <li><a href="#使用-pyciot-模組">使用 pyCIOT 模組</a></li>
       </ul>
     </li>
     <li><a href="#pyciot-api-獲取資料方式">pyCIoT API 獲取資料方式</a></li>
@@ -327,8 +327,8 @@ if (!doNotTrack) {
     <li><a href="#pyciot-api-是什麼">pyCIOT API 是什麼</a></li>
     <li><a href="#pyciot-api-使用方法">pyCIOT API 使用方法</a>
       <ul>
-        <li><a href="#下載函式庫">下載函式庫</a></li>
-        <li><a href="#使用函式庫">使用函式庫</a></li>
+        <li><a href="#下載-pyciot-模組套件">下載 pyCIOT 模組套件</a></li>
+        <li><a href="#使用-pyciot-模組">使用 pyCIOT 模組</a></li>
       </ul>
     </li>
     <li><a href="#pyciot-api-獲取資料方式">pyCIoT API 獲取資料方式</a></li>
@@ -378,20 +378,20 @@ if (!doNotTrack) {
 </nav>
 </div>
 
-<p>本章節涵蓋 pyCIOT API 使用方法，以及空氣、水源、地震、天氣、影像資料、以及災難警示資料的基本存取方法。包含單一測站的最新一筆感測資料、獲取所有測站的列表，以及如何獲取所有測站當下最新的一筆感測資料。</p>
+<p>本章節涵蓋 pyCIOT API 的使用方法，以及空氣、水源、地震、天氣、影像資料、以及災難警示資料的基本存取方法。包含單一測站的最新一筆感測資料、獲取所有測站的列表，以及如何獲取所有測站當下最新的一筆感測資料。</p>
 <p>本章節需要讀者有基本的終端機操作能力及接觸過 Python 程式基本語法。</p>
 <h2 id="pyciot-api-是什麼">pyCIOT API 是什麼</h2>
-<p>政府開放資料現已有非常多種類的資料及窗口讓我們查詢，而不同的窗口有各自不同的資料存取方式。即便這些資料逐漸使用開放授權，但在進行資料搜集時，因為下載取得資料的方式各有差異，若要將這些資料整理會變得極為麻煩。本函式庫為了解決窗口不一的困難，將所有有提供 API 的政府民生開放資料的開放搜集至此，嘗試讓開放資料獲取門檻降低，降低自動化及二手資料處理成本。****</p>
+<p>政府開放資料現已有非常多種類的資料及窗口讓我們查詢，而不同的窗口有各自不同的資料存取方式。即便這些資料逐漸使用開放授權，但在進行資料搜集時，因為下載取得資料的方式各有差異，若要將這些資料整理會變得極為麻煩。本函式庫（python 模組）為了解決窗口不一的困難，將所有有提供 API 的政府民生開放資料的開放搜集至此，嘗試讓開放資料獲取門檻降低，降低自動化及二手資料處理成本。****</p>
 <h2 id="pyciot-api-使用方法">pyCIOT API 使用方法</h2>
-<h3 id="下載函式庫">下載函式庫</h3>
-<p>為了使用 <a href="https://test.pypi.org/project/pyCIOT/">pyCIOT API</a> 服務，我們需要先將下載此服務的函式庫。pip 是一個以 Python 寫成的軟體包管理系統，用來安裝和管理 Python 軟體包。而這次使用的 pyCIOT 函式庫則是交由 Python Package Index (pypi) 管理，而我們可以在終端機上用這行指令將 pyCIOT 函式庫下載到本地，同時也會將其他必須的套件一起下載：</p>
+<h3 id="下載-pyciot-模組套件">下載 pyCIOT 模組套件</h3>
+<p>為了使用 <a href="https://test.pypi.org/project/pyCIOT/">pyCIOT API</a> 服務，我們需要先將下載此服務的函式庫模組。pip 是一個以 Python 寫成的軟體包管理系統，用來安裝和管理 Python 軟體包。而這次使用的 pyCIOT 函式庫則是交由 Python Package Index (pypi) 管理，而我們可以在終端機上用這行指令將 pyCIOT 函式庫下載到本地，同時也會將其他必須的套件一起下載：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># 使用 pip 安裝 pyCIOT 套件</span>
 </span></span><span style="display:flex;"><span>!pip install pyCIOT
-</span></span></code></pre></div><h3 id="使用函式庫">使用函式庫</h3>
-<p>欲使用本函式庫，僅需輸入匯入語法匯入 <code>pyCIOT.data</code> 即可：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 從 pyCIOT 的 data 模組中導入所有功能</span>
+</span></span></code></pre></div><h3 id="使用-pyciot-模組">使用 pyCIOT 模組</h3>
+<p>欲在 python 引入本模組，僅需輸入語法引用 <code>pyCIOT.data</code> 即可：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 引入 pyCIOT 的 data 模組中所有功能</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pyCIOT.data <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
-</span></span></code></pre></div><p>根據匯入函式庫的方式不同，呼叫函式的方法也不一樣。若是使用 <code>from ... import ...</code> 的語法，呼叫函式時不需加上前綴；但若是使用 <code>import ...</code> 的話，則是要在每次呼叫其函式庫下的函式時加上前綴，而使用 <code>import ... as ...</code> 則是可以根據在 <code>as</code> 後自定義前綴方便撰寫程式。</p>
+</span></span></code></pre></div><p>根據引入模組的方式不同，呼叫函式的方法也不一樣。若是使用 <code>from ... import ...</code> 的語法，呼叫函式時不需加上前綴；但若是使用 <code>import ...</code> 的話，則是要在每次呼叫其模組下的函式時加上前綴，而使用 <code>import ... as ...</code> 則是可以根據在 <code>as</code> 後自定義前綴方便撰寫程式。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 引入函式的三種方式</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 引入整個模組，使用時需加上模組名稱作為前綴</span>
@@ -399,13 +399,13 @@ if (!doNotTrack) {
 </span></span><span style="display:flex;"><span>a <span style="color:#f92672">=</span> pyCIOT<span style="color:#f92672">.</span>data<span style="color:#f92672">.</span>Air()<span style="color:#f92672">.</span>get_source()
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#   ~~~~~~~~~~~~ 加虛線上的文字</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用別名匯入模組，可以縮短模組名稱</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用別名引入模組，可以縮短模組名稱</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> pyCIOT.data <span style="color:#66d9ef">as</span> CIoT
 </span></span><span style="display:flex;"><span>a <span style="color:#f92672">=</span> CIoT<span style="color:#f92672">.</span>Air()<span style="color:#f92672">.</span>get_source()
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#   ~~~~~ 可自行定義前綴</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 直接導入模組中的所有功能，使用時不需加任何前綴</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 注意：這種方法在匯入大量函式庫時可能會引起名稱衝突</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 直接引入模組中的所有功能，使用時不需加任何前綴</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 注意：這種方法在引入大量模組時可能會引起名稱衝突</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pyCIOT.data <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
 </span></span><span style="display:flex;"><span>a <span style="color:#f92672">=</span> Air()<span style="color:#f92672">.</span>get_source()
 </span></span></code></pre></div><h2 id="pyciot-api-獲取資料方式">pyCIoT API 獲取資料方式</h2>
@@ -941,12 +941,12 @@ This work is licensed under a <a rel="license" href="http://creativecommons.org/
         <script>
           var contentLangs=['zh'];
         </script>
-        <script src="/js/auto-complete.js?1697155758" defer></script>
-        <script src="/js/lunr.min.js?1697155758" defer></script>
-        <script src="/js/lunr.stemmer.support.min.js?1697155758" defer></script>
-        <script src="/js/lunr.multi.min.js?1697155758" defer></script>
-        <script src="/js/lunr.zh.min.js?1697155758" defer></script>
-        <script src="/js/search.js?1697155758" defer></script>
+        <script src="/js/auto-complete.js?1697155777" defer></script>
+        <script src="/js/lunr.min.js?1697155777" defer></script>
+        <script src="/js/lunr.stemmer.support.min.js?1697155777" defer></script>
+        <script src="/js/lunr.multi.min.js?1697155777" defer></script>
+        <script src="/js/lunr.zh.min.js?1697155777" defer></script>
+        <script src="/js/search.js?1697155777" defer></script>
       </div>
       <div id="content-wrapper" class="highlightable">
         <ul class="topics">
@@ -1023,14 +1023,14 @@ This work is licensed under a <a rel="license" href="http://creativecommons.org/
       </div>
     </aside>
 
-    <script src="/js/clipboard.min.js?1697155758" defer></script>
-    <script src="/js/perfect-scrollbar.min.js?1697155758" defer></script>
-    <script src="/js/featherlight.min.js?1697155758" defer></script>
-    <script src="/js/jquery.svg.pan.zoom.js?1697155758" defer></script>
-    <script src="/js/mermaid.min.js?1697155758" defer></script>
+    <script src="/js/clipboard.min.js?1697155777" defer></script>
+    <script src="/js/perfect-scrollbar.min.js?1697155777" defer></script>
+    <script src="/js/featherlight.min.js?1697155777" defer></script>
+    <script src="/js/jquery.svg.pan.zoom.js?1697155777" defer></script>
+    <script src="/js/mermaid.min.js?1697155777" defer></script>
     <script>
       window.themeUseMermaid = JSON.parse("{}");
     </script>
-    <script src="/js/theme.js?1697155758" defer></script>
+    <script src="/js/theme.js?1697155777" defer></script>
   </body>
 </html>
