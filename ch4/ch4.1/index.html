@@ -16,18 +16,18 @@
     <meta name="author" content="Ling-Jyh Chen">
     <title>4.1. 時間序列資料處理 :: Tutorial for CIoT Open Data Applications</title>
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="/css/fontawesome-all.min.css?1697155777" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1697155777" rel="stylesheet"></noscript>
-    <link href="/css/featherlight.min.css?1697155777" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1697155777" rel="stylesheet"></noscript>
-    <link href="/css/auto-complete.css?1697155777" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1697155777" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar.min.css?1697155777" rel="stylesheet">
-    <link href="/css/nucleus.css?1697155777" rel="stylesheet">
-    <link href="/css/fonts.css?1697155777" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1697155777" rel="stylesheet"></noscript>
-    <link href="/css/theme.css?1697155777" rel="stylesheet">
-    <link href="/css/theme-relearn-light.css?1697155777" rel="stylesheet" id="variant-style">
-    <link href="/css/ie.css?1697155777" rel="stylesheet">
-    <link href="/css/variant.css?1697155777" rel="stylesheet">
-    <link href="/css/print.css?1697155777" rel="stylesheet" media="print">
-    <script src="/js/variant.js?1697155777"></script>
+    <link href="/css/fontawesome-all.min.css?1697279118" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1697279118" rel="stylesheet"></noscript>
+    <link href="/css/featherlight.min.css?1697279118" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1697279118" rel="stylesheet"></noscript>
+    <link href="/css/auto-complete.css?1697279118" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1697279118" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar.min.css?1697279118" rel="stylesheet">
+    <link href="/css/nucleus.css?1697279118" rel="stylesheet">
+    <link href="/css/fonts.css?1697279118" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1697279118" rel="stylesheet"></noscript>
+    <link href="/css/theme.css?1697279118" rel="stylesheet">
+    <link href="/css/theme-relearn-light.css?1697279118" rel="stylesheet" id="variant-style">
+    <link href="/css/ie.css?1697279118" rel="stylesheet">
+    <link href="/css/variant.css?1697279118" rel="stylesheet">
+    <link href="/css/print.css?1697279118" rel="stylesheet" media="print">
+    <script src="/js/variant.js?1697279118"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -43,7 +43,7 @@
       var baseUriFull='https:\/\/LearnCIOT.github.io/';
       window.variants && variants.init( [ 'relearn-light' ] );
     </script>
-    <script src="/js/jquery.min.js?1697155777" defer></script>
+    <script src="/js/jquery.min.js?1697279118" defer></script>
 <meta property="fb:app_id" content="601826851395774" />
   </head>
   <body class="default-animation" data-url="/ch4/ch4.1/">
@@ -345,23 +345,23 @@ if (!doNotTrack) {
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 安裝 calplot 套件，用於繪製日曆熱圖</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>pip install calplot
 </span></span></code></pre></div><p>待安裝完畢後，即可使用下列的語法先行引入相關的套件，完成本章節的準備工作：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> warnings <span style="color:#75715e"># 導入警告處理模塊，用於控制警告訊息</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> calplot <span style="color:#75715e"># 導入日曆圖繪製函式庫</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> pandas <span style="color:#66d9ef">as</span> pd <span style="color:#75715e"># 導入資料處理函式庫 pandas</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np <span style="color:#75715e"># 導入數學運算函式庫 NumPy</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib <span style="color:#66d9ef">as</span> mpl <span style="color:#75715e"># 導入繪圖函式庫 Matplotlib 的基礎設定</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt <span style="color:#75715e"># 導入繪圖函式庫 Matplotlib 的 pyplot 模塊</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> statsmodels.api <span style="color:#66d9ef">as</span> sm <span style="color:#75715e"># 導入統計模型函式庫 Statsmodels 的 API</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> os<span style="color:#f92672">,</span> zipfile <span style="color:#75715e"># 導入檔案操作和壓縮函式庫</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> warnings <span style="color:#75715e"># 引入警告處理模組，用於控制警告訊息</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> calplot <span style="color:#75715e"># 引入日曆圖繪製函式庫</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> pandas <span style="color:#66d9ef">as</span> pd <span style="color:#75715e"># 引入資料處理函式庫 pandas</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np <span style="color:#75715e"># 引入數學運算函式庫 NumPy</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib <span style="color:#66d9ef">as</span> mpl <span style="color:#75715e"># 引入繪圖函式庫 Matplotlib 的基礎設定</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt <span style="color:#75715e"># 引入繪圖函式庫 Matplotlib 的 pyplot 模組</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> statsmodels.api <span style="color:#66d9ef">as</span> sm <span style="color:#75715e"># 引入統計模型函式庫 Statsmodels 的 API</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> os<span style="color:#f92672">,</span> zipfile <span style="color:#75715e"># 引入檔案操作和壓縮函式庫</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> datetime <span style="color:#f92672">import</span> datetime, timedelta <span style="color:#75715e"># 導入日期時間處理模塊</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> dateutil <span style="color:#f92672">import</span> parser <span style="color:#66d9ef">as</span> datetime_parser <span style="color:#75715e"># 導入日期時間解析模塊</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> statsmodels.tsa.stattools <span style="color:#f92672">import</span> adfuller, kpss <span style="color:#75715e"># 導入時序數據的統計檢定函式</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> statsmodels.tsa.seasonal <span style="color:#f92672">import</span> seasonal_decompose <span style="color:#75715e"># 導入季節分解函式</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> kats.detectors.outlier <span style="color:#f92672">import</span> OutlierDetector <span style="color:#75715e"># 導入異常值檢測器</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> kats.detectors.cusum_detection <span style="color:#f92672">import</span> CUSUMDetector <span style="color:#75715e"># 導入 CUSUM 異常檢測器</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> kats.consts <span style="color:#f92672">import</span> TimeSeriesData, TimeSeriesIterator <span style="color:#75715e"># 導入 Kats 時序數據和迭代器類型</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> IPython.core.pylabtools <span style="color:#f92672">import</span> figsize <span style="color:#75715e"># 導入 IPython 繪圖尺寸設定工具</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> datetime <span style="color:#f92672">import</span> datetime, timedelta <span style="color:#75715e"># 引入日期時間處理模組</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> dateutil <span style="color:#f92672">import</span> parser <span style="color:#66d9ef">as</span> datetime_parser <span style="color:#75715e"># 引入日期時間解析模組</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> statsmodels.tsa.stattools <span style="color:#f92672">import</span> adfuller, kpss <span style="color:#75715e"># 引入時序數據的統計檢定函式</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> statsmodels.tsa.seasonal <span style="color:#f92672">import</span> seasonal_decompose <span style="color:#75715e"># 引入季節分解函式</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> kats.detectors.outlier <span style="color:#f92672">import</span> OutlierDetector <span style="color:#75715e"># 引入異常值檢測器</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> kats.detectors.cusum_detection <span style="color:#f92672">import</span> CUSUMDetector <span style="color:#75715e"># 引入 CUSUM 異常檢測器</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> kats.consts <span style="color:#f92672">import</span> TimeSeriesData, TimeSeriesIterator <span style="color:#75715e"># 引入 Kats 時序數據和迭代器類型</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> IPython.core.pylabtools <span style="color:#f92672">import</span> figsize <span style="color:#75715e"># 引入 IPython 繪圖尺寸設定工具</span>
 </span></span></code></pre></div><h2 id="讀取資料">讀取資料</h2>
 <p>我們使用 pandas 進行資料的處理，pandas 是 Python 語言常使用到的資料科學套件，也可以想成是程式語言中類似 Microsoft Excel 的試算表，而 pandas 所提供的 dataframe 物件，更可以想成是一種二維的資料結構，可以用行、列的方式儲存資料，方便各式的資料處理與運算。</p>
 <p>本章節的探討主題為時序資料 (time series data) 的分析處理，因此我們將分別以民生公共物聯網資料平台上的空品、水位和氣象資料進行資料讀取的演示，接著再使用空品資料進行更進一步的資料分析。其中，每一類別的資料處理都將使用其中一個測站長期以來觀測到的資料作為資料集，而在 dataframe 的時間欄位名稱則設為 <code>timestamp</code>，由於時間欄位的數值具有唯一性，因此我們也將使用此欄位作為 dataframe 的索引 (index)。</p>
@@ -1384,12 +1384,12 @@ This work is licensed under a <a rel="license" href="http://creativecommons.org/
         <script>
           var contentLangs=['zh'];
         </script>
-        <script src="/js/auto-complete.js?1697155777" defer></script>
-        <script src="/js/lunr.min.js?1697155777" defer></script>
-        <script src="/js/lunr.stemmer.support.min.js?1697155777" defer></script>
-        <script src="/js/lunr.multi.min.js?1697155777" defer></script>
-        <script src="/js/lunr.zh.min.js?1697155777" defer></script>
-        <script src="/js/search.js?1697155777" defer></script>
+        <script src="/js/auto-complete.js?1697279118" defer></script>
+        <script src="/js/lunr.min.js?1697279118" defer></script>
+        <script src="/js/lunr.stemmer.support.min.js?1697279118" defer></script>
+        <script src="/js/lunr.multi.min.js?1697279118" defer></script>
+        <script src="/js/lunr.zh.min.js?1697279118" defer></script>
+        <script src="/js/search.js?1697279118" defer></script>
       </div>
       <div id="content-wrapper" class="highlightable">
         <ul class="topics">
@@ -1465,14 +1465,14 @@ This work is licensed under a <a rel="license" href="http://creativecommons.org/
       </div>
     </aside>
 
-    <script src="/js/clipboard.min.js?1697155777" defer></script>
-    <script src="/js/perfect-scrollbar.min.js?1697155777" defer></script>
-    <script src="/js/featherlight.min.js?1697155777" defer></script>
-    <script src="/js/jquery.svg.pan.zoom.js?1697155777" defer></script>
-    <script src="/js/mermaid.min.js?1697155777" defer></script>
+    <script src="/js/clipboard.min.js?1697279118" defer></script>
+    <script src="/js/perfect-scrollbar.min.js?1697279118" defer></script>
+    <script src="/js/featherlight.min.js?1697279118" defer></script>
+    <script src="/js/jquery.svg.pan.zoom.js?1697279118" defer></script>
+    <script src="/js/mermaid.min.js?1697279118" defer></script>
     <script>
       window.themeUseMermaid = JSON.parse("{}");
     </script>
-    <script src="/js/theme.js?1697155777" defer></script>
+    <script src="/js/theme.js?1697279118" defer></script>
   </body>
 </html>

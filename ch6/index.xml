@@ -37,7 +37,7 @@
       <description>Table Of Contents 套件安裝與引用 讀取資料與環境設定 資料前處理 校正模型訓練與驗證 輸出本日最佳校正模型 校正成果簡介 參考資料 在這篇文章中，我們將以民生公共物聯網中的空品資料為例，介紹如何讓兩個不同等級的空品感測資料，可以透過資料科學的方法，進行系統性的動態校正，以達到系統資料融合的目的，讓不同佈建專案的成果，可以合力打造更為全面性的空品感測結果。我們使用下列兩種空品感測系統：
 環保署空品感測器：在傳統的空品監測方式中，以極為專業、大型、昂貴的監測站為主，該專業的監測站由於部署及維護成本較高，通常會是由當地的環境保護機構（EPA）來負責運營。也因此不會在每個社區都有部署。依據台灣環保署網站公告，截至目前 2022 年 7 月為止，台灣的中央監測站數量為 81 座。 微型空品感測器：與傳統的大型專業測站相比，微型空品感測器利用低成本的感測器，透過網路的資料串連，以物聯網的方式建構更密集的空品感測網，這項技術不僅架設的成本低，連帶的提供了更靈活的安裝條件，擴大了可覆蓋的範圍。同時，這項技術具有易於安裝和維護的特點，滿足了大規模即時空氣品質監測系統的條件，而且能夠做到每分鐘上傳一次數據的資料頻率，也使用戶對於突然的污染事件得以立即的反應，進一步的降低傷害。 當然我們不能期待成本較低的感測器會擁有專業儀器的高準確度，如何提高其精準度成為成了另一項需要被解決的問題。因此，在以下的內容中，我們將演示如何利用資料科學的方法，調校微型空品感測器的空品感測結果，讓其感測資料的準確度能達到與環保署空品感測器相比擬的方法，以促進系統整合與更近一步的資料應用。
 套件安裝與引用 在本章節中，我們將會使用到 pandas, numpy, datetime, sklearn, scipy, 及 joblib 等套件，這些套件在我們使用的開發平台 Colab 上已有預先提供，因此我們不需要另行安裝，可以直接用下列的方法引用，以備之後資料處理與分析使用。
-import pandas as pd import numpy as np from datetime import datetime, timedelta from sklearn import linear_model, svm, tree from sklearn import metrics as sk_metrics from sklearn.ensemble import RandomForestRegressor from sklearn.model_selection import train_test_split, cross_validate from sklearn.feature_selection import f_regression import scipy.</description>
+# 引入資料處理模組 import pandas as pd # 用於資料處理和分析 import numpy as np # 用於數值計算 # 從 datetime 模組中引入日期和時間相關的功能 from datetime import datetime, timedelta # 引入 sklearn 模組中的機器學習工具 from sklearn import linear_model, svm, tree # 線性模型、隨機森林回歸模型、決策樹模型 # 引入模型評估和交叉驗證的工具 from sklearn import metrics as sk_metrics from sklearn.</description>
     </item>
   </channel>
 </rss>

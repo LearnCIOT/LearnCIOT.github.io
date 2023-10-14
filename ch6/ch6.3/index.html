@@ -16,18 +16,18 @@
     <meta name="author" content="Ling-Jyh Chen">
     <title>6.3. 感測器聯合校正 :: Tutorial for CIoT Open Data Applications</title>
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="/css/fontawesome-all.min.css?1697155777" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1697155777" rel="stylesheet"></noscript>
-    <link href="/css/featherlight.min.css?1697155777" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1697155777" rel="stylesheet"></noscript>
-    <link href="/css/auto-complete.css?1697155777" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1697155777" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar.min.css?1697155777" rel="stylesheet">
-    <link href="/css/nucleus.css?1697155777" rel="stylesheet">
-    <link href="/css/fonts.css?1697155777" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1697155777" rel="stylesheet"></noscript>
-    <link href="/css/theme.css?1697155777" rel="stylesheet">
-    <link href="/css/theme-relearn-light.css?1697155777" rel="stylesheet" id="variant-style">
-    <link href="/css/ie.css?1697155777" rel="stylesheet">
-    <link href="/css/variant.css?1697155777" rel="stylesheet">
-    <link href="/css/print.css?1697155777" rel="stylesheet" media="print">
-    <script src="/js/variant.js?1697155777"></script>
+    <link href="/css/fontawesome-all.min.css?1697279118" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1697279118" rel="stylesheet"></noscript>
+    <link href="/css/featherlight.min.css?1697279118" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1697279118" rel="stylesheet"></noscript>
+    <link href="/css/auto-complete.css?1697279118" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1697279118" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar.min.css?1697279118" rel="stylesheet">
+    <link href="/css/nucleus.css?1697279118" rel="stylesheet">
+    <link href="/css/fonts.css?1697279118" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1697279118" rel="stylesheet"></noscript>
+    <link href="/css/theme.css?1697279118" rel="stylesheet">
+    <link href="/css/theme-relearn-light.css?1697279118" rel="stylesheet" id="variant-style">
+    <link href="/css/ie.css?1697279118" rel="stylesheet">
+    <link href="/css/variant.css?1697279118" rel="stylesheet">
+    <link href="/css/print.css?1697279118" rel="stylesheet" media="print">
+    <script src="/js/variant.js?1697279118"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -43,7 +43,7 @@
       var baseUriFull='https:\/\/LearnCIOT.github.io/';
       window.variants && variants.init( [ 'relearn-light' ] );
     </script>
-    <script src="/js/jquery.min.js?1697155777" defer></script>
+    <script src="/js/jquery.min.js?1697279118" defer></script>
 <meta property="fb:app_id" content="601826851395774" />
   </head>
   <body class="default-animation" data-url="/ch6/ch6.3/">
@@ -66,7 +66,7 @@
              <a class="nav nav-prev" href="/ch6/ch6.2/" title="6.2. 異常資料偵測"><i class="fas fa-chevron-left fa-fw"></i></a>
           </div>
           <div id="top-github-link">
-            <a class="github-link" title='編輯網頁' href="https://github.com/LearnCIOT/LearnCIOT.github.io/tree/main/content/ch6/ch6.3/index.zh-tw.md" target="blank">
+            <a class="github-link" title='編輯網頁' href="https://github.com/LearnCIOT/LearnCIOT.github.io/tree/main/content/ch6/ch6.3/index.zh-tw%28%e7%b7%a8%e8%bc%af%e4%b8%ad%29.md" target="blank">
               <i class="fas fa-pen fa-fw"></i>
             </a>
           </div>
@@ -296,38 +296,61 @@ if (!doNotTrack) {
 <p>當然我們不能期待成本較低的感測器會擁有專業儀器的高準確度，如何提高其精準度成為成了另一項需要被解決的問題。因此，在以下的內容中，我們將演示如何利用資料科學的方法，調校微型空品感測器的空品感測結果，讓其感測資料的準確度能達到與環保署空品感測器相比擬的方法，以促進系統整合與更近一步的資料應用。</p>
 <h2 id="套件安裝與引用">套件安裝與引用</h2>
 <p>在本章節中，我們將會使用到 pandas, numpy, datetime, sklearn, scipy, 及 joblib 等套件，這些套件在我們使用的開發平台 Colab 上已有預先提供，因此我們不需要另行安裝，可以直接用下列的方法引用，以備之後資料處理與分析使用。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> pandas <span style="color:#66d9ef">as</span> pd
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 引入資料處理模組</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> pandas <span style="color:#66d9ef">as</span> pd <span style="color:#75715e"># 用於資料處理和分析</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np <span style="color:#75715e"># 用於數值計算</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 從 datetime 模組中引入日期和時間相關的功能</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> datetime <span style="color:#f92672">import</span> datetime, timedelta
-</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> sklearn <span style="color:#f92672">import</span> linear_model, svm, tree
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 引入 sklearn 模組中的機器學習工具</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> sklearn <span style="color:#f92672">import</span> linear_model, svm, tree <span style="color:#75715e"># 線性模型、隨機森林回歸模型、決策樹模型</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 引入模型評估和交叉驗證的工具</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> sklearn <span style="color:#f92672">import</span> metrics <span style="color:#66d9ef">as</span> sk_metrics
-</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> sklearn.ensemble <span style="color:#f92672">import</span> RandomForestRegressor
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> sklearn.ensemble <span style="color:#f92672">import</span> RandomForestRegressor <span style="color:#75715e"># 隨機森林回歸模型</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 模型選擇的工具，如訓練測試資料分割和交叉驗證</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> sklearn.model_selection <span style="color:#f92672">import</span> train_test_split, cross_validate
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 引入特徵選擇工具</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> sklearn.feature_selection <span style="color:#f92672">import</span> f_regression
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 引入 scipy.stats 用於統計計算</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> scipy.stats <span style="color:#66d9ef">as</span> stats
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 引入 scipy.stats 用於統計計算</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> joblib
 </span></span></code></pre></div><h2 id="讀取資料與環境設定">讀取資料與環境設定</h2>
 <p>在這個範例中，我們將使用環保署空品測站萬華站 (<code>wanhua</code>)，以及中研院校園空品微型感測器中，兩台與環保署萬華測站放置在同一地點的空氣盒子 (機器代號分別為 <code>08BEAC028A52</code> 和 <code>08BEAC028690</code>) 作為案例，並且使用線性迴歸 (Linear Regression)、隨機森林迴歸 (Random Foreset Regression) 以及支持向量迴歸 (Support Vector Regression, SVR) 三個訓練模型，同時考量感測資料中的 PM2.5 濃度、溫度、相對濕度和時間戳記（小時值）共計四個欄位的資料，搭配三個不同時間長度的歷史資料（3 天、5 天、8 天），進行一系列的探究。</p>
 <p>為了方便起見，我們先依據這些想定的內容，進行下列的程式初始設定。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>SITE<span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;wanhua&#34;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 設定站點名稱為「wanhua」</span>
+</span></span><span style="display:flex;"><span>SITE<span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;wanhua&#34;</span>
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 環保署萬華測站在輸入資料中的代碼</span>
 </span></span><span style="display:flex;"><span>EPA<span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;EPA-Wanhua&#34;</span>
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 兩台與環保署萬華測站放置在相同位置的空氣盒子機器代號</span>
 </span></span><span style="display:flex;"><span>AIRBOXS<span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;08BEAC028A52&#39;</span>, <span style="color:#e6db74">&#39;08BEAC028690&#39;</span>]
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 不同歷史資料的長度設定</span>
 </span></span><span style="display:flex;"><span>DAYS<span style="color:#f92672">=</span> [<span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">3</span>]
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 本範例所使用的迴歸方法</span>
 </span></span><span style="display:flex;"><span>METHODS<span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;LinearRegression&#39;</span>, <span style="color:#e6db74">&#39;RandomForestRegressor&#39;</span>, <span style="color:#e6db74">&#39;SVR&#39;</span>]
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 本範例所使用的迴歸方法的簡寫</span>
 </span></span><span style="display:flex;"><span>METHOD_SW<span style="color:#f92672">=</span> { <span style="color:#e6db74">&#39;LinearRegression&#39;</span>:<span style="color:#e6db74">&#39;LinearR&#39;</span>, <span style="color:#e6db74">&#39;RandomForestRegressor&#39;</span>:<span style="color:#e6db74">&#39;RFR&#39;</span>, <span style="color:#e6db74">&#39;SVR&#39;</span>:<span style="color:#e6db74">&#39;SVR&#39;</span> }
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 本範例所使用的迴歸方法的函數名稱</span>
 </span></span><span style="display:flex;"><span>METHOD_FUNTION<span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;LinearRegression&#39;</span>:linear_model<span style="color:#f92672">.</span>LinearRegression(),
 </span></span><span style="display:flex;"><span>                  <span style="color:#e6db74">&#39;RandomForestRegressor&#39;</span>: RandomForestRegressor(n_estimators<span style="color:#f92672">=</span> <span style="color:#ae81ff">300</span>, random_state<span style="color:#f92672">=</span> <span style="color:#ae81ff">36</span>),
 </span></span><span style="display:flex;"><span>                  <span style="color:#e6db74">&#39;SVR&#39;</span>: svm<span style="color:#f92672">.</span>SVR(C<span style="color:#f92672">=</span><span style="color:#ae81ff">20</span>)
 </span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 本範例中所使用的各項欄位資料對照</span>
 </span></span><span style="display:flex;"><span>FIELD_SW<span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;s_d0&#39;</span>:<span style="color:#e6db74">&#39;PM25&#39;</span>, <span style="color:#e6db74">&#39;pm25&#39;</span>:<span style="color:#e6db74">&#39;PM25&#39;</span>, <span style="color:#e6db74">&#39;PM2_5&#39;</span>:<span style="color:#e6db74">&#34;PM25&#34;</span>, <span style="color:#e6db74">&#39;pm2_5&#39;</span>:<span style="color:#e6db74">&#34;PM25&#34;</span>, <span style="color:#e6db74">&#39;s_h0&#39;</span>:<span style="color:#e6db74">&#34;HUM&#34;</span>, <span style="color:#e6db74">&#39;s_t0&#39;</span>:<span style="color:#e6db74">&#39;TEM&#39;</span>}
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 本範例中所探究的各種不同欄位組合方式</span>
 </span></span><span style="display:flex;"><span>FEATURES_METHOD<span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;PHTR&#39;</span>:[<span style="color:#e6db74">&#34;PM25&#34;</span>, <span style="color:#e6db74">&#34;HR&#34;</span>, <span style="color:#e6db74">&#34;TEM&#34;</span>, <span style="color:#e6db74">&#34;HUM&#34;</span>],
 </span></span><span style="display:flex;"><span>                   <span style="color:#e6db74">&#39;PH&#39;</span>:[<span style="color:#e6db74">&#39;PM25&#39;</span>,<span style="color:#e6db74">&#39;HR&#39;</span>],
@@ -341,30 +364,46 @@ if (!doNotTrack) {
 </span></span></code></pre></div><p>接下來我們考慮需要下載多少資料供系統校正與資料融合使用。如下圖所示，假設我們所要取得的是第 <em>N</em> 天的校正模型，那麽第 <em>N - 1</em> 天的資料便會做為測試資料使用，以評估未來校正模型的準確度；因此，倘若我們所設定的訓練資料為 <em>X</em> 天，那就代表第 <em>N - 2</em> 到 <em>N - (2+X)</em> 天的歷史資料將被作為訓練資料使用。在我們的想定中，我們將 <em>N</em> 設定為目前時間（今天），而最大的可能 <em>X</em> 值為 8，因此我們將需要預先準備共計十天的歷史資料以供接下來的操作使用。</p>
 <p><img src="figures/6-3-2-1.png" alt="Python output"></p>
 <p>為了方面日後的使用，我們先用下面的程式碼，明定校正模型的日期 (第 <em>N</em> 天: <code>TODAY</code>)、測試資料的日期 (第 <em>N-1</em> 天: <code>TESTDATE</code>)、以及訓練資料的結束日期 (第 <em>N-2</em> 天: <code>ENDDATE</code>)。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>TODAY <span style="color:#f92672">=</span> datetime<span style="color:#f92672">.</span>today()
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 取得當前的日期和時間</span>
+</span></span><span style="display:flex;"><span>TODAY <span style="color:#f92672">=</span> datetime<span style="color:#f92672">.</span>today()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 設定測試日期為昨天</span>
 </span></span><span style="display:flex;"><span>TESTDATE <span style="color:#f92672">=</span> (TODAY <span style="color:#f92672">-</span> timedelta(days<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>))<span style="color:#f92672">.</span>date()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 設定結束日期為前天</span>
 </span></span><span style="display:flex;"><span>ENDDATE <span style="color:#f92672">=</span> (TODAY <span style="color:#f92672">-</span> timedelta(days<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>))<span style="color:#f92672">.</span>date()
 </span></span></code></pre></div><p>我們使用中研院校園空品微型感測器所提供的資料下載網址，根據指定的日期 <!-- raw HTML omitted --> 與機器代碼 <!-- raw HTML omitted -->，可以使用 CSV 檔案格式下載對應日期與機器的感測資料。注意，由於下載平台的限制，下載時所指定的日期 <!-- raw HTML omitted --> 只能是下載當天算起，過去 30 天內的日期。</p>
 <pre tabindex="0"><code>https://pm25.lass-net.org/data/history-date.php?device_id=&lt;ID&gt;&amp;date=&lt;YYY-MM-DD&gt;&amp;format=CSV
 </code></pre><p>例如，假設我們要下載環保署萬華測站在 2022 年 9 月 21 日的感測資料，我們可以用下列的方式進行下載：</p>
 <pre tabindex="0"><code>https://pm25.lass-net.org/data/history-date.php?device_id=EPA-Wanhua&amp;date=2022-09-21&amp;format=CSV
 </code></pre><p>利用這個資料下載的方式，我們撰寫一個 Python 的小函式 <code>getDF</code>，可以針對輸入的機器代碼，下載過去 10 天的感測資料，並將資料彙整成單一一個 DataFrame 物件後回傳。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">getDF</span>(id):
-</span></span><span style="display:flex;"><span>  temp_list <span style="color:#f92672">=</span> []
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 定義一個函式來取得指定裝置 id 的資料</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">getDF</span>(id):
+</span></span><span style="display:flex;"><span>  temp_list <span style="color:#f92672">=</span> [] <span style="color:#75715e"># 創建一個空的串列，稍後用來儲存各天的資料</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 迭代 10 次，分別取得前 10 天的資料</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">11</span>):
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 計算要取得資料的日期    </span>
 </span></span><span style="display:flex;"><span>    date <span style="color:#f92672">=</span> (TODAY <span style="color:#f92672">-</span> timedelta(days<span style="color:#f92672">=</span>i))<span style="color:#f92672">.</span>strftime(<span style="color:#e6db74">&#34;%Y-%m-</span><span style="color:#e6db74">%d</span><span style="color:#e6db74">&#34;</span>)
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 建立資料的 URL</span>
 </span></span><span style="display:flex;"><span>    URL <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;https://pm25.lass-net.org/data/history-date.php?device_id=&#34;</span> <span style="color:#f92672">+</span> id <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;&amp;date=&#34;</span> <span style="color:#f92672">+</span> date <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;&amp;format=CSV&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 從 URL 取得資料，並將其加入到串列中</span>
 </span></span><span style="display:flex;"><span>    temp_DF <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv( URL, index_col<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> )
 </span></span><span style="display:flex;"><span>    temp_list<span style="color:#f92672">.</span>append( temp_DF )
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 輸出當前取得資料的裝置 id、日期和資料的形狀</span>
 </span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;ID: </span><span style="color:#e6db74">{id}</span><span style="color:#e6db74">, Date: </span><span style="color:#e6db74">{date}</span><span style="color:#e6db74">, Shape: </span><span style="color:#e6db74">{shape}</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">.</span>format(id<span style="color:#f92672">=</span>id, date<span style="color:#f92672">=</span>date, shape<span style="color:#f92672">=</span>temp_DF<span style="color:#f92672">.</span>shape))
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 合併所有的資料成一個資料框</span>
 </span></span><span style="display:flex;"><span>  All_DF <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>concat( temp_list )
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> All_DF
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> All_DF <span style="color:#75715e"># 回傳整合後的資料框</span>
 </span></span></code></pre></div><p>接著，我們可以下載安裝在環保署萬華測站的第一台空氣盒子感測資料，並存放在 <code>AirBox1_DF</code> 物件中：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># First AirBox device</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 使用前面定義的 getDF 函式，取得第一台空氣盒子的資料</span>
 </span></span><span style="display:flex;"><span>AirBox1_DF <span style="color:#f92672">=</span> getDF(AIRBOXS[<span style="color:#ae81ff">0</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示取得資料的前五行</span>
 </span></span><span style="display:flex;"><span>AirBox1_DF<span style="color:#f92672">.</span>head()
 </span></span></code></pre></div><pre tabindex="0"><code>ID: 08BEAC028A52, Date: 2022-09-29, Shape: (208, 19)
 ID: 08BEAC028A52, Date: 2022-09-28, Shape: (222, 19)
@@ -378,23 +417,32 @@ ID: 08BEAC028A52, Date: 2022-09-21, Shape: (222, 19)
 ID: 08BEAC028A52, Date: 2022-09-20, Shape: (215, 19)
 </code></pre><p><img src="figures/6-3-2-2.png" alt="Python output"></p>
 <p>利用同樣的方法，我們依次下載在環保署萬華測站的第二台空氣盒子感測資料，以及環保署萬華測站的感測資料，並分別存放在 <code>AirBox2_DF</code> 和 <code>EPA_DF</code> 物件中。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Second AirBox device</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 使用前面定義的 getDF 函式，取得第二台空氣盒子的資料</span>
 </span></span><span style="display:flex;"><span>AirBox2_DF <span style="color:#f92672">=</span> getDF(AIRBOXS[<span style="color:#ae81ff">1</span>])
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># EPA station</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用前面定義的 getDF 函式，取得環保署萬華測站的資料</span>
 </span></span><span style="display:flex;"><span>EPA_DF <span style="color:#f92672">=</span> getDF(EPA)
 </span></span></code></pre></div><h2 id="資料前處理">資料前處理</h2>
 <p>由於我們目前所下載的資料中，含有許多不需要用到的欄位，為了避免佔用太多的記憶體空間，我們先精簡所使用的資料，只留下需要的內容。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>Col_need <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;timestamp&#34;</span>, <span style="color:#e6db74">&#34;s_d0&#34;</span>, <span style="color:#e6db74">&#34;s_t0&#34;</span>, <span style="color:#e6db74">&#34;s_h0&#34;</span>]
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 定義我們需要的欄位名稱列表</span>
+</span></span><span style="display:flex;"><span>Col_need <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;timestamp&#34;</span>, <span style="color:#e6db74">&#34;s_d0&#34;</span>, <span style="color:#e6db74">&#34;s_t0&#34;</span>, <span style="color:#e6db74">&#34;s_h0&#34;</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 從 AirBox1_DF 挑選我們需要的欄位</span>
 </span></span><span style="display:flex;"><span>AirBox1_DF_need <span style="color:#f92672">=</span> AirBox1_DF[Col_need]
 </span></span><span style="display:flex;"><span>print(AirBox1_DF_need<span style="color:#f92672">.</span>head())
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 從 AirBox2_DF 挑選我們需要的欄位</span>
 </span></span><span style="display:flex;"><span>AirBox2_DF_need <span style="color:#f92672">=</span> AirBox2_DF[Col_need]
 </span></span><span style="display:flex;"><span>print(AirBox2_DF_need<span style="color:#f92672">.</span>head())
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 重新定義需要從 EPA_DF 取得的欄位名稱</span>
 </span></span><span style="display:flex;"><span>Col_need <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;time&#34;</span>, <span style="color:#e6db74">&#34;date&#34;</span>, <span style="color:#e6db74">&#34;pm2_5&#34;</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 從 EPA_DF 挑選我們需要的欄位</span>
 </span></span><span style="display:flex;"><span>EPA_DF_need <span style="color:#f92672">=</span> EPA_DF[Col_need]
 </span></span><span style="display:flex;"><span>print(EPA_DF_need<span style="color:#f92672">.</span>head())
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 釋放不再使用的資料框記憶體空間</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">del</span> AirBox1_DF
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">del</span> AirBox2_DF
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">del</span> EPA_DF
@@ -420,7 +468,10 @@ index
 3      03:00:00  2022-09-30   19.0
 4      04:00:00  2022-09-30   20.0
 </code></pre><p>接著為了統一資料欄位，我們將環保署測站原有的 <code>date</code> 與 <code>time</code> 欄位進行整併，並產生一個新的 <code>timestamp</code> 欄位。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>EPA_DF_need[<span style="color:#e6db74">&#39;timestamp&#39;</span>] <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>to_datetime( EPA_DF_need[<span style="color:#e6db74">&#34;date&#34;</span>] <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;T&#34;</span> <span style="color:#f92672">+</span> EPA_DF_need[<span style="color:#e6db74">&#34;time&#34;</span>], utc<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span> )
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 將EPA_DF_need中的「date」和「time」欄位結合，並轉換成時間戳記格式，然後儲存至新的 「timestamp」欄位</span>
+</span></span><span style="display:flex;"><span>EPA_DF_need[<span style="color:#e6db74">&#39;timestamp&#39;</span>] <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>to_datetime( EPA_DF_need[<span style="color:#e6db74">&#34;date&#34;</span>] <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;T&#34;</span> <span style="color:#f92672">+</span> EPA_DF_need[<span style="color:#e6db74">&#34;time&#34;</span>], utc<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span> )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示 EPA_DF_need 的前五行以確認結構</span>
 </span></span><span style="display:flex;"><span>print(EPA_DF_need<span style="color:#f92672">.</span>head())
 </span></span></code></pre></div><pre tabindex="0"><code>           time        date  pm2_5                 timestamp
 index                                                       
@@ -430,22 +481,31 @@ index
 3      03:00:00  2022-09-30   19.0 2022-09-30 03:00:00+00:00
 4      04:00:00  2022-09-30   20.0 2022-09-30 04:00:00+00:00
 </code></pre><p>由於空氣盒子與環保署測站的資料時間解析度不同，為了能拉齊兩邊的資料，我們將空氣盒子的資料由原有每五分鐘一筆資料，用每小時取平均值的方式，改為每小時一筆資料。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 小時平均</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 定義一個函式來進行小時平均計算</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">getHourly</span>(DF):
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 將資料的索引設為「timestamp」</span>
 </span></span><span style="display:flex;"><span>  DF <span style="color:#f92672">=</span> DF<span style="color:#f92672">.</span>set_index( pd<span style="color:#f92672">.</span>DatetimeIndex(DF[<span style="color:#e6db74">&#34;timestamp&#34;</span>]) )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 進行小時資料重新取樣並計算平均值</span>
 </span></span><span style="display:flex;"><span>  DF_Hourly <span style="color:#f92672">=</span> DF<span style="color:#f92672">.</span>resample(<span style="color:#e6db74">&#39;H&#39;</span>)<span style="color:#f92672">.</span>mean()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 重設索引</span>
 </span></span><span style="display:flex;"><span>  DF_Hourly<span style="color:#f92672">.</span>reset_index(inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> DF_Hourly
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用 getHourly 函式來計算兩個 AirBox 裝置的小時平均</span>
 </span></span><span style="display:flex;"><span>AirBox1_DF_need_Hourly <span style="color:#f92672">=</span> getHourly( AirBox1_DF_need)
 </span></span><span style="display:flex;"><span>AirBox2_DF_need_Hourly <span style="color:#f92672">=</span> getHourly( AirBox2_DF_need)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>EPA_DF_need_Hourly <span style="color:#f92672">=</span> getHourly( EPA_DF_need) <span style="color:#75715e"># 可省略，原始數據已經是小時平均</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 環保署的數據原始就是小時平均，但我們還是使用 getHourly 函式確保結構一致性</span>
+</span></span><span style="display:flex;"><span>EPA_DF_need_Hourly <span style="color:#f92672">=</span> getHourly( EPA_DF_need)
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 釋放原始資料的記憶體空間</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">del</span> AirBox1_DF_need
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">del</span> AirBox2_DF_need
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">del</span> EPA_DF_need
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示計算後的小時平均資料，確認轉換是否正確</span>
 </span></span><span style="display:flex;"><span>print(AirBox1_DF_need_Hourly<span style="color:#f92672">.</span>head())
 </span></span><span style="display:flex;"><span>print(EPA_DF_need_Hourly<span style="color:#f92672">.</span>head())
 </span></span></code></pre></div><pre tabindex="0"><code>                  timestamp       s_d0       s_t0       s_h0
@@ -461,15 +521,20 @@ index
 3 2022-09-21 03:00:00+00:00   11.0
 4 2022-09-21 04:00:00+00:00   10.0
 </code></pre><p>為了方面接下來的運算與識別，我們先把兩個來源的資料欄位，換成容易識別的欄位名稱。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 轉換欄位名稱: s_d0 = PM25, s_h0 = 相對濕度(HUM), s_t0 = 溫度(TEMP)</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 定義欄位名稱的轉換字典: s_d0 轉換為 PM25；s_h0 轉換為相對濕度 (HUM)；s_t0 轉換為溫度 (TEM)</span>
 </span></span><span style="display:flex;"><span>Col_rename <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#34;s_d0&#34;</span>:<span style="color:#e6db74">&#34;PM25&#34;</span>, <span style="color:#e6db74">&#34;s_h0&#34;</span>:<span style="color:#e6db74">&#34;HUM&#34;</span>, <span style="color:#e6db74">&#34;s_t0&#34;</span>:<span style="color:#e6db74">&#34;TEM&#34;</span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用定義好的字典來轉換 AirBox 裝置 1 和 2 的欄位名稱</span>
 </span></span><span style="display:flex;"><span>AirBox1_DF_need_Hourly<span style="color:#f92672">.</span>rename(columns<span style="color:#f92672">=</span>Col_rename, inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
 </span></span><span style="display:flex;"><span>AirBox2_DF_need_Hourly<span style="color:#f92672">.</span>rename(columns<span style="color:#f92672">=</span>Col_rename, inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 轉換欄位名稱: pm2_5 = PM25, </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 定義另一個欄位名稱的轉換字典：pm2_5 轉換為 EPA_PM25</span>
 </span></span><span style="display:flex;"><span>Col_rename <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#34;pm2_5&#34;</span>:<span style="color:#e6db74">&#34;EPA_PM25&#34;</span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用定義好的字典來轉換環保署的欄位名稱</span>
 </span></span><span style="display:flex;"><span>EPA_DF_need_Hourly<span style="color:#f92672">.</span>rename(columns<span style="color:#f92672">=</span>Col_rename, inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示轉換後的資料，確認欄位名稱是否已正確轉換</span>
 </span></span><span style="display:flex;"><span>print(AirBox1_DF_need_Hourly<span style="color:#f92672">.</span>head())
 </span></span><span style="display:flex;"><span>print(EPA_DF_need_Hourly<span style="color:#f92672">.</span>head())
 </span></span></code></pre></div><pre tabindex="0"><code>                  timestamp       PM25        TEM        HUM
@@ -485,12 +550,13 @@ index
 3 2022-09-21 03:00:00+00:00      11.0
 4 2022-09-21 04:00:00+00:00      10.0
 </code></pre><p>由於兩台空氣盒子的硬體相同且擺放位置相同，可以視為同一個資料來源，因此我們將兩台空氣盒子的資料進行合併，產生 <code>AirBoxs_DF</code> 物件，並且將這個新的物件與環保署空品測站的資料用「交集」的方式，以時間欄位為基準進行交集合併，並產生 <code>All_DF</code> 物件。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 將兩台 AirBox 資料合併</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 將兩台 AirBox 的資料進行合併</span>
 </span></span><span style="display:flex;"><span>AirBoxs_DF <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>concat([AirBox1_DF_need_Hourly, AirBox2_DF_need_Hourly])<span style="color:#f92672">.</span>reset_index(drop<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 以時間欄位為基準，用只保留交集部分的方法 (inner)，合併 EPA 與 Airbox</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 根據 timestamp（時間欄位），使用只保留交集部分的方法 (inner)，將 EPA 資料和 Airbox 資料進行合併</span>
 </span></span><span style="display:flex;"><span>All_DF <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>merge( AirBoxs_DF, EPA_DF_need_Hourly, on<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#34;timestamp&#34;</span>], how<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;inner&#34;</span> )
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示合併後的資料的前 10 筆，確認資料是否合併正確</span>
 </span></span><span style="display:flex;"><span>print(All_DF<span style="color:#f92672">.</span>head(<span style="color:#ae81ff">10</span>))
 </span></span></code></pre></div><pre tabindex="0"><code>                  timestamp       PM25        TEM        HUM  EPA_PM25
 0 2022-09-21 00:00:00+00:00   9.555556  27.024444  62.111111       6.0
@@ -504,9 +570,13 @@ index
 8 2022-09-21 04:00:00+00:00   5.250000  31.308750  56.000000      10.0
 9 2022-09-21 04:00:00+00:00   4.777778  29.882222 -64.000000      10.0
 </code></pre><p>我們先將資料中存在空值 (NaN) 的狀況予以排除。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 去除空值</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 移除 All_DF 中包含 NaN 值的所有資料列</span>
 </span></span><span style="display:flex;"><span>All_DF<span style="color:#f92672">.</span>dropna(how<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;any&#34;</span>, inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 重新設定資料框的索引，並移除原始的索引</span>
 </span></span><span style="display:flex;"><span>All_DF<span style="color:#f92672">.</span>reset_index(inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>, drop<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示資料框的前 10 筆資料，確認資料處理後的樣貌</span>
 </span></span><span style="display:flex;"><span>print(All_DF<span style="color:#f92672">.</span>head(<span style="color:#ae81ff">10</span>))
 </span></span></code></pre></div><pre tabindex="0"><code>                  timestamp       PM25        TEM        HUM  EPA_PM25
 0 2022-09-21 00:00:00+00:00   9.555556  27.024444  62.111111       6.0
@@ -520,11 +590,15 @@ index
 8 2022-09-21 05:00:00+00:00   5.000000  30.033333  60.333333       8.0
 9 2022-09-21 05:00:00+00:00   4.500000  28.777500 -66.875000       8.0
 </code></pre><p>最後，由於在進行模型建構時，會使用到每日小時值的資料，因此我們替 <code>All_DF</code> 增加一個 <code>HR</code> 欄位，內容為 <code>timestamp</code> 中的小時值。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">return_HR</span>(row):
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 定義一個函數，用來從 timestamp 欄位中提取小時數並新增到新的欄位「HR」</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">return_HR</span>(row):
 </span></span><span style="display:flex;"><span>    row[<span style="color:#e6db74">&#39;HR&#39;</span>] <span style="color:#f92672">=</span> int(row[ <span style="color:#e6db74">&#34;timestamp&#34;</span> ]<span style="color:#f92672">.</span>hour)
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> row
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用 apply 函數將上述函數應用到整個資料框，並於每一行新增「HR」欄位</span>
 </span></span><span style="display:flex;"><span>All_DF <span style="color:#f92672">=</span> All_DF<span style="color:#f92672">.</span>apply(return_HR , axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示資料框的前 10 筆資料，確認「HR」欄位已被成功新增</span>
 </span></span><span style="display:flex;"><span>print(All_DF<span style="color:#f92672">.</span>head(<span style="color:#ae81ff">10</span>))
 </span></span></code></pre></div><pre tabindex="0"><code>                  timestamp       PM25        TEM        HUM  EPA_PM25  HR
 0 2022-09-21 00:00:00+00:00   9.555556  27.024444  62.111111       6.0   0
@@ -540,68 +614,106 @@ index
 </code></pre><h2 id="校正模型訓練與驗證">校正模型訓練與驗證</h2>
 <p>完成資料的整備後，接下來我們開始建立候選的校正模型。由於我們在這個案例中，總共討論 3 種迴歸方式、3 種歷史資料長度與 8 種特徵組合，因此我們總共將產出 3 x 3 x 8 = 72 個候選模型。</p>
 <p>首先，針對在產製校正模型時須參考特定長度的歷史資料，我們設計 <code>SlideDay</code> 函式，根據所輸入的歷史資料長度 <code>day</code>，回傳輸入資料 <code>Hourly_DF</code> 中從 <code>enddate</code> 開始往前共計 <code>day</code> 天的資料。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">SlideDay</span>( Hourly_DF, day, enddate ):
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 定義一個函數，目的是從一給定的資料框中，提取介於特定起始日和結束日之間的資料</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">SlideDay</span>( Hourly_DF, day, enddate ):
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 計算起始日期，這是根據提供的結束日期減去指定的天數得出的</span>
 </span></span><span style="display:flex;"><span>    startdate<span style="color:#f92672">=</span> enddate<span style="color:#f92672">-</span> timedelta( days<span style="color:#f92672">=</span> (day<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) )
-</span></span><span style="display:flex;"><span>    time_mask<span style="color:#f92672">=</span> Hourly_DF[<span style="color:#e6db74">&#34;timestamp&#34;</span>]<span style="color:#f92672">.</span>between( pd<span style="color:#f92672">.</span>Timestamp(startdate, tz<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;utc&#39;</span>), pd<span style="color:#f92672">.</span>Timestamp(enddate, tz<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;utc&#39;</span>) )
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">return</span> Hourly_DF[ time_mask ]
-</span></span></code></pre></div><p>接著，我們將 <code>site</code> 測站自 <code>enddate</code> 起往前 <code>day</code> 天的感測資料 <code>Training_DF</code>，根據 <code>feature</code> 特徵組合整理成為訓練資料。然後我們套用 <code>method</code> 迴歸方法，讓所產製的校正模型所產生的預測值可以逼近訓練資料中的 <code>EPA_PM25</code> 欄位的資料值。我們同時計算校正模型本身的平均絕對誤差 (Mean Absolute Error, MAE) 和均方誤差 (Mean Squared Error, MSE)。其中，平均絕對誤差 (MAE) 為目標值和預測值之差的絕對值之和，可以能反映預測值誤差的實際情況，數值越小代表成效越好。均方誤差 (MSE) 則為預測值和實際觀測值間差的平方的均值，MSE 的值越小，說明預測模型描述實驗資料具有更好的精確度。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">BuildModel</span>( site, enddate, feature, day, method, Training_DF ):
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 使用 boolean 遮罩 (mask) 來選出介於起始日期和結束日期之間的資料</span>
+</span></span><span style="display:flex;"><span>    time_mask<span style="color:#f92672">=</span> Hourly_DF[<span style="color:#e6db74">&#34;timestamp&#34;</span>]<span style="color:#f92672">.</span>between( pd<span style="color:#f92672">.</span>Timestamp(startdate, tz<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;utc&#39;</span>), pd<span style="color:#f92672">.</span>Timestamp(enddate, tz<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;utc&#39;</span>) )
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 返回選出的資料</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> Hourly_DF[ time_mask ]
+</span></span></code></pre></div><p>接著，我們將 <code>site</code> 測站自 <code>enddate</code> 起往前 <code>day</code> 天的感測資料 <code>Training_DF</code>，根據 <code>feature</code> 特徵組合整理成為訓練資料。然後我們套用 <code>method</code> 迴歸方法，讓所產製的校正模型所產生的預測值可以逼近訓練資料中的 <code>EPA_PM25</code> 欄位的資料值。我們同時計算校正模型本身的平均絕對誤差 (Mean Absolute Error, MAE) 和均方誤差 (Mean Squared Error, MSE)。其中，平均絕對誤差 (MAE) 為目標值和預測值之差的絕對值之和，可以能反映預測值誤差的實際情況，數值越小代表成效越好。均方誤差 (MSE) 則為預測值和實際觀測值間差的平方的均值，MSE 的值越小，說明預測模型描述實驗資料具有更好的精確度。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 定義一個函數用來建立回歸模型</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">BuildModel</span>( site, enddate, feature, day, method, Training_DF ):
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 從提供的資料框中提取相對應的特徵資料</span>
 </span></span><span style="display:flex;"><span>    X_train <span style="color:#f92672">=</span> Training_DF[ FEATURES_METHOD[ feature ] ]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 提取預測目標欄位，即 EPA 的 PM2.5 數值</span>
 </span></span><span style="display:flex;"><span>    Y_train <span style="color:#f92672">=</span> Training_DF[ <span style="color:#e6db74">&#34;EPA_PM25&#34;</span> ]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 初始化一個字典來儲存模型的相關結果</span>
 </span></span><span style="display:flex;"><span>    model_result <span style="color:#f92672">=</span> {}
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 設定相對應的資訊到字典中</span>
 </span></span><span style="display:flex;"><span>    model_result[<span style="color:#e6db74">&#34;site&#34;</span>], model_result[<span style="color:#e6db74">&#34;day&#34;</span>], model_result[<span style="color:#e6db74">&#34;feature&#34;</span>], model_result[<span style="color:#e6db74">&#34;method&#34;</span>] <span style="color:#f92672">=</span> site, day, feature, method
 </span></span><span style="display:flex;"><span>    model_result[<span style="color:#e6db74">&#34;datapoints&#34;</span>], model_result[<span style="color:#e6db74">&#34;modelname&#34;</span>] <span style="color:#f92672">=</span> X_train<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>], (site <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;_&#34;</span> <span style="color:#f92672">+</span> str(day) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;_&#34;</span> <span style="color:#f92672">+</span> METHOD_SW[method] <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;_&#34;</span> <span style="color:#f92672">+</span> feature)
 </span></span><span style="display:flex;"><span>    model_result[<span style="color:#e6db74">&#34;date&#34;</span>] <span style="color:#f92672">=</span> enddate<span style="color:#f92672">.</span>strftime( <span style="color:#e6db74">&#34;%Y-%m-</span><span style="color:#e6db74">%d</span><span style="color:#e6db74">&#34;</span> )
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># add timestamp field</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 加入建立時間欄位</span>
 </span></span><span style="display:flex;"><span>    Now_Time <span style="color:#f92672">=</span> datetime<span style="color:#f92672">.</span>utcnow()<span style="color:#f92672">.</span>strftime( <span style="color:#e6db74">&#34;%Y-%m-</span><span style="color:#e6db74">%d</span><span style="color:#e6db74"> %H:%M:%S&#34;</span> )
 </span></span><span style="display:flex;"><span>    model_result[<span style="color:#e6db74">&#39;create_timestamp_utc&#39;</span>] <span style="color:#f92672">=</span> Now_Time
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">### training model ###</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">### 訓練模型 ###</span>
 </span></span><span style="display:flex;"><span>    print( <span style="color:#e6db74">&#34;[BuildR]-</span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74">{method}</span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74"> with </span><span style="color:#e6db74">{day}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">{feature}</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">.</span>format(method<span style="color:#f92672">=</span>method, day<span style="color:#f92672">=</span>day, feature<span style="color:#f92672">=</span>feature) )
 </span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># fit</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 使用指定的迴歸方法進行訓練</span>
 </span></span><span style="display:flex;"><span>    lm <span style="color:#f92672">=</span> METHOD_FUNTION[ method ]
 </span></span><span style="display:flex;"><span>    lm<span style="color:#f92672">.</span>fit( X_train, Y_train )
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># get score</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 計算模型的預測結果並計算其性能指標</span>
 </span></span><span style="display:flex;"><span>    Y_pred <span style="color:#f92672">=</span> lm<span style="color:#f92672">.</span>predict( X_train )
 </span></span><span style="display:flex;"><span>    model_result[<span style="color:#e6db74">&#39;Train_MSE&#39;</span>] <span style="color:#f92672">=</span> MSE <span style="color:#f92672">=</span> sk_metrics<span style="color:#f92672">.</span>mean_squared_error( Y_train, Y_pred )
 </span></span><span style="display:flex;"><span>    model_result[<span style="color:#e6db74">&#39;Train_MAE&#39;</span>] <span style="color:#f92672">=</span> sk_metrics<span style="color:#f92672">.</span>mean_absolute_error( Y_train, Y_pred )
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 返回模型的結果和模型實例</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> model_result, lm
 </span></span></code></pre></div><p>除了針對訓練資料在建立校正模型時的 MAE 和 MSE 評估外，我們也同時考慮所產製的校正模型在非訓練資料上的預測成果表現。因此，我們針對所產製的模型 <code>lm</code>，根據其所需要帶入的特徵資料 <code>feature</code>，帶入測試資料產出預測值，並與測試資料中的 <code>EPA_PM25</code> 欄位進行比對，計算 MAE 和 MSE，以作為後續評估不同校正模型適用性的參考。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">TestModel</span>( site, feature, modelname, Testing_DF, lm ):
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 定義一個函數用來測試訓練好的回歸模型</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">TestModel</span>( site, feature, modelname, Testing_DF, lm ):
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 從提供的資料框中提取相對應的特徵資料</span>
 </span></span><span style="display:flex;"><span>    X_test <span style="color:#f92672">=</span> Testing_DF[ FEATURES_METHOD[ feature ] ]
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 提取預測目標欄位，即 EPA 的 PM2.5 數值</span>
 </span></span><span style="display:flex;"><span>    Y_test <span style="color:#f92672">=</span> Testing_DF[ <span style="color:#e6db74">&#34;EPA_PM25&#34;</span> ]
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># add timestamp field</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 加入測試時間欄位</span>
 </span></span><span style="display:flex;"><span>    Now_Time <span style="color:#f92672">=</span> datetime<span style="color:#f92672">.</span>utcnow()<span style="color:#f92672">.</span>strftime( <span style="color:#e6db74">&#34;%Y-%m-</span><span style="color:#e6db74">%d</span><span style="color:#e6db74"> %H:%M:%S&#34;</span> )
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">### testing model ###</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># predict</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 使用模型預測測試資料</span>
 </span></span><span style="display:flex;"><span>    Y_pred <span style="color:#f92672">=</span> lm<span style="color:#f92672">.</span>predict( X_test )
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># get score</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 計算模型在測試資料上的性能指標</span>
 </span></span><span style="display:flex;"><span>    test_result <span style="color:#f92672">=</span> {}
 </span></span><span style="display:flex;"><span>    test_result[<span style="color:#e6db74">&#34;test_MSE&#34;</span>] <span style="color:#f92672">=</span> round( sk_metrics<span style="color:#f92672">.</span>mean_squared_error( Y_test, Y_pred ), <span style="color:#ae81ff">3</span>)
 </span></span><span style="display:flex;"><span>    test_result[<span style="color:#e6db74">&#34;test_MAE&#34;</span>] <span style="color:#f92672">=</span> round( sk_metrics<span style="color:#f92672">.</span>mean_absolute_error( Y_test, Y_pred ), <span style="color:#ae81ff">3</span>)
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 返回測試結果</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> test_result
 </span></span></code></pre></div><p>最後，我們整合剛剛已經完成的 <code>SlideDay</code>、<code>BuildModel</code> 和 <code>TestModel</code>，逐一完成共計 72 個校正模型的產製，並且分別計算其針對訓練資料與測試資料的 MAE 和 MSE，且將所有結果存入 <code>AllResult_DF</code> 物件中。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>AllResult_list <span style="color:#f92672">=</span> []
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 建立一個空的結果列表</span>
+</span></span><span style="display:flex;"><span>AllResult_list <span style="color:#f92672">=</span> []
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 遍歷不同的時間範圍設定</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> day <span style="color:#f92672">in</span> DAYS:
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 遍歷不同的迴歸方法</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">for</span> method <span style="color:#f92672">in</span> METHODS:
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 遍歷不同的特徵組合</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> feature <span style="color:#f92672">in</span> FEATURES_METHOD:
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e"># 從全資料中取得訓練用的資料</span>
 </span></span><span style="display:flex;"><span>      Training_DF <span style="color:#f92672">=</span> SlideDay(All_DF, day, ENDDATE)[ FEATURES_METHOD[feature] <span style="color:#f92672">+</span> [<span style="color:#e6db74">&#34;EPA_PM25&#34;</span>] ]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e"># 建立模型並取得訓練結果</span>
 </span></span><span style="display:flex;"><span>      result, lm <span style="color:#f92672">=</span> BuildModel( SITE, TESTDATE, feature, day, method, Training_DF )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e"># 使用模型進行測試並取得測試結果</span>
 </span></span><span style="display:flex;"><span>      test_result <span style="color:#f92672">=</span> TestModel(SITE, feature, result[<span style="color:#e6db74">&#34;modelname&#34;</span>], SlideDay(All_DF, <span style="color:#ae81ff">1</span>, TESTDATE), lm)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e"># 將訓練與測試的結果結合起來</span>
 </span></span><span style="display:flex;"><span>      R_DF <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame<span style="color:#f92672">.</span>from_dict( [{ <span style="color:#f92672">**</span>result, <span style="color:#f92672">**</span>test_result }] )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e"># 將這次的結果加入到結果列表中</span>
 </span></span><span style="display:flex;"><span>      AllResult_list<span style="color:#f92672">.</span>append( R_DF )
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 將所有結果組合成一個資料框</span>
 </span></span><span style="display:flex;"><span>AllResult_DF <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>concat(AllResult_list)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示頭部的結果</span>
 </span></span><span style="display:flex;"><span>AllResult_DF<span style="color:#f92672">.</span>head()
 </span></span></code></pre></div><pre tabindex="0"><code>[BuildR]-&#34;LinearRegression&#34; with 8/PHTR
 [BuildR]-&#34;LinearRegression&#34; with 8/PH
@@ -679,17 +791,28 @@ index
 <h2 id="輸出本日最佳校正模型">輸出本日最佳校正模型</h2>
 <p>在討論「本日最佳校正模型」時，必需先認知所謂的「最佳模型」必須在某一日結束後，才有可能總結 24 小時的資料作為測試資料，依據前述的方式獲得不同候選模型的 MAE 與 MSE 後，經過比較分析才能得到真正的最佳模型。因此，在本日 24 小時尚未結束前，是不可能有系統地產製真正的最佳校正模型的。</p>
 <p>但是，基於實務上的需要，我們常常必須在資料產製時，就需要能有校正模型可以套用；因此在實務上，我們通常會假設「昨日的最佳模型，在今日也會有不錯的表現」，並以此最為今日系統校正的方法。例如，假設我們在決定最佳模型時，是考慮帶入測試資料時能得到最小 MSE 的候選模型，那麼我們可以用下面的語法獲知該模型的資訊：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>FIELD<span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;test_MSE&#34;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 指定要找的目標欄位，這裡是「test_MSE」，即測試資料的均方誤差</span>
+</span></span><span style="display:flex;"><span>FIELD<span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;test_MSE&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 從所有結果中找出「test_MSE」最小的那一筆（或多筆），代表模型的效果最好</span>
 </span></span><span style="display:flex;"><span>BEST<span style="color:#f92672">=</span> AllResult_DF[ AllResult_DF[FIELD]<span style="color:#f92672">==</span> AllResult_DF[FIELD]<span style="color:#f92672">.</span>min() ]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示最好結果的資料</span>
 </span></span><span style="display:flex;"><span>BEST
 </span></span></code></pre></div><p><img src="figures/6-3-5-1.png" alt="Python output"></p>
 <p>接著，為了套入本日的情境，我們以昨日最佳校正模型的參數（歷史資料長度、迴歸方法、特徵資料組合），搭配從本日為基準重新計算日期區間的訓練資料與測試資料，重新產製今日的校正模型。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 訓練新模型</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 根據最佳模型的參數，重新訓練模型</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 將最佳結果轉換為字典格式，方便後續存取各種參數</span>
 </span></span><span style="display:flex;"><span>BEST_DC<span style="color:#f92672">=</span> BEST<span style="color:#f92672">.</span>to_dict(orient<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;index&#34;</span>)[<span style="color:#ae81ff">0</span>]
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 根據最佳模型的設定，從所有資料中取出相對應的訓練資料</span>
 </span></span><span style="display:flex;"><span>Training_DF<span style="color:#f92672">=</span> SlideDay(All_DF, BEST_DC[<span style="color:#e6db74">&#34;day&#34;</span>], TESTDATE)[ FEATURES_METHOD[BEST_DC[<span style="color:#e6db74">&#34;feature&#34;</span>]]<span style="color:#f92672">+</span> [<span style="color:#e6db74">&#34;EPA_PM25&#34;</span>] ]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用上一步取出的訓練資料，根據最佳模型的參數重新訓練模型</span>
 </span></span><span style="display:flex;"><span>result, lm<span style="color:#f92672">=</span> BuildModel( SITE, TODAY, BEST_DC[<span style="color:#e6db74">&#34;feature&#34;</span>], BEST_DC[<span style="color:#e6db74">&#34;day&#34;</span>], BEST_DC[<span style="color:#e6db74">&#34;method&#34;</span>], Training_DF )
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示新模型的訓練結果</span>
 </span></span><span style="display:flex;"><span>result
 </span></span></code></pre></div><pre tabindex="0"><code>[BuildR]-&#34;SVR&#34; with 3/PHT
 {&#39;site&#39;: &#39;wanhua&#39;,
@@ -703,17 +826,21 @@ index
  &#39;Train_MSE&#39;: 3.91517342356589,
  &#39;Train_MAE&#39;: 1.42125724796098}
 </code></pre><p>從這個範例中，我們可以看到新產製出來的校正模型，其 Train_MSE 為 3.915，比昨日的 2.179 增加不少。然而，由於我們並沒有方法在本日結束前獲知本日真正的最佳模型，在沒有其他更好選擇的情況下，我們只能先以昨日最佳模型進行套用，並以下列語法匯出 .joblib 檔案，提供模型的開放分享使用（詳細使用方法請見參考資料）。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 儲存模型</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 將訓練好的模型儲存起來</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 根據模型結果的名稱，建立模型儲存的檔名</span>
 </span></span><span style="display:flex;"><span>model_dumpname<span style="color:#f92672">=</span> result[<span style="color:#e6db74">&#34;modelname&#34;</span>]<span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;.joblib&#34;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 儲存路徑</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 定義模型儲存的路徑，此處先預設為當前路徑</span>
 </span></span><span style="display:flex;"><span>MODEL_OUTPUT_PATH<span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 嘗試將訓練好的模型儲存到指定的路徑</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">try</span>:
-</span></span><span style="display:flex;"><span>    joblib<span style="color:#f92672">.</span>dump( lm, MODEL_OUTPUT_PATH<span style="color:#f92672">+</span> model_dumpname )
-</span></span><span style="display:flex;"><span>    print( <span style="color:#e6db74">&#34;[BuildR]-dump </span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">.</span>format( MODEL_OUTPUT_PATH<span style="color:#f92672">+</span>model_dumpname ) )
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">except</span> Exceptionas e:
-</span></span><span style="display:flex;"><span>    print( <span style="color:#e6db74">&#34;ERROR! [dump model] </span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">.</span>format( result[<span style="color:#e6db74">&#34;modelname&#34;</span>] ) )
-</span></span><span style="display:flex;"><span>    error_msg(e)
+</span></span><span style="display:flex;"><span>    joblib<span style="color:#f92672">.</span>dump( lm, MODEL_OUTPUT_PATH<span style="color:#f92672">+</span> model_dumpname ) <span style="color:#75715e"># 儲存模型</span>
+</span></span><span style="display:flex;"><span>    print( <span style="color:#e6db74">&#34;[BuildR]-dump </span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">.</span>format( MODEL_OUTPUT_PATH<span style="color:#f92672">+</span>model_dumpname ) ) <span style="color:#75715e"># 顯示儲存成功的訊息</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">except</span> Exceptionas e: <span style="color:#75715e"># 若儲存過程中發生任何錯誤</span>
+</span></span><span style="display:flex;"><span>    print( <span style="color:#e6db74">&#34;ERROR! [dump model] </span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">.</span>format( result[<span style="color:#e6db74">&#34;modelname&#34;</span>] ) ) <span style="color:#75715e"># 顯示發生錯誤的模型名稱</span>
+</span></span><span style="display:flex;"><span>    error_msg(e) <span style="color:#75715e"># 顯示錯誤訊息</span>
 </span></span></code></pre></div><pre tabindex="0"><code>[BuildR]-dump wanhua_3_SVR_PHT.joblib
 </code></pre><h2 id="校正成果簡介">校正成果簡介</h2>
 <p>本章節所介紹的系統校正方法，自 2020/5 起已正式套用在民生公共物聯網中的中研院校園空品微型感測器系統上，並將每日產出的校正模型發布在 <a href="https://pm25.lass-net.org/DCF/">Dynamic Calibration Model 網站</a>上。在套用的過程中，共計選定 31 個環保署空品測站分別裝置兩台空氣盒子，並於每日考量三種歷史資料長度、八種資料特徵組合、七種迴歸方法，共計 3 x 8 x 7 = 168 種排列組合，針對這 31 個測站位置分別產製每日的最佳校正模型；接著，針對每一台空氣盒子的感測資料，皆參考其地理位置最接近的測站最佳校正模型，作為其資料校正的套用模型，並產製與發佈各式的資料。從本機制上線後的實際運作觀察，確實有效拉近微型空品感測與環保署空品感測的數據差異（如下圖所示），對於民生公共物聯網在空品領域中的跨系統資料整合，建立良好的合作模式。</p>
@@ -828,12 +955,12 @@ This work is licensed under a <a rel="license" href="http://creativecommons.org/
         <script>
           var contentLangs=['zh'];
         </script>
-        <script src="/js/auto-complete.js?1697155777" defer></script>
-        <script src="/js/lunr.min.js?1697155777" defer></script>
-        <script src="/js/lunr.stemmer.support.min.js?1697155777" defer></script>
-        <script src="/js/lunr.multi.min.js?1697155777" defer></script>
-        <script src="/js/lunr.zh.min.js?1697155777" defer></script>
-        <script src="/js/search.js?1697155777" defer></script>
+        <script src="/js/auto-complete.js?1697279118" defer></script>
+        <script src="/js/lunr.min.js?1697279118" defer></script>
+        <script src="/js/lunr.stemmer.support.min.js?1697279118" defer></script>
+        <script src="/js/lunr.multi.min.js?1697279118" defer></script>
+        <script src="/js/lunr.zh.min.js?1697279118" defer></script>
+        <script src="/js/search.js?1697279118" defer></script>
       </div>
       <div id="content-wrapper" class="highlightable">
         <ul class="topics">
@@ -881,7 +1008,6 @@ This work is licensed under a <a rel="license" href="http://creativecommons.org/
                 <span>&nbsp;</span>
                 <div class="select-style">
                   <select id="select-language" onchange="location = baseUri + this.value;">
-                    <option id="en" value="/en/ch6/ch6.3/">English</option>
                     <option id="zh-tw" value="/ch6/ch6.3/" selected>中文</option>
                   </select>
                 </div>
@@ -910,14 +1036,14 @@ This work is licensed under a <a rel="license" href="http://creativecommons.org/
       </div>
     </aside>
 
-    <script src="/js/clipboard.min.js?1697155777" defer></script>
-    <script src="/js/perfect-scrollbar.min.js?1697155777" defer></script>
-    <script src="/js/featherlight.min.js?1697155777" defer></script>
-    <script src="/js/jquery.svg.pan.zoom.js?1697155777" defer></script>
-    <script src="/js/mermaid.min.js?1697155777" defer></script>
+    <script src="/js/clipboard.min.js?1697279118" defer></script>
+    <script src="/js/perfect-scrollbar.min.js?1697279118" defer></script>
+    <script src="/js/featherlight.min.js?1697279118" defer></script>
+    <script src="/js/jquery.svg.pan.zoom.js?1697279118" defer></script>
+    <script src="/js/mermaid.min.js?1697279118" defer></script>
     <script>
       window.themeUseMermaid = JSON.parse("{}");
     </script>
-    <script src="/js/theme.js?1697155777" defer></script>
+    <script src="/js/theme.js?1697279118" defer></script>
   </body>
 </html>

@@ -16,18 +16,18 @@
     <meta name="author" content="Ling-Jyh Chen">
     <title>4.3. 時間序列屬性分群 :: Tutorial for CIoT Open Data Applications</title>
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="/css/fontawesome-all.min.css?1697155777" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1697155777" rel="stylesheet"></noscript>
-    <link href="/css/featherlight.min.css?1697155777" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1697155777" rel="stylesheet"></noscript>
-    <link href="/css/auto-complete.css?1697155777" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1697155777" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar.min.css?1697155777" rel="stylesheet">
-    <link href="/css/nucleus.css?1697155777" rel="stylesheet">
-    <link href="/css/fonts.css?1697155777" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1697155777" rel="stylesheet"></noscript>
-    <link href="/css/theme.css?1697155777" rel="stylesheet">
-    <link href="/css/theme-relearn-light.css?1697155777" rel="stylesheet" id="variant-style">
-    <link href="/css/ie.css?1697155777" rel="stylesheet">
-    <link href="/css/variant.css?1697155777" rel="stylesheet">
-    <link href="/css/print.css?1697155777" rel="stylesheet" media="print">
-    <script src="/js/variant.js?1697155777"></script>
+    <link href="/css/fontawesome-all.min.css?1697279118" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1697279118" rel="stylesheet"></noscript>
+    <link href="/css/featherlight.min.css?1697279118" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1697279118" rel="stylesheet"></noscript>
+    <link href="/css/auto-complete.css?1697279118" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1697279118" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar.min.css?1697279118" rel="stylesheet">
+    <link href="/css/nucleus.css?1697279118" rel="stylesheet">
+    <link href="/css/fonts.css?1697279118" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1697279118" rel="stylesheet"></noscript>
+    <link href="/css/theme.css?1697279118" rel="stylesheet">
+    <link href="/css/theme-relearn-light.css?1697279118" rel="stylesheet" id="variant-style">
+    <link href="/css/ie.css?1697279118" rel="stylesheet">
+    <link href="/css/variant.css?1697279118" rel="stylesheet">
+    <link href="/css/print.css?1697279118" rel="stylesheet" media="print">
+    <script src="/js/variant.js?1697279118"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -43,7 +43,7 @@
       var baseUriFull='https:\/\/LearnCIOT.github.io/';
       window.variants && variants.init( [ 'relearn-light' ] );
     </script>
-    <script src="/js/jquery.min.js?1697155777" defer></script>
+    <script src="/js/jquery.min.js?1697279118" defer></script>
 <meta property="fb:app_id" content="601826851395774" />
   </head>
   <body class="default-animation" data-url="/ch4/ch4.3/">
@@ -66,7 +66,7 @@
              <a class="nav nav-prev" href="/ch4/ch4.2/" title="4.2. 時間序列資料預測"><i class="fas fa-chevron-left fa-fw"></i></a>
           </div>
           <div id="top-github-link">
-            <a class="github-link" title='編輯網頁' href="https://github.com/LearnCIOT/LearnCIOT.github.io/tree/main/content/ch4/ch4.3/index.zh-tw.md" target="blank">
+            <a class="github-link" title='編輯網頁' href="https://github.com/LearnCIOT/LearnCIOT.github.io/tree/main/content/ch4/ch4.3/index.zh-tw%20%28%e7%b7%a8%e8%bc%af%e4%b8%ad%29.md" target="blank">
               <i class="fas fa-pen fa-fw"></i>
             </a>
           </div>
@@ -302,63 +302,119 @@ if (!doNotTrack) {
 </ul>
 <h2 id="套件安裝與引用">套件安裝與引用</h2>
 <p>在本章節中，我們將會使用到 pandas, numpy, matplotlib, pywt 等 Colab 開發平台已預先安裝好的套件，以及另外一個 Colab 並未預先安裝的套件 tslearn ，需使用下列的方式自行安裝：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>pip install <span style="color:#f92672">--</span>upgrade pip
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 更新 pip 至最新版本</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>pip install <span style="color:#f92672">--</span>upgrade pip
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 安裝 tslearn 套件，它是一個針對時間序列分析的套件</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>pip install tslearn
 </span></span></code></pre></div><p>待安裝完畢後，即可使用下列的語法先行引入相關的套件，完成本章節的準備工作：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 引入 numpy 和 pandas，這兩個套件是進行資料分析時非常基本且常用的。</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> pandas <span style="color:#66d9ef">as</span> pd
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># pywt 是進行小波轉換的套件，通常用於訊號處理。</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> pywt
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># os 和 zipfile 用於處理文件和壓縮檔。</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> os<span style="color:#f92672">,</span> zipfile
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 引入 matplotlib.pyplot 來繪製圖表。</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># datetime 和 timedelta 是兩個處理日期和時間的模組。</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> datetime <span style="color:#f92672">import</span> datetime, timedelta
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># fft 和 ifft 是進行快速傅立葉轉換的函式。</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> numpy.fft <span style="color:#f92672">import</span> fft, ifft
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># cwt 是連續小波轉換的函式。</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pywt <span style="color:#f92672">import</span> cwt
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># TimeSeriesKMeans 是 tslearn 套件裡的一個用於時間序列資料集的 k-均值聚類方法。</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> tslearn.clustering <span style="color:#f92672">import</span> TimeSeriesKMeans
 </span></span></code></pre></div><h2 id="讀取資料與資料預處理-preprocessing">讀取資料與資料預處理 (Preprocessing)</h2>
 <p>由於我們這次要使用的是長時間的歷史資料，因此我們不直接使用 pyCIOT 套件的讀取資料功能，而直接從民生公共物聯網資料平台的歷史資料庫下載「中研院校園空品微型感測器」的 2021 年歷史資料，並存入 Air 資料夾中。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>mkdir Air CSV_Air
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 建立名為 Air 和 CSV_Air 的資料夾</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>mkdir Air CSV_Air
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 下載 2021.zip 壓縮檔到 Air 資料夾</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>wget <span style="color:#f92672">-</span>O Air<span style="color:#f92672">/</span><span style="color:#ae81ff">2021.</span>zip <span style="color:#f92672">-</span>q <span style="color:#e6db74">&#34;https://history.colife.org.tw/?r=/download&amp;path=L%2Bepuuawo%2BWTgeizqi</span><span style="color:#e6db74">%2F</span><span style="color:#e6db74">kuK3noJTpmaJf5qCh5ZyS56m65ZOB5b6u5Z6L5oSf5ris5ZmoLzIwMjEuemlw&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 將 Air/2021.zip 這個壓縮檔解壓縮到 Air 資料夾</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>unzip Air<span style="color:#f92672">/</span><span style="color:#ae81ff">2021.</span>zip <span style="color:#f92672">-</span>d Air
 </span></span></code></pre></div><p>同時，由於所下載的資料是 zip 壓縮檔案的格式，我們需要先將其解壓縮，產生每日資料的壓縮檔案。由於我們在接下來的範例中只會使用到 2021/08 的資料，因此我們將 202108 子資料夾中的檔案進行解壓縮，讀取當中 csv 檔的資料，再存入 <code>air_month</code> 這個 dataframe 中。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>folder <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Air/2021/202108&#39;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 設定想要操作的資料夾路徑和兩種檔案的副檔名</span>
+</span></span><span style="display:flex;"><span>folder <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Air/2021/202108&#39;</span>
 </span></span><span style="display:flex;"><span>extension_zip <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;zip&#39;</span>
 </span></span><span style="display:flex;"><span>extension_csv <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;csv&#39;</span>
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 遍歷該資料夾下的所有檔案</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> item <span style="color:#f92672">in</span> os<span style="color:#f92672">.</span>listdir(folder):
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 如果檔案是 .zip 壓縮檔</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> item<span style="color:#f92672">.</span>endswith(extension_zip):
-</span></span><span style="display:flex;"><span>    file_name <span style="color:#f92672">=</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>folder<span style="color:#e6db74">}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">{</span>item<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>
-</span></span><span style="display:flex;"><span>    zip_ref <span style="color:#f92672">=</span> zipfile<span style="color:#f92672">.</span>ZipFile(file_name)
-</span></span><span style="display:flex;"><span>    zip_ref<span style="color:#f92672">.</span>extractall(folder)
-</span></span><span style="display:flex;"><span>    zip_ref<span style="color:#f92672">.</span>close()
+</span></span><span style="display:flex;"><span>    file_name <span style="color:#f92672">=</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>folder<span style="color:#e6db74">}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">{</span>item<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span> <span style="color:#75715e"># 獲取該壓縮檔的完整路徑</span>
+</span></span><span style="display:flex;"><span>    zip_ref <span style="color:#f92672">=</span> zipfile<span style="color:#f92672">.</span>ZipFile(file_name) <span style="color:#75715e"># 開啟該壓縮檔</span>
+</span></span><span style="display:flex;"><span>    zip_ref<span style="color:#f92672">.</span>extractall(folder) <span style="color:#75715e"># 解壓縮到指定資料夾</span>
+</span></span><span style="display:flex;"><span>    zip_ref<span style="color:#f92672">.</span>close() <span style="color:#75715e"># 關閉該壓縮檔</span>
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 創建一個空的 DataFrame 用來存放合併後的資料</span>
 </span></span><span style="display:flex;"><span>air_month <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 再次遍歷該資料夾下的所有檔案</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> item <span style="color:#f92672">in</span> os<span style="color:#f92672">.</span>listdir(folder):
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 如果檔案是 .csv 檔</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> item<span style="color:#f92672">.</span>endswith(extension_csv):
-</span></span><span style="display:flex;"><span>    file_name <span style="color:#f92672">=</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>folder<span style="color:#e6db74">}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">{</span>item<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>
+</span></span><span style="display:flex;"><span>    file_name <span style="color:#f92672">=</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>folder<span style="color:#e6db74">}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">{</span>item<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span> <span style="color:#75715e"># 獲取該 .csv 檔的完整路徑</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 讀取該 .csv 檔，並將「timestamp」欄位解析為 datetime 格式</span>
 </span></span><span style="display:flex;"><span>    df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(file_name, parse_dates<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;timestamp&#39;</span>])
-</span></span><span style="display:flex;"><span>    air_month <span style="color:#f92672">=</span> air_month<span style="color:#f92672">.</span>append(df)
+</span></span><span style="display:flex;"><span>    air_month <span style="color:#f92672">=</span> air_month<span style="color:#f92672">.</span>append(df) <span style="color:#75715e"># 將讀取到的資料加到 air_month DataFrame 中</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 將「timestamp」欄位設為索引</span>
 </span></span><span style="display:flex;"><span>air_month<span style="color:#f92672">.</span>set_index(<span style="color:#e6db74">&#39;timestamp&#39;</span>, inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 根據「timestamp」欄位對資料進行排序</span>
 </span></span><span style="display:flex;"><span>air_month<span style="color:#f92672">.</span>sort_values(by<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;timestamp&#39;</span>, inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
 </span></span></code></pre></div><p>目前 <code>air_month</code> 的格式還不符合我們的需求，需要先將其整理成以站點資料為欄，以時間資料為列的資料格式。我們先找出資料中共有多少站點，並將這些站點資訊存在一個序列中。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>id_list <span style="color:#f92672">=</span> air_month[<span style="color:#e6db74">&#39;device_id&#39;</span>]<span style="color:#f92672">.</span>to_numpy()
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 從 air_month 資料框中取出「device_id」欄位的所有資料，並儲存為 numpy 陣列</span>
+</span></span><span style="display:flex;"><span>id_list <span style="color:#f92672">=</span> air_month[<span style="color:#e6db74">&#39;device_id&#39;</span>]<span style="color:#f92672">.</span>to_numpy()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用 numpy 的 unique 函數找出 id_list 中的唯一裝置ID</span>
 </span></span><span style="display:flex;"><span>id_uniques <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>unique(id_list)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 這時，id_uniques 陣列會包含所有唯一的裝置ID</span>
 </span></span><span style="display:flex;"><span>id_uniques
 </span></span></code></pre></div><pre tabindex="0"><code>array([&#39;08BEAC07D3E2&#39;, &#39;08BEAC09FF12&#39;, &#39;08BEAC09FF22&#39;, ...,
        &#39;74DA38F7C648&#39;, &#39;74DA38F7C64A&#39;, &#39;74DA38F7C64C&#39;], dtype=object)
-</code></pre><p>接著我們將每個站點的資料存成一個欄，並放入 <code>air</code> 這個 dataframe 中。最後我們將所有下載的資料與解壓縮後產生的資料移除，以節省雲端的儲存空間。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>air <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame()
+</code></pre><p>接著我們將每個站點的資料存成一個欄，並放入 「air」 這個 dataframe 中。最後我們將所有下載的資料與解壓縮後產生的資料移除，以節省雲端的儲存空間。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 創建一個空的 DataFrame</span>
+</span></span><span style="display:flex;"><span>air <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 遍歷每一個裝置ID</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(len(id_uniques)):
 </span></span><span style="display:flex;"><span>  <span style="color:#75715e"># print(&#39;device_id==&#34;&#39; + id_uniques[i] + &#39;&#34;&#39;)</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 從 air_month 中過濾出當前裝置的資料</span>
 </span></span><span style="display:flex;"><span>  query <span style="color:#f92672">=</span> air_month<span style="color:#f92672">.</span>query(<span style="color:#e6db74">&#39;device_id==&#34;&#39;</span> <span style="color:#f92672">+</span> id_uniques[i] <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;&#34;&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 根據時間戳對資料進行排序</span>
 </span></span><span style="display:flex;"><span>  query<span style="color:#f92672">.</span>sort_values(by<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;timestamp&#39;</span>, inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 按小時重新取樣，計算平均值</span>
 </span></span><span style="display:flex;"><span>  query_mean <span style="color:#f92672">=</span> query<span style="color:#f92672">.</span>resample(<span style="color:#e6db74">&#39;H&#39;</span>)<span style="color:#f92672">.</span>mean()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 將 PM25 的列名重新命名為當前裝置 ID</span>
 </span></span><span style="display:flex;"><span>  query_mean<span style="color:#f92672">.</span>rename(columns<span style="color:#f92672">=</span>{<span style="color:#e6db74">&#39;PM25&#39;</span>: id_uniques[i]}, inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 將重新取樣的資料添加到 air DataFrame 中</span>
 </span></span><span style="display:flex;"><span>  air <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>concat([air, query_mean], axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 刪除 Air 目錄</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>rm <span style="color:#f92672">-</span>rf Air
 </span></span></code></pre></div><p>我們可以用下列的語法快速查看 air 的內容。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>air<span style="color:#f92672">.</span>info()
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 從資料框 air 取得資訊，如資料的形狀、列名稱、非空資料的數量等。</span>
+</span></span><span style="display:flex;"><span>air<span style="color:#f92672">.</span>info()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示資料框 air 的前五行，幫助使用者初步了解資料的樣子。</span>
 </span></span><span style="display:flex;"><span>print(air<span style="color:#f92672">.</span>head())
 </span></span></code></pre></div><pre tabindex="0"><code>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
 DatetimeIndex: 745 entries, 2021-08-01 00:00:00 to 2021-09-01 00:00:00
@@ -414,12 +470,21 @@ timestamp
 2021-08-01 03:00:00      6.400000  
 2021-08-01 04:00:00      5.000000  
 </code></pre><p>接下來，我們首先將資料中有資料缺漏的部分 (數值為 Nan) 予以刪除，並且先將資料繪製成圖形，觀察資料的分布狀況。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>air <span style="color:#f92672">=</span> air[:<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
-</span></span><span style="display:flex;"><span>air_clean <span style="color:#f92672">=</span> air<span style="color:#f92672">.</span>dropna(<span style="color:#ae81ff">1</span>, how<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;any&#39;</span>) <span style="color:#75715e"># 將具有Nan值的欄位捨棄</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 將資料框 air 的最後一行刪除</span>
+</span></span><span style="display:flex;"><span>air <span style="color:#f92672">=</span> air[:<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用 dropna 方法移除在任何欄位中有缺失值的列</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># axis=1 代表操作在欄位上；how=&#39;any&#39; 代表只要欄位中有任何缺失值就刪除整個欄位</span>
+</span></span><span style="display:flex;"><span>air_clean <span style="color:#f92672">=</span> air<span style="color:#f92672">.</span>dropna(<span style="color:#ae81ff">1</span>, how<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;any&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 繪製資料框 air_clean 中的所有資料，不顯示圖例</span>
 </span></span><span style="display:flex;"><span>air_clean<span style="color:#f92672">.</span>plot(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">15</span>), legend<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>)
 </span></span></code></pre></div><p><img src="figures/4-3-3-1.png" alt="Python output"></p>
 <p>由於原始資料中感測器的瞬間數值容易因為環境變化而有瞬間劇烈的變動，因此我們使用移動平均的方式，將每十次的感測值進行移動平均，讓處理過的資料可以較為平順並反映感測器周遭的整體趨勢，以方便進入接下來的集群分析。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>air_clean <span style="color:#f92672">=</span> air_clean<span style="color:#f92672">.</span>rolling(window<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>, min_periods<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">.</span>mean() <span style="color:#75715e"># 使用移動平均使曲線變化更為平順</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 使用移動平均法對 air_clean 進行平滑處理。window 設定為 10 代表考慮前 10 個資料點的平均值；min_periods=1 表示資料點數量至少有 1 個時才計算平均。</span>
+</span></span><span style="display:flex;"><span>air_clean <span style="color:#f92672">=</span> air_clean<span style="color:#f92672">.</span>rolling(window<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>, min_periods<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">.</span>mean()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 繪製平滑後的 air_clean 資料，設定圖片大小並不顯示圖例。</span>
 </span></span><span style="display:flex;"><span>air_clean<span style="color:#f92672">.</span>plot(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">15</span>), legend<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>)
 </span></span></code></pre></div><p><img src="figures/4-3-3-2.png" alt="Python output"></p>
 <h2 id="資料分群--集群分析-clustering">資料分群 / 集群分析 (Clustering)</h2>
@@ -433,9 +498,16 @@ timestamp
 <li>針對每個群，重新計算其新的群心，並重複上述步驟，直到 <em>k</em> 的群的群心不再有變動為止。</li>
 </ol>
 <p>我們先設定 <em>k</em>=10，並使用 <code>TimeSeriesKMeans</code>，將資料分為 10 群 (0~9) 如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>air_transpose <span style="color:#f92672">=</span> air_clean<span style="color:#f92672">.</span>transpose()
-</span></span><span style="display:flex;"><span>model <span style="color:#f92672">=</span> TimeSeriesKMeans(n_clusters<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>, metric<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;dtw&#34;</span>, max_iter<span style="color:#f92672">=</span><span style="color:#ae81ff">5</span>) <span style="color:#75715e"># n_cluster:分群數量, max_iter: 分群的步驟最多重複幾次</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 將 air_clean 資料框進行轉置，使得時間序列資料位於列上，各感測器的資料為行。</span>
+</span></span><span style="display:flex;"><span>air_transpose <span style="color:#f92672">=</span> air_clean<span style="color:#f92672">.</span>transpose()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 建立時間序列分群模型。指定分群數量為10，使用動態時間規整 (DTW) 作為計算距離的指標，最多迭代 5 次進行分群。</span>
+</span></span><span style="display:flex;"><span>model <span style="color:#f92672">=</span> TimeSeriesKMeans(n_clusters<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>, metric<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;dtw&#34;</span>, max_iter<span style="color:#f92672">=</span><span style="color:#ae81ff">5</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用轉置後的資料訓練分群模型。</span>
 </span></span><span style="display:flex;"><span>pre <span style="color:#f92672">=</span> model<span style="color:#f92672">.</span>fit(air_transpose)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示模型對各感測器資料的分群結果。</span>
 </span></span><span style="display:flex;"><span>pre<span style="color:#f92672">.</span>labels_
 </span></span></code></pre></div><pre tabindex="0"><code>array([3, 3, 6, 3, 3, 3, 3, 6, 9, 6, 3, 6, 3, 3, 3, 3, 3, 1, 3, 3, 6, 3,
 3, 3, 3, 6, 6, 6, 6, 3, 3, 3, 3, 3, 3, 3, 3, 3, 6, 3, 9, 3, 3, 3,
@@ -457,74 +529,110 @@ timestamp
 9, 9, 9, 9, 5, 5, 5, 5, 5, 5, 9, 5, 5, 5, 5, 5, 5, 5, 5, 5, 9, 5,
 5, 5])
 </code></pre><p>由於分群的結果有可能因為少數感測器擁有特殊的資料特徵而自成一個群集，而這些感測器其實可以被視為偏離測站，並沒有進一步分析的價值，因此我們下一步便要先統計一下每一個分離出來的群集，其內部感測器的個數是否只有一個，如果是的話，便將該群集捨棄掉。例如在這個範例中，我們便會捨棄掉其中只有一個感測器的群集如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># build helper df to map metrics to their cluster labels</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 建立一個輔助用的資料框，將每一個 metric (即原始資料的欄位名稱) 對應到它所屬的分群編號。</span>
 </span></span><span style="display:flex;"><span>df_cluster <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame(list(zip(air_clean<span style="color:#f92672">.</span>columns, pre<span style="color:#f92672">.</span>labels_)), columns<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;metric&#39;</span>, <span style="color:#e6db74">&#39;cluster&#39;</span>])
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># make some helper dictionaries and lists</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 建立一些輔助用的字典和清單。</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 將每一個分群裡的 metrics 彙整到一個清單中。</span>
 </span></span><span style="display:flex;"><span>cluster_metrics_dict <span style="color:#f92672">=</span> df_cluster<span style="color:#f92672">.</span>groupby([<span style="color:#e6db74">&#39;cluster&#39;</span>])[<span style="color:#e6db74">&#39;metric&#39;</span>]<span style="color:#f92672">.</span>apply(<span style="color:#66d9ef">lambda</span> x: [x <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> x])<span style="color:#f92672">.</span>to_dict()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 計算每一個分群中有多少 metrics。</span>
 </span></span><span style="display:flex;"><span>cluster_len_dict <span style="color:#f92672">=</span> df_cluster[<span style="color:#e6db74">&#39;cluster&#39;</span>]<span style="color:#f92672">.</span>value_counts()<span style="color:#f92672">.</span>to_dict()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 找出那些只有一個 metric 的分群。</span>
 </span></span><span style="display:flex;"><span>clusters_dropped <span style="color:#f92672">=</span> [cluster <span style="color:#66d9ef">for</span> cluster <span style="color:#f92672">in</span> cluster_len_dict <span style="color:#66d9ef">if</span> cluster_len_dict[cluster]<span style="color:#f92672">==</span><span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 找出那些有超過一個 metric 的分群。</span>
 </span></span><span style="display:flex;"><span>clusters_final <span style="color:#f92672">=</span> [cluster <span style="color:#66d9ef">for</span> cluster <span style="color:#f92672">in</span> cluster_len_dict <span style="color:#66d9ef">if</span> cluster_len_dict[cluster]<span style="color:#f92672">&gt;</span><span style="color:#ae81ff">1</span>]
 </span></span><span style="display:flex;"><span>clusters_final<span style="color:#f92672">.</span>sort()
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示那些只有一個 metric 的分群。</span>
 </span></span><span style="display:flex;"><span>clusters_dropped
 </span></span></code></pre></div><pre tabindex="0"><code>[7, 4, 8]
 </code></pre><p>最後，我們將剩下的群集分別用繪圖的方式展示，可以發現每一個群集內的資料皆呈現極高的相似度，而不同群集的資料，彼此則呈現明顯可分辨的差異。為了量化群集內資料的相似度，我們定義一個新的變數 <code>qualiuty</code>，且這個變數的值等於內部每筆資料與其他資料的相關性 (correlation) 的平均值，且 <code>quality</code> 的值越低代表這個群集內部的資料越相似。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>fig, axes <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplots(nrows<span style="color:#f92672">=</span>len(clusters_final), ncols<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">15</span>), dpi<span style="color:#f92672">=</span><span style="color:#ae81ff">500</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 根據最終的分群數量，設定子圖的數量並初始化圖形。</span>
+</span></span><span style="display:flex;"><span>fig, axes <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplots(nrows<span style="color:#f92672">=</span>len(clusters_final), ncols<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">15</span>), dpi<span style="color:#f92672">=</span><span style="color:#ae81ff">500</span>)
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># legend = axes.legend(loc=&#34;upper left&#34;, bbox_to_anchor=(1.02, 0, 0.07, 1))</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 遍歷所有的分群。</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> idx, cluster_number <span style="color:#f92672">in</span> enumerate(clusters_final):
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 計算該分群中的時間序列之間的相關性。</span>
 </span></span><span style="display:flex;"><span>  x_corr <span style="color:#f92672">=</span> air_clean[cluster_metrics_dict[cluster_number]]<span style="color:#f92672">.</span>corr()<span style="color:#f92672">.</span>abs()<span style="color:#f92672">.</span>values
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 計算相關性矩陣中上三角形部分的平均值，排除對角線。</span>
 </span></span><span style="display:flex;"><span>  x_corr_mean <span style="color:#f92672">=</span> round(x_corr[np<span style="color:#f92672">.</span>triu_indices(x_corr<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>],<span style="color:#ae81ff">1</span>)]<span style="color:#f92672">.</span>mean(),<span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 設定子圖的標題，包含分群編號、平均相關性以及該分群中的時間序列數量。</span>
 </span></span><span style="display:flex;"><span>  plot_title <span style="color:#f92672">=</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;cluster </span><span style="color:#e6db74">{</span>cluster_number<span style="color:#e6db74">}</span><span style="color:#e6db74"> (quality=</span><span style="color:#e6db74">{</span>x_corr_mean<span style="color:#e6db74">}</span><span style="color:#e6db74">, n=</span><span style="color:#e6db74">{</span>cluster_len_dict[cluster_number]<span style="color:#e6db74">}</span><span style="color:#e6db74">)&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 繪製該分群中的所有時間序列。</span>
 </span></span><span style="display:flex;"><span>  air_clean[cluster_metrics_dict[cluster_number]]<span style="color:#f92672">.</span>plot(ax<span style="color:#f92672">=</span>axes[idx], title<span style="color:#f92672">=</span>plot_title)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 移除圖例。</span>
 </span></span><span style="display:flex;"><span>  axes[idx]<span style="color:#f92672">.</span>get_legend()<span style="color:#f92672">.</span>remove()
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 調整子圖的間距，確保不會重疊。</span>
 </span></span><span style="display:flex;"><span>fig<span style="color:#f92672">.</span>tight_layout()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示圖形。</span>
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>show()
 </span></span></code></pre></div><p><img src="figures/4-3-4-1.png" alt="Python output"></p>
 <p>到目前為止，我們已經展示如何使用空品感測的資料，針對資料內的特徵資訊進行資料分群，然而由於原始資料中夾雜許多的雜訊干擾，因此在分群上的表現仍有所不足。為了減少原始資料中的雜訊干擾，我們以下介紹兩種常用的進階方法：傅立葉轉換 (Fourier transform)、小波轉換 (wavelet transform)，分別提取時序資料的進階特徵後，再用來進行資料分群，可以更有效提升感測器分群的成效。</p>
 <h3 id="快速傅立葉轉換-fast-fourier-transform">快速傅立葉轉換 (Fast Fourier Transform)</h3>
 <p>傅立葉轉換 (Fourier Transform) 是一種常用的信號分析方法，能將原始資料由時域 (time domain) 轉換至頻域 (frequency domain) ，以方便更進一步的特徵擷取與資料分析，常見於工程與數學領域，以及聲音與時序資料的分析。由於標準的傅立葉轉換牽涉到複雜的數學運算，在實作上較為複雜費時，因此後來發展出將原始資料離散化的快速傅立葉轉換方法，可以大幅減少傅立葉轉換的運算複雜度，特別適用於大量數據資料的處理；因此在我們接下來的主題中，將使用快速傅立葉轉換的方法，來協助資料分群所需要的資料特徵的擷取。</p>
 <p>我們首先針對單一測站 (‘<code>08BEAC07D3E2</code>’) 透過繪圖的方式，觀察其在時域下的變化圖。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>air_clean[<span style="color:#e6db74">&#39;08BEAC07D3E2&#39;</span>]<span style="color:#f92672">.</span>plot() <span style="color:#75715e"># 畫出id=08BEAC07D3E2的測站資料</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 根據指定的測站ID，繪製該測站的資料。</span>
+</span></span><span style="display:flex;"><span>air_clean[<span style="color:#e6db74">&#39;08BEAC07D3E2&#39;</span>]<span style="color:#f92672">.</span>plot()
 </span></span></code></pre></div><p><img src="figures/4-3-4-2.png" alt="Python output"></p>
 <p>接著我們使用 numpy 套件中的快速傅立葉轉換工具 <code>fft</code>，將測站的資料輸入進行轉換，並用繪圖的方式觀察轉換到頻域後的資料分佈狀況。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>X <span style="color:#f92672">=</span> fft(air_clean[<span style="color:#e6db74">&#39;08BEAC07D3E2&#39;</span>])
-</span></span><span style="display:flex;"><span>N <span style="color:#f92672">=</span> len(X)
-</span></span><span style="display:flex;"><span>n <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>arange(N)
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># get the sampling rate</span>
-</span></span><span style="display:flex;"><span>sr <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">/</span> (<span style="color:#ae81ff">60</span><span style="color:#f92672">*</span><span style="color:#ae81ff">60</span>)
-</span></span><span style="display:flex;"><span>T <span style="color:#f92672">=</span> N<span style="color:#f92672">/</span>sr
-</span></span><span style="display:flex;"><span>freq <span style="color:#f92672">=</span> n<span style="color:#f92672">/</span>T 
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 使用快速傅立葉轉換 (FFT) 計算資料的頻譜</span>
+</span></span><span style="display:flex;"><span>X <span style="color:#f92672">=</span> fft(air_clean[<span style="color:#e6db74">&#39;08BEAC07D3E2&#39;</span>])
+</span></span><span style="display:flex;"><span>N <span style="color:#f92672">=</span> len(X) <span style="color:#75715e"># 取得資料的長度</span>
+</span></span><span style="display:flex;"><span>n <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>arange(N) <span style="color:#75715e"># 產生 0 到 N-1 的序列</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Get the one-sided specturm</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 獲得取樣率，這裡是每小時一次，所以取樣率為 1/3600</span>
+</span></span><span style="display:flex;"><span>sr <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">/</span> (<span style="color:#ae81ff">60</span><span style="color:#f92672">*</span><span style="color:#ae81ff">60</span>)
+</span></span><span style="display:flex;"><span>T <span style="color:#f92672">=</span> N<span style="color:#f92672">/</span>sr <span style="color:#75715e"># 總取樣時間</span>
+</span></span><span style="display:flex;"><span>freq <span style="color:#f92672">=</span> n<span style="color:#f92672">/</span>T <span style="color:#75715e"># 計算每個頻率成分</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 取得單側的頻譜，因為 FFT 結果是對稱的</span>
 </span></span><span style="display:flex;"><span>n_oneside <span style="color:#f92672">=</span> N<span style="color:#f92672">//</span><span style="color:#ae81ff">2</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># get the one side frequency</span>
 </span></span><span style="display:flex;"><span>f_oneside <span style="color:#f92672">=</span> freq[:n_oneside]
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 繪製頻譜</span>
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>figure(figsize <span style="color:#f92672">=</span> (<span style="color:#ae81ff">12</span>, <span style="color:#ae81ff">6</span>))
-</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>plot(f_oneside, np<span style="color:#f92672">.</span>abs(X[:n_oneside]), <span style="color:#e6db74">&#39;b&#39;</span>)
-</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>xlabel(<span style="color:#e6db74">&#39;Freq (Hz)&#39;</span>)
-</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">&#39;FFT Amplitude |X(freq)|&#39;</span>)
-</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>show()
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>plot(f_oneside, np<span style="color:#f92672">.</span>abs(X[:n_oneside]), <span style="color:#e6db74">&#39;b&#39;</span>) <span style="color:#75715e"># 使用絕對值表示振幅</span>
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>xlabel(<span style="color:#e6db74">&#39;Freq (Hz)&#39;</span>) <span style="color:#75715e"># x軸標籤</span>
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">&#39;FFT Amplitude |X(freq)|&#39;</span>) <span style="color:#75715e"># y 軸標籤</span>
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>show() <span style="color:#75715e"># 顯示圖形</span>
 </span></span></code></pre></div><p><img src="figures/4-3-4-3.png" alt="Python output"></p>
 <p>然後我們將相同的轉換步驟，擴及到所有的感測器，並且將所有感測器完成快速傅立葉轉換後的結果，儲存在 <code>air_fft</code> 變數中。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>air_fft <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame()
-</span></span><span style="display:flex;"><span>col_names <span style="color:#f92672">=</span> list(air_clean<span style="color:#f92672">.</span>columns)
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> name <span style="color:#f92672">in</span> col_names:
-</span></span><span style="display:flex;"><span>  X <span style="color:#f92672">=</span> fft(air_clean[name])
-</span></span><span style="display:flex;"><span>  N <span style="color:#f92672">=</span> len(X)
-</span></span><span style="display:flex;"><span>  n <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>arange(N)
-</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># get the sampling rate</span>
-</span></span><span style="display:flex;"><span>  sr <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">/</span> (<span style="color:#ae81ff">60</span><span style="color:#f92672">*</span><span style="color:#ae81ff">60</span>)
-</span></span><span style="display:flex;"><span>  T <span style="color:#f92672">=</span> N<span style="color:#f92672">/</span>sr
-</span></span><span style="display:flex;"><span>  freq <span style="color:#f92672">=</span> n<span style="color:#f92672">/</span>T 
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 創建一個空的資料框來存放每個測站的 FFT 結果</span>
+</span></span><span style="display:flex;"><span>air_fft <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame()
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Get the one-sided specturm</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 獲取所有測站的名稱</span>
+</span></span><span style="display:flex;"><span>col_names <span style="color:#f92672">=</span> list(air_clean<span style="color:#f92672">.</span>columns)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 對每個測站的資料執行 FFT</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> name <span style="color:#f92672">in</span> col_names:
+</span></span><span style="display:flex;"><span>  X <span style="color:#f92672">=</span> fft(air_clean[name]) <span style="color:#75715e"># 計算 FFT</span>
+</span></span><span style="display:flex;"><span>  N <span style="color:#f92672">=</span> len(X) <span style="color:#75715e"># 獲取資料的長度</span>
+</span></span><span style="display:flex;"><span>  n <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>arange(N) <span style="color:#75715e"># 產生 0 到 N-1 的序列</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 獲取取樣率，這裡是每小時一次，所以取樣率為 1/3600</span>
+</span></span><span style="display:flex;"><span>  sr <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">/</span> (<span style="color:#ae81ff">60</span><span style="color:#f92672">*</span><span style="color:#ae81ff">60</span>)
+</span></span><span style="display:flex;"><span>  T <span style="color:#f92672">=</span> N<span style="color:#f92672">/</span>sr <span style="color:#75715e"># 計算總取樣時間</span>
+</span></span><span style="display:flex;"><span>  freq <span style="color:#f92672">=</span> n<span style="color:#f92672">/</span>T <span style="color:#75715e"># 計算每個頻率成分</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 取得單側的頻譜，因為 FFT 結果是對稱的</span>
 </span></span><span style="display:flex;"><span>  n_oneside <span style="color:#f92672">=</span> N<span style="color:#f92672">//</span><span style="color:#ae81ff">2</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># get the one side frequency</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 將計算的 FFT 振幅存到資料框中</span>
 </span></span><span style="display:flex;"><span>  f_oneside <span style="color:#f92672">=</span> freq[:n_oneside]
 </span></span><span style="display:flex;"><span>  air_fft[name] <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>abs(X[:n_oneside])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示 FFT 資料框的前五行</span>
 </span></span><span style="display:flex;"><span>print(air_fft<span style="color:#f92672">.</span>head())
 </span></span></code></pre></div><pre tabindex="0"><code>08BEAC07D3E2  08BEAC09FF22  08BEAC09FF2A  08BEAC09FF42  08BEAC09FF48  \
 0  12019.941563  11255.762431  13241.408211  12111.740447  11798.584351   
@@ -556,20 +664,28 @@ timestamp
 
 [5 rows x 398 columns]
 </code></pre><p>我們接著使用和前面相同的方法，使用 <code>TimeSeriesKMeans</code> 針對已轉換到頻域的感測器資料分成 10 個群集，並將分群後只有單一感測器的群集予以刪除，在這個範例中，最後會剩下 9 個群集，我們把每個感測器所屬的群集代碼列印出來。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>fft_transpose <span style="color:#f92672">=</span> air_fft<span style="color:#f92672">.</span>transpose() <span style="color:#75715e"># 將資料行列交換以符合分群模型輸入的需求</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 將 FFT 的結果進行轉置，因為後面的分群模型需要的輸入格式是每列是一段時間序列，每行是不同的時間點。</span>
+</span></span><span style="display:flex;"><span>fft_transpose <span style="color:#f92672">=</span> air_fft<span style="color:#f92672">.</span>transpose() <span style="color:#75715e"># 將資料行列交換以符合分群模型輸入的需求</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用時間序列 K 均值進行分群，這裡選擇了 10 個群，使用動態時間歪曲 (DTW) 作為距離度量。</span>
 </span></span><span style="display:flex;"><span>model <span style="color:#f92672">=</span> TimeSeriesKMeans(n_clusters<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>, metric<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;dtw&#34;</span>, max_iter<span style="color:#f92672">=</span><span style="color:#ae81ff">5</span>)
 </span></span><span style="display:flex;"><span>pre <span style="color:#f92672">=</span> model<span style="color:#f92672">.</span>fit(fft_transpose)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># build helper df to map metrics to their cluster labels</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 建立一個輔助資料框，將每個測站 (即每個資料行) 映射到其對應的群標籤。</span>
 </span></span><span style="display:flex;"><span>df_cluster <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame(list(zip(air_fft<span style="color:#f92672">.</span>columns, pre<span style="color:#f92672">.</span>labels_)), columns<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;metric&#39;</span>, <span style="color:#e6db74">&#39;cluster&#39;</span>])
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># make some helper dictionaries and lists</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 創建輔助的字典和列表來了解每個群中有多少測站，以及哪些測站屬於哪個群。</span>
 </span></span><span style="display:flex;"><span>cluster_metrics_dict <span style="color:#f92672">=</span> df_cluster<span style="color:#f92672">.</span>groupby([<span style="color:#e6db74">&#39;cluster&#39;</span>])[<span style="color:#e6db74">&#39;metric&#39;</span>]<span style="color:#f92672">.</span>apply(<span style="color:#66d9ef">lambda</span> x: [x <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> x])<span style="color:#f92672">.</span>to_dict()
 </span></span><span style="display:flex;"><span>cluster_len_dict <span style="color:#f92672">=</span> df_cluster[<span style="color:#e6db74">&#39;cluster&#39;</span>]<span style="color:#f92672">.</span>value_counts()<span style="color:#f92672">.</span>to_dict()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 找出只有一個測站的群 (這些群對我們可能沒有太大的意義)。</span>
 </span></span><span style="display:flex;"><span>clusters_dropped <span style="color:#f92672">=</span> [cluster <span style="color:#66d9ef">for</span> cluster <span style="color:#f92672">in</span> cluster_len_dict <span style="color:#66d9ef">if</span> cluster_len_dict[cluster]<span style="color:#f92672">==</span><span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 找出有多於一個測站的群。</span>
 </span></span><span style="display:flex;"><span>clusters_final <span style="color:#f92672">=</span> [cluster <span style="color:#66d9ef">for</span> cluster <span style="color:#f92672">in</span> cluster_len_dict <span style="color:#66d9ef">if</span> cluster_len_dict[cluster]<span style="color:#f92672">&gt;</span><span style="color:#ae81ff">1</span>]
 </span></span><span style="display:flex;"><span>clusters_final<span style="color:#f92672">.</span>sort()
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示每個測站及其所屬的群標籤。</span>
 </span></span><span style="display:flex;"><span>print(df_cluster<span style="color:#f92672">.</span>head(<span style="color:#ae81ff">10</span>))
 </span></span></code></pre></div><pre tabindex="0"><code>         metric  cluster
 0  08BEAC07D3E2        7
@@ -583,68 +699,109 @@ timestamp
 8  08BEAC09FF8C        2
 9  08BEAC09FF9C        8
 </code></pre><p>最後，我們把九個群集的感測器資料分別繪製出來，可以發現每個群集內的感測器在頻域上的資料皆有極度的相似性，同時不同群集的感測器在頻域上的資料彼此相異程度，亦明顯比同群集內的感測器資料差異度為大。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>fig, axes <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplots(nrows<span style="color:#f92672">=</span>len(clusters_final), ncols<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">15</span>), dpi<span style="color:#f92672">=</span><span style="color:#ae81ff">500</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 根據分群的結果建立多個子圖，每個子圖對應一個群。</span>
+</span></span><span style="display:flex;"><span>fig, axes <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplots(nrows<span style="color:#f92672">=</span>len(clusters_final), ncols<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">15</span>), dpi<span style="color:#f92672">=</span><span style="color:#ae81ff">500</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 遍歷每一個群，並在對應的子圖上畫出該群內所有測站的FFT結果。</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> idx, cluster_number <span style="color:#f92672">in</span> enumerate(clusters_final):
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 計算該群內所有測站之間的相關係數，並取絕對值。</span>
 </span></span><span style="display:flex;"><span>  x_corr <span style="color:#f92672">=</span> air_fft[cluster_metrics_dict[cluster_number]]<span style="color:#f92672">.</span>corr()<span style="color:#f92672">.</span>abs()<span style="color:#f92672">.</span>values
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 計算上三角矩陣中所有相關係數的平均值，得到該群的平均相關度。</span>
 </span></span><span style="display:flex;"><span>  x_corr_mean <span style="color:#f92672">=</span> round(x_corr[np<span style="color:#f92672">.</span>triu_indices(x_corr<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>],<span style="color:#ae81ff">1</span>)]<span style="color:#f92672">.</span>mean(),<span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 設置子圖的標題，顯示群號、群的平均相關度和群內測站的數量。</span>
 </span></span><span style="display:flex;"><span>  plot_title <span style="color:#f92672">=</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;cluster </span><span style="color:#e6db74">{</span>cluster_number<span style="color:#e6db74">}</span><span style="color:#e6db74"> (quality=</span><span style="color:#e6db74">{</span>x_corr_mean<span style="color:#e6db74">}</span><span style="color:#e6db74">, n=</span><span style="color:#e6db74">{</span>cluster_len_dict[cluster_number]<span style="color:#e6db74">}</span><span style="color:#e6db74">)&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 畫出該群內所有測站的 FFT 結果。</span>
 </span></span><span style="display:flex;"><span>  air_fft[cluster_metrics_dict[cluster_number]]<span style="color:#f92672">.</span>plot(ax<span style="color:#f92672">=</span>axes[idx], title<span style="color:#f92672">=</span>plot_title)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 移除圖例，因為對於這樣的圖而言，圖例沒有太大的意義。</span>
 </span></span><span style="display:flex;"><span>  axes[idx]<span style="color:#f92672">.</span>get_legend()<span style="color:#f92672">.</span>remove()
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 調整子圖之間的間距，使得整體圖形看起來更加整齊。</span>
 </span></span><span style="display:flex;"><span>fig<span style="color:#f92672">.</span>tight_layout()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示整體圖形。</span>
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>show()
 </span></span></code></pre></div><p><img src="figures/4-3-4-4.png" alt="Python output"></p>
 <h3 id="小波轉換-wavelet-transform">小波轉換 (Wavelet Transform)</h3>
 <p>除了傅立葉轉換外，小波轉換也是另一種將原始資料從時域轉換到頻域的常見手法，相較於傅立葉轉換，小波轉換可以提供更多頻域資料的觀察角度，因此近期無論在視訊、音訊、時序等相關的資料分析，已被廣泛地使用，並得到很好的效果。</p>
 <p>我們使用 pywt 套件進行小波轉換的資料處理，由於小波轉換會使用到母小波來擷取時序資料中的特徵，因此我們先用下列的語法查看可使用的母小波名稱。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>wavlist <span style="color:#f92672">=</span> pywt<span style="color:#f92672">.</span>wavelist(kind<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;continuous&#34;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 從 pywt 模組中取得所有連續小波的名稱列表。</span>
+</span></span><span style="display:flex;"><span>wavlist <span style="color:#f92672">=</span> pywt<span style="color:#f92672">.</span>wavelist(kind<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;continuous&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示這些連續小波的名稱。</span>
 </span></span><span style="display:flex;"><span>print(wavlist)
 </span></span></code></pre></div><pre tabindex="0"><code>[&#39;cgau1&#39;, &#39;cgau2&#39;, &#39;cgau3&#39;, &#39;cgau4&#39;, &#39;cgau5&#39;, &#39;cgau6&#39;, &#39;cgau7&#39;, &#39;cgau8&#39;, &#39;cmor&#39;, &#39;fbsp&#39;, &#39;gaus1&#39;, &#39;gaus2&#39;, &#39;gaus3&#39;, &#39;gaus4&#39;, &#39;gaus5&#39;, &#39;gaus6&#39;, &#39;gaus7&#39;, &#39;gaus8&#39;, &#39;mexh&#39;, &#39;morl&#39;, &#39;shan&#39;]
 </code></pre><p>不同於傅立葉轉換只能看到頻率上的變化，小波轉換可以將有限長的母小波進行縮放並在一段資料上擷取特徵，而在挑選母小波時可以先將其作圖觀察後再做決定，若以 <em>morl</em> 母小波為例，我們可以使用下列的語法進行作圖。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>wav <span style="color:#f92672">=</span> pywt<span style="color:#f92672">.</span>ContinuousWavelet(<span style="color:#e6db74">&#34;morl&#34;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 使用 Morlet 小波建立一個連續小波物件。</span>
+</span></span><span style="display:flex;"><span>wav <span style="color:#f92672">=</span> pywt<span style="color:#f92672">.</span>ContinuousWavelet(<span style="color:#e6db74">&#34;morl&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 定義小波的尺度。</span>
 </span></span><span style="display:flex;"><span>scale <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 計算指定小波的連續小波變換整合。</span>
 </span></span><span style="display:flex;"><span>int_psi, x <span style="color:#f92672">=</span> pywt<span style="color:#f92672">.</span>integrate_wavelet(wav, precision<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 正規化整合小波以使其最大絕對值為 1。</span>
 </span></span><span style="display:flex;"><span>int_psi <span style="color:#f92672">/=</span> np<span style="color:#f92672">.</span>abs(int_psi)<span style="color:#f92672">.</span>max()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 反轉整合小波，得到小波濾波器。</span>
 </span></span><span style="display:flex;"><span>wav_filter <span style="color:#f92672">=</span> int_psi[::<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 定義時間軸。</span>
 </span></span><span style="display:flex;"><span>nt <span style="color:#f92672">=</span> len(wav_filter)
 </span></span><span style="display:flex;"><span>t <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>linspace(<span style="color:#f92672">-</span>nt <span style="color:#f92672">//</span> <span style="color:#ae81ff">2</span>, nt <span style="color:#f92672">//</span> <span style="color:#ae81ff">2</span>, nt)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 繪製小波濾波器的實部。</span>
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>plot(t, wav_filter<span style="color:#f92672">.</span>real)
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>ylim([<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>])
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>xlabel(<span style="color:#e6db74">&#34;time (samples)&#34;</span>)
 </span></span></code></pre></div><p><img src="figures/4-3-4-5.png" alt="Python output"></p>
 <p>我們首先進行小波轉換的基本參數設定，並且使用 <em>morl</em> 母小波，針對所選定的感測器，將小波的縮放範圍設為 1~31 倍，進行小波轉換並作圖。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 參數設定</span>
-</span></span><span style="display:flex;"><span>F <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>  <span style="color:#75715e">#Samples per hour</span>
-</span></span><span style="display:flex;"><span>hours <span style="color:#f92672">=</span> <span style="color:#ae81ff">744</span>
-</span></span><span style="display:flex;"><span>nos <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>int(F<span style="color:#f92672">*</span>hours)  <span style="color:#75715e">#No of samples in 31 days</span>
+</span></span><span style="display:flex;"><span>F <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>  <span style="color:#75715e"># 每小時取樣次數</span>
+</span></span><span style="display:flex;"><span>hours <span style="color:#f92672">=</span> <span style="color:#ae81ff">744</span> <span style="color:#75715e"># 31 天的小時數</span>
+</span></span><span style="display:flex;"><span>nos <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>int(F<span style="color:#f92672">*</span>hours)  <span style="color:#75715e"># 31 天內的總取樣次數</span>
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 從資料框中選擇某一測站的資料</span>
 </span></span><span style="display:flex;"><span>x <span style="color:#f92672">=</span> air_clean[<span style="color:#e6db74">&#39;08BEAC09FF2A&#39;</span>]
 </span></span><span style="display:flex;"><span>scales <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>arange(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">31</span>, <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用 Morlet 小波進行連續小波變換</span>
 </span></span><span style="display:flex;"><span>coef, freqs <span style="color:#f92672">=</span> cwt(x, scales, <span style="color:#e6db74">&#39;morl&#39;</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># scalogram</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 繪製 scalogram</span>
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>figure(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">15</span>, <span style="color:#ae81ff">10</span>))
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>imshow(abs(coef), extent<span style="color:#f92672">=</span>[<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">744</span>, <span style="color:#ae81ff">30</span>, <span style="color:#ae81ff">1</span>], interpolation<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;bilinear&#39;</span>, cmap<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;viridis&#39;</span>,
-</span></span><span style="display:flex;"><span>           aspect<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;auto&#39;</span>, vmax<span style="color:#f92672">=</span>abs(coef)<span style="color:#f92672">.</span>max(), vmin<span style="color:#f92672">=</span>abs(coef)<span style="color:#f92672">.</span>min())
-</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>gca()<span style="color:#f92672">.</span>invert_yaxis()
+</span></span><span style="display:flex;"><span>           aspect<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;auto&#39;</span>, vmax<span style="color:#f92672">=</span>abs(coef)<span style="color:#f92672">.</span>max(), vmin<span style="color:#f92672">=</span>abs(coef)<span style="color:#f92672">.</span>min()) <span style="color:#75715e"># 顯示小波變換的絕對值</span>
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>gca()<span style="color:#f92672">.</span>invert_yaxis() <span style="color:#75715e"># Y 軸反向，使尺度從大到小排列</span>
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>yticks(np<span style="color:#f92672">.</span>arange(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">31</span>, <span style="color:#ae81ff">1</span>))
-</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>xticks(np<span style="color:#f92672">.</span>arange(<span style="color:#ae81ff">0</span>, nos<span style="color:#f92672">/</span>F, nos<span style="color:#f92672">/</span>(<span style="color:#ae81ff">20</span><span style="color:#f92672">*</span>F)))
-</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">&#34;scales&#34;</span>)
-</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>xlabel(<span style="color:#e6db74">&#34;hour&#34;</span>)
-</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>colorbar()
-</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>show()
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>xticks(np<span style="color:#f92672">.</span>arange(<span style="color:#ae81ff">0</span>, nos<span style="color:#f92672">/</span>F, nos<span style="color:#f92672">/</span>(<span style="color:#ae81ff">20</span><span style="color:#f92672">*</span>F))) <span style="color:#75715e"># 設定 X 軸的刻度</span>
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">&#34;scales&#34;</span>) <span style="color:#75715e"># 設定 Y 軸標籤</span>
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>xlabel(<span style="color:#e6db74">&#34;hour&#34;</span>) <span style="color:#75715e"># 設定 X 軸標籤</span>
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>colorbar() <span style="color:#75715e"># 顯示色條</span>
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>show() <span style="color:#75715e"># 顯示圖形</span>
 </span></span></code></pre></div><p><img src="figures/4-3-4-6.png" alt="Python output"></p>
 <p>整體而言，我們可以發現在圖中 scales 較大時的顏色較偏向黃綠色，代表擷取出來的特徵與母小波較為相近，反之則較偏向藍色，這些比對結果的特徵數值將會被用於接下來的資料分群。</p>
 <p>不過，由於經過小波轉換後，每個測站的資料已經轉為二維的特徵數值，在開始進行資料分群前，我們需要先將原本二維資料的每一個欄位串接起來，變成一維的資料格式，並存入 <code>air_cwt</code> 變數中。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>air_cwt <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame()
-</span></span><span style="display:flex;"><span>scales <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>arange(<span style="color:#ae81ff">28</span>, <span style="color:#ae81ff">31</span>, <span style="color:#ae81ff">2</span>)
-</span></span><span style="display:flex;"><span>col_names <span style="color:#f92672">=</span> list(air_clean<span style="color:#f92672">.</span>columns)
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> name <span style="color:#f92672">in</span> col_names:
-</span></span><span style="display:flex;"><span>  coef, freqs <span style="color:#f92672">=</span> cwt(air_clean[name], scales, <span style="color:#e6db74">&#39;morl&#39;</span>)
-</span></span><span style="display:flex;"><span>  air_cwt[name] <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>abs(coef<span style="color:#f92672">.</span>reshape(coef<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">*</span>coef<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">1</span>]))
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 初始化空的資料框用於存儲所有測站的小波連續變換結果</span>
+</span></span><span style="display:flex;"><span>air_cwt <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame()
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 定義要使用的小波尺度範圍，此處選擇了 28, 30 這兩個尺度</span>
+</span></span><span style="display:flex;"><span>scales <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>arange(<span style="color:#ae81ff">28</span>, <span style="color:#ae81ff">31</span>, <span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 從 air_clean 中獲取所有測站的名稱</span>
+</span></span><span style="display:flex;"><span>col_names <span style="color:#f92672">=</span> list(air_clean<span style="color:#f92672">.</span>columns)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 對每一個測站的資料進行小波連續變換</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> name <span style="color:#f92672">in</span> col_names:
+</span></span><span style="display:flex;"><span>  coef, freqs <span style="color:#f92672">=</span> cwt(air_clean[name], scales, <span style="color:#e6db74">&#39;morl&#39;</span>) <span style="color:#75715e"># 使用 Morlet 小波進行連續小波變換</span>
+</span></span><span style="display:flex;"><span>  air_cwt[name] <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>abs(coef<span style="color:#f92672">.</span>reshape(coef<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">*</span>coef<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">1</span>])) <span style="color:#75715e"># 重塑 coef 陣列並取其絕對值</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示資料框 air_cwt 的前五行</span>
 </span></span><span style="display:flex;"><span>print(air_cwt<span style="color:#f92672">.</span>head())
 </span></span></code></pre></div><pre tabindex="0"><code>08BEAC07D3E2  08BEAC09FF22  08BEAC09FF2A  08BEAC09FF42  08BEAC09FF48  \
 0      0.778745      6.336664      2.137342      1.849035      0.778745   
@@ -677,22 +834,29 @@ timestamp
 [5 rows x 398 columns]
 </code></pre><p>由於經過二維資料轉換成一維資料的程序，每筆資料的特徵數值數量因而增加，將造成後續資料運算的複雜度大幅提升，因此我們先只取前 100 個特徵數值做為每個感測器的代表性特徵，並以此套用 KMeans 方法進行資料分群。</p>
 <p>由於小波轉換可以得到更細微的資料特徵，因此我們在資料分群的過程中，預設分為 20 個群集（讀者可自行測試不同的群集數目設定，觀察結果會產生哪些變化）；此外，我們對於分群結果也一樣先檢查是否存在只有單一感測器的小群集，並將其剔除，以避免少數特殊狀況的感測器，影響整體資料分群的結果。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>air_cwt_less <span style="color:#f92672">=</span> air_cwt<span style="color:#f92672">.</span>iloc[:, <span style="color:#ae81ff">0</span>:<span style="color:#ae81ff">101</span>]
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 選擇 air_cwt 資料框的前 101 列作為一個子集</span>
+</span></span><span style="display:flex;"><span>air_cwt_less <span style="color:#f92672">=</span> air_cwt<span style="color:#f92672">.</span>iloc[:, <span style="color:#ae81ff">0</span>:<span style="color:#ae81ff">101</span>]
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>cwt_transpose <span style="color:#f92672">=</span> air_cwt_less<span style="color:#f92672">.</span>transpose() <span style="color:#75715e"># 將資料行列交換以符合分群模型輸入的需求</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 由於 TimeSeriesKMeans 模型需要資料的每一列為一個時間序列，因此我們將資料框轉置</span>
+</span></span><span style="display:flex;"><span>cwt_transpose <span style="color:#f92672">=</span> air_cwt_less<span style="color:#f92672">.</span>transpose()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 初始化 TimeSeriesKMeans 模型，設定分群數量為 20，使用 DTW 作為相似度指標，並設定其他參數</span>
 </span></span><span style="display:flex;"><span>model <span style="color:#f92672">=</span> TimeSeriesKMeans(n_clusters<span style="color:#f92672">=</span><span style="color:#ae81ff">20</span>, metric<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;dtw&#34;</span>, max_iter<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>, verbose<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, n_jobs<span style="color:#f92672">=-</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 擬合模型到資料</span>
 </span></span><span style="display:flex;"><span>pre <span style="color:#f92672">=</span> model<span style="color:#f92672">.</span>fit(cwt_transpose)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># build helper df to map metrics to their cluster labels</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 創建一個幫助資料框，將資料的名稱映射到其相應的分群標籤</span>
 </span></span><span style="display:flex;"><span>df_cluster <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame(list(zip(air_cwt<span style="color:#f92672">.</span>columns, pre<span style="color:#f92672">.</span>labels_)), columns<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;metric&#39;</span>, <span style="color:#e6db74">&#39;cluster&#39;</span>])
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># make some helper dictionaries and lists</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 創建一些幫助字典和列表</span>
 </span></span><span style="display:flex;"><span>cluster_metrics_dict <span style="color:#f92672">=</span> df_cluster<span style="color:#f92672">.</span>groupby([<span style="color:#e6db74">&#39;cluster&#39;</span>])[<span style="color:#e6db74">&#39;metric&#39;</span>]<span style="color:#f92672">.</span>apply(<span style="color:#66d9ef">lambda</span> x: [x <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> x])<span style="color:#f92672">.</span>to_dict()
 </span></span><span style="display:flex;"><span>cluster_len_dict <span style="color:#f92672">=</span> df_cluster[<span style="color:#e6db74">&#39;cluster&#39;</span>]<span style="color:#f92672">.</span>value_counts()<span style="color:#f92672">.</span>to_dict()
-</span></span><span style="display:flex;"><span>clusters_dropped <span style="color:#f92672">=</span> [cluster <span style="color:#66d9ef">for</span> cluster <span style="color:#f92672">in</span> cluster_len_dict <span style="color:#66d9ef">if</span> cluster_len_dict[cluster]<span style="color:#f92672">==</span><span style="color:#ae81ff">1</span>]
-</span></span><span style="display:flex;"><span>clusters_final <span style="color:#f92672">=</span> [cluster <span style="color:#66d9ef">for</span> cluster <span style="color:#f92672">in</span> cluster_len_dict <span style="color:#66d9ef">if</span> cluster_len_dict[cluster]<span style="color:#f92672">&gt;</span><span style="color:#ae81ff">1</span>]
-</span></span><span style="display:flex;"><span>clusters_final<span style="color:#f92672">.</span>sort()
+</span></span><span style="display:flex;"><span>clusters_dropped <span style="color:#f92672">=</span> [cluster <span style="color:#66d9ef">for</span> cluster <span style="color:#f92672">in</span> cluster_len_dict <span style="color:#66d9ef">if</span> cluster_len_dict[cluster]<span style="color:#f92672">==</span><span style="color:#ae81ff">1</span>] <span style="color:#75715e"># 被捨棄的分群</span>
+</span></span><span style="display:flex;"><span>clusters_final <span style="color:#f92672">=</span> [cluster <span style="color:#66d9ef">for</span> cluster <span style="color:#f92672">in</span> cluster_len_dict <span style="color:#66d9ef">if</span> cluster_len_dict[cluster]<span style="color:#f92672">&gt;</span><span style="color:#ae81ff">1</span>] <span style="color:#75715e"># 最終使用的分群</span>
+</span></span><span style="display:flex;"><span>clusters_final<span style="color:#f92672">.</span>sort() <span style="color:#75715e"># 對分群編號進行排序</span>
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示 df_cluster 的前 10 行以供查看</span>
 </span></span><span style="display:flex;"><span>print(df_cluster<span style="color:#f92672">.</span>head(<span style="color:#ae81ff">10</span>))
 </span></span></code></pre></div><pre tabindex="0"><code>metric  cluster
 0  08BEAC07D3E2        7
@@ -706,16 +870,30 @@ timestamp
 8  08BEAC09FF8C       15
 9  08BEAC09FF9C       19
 </code></pre><p>在我們的範例中，經過上述的程序後，最後留下 14 個群集，我們將每個群集內的感測器原始資料一一繪出，我們可以發現相同群集內的感測器資料一致性更加明顯，同時不同群集間的差異也更加細緻明確，比之前使用原始資料或傅立葉轉換時的成效更為明顯。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>fig, axes <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplots(nrows<span style="color:#f92672">=</span>len(clusters_final), ncols<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">15</span>), dpi<span style="color:#f92672">=</span><span style="color:#ae81ff">500</span>)
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># legend = axes.legend(loc=&#34;upper left&#34;, bbox_to_anchor=(1.02, 0, 0.07, 1))</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 根據我們的分群數量，建立一個多行、單列的子圖結構</span>
+</span></span><span style="display:flex;"><span>fig, axes <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplots(nrows<span style="color:#f92672">=</span>len(clusters_final), ncols<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">15</span>), dpi<span style="color:#f92672">=</span><span style="color:#ae81ff">500</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 對於每個分群，我們會做以下操作：</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> idx, cluster_number <span style="color:#f92672">in</span> enumerate(clusters_final):
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 計算這個分群中的時間序列的相關性</span>
 </span></span><span style="display:flex;"><span>  x_corr <span style="color:#f92672">=</span> air_cwt[cluster_metrics_dict[cluster_number]]<span style="color:#f92672">.</span>corr()<span style="color:#f92672">.</span>abs()<span style="color:#f92672">.</span>values
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 計算平均相關性</span>
 </span></span><span style="display:flex;"><span>  x_corr_mean <span style="color:#f92672">=</span> round(x_corr[np<span style="color:#f92672">.</span>triu_indices(x_corr<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>],<span style="color:#ae81ff">1</span>)]<span style="color:#f92672">.</span>mean(),<span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 設定子圖的標題，包括分群號、平均相關性和該分群中的時間序列數量</span>
 </span></span><span style="display:flex;"><span>  plot_title <span style="color:#f92672">=</span> <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;cluster </span><span style="color:#e6db74">{</span>cluster_number<span style="color:#e6db74">}</span><span style="color:#e6db74"> (quality=</span><span style="color:#e6db74">{</span>x_corr_mean<span style="color:#e6db74">}</span><span style="color:#e6db74">, n=</span><span style="color:#e6db74">{</span>cluster_len_dict[cluster_number]<span style="color:#e6db74">}</span><span style="color:#e6db74">)&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 在子圖上繪製該分群中的所有時間序列</span>
 </span></span><span style="display:flex;"><span>  air_cwt[cluster_metrics_dict[cluster_number]]<span style="color:#f92672">.</span>plot(ax<span style="color:#f92672">=</span>axes[idx], title<span style="color:#f92672">=</span>plot_title)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># 移除子圖的圖例，以保持視覺清晰</span>
 </span></span><span style="display:flex;"><span>  axes[idx]<span style="color:#f92672">.</span>get_legend()<span style="color:#f92672">.</span>remove()
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 調整子圖的間距，使其適應畫布</span>
 </span></span><span style="display:flex;"><span>fig<span style="color:#f92672">.</span>tight_layout()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示圖表</span>
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>show()
 </span></span></code></pre></div><p><img src="figures/4-3-4-7.png" alt="Python output"></p>
 <h2 id="參考資料">參考資料</h2>
@@ -830,12 +1008,12 @@ This work is licensed under a <a rel="license" href="http://creativecommons.org/
         <script>
           var contentLangs=['zh'];
         </script>
-        <script src="/js/auto-complete.js?1697155777" defer></script>
-        <script src="/js/lunr.min.js?1697155777" defer></script>
-        <script src="/js/lunr.stemmer.support.min.js?1697155777" defer></script>
-        <script src="/js/lunr.multi.min.js?1697155777" defer></script>
-        <script src="/js/lunr.zh.min.js?1697155777" defer></script>
-        <script src="/js/search.js?1697155777" defer></script>
+        <script src="/js/auto-complete.js?1697279118" defer></script>
+        <script src="/js/lunr.min.js?1697279118" defer></script>
+        <script src="/js/lunr.stemmer.support.min.js?1697279118" defer></script>
+        <script src="/js/lunr.multi.min.js?1697279118" defer></script>
+        <script src="/js/lunr.zh.min.js?1697279118" defer></script>
+        <script src="/js/search.js?1697279118" defer></script>
       </div>
       <div id="content-wrapper" class="highlightable">
         <ul class="topics">
@@ -883,7 +1061,6 @@ This work is licensed under a <a rel="license" href="http://creativecommons.org/
                 <span>&nbsp;</span>
                 <div class="select-style">
                   <select id="select-language" onchange="location = baseUri + this.value;">
-                    <option id="en" value="/en/ch4/ch4.3/">English</option>
                     <option id="zh-tw" value="/ch4/ch4.3/" selected>中文</option>
                   </select>
                 </div>
@@ -912,14 +1089,14 @@ This work is licensed under a <a rel="license" href="http://creativecommons.org/
       </div>
     </aside>
 
-    <script src="/js/clipboard.min.js?1697155777" defer></script>
-    <script src="/js/perfect-scrollbar.min.js?1697155777" defer></script>
-    <script src="/js/featherlight.min.js?1697155777" defer></script>
-    <script src="/js/jquery.svg.pan.zoom.js?1697155777" defer></script>
-    <script src="/js/mermaid.min.js?1697155777" defer></script>
+    <script src="/js/clipboard.min.js?1697279118" defer></script>
+    <script src="/js/perfect-scrollbar.min.js?1697279118" defer></script>
+    <script src="/js/featherlight.min.js?1697279118" defer></script>
+    <script src="/js/jquery.svg.pan.zoom.js?1697279118" defer></script>
+    <script src="/js/mermaid.min.js?1697279118" defer></script>
     <script>
       window.themeUseMermaid = JSON.parse("{}");
     </script>
-    <script src="/js/theme.js?1697155777" defer></script>
+    <script src="/js/theme.js?1697279118" defer></script>
   </body>
 </html>
