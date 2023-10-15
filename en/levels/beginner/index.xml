@@ -109,7 +109,7 @@ Suppose that we want to see the air quality in neighborhoods of our house, one i
       <link>https://LearnCIOT.github.io/en/ch2/ch2.2/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://LearnCIOT.github.io/en/ch2/ch2.2/</guid>
-      <description>Table Of Contents Programming Language - Python Development Platform – Google Colab References Programming Language - Python The subject of this material is the data application of Civil IoT Taiwan. The articles will use Python, a programming language commonly used in the data science community, as the primary programming language and adopt an easy-to-understand demonstration approach to guide readers step-by-step into the content. The readers can obtain first-hand experience with Civil IoT Taiwan data applications and become able to draw inferences from other data science topics in the future.</description>
+      <description>Table Of Contents Programming Language - Python Development Platform – Google Colab References Programming Language - Python This material is dedicated to applying data derived from Civil IoT, focusing on public welfare. It is grounded in Python, a popular choice within the data science community. Through intuitive and comprehensible demonstrations, participants are guided through hands-on learning experiences, delving deeply into core topics chapter by chapter. Students will gain practical experience applying Civil IoT data and develop the skills to extend their knowledge to other data science applications.</description>
     </item>
     <item>
       <title>7.2. Tableau Application</title>
