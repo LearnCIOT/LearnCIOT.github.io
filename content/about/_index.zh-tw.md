@@ -8,7 +8,7 @@ levels: ["beginner" ]
 ---
 
 
-本網站為基於臺灣民生公共物聯網各項開放資料，所撰寫之資料應用說明與範例。本網站所使用之各項開放資料，其授權規定請參考原始網站之說明內容；本網站所提供程式範例中，所使用到的 Python 語言套件與套裝軟體，其使用授權，請參考各套件與軟體之相關網頁的說明；本網站所提供之文章內容，採用 CC-BY ([https://creativecommons.org/licenses/by/3.0/](https://creativecommons.org/licenses/by/4.0/)) 的創用 CC 授權。
+本網站為基於臺灣民生公共物聯網各項開放資料，所撰寫之資料應用說明與範例。本網站所使用之各項開放資料，其授權規定請參考原始網站之說明內容；本網站所提供程式範例中，所使用到的 Python 語言套件與套裝軟體，其使用授權，請參考各套件與軟體之相關網頁的說明；本網站所提供之文章內容，採用 CC-BY ([https://creativecommons.org/licenses/by/4.0/](https://creativecommons.org/licenses/by/4.0/)) 的創用 CC 授權。
 
 本網站的指導單位、執行單位、主持人與相關團隊資訊如下：
 
