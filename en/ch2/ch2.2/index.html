@@ -16,18 +16,18 @@
     <meta name="author" content="Ling-Jyh Chen">
     <title>2.2. Material Tools :: Tutorial for CIoT Open Data Applications</title>
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="/css/fontawesome-all.min.css?1697341804" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1697341804" rel="stylesheet"></noscript>
-    <link href="/css/featherlight.min.css?1697341804" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1697341804" rel="stylesheet"></noscript>
-    <link href="/css/auto-complete.css?1697341804" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1697341804" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar.min.css?1697341804" rel="stylesheet">
-    <link href="/css/nucleus.css?1697341804" rel="stylesheet">
-    <link href="/css/fonts.css?1697341804" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1697341804" rel="stylesheet"></noscript>
-    <link href="/css/theme.css?1697341804" rel="stylesheet">
-    <link href="/css/theme-relearn-light.css?1697341804" rel="stylesheet" id="variant-style">
-    <link href="/css/ie.css?1697341804" rel="stylesheet">
-    <link href="/css/variant.css?1697341804" rel="stylesheet">
-    <link href="/css/print.css?1697341804" rel="stylesheet" media="print">
-    <script src="/js/variant.js?1697341804"></script>
+    <link href="/css/fontawesome-all.min.css?1697341973" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1697341973" rel="stylesheet"></noscript>
+    <link href="/css/featherlight.min.css?1697341973" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1697341973" rel="stylesheet"></noscript>
+    <link href="/css/auto-complete.css?1697341973" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1697341973" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar.min.css?1697341973" rel="stylesheet">
+    <link href="/css/nucleus.css?1697341973" rel="stylesheet">
+    <link href="/css/fonts.css?1697341973" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1697341973" rel="stylesheet"></noscript>
+    <link href="/css/theme.css?1697341973" rel="stylesheet">
+    <link href="/css/theme-relearn-light.css?1697341973" rel="stylesheet" id="variant-style">
+    <link href="/css/ie.css?1697341973" rel="stylesheet">
+    <link href="/css/variant.css?1697341973" rel="stylesheet">
+    <link href="/css/print.css?1697341973" rel="stylesheet" media="print">
+    <script src="/js/variant.js?1697341973"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -43,7 +43,7 @@
       var baseUriFull='https:\/\/LearnCIOT.github.io/';
       window.variants && variants.init( [ 'relearn-light' ] );
     </script>
-    <script src="/js/jquery.min.js?1697341804" defer></script>
+    <script src="/js/jquery.min.js?1697341973" defer></script>
 <meta property="fb:app_id" content="601826851395774" />
   </head>
   <body class="default-animation" data-url="/en/ch2/ch2.2/">
@@ -311,17 +311,16 @@ if (!doNotTrack) {
 </li>
 </ul>
 <h2 id="development-platform--google-colab">Development Platform – Google Colab</h2>
-<p>Unlike C language, which can be compiled into executable files in advance, Python itself is an interpreted language, that is, it is translated into machine language for computer execution before execution. In other words, it is a literal translation when executed, in situations similar to everyday life. In this way, it is as if translators are helping us to translate and communicate in a language acceptable to foreigners. When we speak a sentence, the translator directly helps us translate the sentence. On the contrary, when the foreigner speaks, the staff will help us translate the foreigner&rsquo;s words so that we can understand.</p>
-<p>Due to this feature of the interpreted language, in addition to the program editor officially provided by Python, many other editors have different functions. Based on the similarity between Python code and natural language, some people have proposed making the Python editor into a notebook-like mode, an editor that can mix natural language articles and Python code on one page, the most famous of which is Jupyter.</p>
-<p>Based on Jupyter, Google moved the Python interpretation language to the Internet cloud. If you apply for a Google account, you can install the free Colab application on Google Drive and use the browser directly to enjoy the Python program editing function. Due to its simplicity and rich functionality, it has become the most used development platform for Python users.</p>
-<p>Overall, Google Colab has four significant advantages:</p>
+<p>As an interpreted language, Python differs from compiled languages like C in that it translates code into machine language at runtime. This means Python code is converted and executed line by line as it runs, akin to how a live translator assists in real-time during a conversation with a non-native speaker.</p>
+<p>This characteristic of being interpreted affords Python a variety of development environment options. Jupyter, noted for its notebook-like design, allows users to integrate natural language text and Python code, making it a favorite among developers and data analysts. Building on Jupyter, Google introduced the Colab platform, enabling users to write and execute Python code in the cloud. This alleviates the pressure on local computation and storage and facilitates collaboration and sharing.</p>
+<p>The advent of Google Colab has brought several conveniences to Python developers:</p>
 <ul>
-<li>Pre-installed packages: The Google Colab development platform has pre-installed most of the Python packages, and users can use them directly, avoiding their installation and even eliminating the problem of version conflicts caused by different packages during the installation process, significantly reducing the entry threshold for using Python to develop programs.</li>
-<li>Cloud storage: With Google&rsquo;s own cloud storage space, Google Colab can store program notes during development in the cloud space. As long as it is accessed through the network, it can be seamlessly connected even on different computers, solving the problems of data storage, backup, and portability.</li>
-<li>Collaboration: Google Colab provides network sharing and online collaboration features, allowing users to share program notes with other users through cloud storage, and allowing users to invite other users to browse, annotate, and even edit their program notes, speeding up team collaboration.</li>
-<li>Free GPU and TPU resources: With Google&rsquo;s rich cloud computing resources, Google Colab provides GPU and TPU processors, allowing users to use high-end processors to execute their personal program notes, which is conducive to large-capacity program development needs.</li>
+<li>No Installation Required: Google Colab comes pre-installed with most common Python packages, eliminating users needing to manage configurations or resolve dependency and conflict issues.</li>
+<li>Cloud Storage: Code and data stored in Google’s cloud can be accessed and edited from any location or device, obviating the need for data transfer and storage hassles.</li>
+<li>Collaborative Creation: Google Colab supports online collaboration, enabling users to share and co-create code in real-time, a significant advantage for team projects and joint ventures.</li>
+<li>Free Computational Resources: Google Colab offers complimentary access to GPU and TPU resources, allowing users to execute complex, computation-intensive tasks without worrying about local computational limitations.</li>
 </ul>
-<p>For related learning resources of Google Colab, please refer to the following links:</p>
+<p>These features have rendered Google Colab an ideal choice for Python and data science enthusiasts. Both beginners and professional developers can find suitable tools and resources on this platform, facilitating quick initiation and deepening of their Python and data science learning and development. For additional learning resources related to Google Colab, refer to the following link:</p>
 <ul>
 <li>Getting Started With Google Colab, Anne Bonner (<a href="https://towardsdatascience.com/getting-started-with-google-colab-f2fff97f594c">https://towardsdatascience.com/getting-started-with-google-colab-f2fff97f594c</a>)</li>
 <li>Use Google Colab Like A Pro, Wing Poon (<a href="https://pub.towardsai.net/use-google-colab-like-a-pro-39a97184358d">https://pub.towardsai.net/use-google-colab-like-a-pro-39a97184358d</a>)</li>
@@ -436,12 +435,12 @@ This work is licensed under a <a rel="license" href="http://creativecommons.org/
         <script>
           var contentLangs=['en'];
         </script>
-        <script src="/js/auto-complete.js?1697341804" defer></script>
-        <script src="/js/lunr.min.js?1697341804" defer></script>
-        <script src="/js/lunr.stemmer.support.min.js?1697341804" defer></script>
-        <script src="/js/lunr.multi.min.js?1697341804" defer></script>
-        <script src="/js/lunr.en.min.js?1697341804" defer></script>
-        <script src="/js/search.js?1697341804" defer></script>
+        <script src="/js/auto-complete.js?1697341973" defer></script>
+        <script src="/js/lunr.min.js?1697341973" defer></script>
+        <script src="/js/lunr.stemmer.support.min.js?1697341973" defer></script>
+        <script src="/js/lunr.multi.min.js?1697341973" defer></script>
+        <script src="/js/lunr.en.min.js?1697341973" defer></script>
+        <script src="/js/search.js?1697341973" defer></script>
       </div>
       <div id="content-wrapper" class="highlightable">
         <ul class="topics">
@@ -517,14 +516,14 @@ This work is licensed under a <a rel="license" href="http://creativecommons.org/
       </div>
     </aside>
 
-    <script src="/js/clipboard.min.js?1697341804" defer></script>
-    <script src="/js/perfect-scrollbar.min.js?1697341804" defer></script>
-    <script src="/js/featherlight.min.js?1697341804" defer></script>
-    <script src="/js/jquery.svg.pan.zoom.js?1697341804" defer></script>
-    <script src="/js/mermaid.min.js?1697341804" defer></script>
+    <script src="/js/clipboard.min.js?1697341973" defer></script>
+    <script src="/js/perfect-scrollbar.min.js?1697341973" defer></script>
+    <script src="/js/featherlight.min.js?1697341973" defer></script>
+    <script src="/js/jquery.svg.pan.zoom.js?1697341973" defer></script>
+    <script src="/js/mermaid.min.js?1697341973" defer></script>
     <script>
       window.themeUseMermaid = JSON.parse("{}");
     </script>
-    <script src="/js/theme.js?1697341804" defer></script>
+    <script src="/js/theme.js?1697341973" defer></script>
   </body>
 </html>
