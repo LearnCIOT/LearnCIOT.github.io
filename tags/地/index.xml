@@ -16,13 +16,13 @@
 pyCIOT API 是什麼 政府開放資料現已有非常多種類的資料及窗口讓我們查詢，而不同的窗口有各自不同的資料存取方式。即便這些資料逐漸使用開放授權，但在進行資料搜集時，因為下載取得資料的方式各有差異，若要將這些資料整理會變得極為麻煩。本函式庫（python 模組）為了解決窗口不一的困難，將所有有提供 API 的政府民生開放資料的開放搜集至此，嘗試讓開放資料獲取門檻降低，降低自動化及二手資料處理成本。****</description>
     </item>
     <item>
-      <title>7.3. Leafmap 應用</title>
+      <title>7.3 Leafmap 應用</title>
       <link>https://LearnCIOT.github.io/ch7/ch7.3/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://LearnCIOT.github.io/ch7/ch7.3/</guid>
-      <description>Table Of Contents 套件安裝與引用 讀取資料 Leafmap 基本操作 資料基本呈現方法 資料叢集呈現方法 更改 Leafmap 底圖 整合 OSM 資源 Heatmap 應用 分割視窗功能 Leafmap 成果網頁化 小結 參考資料 我們在之前的章節中，已經示範了如何使用程式語言針對地理屬性的資料進行分析，同時也示範了如何使用 GIS 軟體進行簡易的地理資料分析與呈現。接下來我們介紹如何使用 Python 語言中的 Leafmap 套件進行 GIS 應用，以及 Streamlit 套件進行網站開發。最後，我們將結合 Leafmap 和 Streamlit，自行製作簡單的網頁 GIS 系統，並將資料處理與分析後的結果，透過網頁方式來呈現。
-套件安裝與引用 在本章節中，我們將會使用到 pandas, geopandas, leafmap, ipyleaflet, osmnx, streamlit, geocoder 及 pyCIOT 等套件，這些套件除了 pandas 外，在我們使用的開發平台 Colab 上皆沒有預先提供，因此我們需要先自行安裝。由於本次安裝的套件數量較多，為了避免指令在執行後產生大量的文字輸出訊息，因此我們在安裝的指令中，增加了 ‘-q’ 的參數，可以讓畫面的輸出更精簡。
-!pip install -q geopandas !pip install -q leafmap !pip install -q ipyleaflet !pip install -q osmnx !</description>
+      <description>Table Of Contents 套件安裝與引入 讀取資料 Leafmap 基本操作 資料基本呈現方法 資料叢集呈現方法 更改 Leafmap 底圖 整合 OSM 資源 Heatmap 應用 分割視窗功能 Leafmap 成果網頁化 小結 參考資料 我們在之前的章節中，已經示範了如何使用程式語言針對地理屬性的資料進行分析，同時也示範了如何使用 GIS 軟體進行簡易的地理資料分析與呈現。接下來我們介紹如何使用 Python 語言中的 Leafmap 套件進行 GIS 應用，以及 Streamlit 套件進行網站開發。最後，我們將結合 Leafmap 和 Streamlit，自行製作簡單的網頁 GIS 系統，並將資料處理與分析後的結果，透過網頁方式來呈現。
+套件安裝與引入 在本章節中，我們將會使用到 pandas, geopandas, leafmap, ipyleaflet, osmnx, streamlit, geocoder 及 pyCIOT 等套件，這些套件除了 pandas 外，在我們使用的開發平台 Colab 上皆沒有預先提供，因此我們需要先自行安裝。由於本次安裝的套件數量較多，為了避免指令在執行後產生大量的文字輸出訊息，因此我們在安裝的指令中，增加了 ‘-q’ 的參數，可以讓畫面的輸出更精簡。
+# 安裝 geopandas 用於地理空間資料處理 !pip install -q geopandas # 安裝 leafmap 用於地圖視覺化 !pip install -q leafmap # 安裝 ipyleaflet 也是用於地圖視覺化，但有更多互動功能 !</description>
     </item>
   </channel>
 </rss>

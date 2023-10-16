@@ -16,18 +16,18 @@
     <meta name="author" content="Ling-Jyh Chen">
     <title>5.2. 地理空間分析 :: Tutorial for CIoT Open Data Applications</title>
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="/css/fontawesome-all.min.css?1697343365" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1697343365" rel="stylesheet"></noscript>
-    <link href="/css/featherlight.min.css?1697343365" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1697343365" rel="stylesheet"></noscript>
-    <link href="/css/auto-complete.css?1697343365" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1697343365" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar.min.css?1697343365" rel="stylesheet">
-    <link href="/css/nucleus.css?1697343365" rel="stylesheet">
-    <link href="/css/fonts.css?1697343365" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1697343365" rel="stylesheet"></noscript>
-    <link href="/css/theme.css?1697343365" rel="stylesheet">
-    <link href="/css/theme-relearn-light.css?1697343365" rel="stylesheet" id="variant-style">
-    <link href="/css/ie.css?1697343365" rel="stylesheet">
-    <link href="/css/variant.css?1697343365" rel="stylesheet">
-    <link href="/css/print.css?1697343365" rel="stylesheet" media="print">
-    <script src="/js/variant.js?1697343365"></script>
+    <link href="/css/fontawesome-all.min.css?1697458045" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1697458045" rel="stylesheet"></noscript>
+    <link href="/css/featherlight.min.css?1697458045" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1697458045" rel="stylesheet"></noscript>
+    <link href="/css/auto-complete.css?1697458045" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1697458045" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar.min.css?1697458045" rel="stylesheet">
+    <link href="/css/nucleus.css?1697458045" rel="stylesheet">
+    <link href="/css/fonts.css?1697458045" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1697458045" rel="stylesheet"></noscript>
+    <link href="/css/theme.css?1697458045" rel="stylesheet">
+    <link href="/css/theme-relearn-light.css?1697458045" rel="stylesheet" id="variant-style">
+    <link href="/css/ie.css?1697458045" rel="stylesheet">
+    <link href="/css/variant.css?1697458045" rel="stylesheet">
+    <link href="/css/print.css?1697458045" rel="stylesheet" media="print">
+    <script src="/js/variant.js?1697458045"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -43,7 +43,7 @@
       var baseUriFull='https:\/\/LearnCIOT.github.io/';
       window.variants && variants.init( [ 'relearn-light' ] );
     </script>
-    <script src="/js/jquery.min.js?1697343365" defer></script>
+    <script src="/js/jquery.min.js?1697458045" defer></script>
 <meta property="fb:app_id" content="601826851395774" />
   </head>
   <body class="default-animation" data-url="/ch5/ch5.2/">
@@ -314,118 +314,163 @@ if (!doNotTrack) {
 <p>廣布在生活環境中的微型測站，協助我們掌握細緻的環境變化，並可據以決策跟行動。所以，清楚地掌握測站間的分布和數據特性，也是我們在分析測站數據時的重要基礎。這些測站除了本身的位置可能會形成某種幾何結構或空間群聚。同時，我們也可以依照測站位置與數值的差異，去推估沒有測站的區域的數值，從而獲得一個更為全面的數值分佈狀況，並從中探索感測數值與環境因子間的相關性。在這一個段落中，我們會利用水利署在不同縣市的淹水感測器與地下水位站資料，來進行一些簡單的空間分析。</p>
 <h2 id="勢力分佈圖-voronoi-diagram">勢力分佈圖 (Voronoi diagram)</h2>
 <p>首先，我們可能需要釐清個別測站的服務/防守範圍，並以此範圍中的測站數據來代表該區的現況。這個時候，我們可以利用沃羅諾伊圖（voronoi diagram）的方法去找尋這個範圍。沃羅諾伊圖的原理是在兩個相鄰測站間建立一條垂直平分線段，並藉由整合這些線段以構成一個多邊形；每個多邊形範圍的中心點就是測站，而該測站的數值則約可代表這個範圍內的數值。在這個範例中，我們嘗試利用嘉義縣、嘉義市的淹水感測器資料，去練習建立沃羅諾伊圖，這樣我們就可以初略知道這些淹水感測器的勢力分佈範圍。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 引入所需的模組</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> seaborn <span style="color:#66d9ef">as</span> sns
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> pandas <span style="color:#66d9ef">as</span> pd
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> urllib.request
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> ssl
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> json
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#install geopython libraries</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 安裝 Geopython 相關函式模組</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>apt install gdal<span style="color:#f92672">-</span>bin python<span style="color:#f92672">-</span>gdal python3<span style="color:#f92672">-</span>gdal
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#install python3-rtree - Geopandas requirement</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 安裝 Geopandas 需要的 python3-rtree</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>apt install python3<span style="color:#f92672">-</span>rtree 
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#install geopandas</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 安裝 Geopandas</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>pip install geopandas
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#install pykrige</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 安裝 Pykrige</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>pip install pykrige
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#install elevation</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 安裝 Elevation</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>pip install elevation
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#install affine rasterio</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 安裝 Affine 和 Rasterio</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>pip install affine rasterio
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#install descartes - Geopandas requirement</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 安裝 Geopandas 需要的 Descartes</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>pip install descartes
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 引入 Geopandas</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> geopandas <span style="color:#66d9ef">as</span> gpd
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 安裝和引入 pyCIOT</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>pip install pyCIOT
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> pyCIOT.data <span style="color:#66d9ef">as</span> CIoT
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 前往政府開放資料庫下載 縣市界線(TWD97經緯度) 的資料，並解壓縮到名為 shp 的資料夾</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 使用 wget 指令下載一個名為 &#34;shp.zip&#34; 的壓縮檔，檔案來源網址是內政部開放資料平台</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>wget <span style="color:#f92672">-</span>O <span style="color:#e6db74">&#34;shp.zip&#34;</span> <span style="color:#f92672">-</span>q <span style="color:#e6db74">&#34;https://data.moi.gov.tw/MoiOD/System/DownloadFile.aspx?DATA=72874C55-884D-4CEA-B7D6-F60B0BE85AB0&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用 unzip 指令解壓縮 &#34;shp.zip&#34;，並將解壓縮的內容存到 &#34;shp&#34; 資料夾</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>unzip shp<span style="color:#f92672">.</span>zip <span style="color:#f92672">-</span>d shp
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 以水利署淹水感測器資料為例，資料集 gpd 為感測器數值與位置資料、basemap為台灣縣市地理邊界 shp file</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 以pyCIOT取得資料</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用 CIoT 的 Water 模組，從 WRA 和 WRA2 來源收集水位資料</span>
 </span></span><span style="display:flex;"><span>wa <span style="color:#f92672">=</span> CIoT<span style="color:#f92672">.</span>Water()<span style="color:#f92672">.</span>get_data(src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;FLOODING:WRA&#34;</span>)
 </span></span><span style="display:flex;"><span>wa2 <span style="color:#f92672">=</span> CIoT<span style="color:#f92672">.</span>Water()<span style="color:#f92672">.</span>get_data(src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;FLOODING:WRA2&#34;</span>)
+</span></span><span style="display:flex;"><span>flood_list <span style="color:#f92672">=</span> wa <span style="color:#f92672">+</span> wa2  <span style="color:#75715e"># 合併兩個資料來源</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>flood_list <span style="color:#f92672">=</span> wa <span style="color:#f92672">+</span> wa2
-</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 讀取「嘉義縣」和「嘉義市」的地圖資料</span>
 </span></span><span style="display:flex;"><span>county <span style="color:#f92672">=</span> gpd<span style="color:#f92672">.</span>read_file(<span style="color:#e6db74">&#39;/content/shp/COUNTY_MOI_1090820.shp&#39;</span>)
-</span></span><span style="display:flex;"><span>basemap <span style="color:#f92672">=</span> county<span style="color:#f92672">.</span>loc[county[<span style="color:#e6db74">&#39;COUNTYNAME&#39;</span>]<span style="color:#f92672">.</span>isin([<span style="color:#e6db74">&#34;嘉義縣&#34;</span>,<span style="color:#e6db74">&#34;嘉義市&#34;</span>])]
+</span></span><span style="display:flex;"><span>basemap <span style="color:#f92672">=</span> county<span style="color:#f92672">.</span>loc[county[<span style="color:#e6db74">&#39;COUNTYNAME&#39;</span>]<span style="color:#f92672">.</span>isin([<span style="color:#e6db74">&#34;嘉義縣&#34;</span>, <span style="color:#e6db74">&#34;嘉義市&#34;</span>])]
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>flood_df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame([],columns <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;name&#39;</span>,  <span style="color:#e6db74">&#39;Observations&#39;</span>,<span style="color:#e6db74">&#39;lon&#39;</span>, <span style="color:#e6db74">&#39;lat&#39;</span>])
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 創建一個 DataFrame 來儲存水位觀測站的資料</span>
+</span></span><span style="display:flex;"><span>flood_df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame([], columns<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;name&#39;</span>, <span style="color:#e6db74">&#39;Observations&#39;</span>, <span style="color:#e6db74">&#39;lon&#39;</span>, <span style="color:#e6db74">&#39;lat&#39;</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 迴圈歷遍每一個水位觀測站</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> flood_list:
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#print(i[&#39;data&#39;][0])</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> len(i[<span style="color:#e6db74">&#39;data&#39;</span>])<span style="color:#f92672">&gt;</span><span style="color:#ae81ff">0</span>:
-</span></span><span style="display:flex;"><span>        df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame([[i[<span style="color:#e6db74">&#39;properties&#39;</span>][<span style="color:#e6db74">&#39;stationName&#39;</span>],i[<span style="color:#e6db74">&#39;data&#39;</span>][<span style="color:#ae81ff">0</span>][<span style="color:#e6db74">&#39;values&#39;</span>][<span style="color:#ae81ff">0</span>][<span style="color:#e6db74">&#39;value&#39;</span>],i[<span style="color:#e6db74">&#39;location&#39;</span>][<span style="color:#e6db74">&#39;longitude&#39;</span>],i[<span style="color:#e6db74">&#39;location&#39;</span>][<span style="color:#e6db74">&#39;latitude&#39;</span>]]],columns <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;name&#39;</span>,  <span style="color:#e6db74">&#39;Observations&#39;</span>,<span style="color:#e6db74">&#39;lon&#39;</span>, <span style="color:#e6db74">&#39;lat&#39;</span>])
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> :
-</span></span><span style="display:flex;"><span>        df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame([[i[<span style="color:#e6db74">&#39;properties&#39;</span>][<span style="color:#e6db74">&#39;stationName&#39;</span>],<span style="color:#f92672">-</span><span style="color:#ae81ff">999</span>,<span style="color:#f92672">-</span><span style="color:#ae81ff">999</span>,<span style="color:#f92672">-</span><span style="color:#ae81ff">999</span>]],columns <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;name&#39;</span>,  <span style="color:#e6db74">&#39;Observations&#39;</span>,<span style="color:#e6db74">&#39;lon&#39;</span>, <span style="color:#e6db74">&#39;lat&#39;</span>])
-</span></span><span style="display:flex;"><span>    flood_df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>concat([flood_df,df])
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#print(df)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> len(i[<span style="color:#e6db74">&#39;data&#39;</span>]) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>:  <span style="color:#75715e"># 如果有資料</span>
+</span></span><span style="display:flex;"><span>        df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame([[i[<span style="color:#e6db74">&#39;properties&#39;</span>][<span style="color:#e6db74">&#39;stationName&#39;</span>], i[<span style="color:#e6db74">&#39;data&#39;</span>][<span style="color:#ae81ff">0</span>][<span style="color:#e6db74">&#39;values&#39;</span>][<span style="color:#ae81ff">0</span>][<span style="color:#e6db74">&#39;value&#39;</span>], i[<span style="color:#e6db74">&#39;location&#39;</span>][<span style="color:#e6db74">&#39;longitude&#39;</span>], i[<span style="color:#e6db74">&#39;location&#39;</span>][<span style="color:#e6db74">&#39;latitude&#39;</span>]]], columns<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;name&#39;</span>, <span style="color:#e6db74">&#39;Observations&#39;</span>, <span style="color:#e6db74">&#39;lon&#39;</span>, <span style="color:#e6db74">&#39;lat&#39;</span>])
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>:  <span style="color:#75715e"># 若沒有資料，填入 -999</span>
+</span></span><span style="display:flex;"><span>        df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame([[i[<span style="color:#e6db74">&#39;properties&#39;</span>][<span style="color:#e6db74">&#39;stationName&#39;</span>], <span style="color:#f92672">-</span><span style="color:#ae81ff">999</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">999</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">999</span>]], columns<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;name&#39;</span>, <span style="color:#e6db74">&#39;Observations&#39;</span>, <span style="color:#e6db74">&#39;lon&#39;</span>, <span style="color:#e6db74">&#39;lat&#39;</span>])
+</span></span><span style="display:flex;"><span>    flood_df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>concat([flood_df, df])
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 移除重複的觀測站並重新排序</span>
 </span></span><span style="display:flex;"><span>result_df <span style="color:#f92672">=</span> flood_df<span style="color:#f92672">.</span>drop_duplicates(subset<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;name&#39;</span>], keep<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;first&#39;</span>)
-</span></span><span style="display:flex;"><span>station<span style="color:#f92672">=</span>result_df<span style="color:#f92672">.</span>sort_values(by<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;lon&#39;</span>, <span style="color:#e6db74">&#39;lat&#39;</span>])
-</span></span><span style="display:flex;"><span>station <span style="color:#f92672">=</span> station[station<span style="color:#f92672">.</span>lon<span style="color:#f92672">!=-</span><span style="color:#ae81ff">999</span>]
+</span></span><span style="display:flex;"><span>station <span style="color:#f92672">=</span> result_df<span style="color:#f92672">.</span>sort_values(by<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;lon&#39;</span>, <span style="color:#e6db74">&#39;lat&#39;</span>])
+</span></span><span style="display:flex;"><span>station <span style="color:#f92672">=</span> station[station<span style="color:#f92672">.</span>lon <span style="color:#f92672">!=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">999</span>]
 </span></span><span style="display:flex;"><span>station<span style="color:#f92672">.</span>reset_index(inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>, drop<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
-</span></span><span style="display:flex;"><span>gdf_flood <span style="color:#f92672">=</span> gpd<span style="color:#f92672">.</span>GeoDataFrame(
-</span></span><span style="display:flex;"><span>    station, geometry<span style="color:#f92672">=</span>gpd<span style="color:#f92672">.</span>points_from_xy(station<span style="color:#f92672">.</span>lon, station<span style="color:#f92672">.</span>lat),crs<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;EPSG:4326&#34;</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>station<span style="color:#f92672">=</span>result_df<span style="color:#f92672">.</span>sort_values(by<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;lon&#39;</span>, <span style="color:#e6db74">&#39;lat&#39;</span>])
-</span></span><span style="display:flex;"><span>station <span style="color:#f92672">=</span> station[station<span style="color:#f92672">.</span>lon<span style="color:#f92672">!=-</span><span style="color:#ae81ff">999</span>]
-</span></span><span style="display:flex;"><span>station<span style="color:#f92672">.</span>reset_index(inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>, drop<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
-</span></span><span style="display:flex;"><span>gdf_flood <span style="color:#f92672">=</span> gpd<span style="color:#f92672">.</span>GeoDataFrame(
-</span></span><span style="display:flex;"><span>    station, geometry<span style="color:#f92672">=</span>gpd<span style="color:#f92672">.</span>points_from_xy(station<span style="color:#f92672">.</span>lon, station<span style="color:#f92672">.</span>lat),crs<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;EPSG:4326&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 轉換 DataFrame 為 GeoDataFrame</span>
+</span></span><span style="display:flex;"><span>gdf_flood <span style="color:#f92672">=</span> gpd<span style="color:#f92672">.</span>GeoDataFrame(station, geometry<span style="color:#f92672">=</span>gpd<span style="color:#f92672">.</span>points_from_xy(station<span style="color:#f92672">.</span>lon, station<span style="color:#f92672">.</span>lat), crs<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;EPSG:4326&#34;</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>basemap <span style="color:#f92672">=</span> basemap<span style="color:#f92672">.</span>set_crs(<span style="color:#ae81ff">4326</span>,allow_override<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 設定地圖投影並取得交集資料</span>
+</span></span><span style="display:flex;"><span>basemap <span style="color:#f92672">=</span> basemap<span style="color:#f92672">.</span>set_crs(<span style="color:#ae81ff">4326</span>, allow_override<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
 </span></span><span style="display:flex;"><span>intersected_data <span style="color:#f92672">=</span> gpd<span style="color:#f92672">.</span>overlay(gdf_flood, basemap, how<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;intersection&#39;</span>) 
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> scipy.spatial <span style="color:#f92672">import</span> Voronoi, voronoi_plot_2d
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 引入 scipy 的 Voronoi 和 voronoi_plot_2d 函式</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> scipy.spatial <span style="color:#f92672">import</span> Voronoi, voronoi_plot_2d
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 創建一個 6x10 英寸的圖形和座標軸</span>
 </span></span><span style="display:flex;"><span>fig, ax <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplots(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">10</span>))
-</span></span><span style="display:flex;"><span>inputp <span style="color:#f92672">=</span> intersected_data[[<span style="color:#e6db74">&#39;lon&#39;</span>,<span style="color:#e6db74">&#39;lat&#39;</span>]]
-</span></span><span style="display:flex;"><span>basemap<span style="color:#f92672">.</span>plot(ax<span style="color:#f92672">=</span>ax, facecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;none&#39;</span>, edgecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;purple&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 提取交集資料的經緯度作為 Voronoi 圖的輸入點</span>
+</span></span><span style="display:flex;"><span>inputp <span style="color:#f92672">=</span> intersected_data[[<span style="color:#e6db74">&#39;lon&#39;</span>, <span style="color:#e6db74">&#39;lat&#39;</span>]]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 繪製基本地圖，面顏色為空，邊界顏色為紫色</span>
+</span></span><span style="display:flex;"><span>basemap<span style="color:#f92672">.</span>plot(ax<span style="color:#f92672">=</span>ax, facecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;none&#39;</span>, edgecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;purple&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 建立 Voronoi 圖物件</span>
 </span></span><span style="display:flex;"><span>vor <span style="color:#f92672">=</span> Voronoi(inputp)
-</span></span><span style="display:flex;"><span>voronoi_plot_2d(vor,ax <span style="color:#f92672">=</span> ax,show_vertices<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>,)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 繪製 Voronoi 圖，不顯示頂點</span>
+</span></span><span style="display:flex;"><span>voronoi_plot_2d(vor, ax<span style="color:#f92672">=</span>ax, show_vertices<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示圖形</span>
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>show()
 </span></span></code></pre></div><p><img src="figures/5-2-1-1.png" alt="Python output"></p>
 <p>此外，我們也可以利用德勞內三角分割（Delaunay triangulation）去描述測站的服務/防守範圍；它的原理是以單一測站為中心，並尋找最鄰近的兩個點，以連接成一個三角形範圍。若我們將三角形的範圍視為一個均質的平面，而這個範圍內的感測數值則可用三個節點測站值的平均來替代。</p>
 <p>整體而言，這兩個演算法都可以協助我們以圖形的方式，理解感測器在空間上的分佈，及其所建立的空間結構。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> scipy.spatial <span style="color:#f92672">import</span> Delaunay, delaunay_plot_2d
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 引入 scipy 的 Delaunay 和 delaunay_plot_2d 函式</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> scipy.spatial <span style="color:#f92672">import</span> Delaunay, delaunay_plot_2d
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np  <span style="color:#75715e"># 引入 numpy 函式模組</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 創建一個 6x10 英寸的圖形和座標軸</span>
 </span></span><span style="display:flex;"><span>fig, ax <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplots(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">10</span>))
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#input should be array</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 把輸入點（經緯度）轉換成 numpy 陣列，因為 Delaunay 需要陣列格式的輸入</span>
 </span></span><span style="display:flex;"><span>inputp <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array(inputp)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 建立 Delaunay 三角劃分物件</span>
 </span></span><span style="display:flex;"><span>tri <span style="color:#f92672">=</span> Delaunay(inputp)
-</span></span><span style="display:flex;"><span>basemap<span style="color:#f92672">.</span>plot(ax<span style="color:#f92672">=</span>ax, facecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;none&#39;</span>, edgecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;purple&#39;</span>);
-</span></span><span style="display:flex;"><span>delaunay_plot_2d(tri,ax<span style="color:#f92672">=</span>ax)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 繪製基本地圖，面顏色為空，邊界顏色為紫色</span>
+</span></span><span style="display:flex;"><span>basemap<span style="color:#f92672">.</span>plot(ax<span style="color:#f92672">=</span>ax, facecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;none&#39;</span>, edgecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;purple&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 繪製 Delaunay 三角劃分圖</span>
+</span></span><span style="display:flex;"><span>delaunay_plot_2d(tri, ax<span style="color:#f92672">=</span>ax)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示圖形</span>
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>show()
 </span></span></code></pre></div><p><img src="figures/5-2-1-2.png" alt="Python output"></p>
 <h2 id="最小範圍多邊形凸包-convex-hull">最小範圍多邊形/凸包 (Convex hull)</h2>
 <p>最小範圍多邊形的演算法，是從一群測站中，選出位於最邊緣的若干個測站構成一個能含納所有的點位、且邊長最小的多邊形，這樣我們就可以在一堆測站中，找到一個群聚的範圍，並用這個範圍來發展一些計算。最小範圍多邊形的演算法，主要是依照測站的x座標排序測站位置，而當 X 座標相同則以 Y 座標大小排序，從而找到最外圍的端點並連接成為多邊形 (當然類似的概念還有許多方法)，透過最小範圍多邊形的演算，我們可以評估測站的有效監測範圍。所以，我們也可以利用嘉義縣、嘉義市的淹水感測器分佈，已瞭解這些淹水感測器的覆蓋範圍。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> scipy.spatial <span style="color:#f92672">import</span> ConvexHull, convex_hull_plot_2d
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 引入 scipy 的 ConvexHull 和 convex_hull_plot_2d 函式</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> scipy.spatial <span style="color:#f92672">import</span> ConvexHull, convex_hull_plot_2d
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 創建一個 6x10 英寸的圖形和座標軸</span>
 </span></span><span style="display:flex;"><span>fig, ax <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplots(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">10</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用 ConvexHull 函式來計算凸包</span>
 </span></span><span style="display:flex;"><span>hull <span style="color:#f92672">=</span> ConvexHull(inputp)
-</span></span><span style="display:flex;"><span>basemap<span style="color:#f92672">.</span>plot(ax<span style="color:#f92672">=</span>ax, facecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;none&#39;</span>, edgecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;purple&#39;</span>);
-</span></span><span style="display:flex;"><span>convex_hull_plot_2d(hull,ax<span style="color:#f92672">=</span>ax)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 繪製基本地圖，面顏色為空，邊界顏色為紫色</span>
+</span></span><span style="display:flex;"><span>basemap<span style="color:#f92672">.</span>plot(ax<span style="color:#f92672">=</span>ax, facecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;none&#39;</span>, edgecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;purple&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 繪製凸包圖</span>
+</span></span><span style="display:flex;"><span>convex_hull_plot_2d(hull, ax<span style="color:#f92672">=</span>ax)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 調整布局以適應所有子圖元素</span>
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>tight_layout()
 </span></span></code></pre></div><p><img src="figures/5-2-2-1.png" alt="Python output"></p>
 <h2 id="空間群聚-clustering">空間群聚 (Clustering)</h2>
 <p>正如前文所說，越鄰近的測站，其周邊環境中的干擾因子可能也越相似，所以我們可以利用 Kmeans 這種分類演算法，將測站進行分群，以進一步探勘其感測數據與環境因子間的關係。Kmeans主要是根據我們預先設定的分群的數量 <em>n</em>，並隨機尋找 <em>n</em> 個點做為中心，去尋找周邊的鄰居，經由量測樣本點與中心點的直線距離，去把樣本點分群並計算各群的平均值，最後，重複前述的程序直到所有樣本點與中心點的距離平均值最短，即可完成分群。</p>
 <p>此外，測站不單只有空間位置，也會有其量測數值，如果我們同時參考其空間位置與量測數值，將量測數值較為相似且地理位置相近的測站聚集起來，這些聚集的測站所遭受的環境干擾因子亦較為接近，而透過測站的空間位置，亦正可以反映出不同環境干擾因子在地理空間上的影像範圍。因此，空間群聚也是地理空間資料分析的重要一環。在這個案例中，我們也嘗試以雲林地區的地下水位站為案例，去描述這些測站的空間群聚狀況。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 獲取地下水位站資料</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 初始化計數器和 DataFrame</span>
 </span></span><span style="display:flex;"><span>count <span style="color:#f92672">=</span> <span style="color:#ae81ff">733</span>
 </span></span><span style="display:flex;"><span>num <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
 </span></span><span style="display:flex;"><span>water_level <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame([])
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用 while 迴圈來處理多個 API 請求</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">while</span>(num<span style="color:#f92672">&lt;=</span>count):
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 拼接 API 網址</span>
 </span></span><span style="display:flex;"><span>    url_level <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;https://sta.ci.taiwan.gov.tw/STA_WaterResource_v2/v1.0/Datastreams?$skip=&#34;</span><span style="color:#f92672">+</span>str(num)<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;&amp;$filter=</span><span style="color:#e6db74">%28%</span><span style="color:#e6db74">28Thing</span><span style="color:#e6db74">%2F</span><span style="color:#e6db74">properties</span><span style="color:#e6db74">%2F</span><span style="color:#e6db74">authority_type+eq+</span><span style="color:#e6db74">%27%</span><span style="color:#e6db74">E6%B0%B4</span><span style="color:#e6db74">%E</span><span style="color:#e6db74">5</span><span style="color:#e6db74">%88%</span><span style="color:#e6db74">A9</span><span style="color:#e6db74">%E</span><span style="color:#e6db74">7%BD%B2</span><span style="color:#e6db74">%27%</span><span style="color:#e6db74">29+and+substringof</span><span style="color:#e6db74">%28%</span><span style="color:#e6db74">27Datastream_Category_type%3D</span><span style="color:#e6db74">%E</span><span style="color:#e6db74">5%9C%B0</span><span style="color:#e6db74">%E</span><span style="color:#e6db74">4%B8%8B</span><span style="color:#e6db74">%E</span><span style="color:#e6db74">6%B0%B4</span><span style="color:#e6db74">%E</span><span style="color:#e6db74">4%BD%8D</span><span style="color:#e6db74">%E</span><span style="color:#e6db74">7%AB</span><span style="color:#e6db74">%99%</span><span style="color:#e6db74">27%2CDatastreams</span><span style="color:#e6db74">%2F</span><span style="color:#e6db74">description</span><span style="color:#e6db74">%29%</span><span style="color:#e6db74">29&amp;$expand=Thing,Thing</span><span style="color:#e6db74">%28%</span><span style="color:#e6db74">24expand%3DLocations%29,Observations</span><span style="color:#e6db74">%28%</span><span style="color:#e6db74">24top%3D1%3B</span><span style="color:#e6db74">%24o</span><span style="color:#e6db74">rderby%3DphenomenonTime+desc%3B%24top%3D1%29&amp;$count=true&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 建立安全的 HTTPS 連線</span>
 </span></span><span style="display:flex;"><span>    ssl<span style="color:#f92672">.</span>_create_default_https_context <span style="color:#f92672">=</span> ssl<span style="color:#f92672">.</span>_create_unverified_context
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 發送 API 請求並接收回應</span>
 </span></span><span style="display:flex;"><span>    r_l <span style="color:#f92672">=</span> urllib<span style="color:#f92672">.</span>request<span style="color:#f92672">.</span>urlopen(url_level)
 </span></span><span style="display:flex;"><span>    string_l <span style="color:#f92672">=</span> r_l<span style="color:#f92672">.</span>read()<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>)
-</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 載入JSON數據</span>
 </span></span><span style="display:flex;"><span>    jf_level <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>loads(string_l)
-</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 整理數據</span>
 </span></span><span style="display:flex;"><span>    station <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame(jf_level[<span style="color:#e6db74">&#39;value&#39;</span>])<span style="color:#f92672">.</span>filter(items<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;Thing&#39;</span>,<span style="color:#e6db74">&#39;observedArea&#39;</span>,<span style="color:#e6db74">&#39;Observations&#39;</span>])
 </span></span><span style="display:flex;"><span>    station[<span style="color:#e6db74">&#39;lat&#39;</span>]<span style="color:#f92672">=</span>station[<span style="color:#e6db74">&#39;observedArea&#39;</span>]
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(len(station)):
 </span></span><span style="display:flex;"><span>        station[<span style="color:#e6db74">&#39;Thing&#39;</span>][i] <span style="color:#f92672">=</span> station[<span style="color:#e6db74">&#39;Thing&#39;</span>][i][<span style="color:#e6db74">&#39;properties&#39;</span>][<span style="color:#e6db74">&#39;stationName&#39;</span>]
-</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 處理經緯度和觀測數據</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> pd<span style="color:#f92672">.</span>isnull(station[<span style="color:#e6db74">&#39;observedArea&#39;</span>][i]):
 </span></span><span style="display:flex;"><span>            station[<span style="color:#e6db74">&#39;lat&#39;</span>][i]<span style="color:#f92672">=-</span><span style="color:#ae81ff">1</span>
 </span></span><span style="display:flex;"><span>            station[<span style="color:#e6db74">&#39;observedArea&#39;</span>][i]<span style="color:#f92672">=-</span><span style="color:#ae81ff">1</span>
@@ -437,54 +482,73 @@ if (!doNotTrack) {
 </span></span><span style="display:flex;"><span>            station[<span style="color:#e6db74">&#39;Observations&#39;</span>][i] <span style="color:#f92672">=</span> station[<span style="color:#e6db74">&#39;Observations&#39;</span>][i][<span style="color:#ae81ff">0</span>][<span style="color:#e6db74">&#39;result&#39;</span>]
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>:
 </span></span><span style="display:flex;"><span>            station[<span style="color:#e6db74">&#39;Observations&#39;</span>][i] <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span> <span style="color:#75715e"># 重命名欄位</span>
 </span></span><span style="display:flex;"><span>    station <span style="color:#f92672">=</span> station<span style="color:#f92672">.</span>rename(columns<span style="color:#f92672">=</span>{<span style="color:#e6db74">&#34;Thing&#34;</span>: <span style="color:#e6db74">&#34;name&#34;</span>, <span style="color:#e6db74">&#39;observedArea&#39;</span>: <span style="color:#e6db74">&#39;lon&#39;</span>})
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 合併資料</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> num <span style="color:#f92672">==</span><span style="color:#ae81ff">0</span> :
 </span></span><span style="display:flex;"><span>        water_level <span style="color:#f92672">=</span> station
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>:
 </span></span><span style="display:flex;"><span>        water_level <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>concat([water_level, station])
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 更新計數器</span>
 </span></span><span style="display:flex;"><span>    num<span style="color:#f92672">+=</span><span style="color:#ae81ff">100</span>
-</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 去除重複站點，並進行排序</span>
 </span></span><span style="display:flex;"><span>result_df <span style="color:#f92672">=</span> water_level<span style="color:#f92672">.</span>drop_duplicates(subset<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;name&#39;</span>], keep<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;first&#39;</span>)
 </span></span><span style="display:flex;"><span>station<span style="color:#f92672">=</span>result_df<span style="color:#f92672">.</span>sort_values(by<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;lon&#39;</span>, <span style="color:#e6db74">&#39;lat&#39;</span>])
 </span></span><span style="display:flex;"><span>station<span style="color:#f92672">.</span>reset_index(inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>, drop<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 過濾掉不合理的經緯度</span>
 </span></span><span style="display:flex;"><span>station <span style="color:#f92672">=</span> station[station<span style="color:#f92672">.</span>lon<span style="color:#f92672">!=-</span><span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 轉換為地理資料框架</span>
 </span></span><span style="display:flex;"><span>gdf_level <span style="color:#f92672">=</span> gpd<span style="color:#f92672">.</span>GeoDataFrame(
 </span></span><span style="display:flex;"><span>    station, geometry<span style="color:#f92672">=</span>gpd<span style="color:#f92672">.</span>points_from_xy(station<span style="color:#f92672">.</span>lon, station<span style="color:#f92672">.</span>lat),crs<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;EPSG:4326&#34;</span>)
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 與雲林縣範圍 intersect </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 選取「雲林縣」的底圖</span>
 </span></span><span style="display:flex;"><span>basemap <span style="color:#f92672">=</span> county<span style="color:#f92672">.</span>loc[county[<span style="color:#e6db74">&#39;COUNTYNAME&#39;</span>]<span style="color:#f92672">.</span>isin([<span style="color:#e6db74">&#34;雲林縣&#34;</span>])]
-</span></span><span style="display:flex;"><span>basemap <span style="color:#f92672">=</span> basemap<span style="color:#f92672">.</span>set_crs(<span style="color:#ae81ff">4326</span>,allow_override<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
-</span></span><span style="display:flex;"><span>intersected_data <span style="color:#f92672">=</span> gpd<span style="color:#f92672">.</span>overlay(gdf_level, basemap, how<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;intersection&#39;</span>) 
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> sklearn.cluster <span style="color:#f92672">import</span> KMeans
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 設定底圖的坐標系統</span>
+</span></span><span style="display:flex;"><span>basemap <span style="color:#f92672">=</span> basemap<span style="color:#f92672">.</span>set_crs(<span style="color:#ae81ff">4326</span>, allow_override<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 將水位觀測站的地理數據與「雲林縣」的底圖進行交集運算</span>
+</span></span><span style="display:flex;"><span>intersected_data <span style="color:#f92672">=</span> gpd<span style="color:#f92672">.</span>overlay(gdf_level, basemap, how<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;intersection&#39;</span>)
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 引入 KMeans 分群演算法的函式模組</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> sklearn.cluster <span style="color:#f92672">import</span> KMeans
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 引入 scipy 的 ConvexHull 函式模組，用於繪製凸包圖</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> scipy.spatial <span style="color:#f92672">import</span> ConvexHull
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 引入 folium 函式模組，用於繪製地圖</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> folium
-</span></span><span style="display:flex;"><span>clusterp <span style="color:#f92672">=</span> intersected_data[[<span style="color:#e6db74">&#34;name&#34;</span>,<span style="color:#e6db74">&#34;lon&#34;</span>, <span style="color:#e6db74">&#39;lat&#39;</span>, <span style="color:#e6db74">&#39;Observations&#39;</span>]]
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 1. 利用 kmeans 對資料進行分群</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#1.1 資料前處理</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 從交集數據中選取需要的欄位：名稱、經度、緯度和觀測值</span>
+</span></span><span style="display:flex;"><span>clusterp <span style="color:#f92672">=</span> intersected_data[[<span style="color:#e6db74">&#34;name&#34;</span>, <span style="color:#e6db74">&#34;lon&#34;</span>, <span style="color:#e6db74">&#39;lat&#39;</span>, <span style="color:#e6db74">&#39;Observations&#39;</span>]]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 1. 使用 KMeans 進行分群</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 1.1 資料前處理，只取經度和緯度作為特徵</span>
 </span></span><span style="display:flex;"><span>X <span style="color:#f92672">=</span> clusterp<span style="color:#f92672">.</span>iloc[:, <span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">3</span>]<span style="color:#f92672">.</span>values
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 利用 elbow method 看應該分成幾群</span>
-</span></span><span style="display:flex;"><span>wcss <span style="color:#f92672">=</span> []
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">11</span>):
-</span></span><span style="display:flex;"><span>    kmeans <span style="color:#f92672">=</span> KMeans(n_clusters <span style="color:#f92672">=</span> i, init <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;k-means++&#39;</span>, random_state <span style="color:#f92672">=</span> <span style="color:#ae81ff">42</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 用 Elbow Method 來找出最佳的群數</span>
+</span></span><span style="display:flex;"><span>wcss <span style="color:#f92672">=</span> []  <span style="color:#75715e"># 存放每個 k 值對應的誤差平方和</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">11</span>):  <span style="color:#75715e"># 試驗 1 到 10 的 k 值</span>
+</span></span><span style="display:flex;"><span>    kmeans <span style="color:#f92672">=</span> KMeans(n_clusters<span style="color:#f92672">=</span>i, init<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;k-means++&#39;</span>, random_state<span style="color:#f92672">=</span><span style="color:#ae81ff">42</span>)
 </span></span><span style="display:flex;"><span>    kmeans<span style="color:#f92672">.</span>fit(X)
-</span></span><span style="display:flex;"><span>    wcss<span style="color:#f92672">.</span>append(kmeans<span style="color:#f92672">.</span>inertia_)
+</span></span><span style="display:flex;"><span>    wcss<span style="color:#f92672">.</span>append(kmeans<span style="color:#f92672">.</span>inertia_)  <span style="color:#75715e"># 將誤差平方和加到列表中</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 畫出 Elbow Method 的圖，觀察轉折點以決定群數</span>
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>plot(range(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">11</span>), wcss)
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>title(<span style="color:#e6db74">&#39;The Elbow Method&#39;</span>)
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>xlabel(<span style="color:#e6db74">&#39;Number of clusters&#39;</span>)
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">&#39;WCSS&#39;</span>)
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>show()
 </span></span></code></pre></div><p><img src="figures/5-2-3-1.png" alt="Python output"></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 1.2 根據分群的數量訓練 K-Means model </span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 1.2 使用 KMeans 演算法，根據選定的群數（這裡是 3）來訓練模型</span>
 </span></span><span style="display:flex;"><span>kmeans <span style="color:#f92672">=</span> KMeans(n_clusters <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>, init <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;k-means++&#39;</span>, random_state <span style="color:#f92672">=</span> <span style="color:#ae81ff">42</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 進行模型訓練，並得到每個資料點的分群結果</span>
 </span></span><span style="display:flex;"><span>y_kmeans <span style="color:#f92672">=</span> kmeans<span style="color:#f92672">.</span>fit_predict(X)
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 1.3 map data back to df</span>
-</span></span><span style="display:flex;"><span>clusterp[<span style="color:#e6db74">&#39;cluster&#39;</span>] <span style="color:#f92672">=</span> y_kmeans<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span> <span style="color:#75715e"># to step up to group 1 to 4</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 1.3 將分群結果存回原始 DataFrame</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 因為 K-Means 的群編號從 0 開始，所以這裡加 1，讓群編號從 1 開始</span>
+</span></span><span style="display:flex;"><span>clusterp[<span style="color:#e6db74">&#39;cluster&#39;</span>] <span style="color:#f92672">=</span> y_kmeans <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 2.將資料畫在地圖上</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 創建底圖(m)</span>
 </span></span><span style="display:flex;"><span>m <span style="color:#f92672">=</span> folium<span style="color:#f92672">.</span>Map(location<span style="color:#f92672">=</span>[clusterp[<span style="color:#e6db74">&#39;lat&#39;</span>]<span style="color:#f92672">.</span>mean(), clusterp[<span style="color:#e6db74">&#39;lon&#39;</span>]<span style="color:#f92672">.</span>mean()],
 </span></span><span style="display:flex;"><span>               tiles<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;CartoDB positron&#39;</span>,
-</span></span><span style="display:flex;"><span>               zoom_start<span style="color:#f92672">=</span><span style="color:#ae81ff">7</span>)
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 根據分群數量建立圖層</span>
+</span></span><span style="display:flex;"><span>               zoom_start<span style="color:#f92672">=</span><span style="color:#ae81ff">7</span>)  <span style="color:#75715e"># 創建底圖</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 為每個分群建立一個特殊的圖層</span>
 </span></span><span style="display:flex;"><span>layer1 <span style="color:#f92672">=</span> folium<span style="color:#f92672">.</span>FeatureGroup(name<span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&lt;u&gt;&lt;b&gt;group1&lt;/b&gt;&lt;/u&gt;&#39;</span>,show<span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>)
 </span></span><span style="display:flex;"><span>m<span style="color:#f92672">.</span>add_child(layer1)
 </span></span><span style="display:flex;"><span>layer2 <span style="color:#f92672">=</span> folium<span style="color:#f92672">.</span>FeatureGroup(name<span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&lt;u&gt;&lt;b&gt;group2&lt;/b&gt;&lt;/u&gt;&#39;</span>,show<span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>)
@@ -492,96 +556,14 @@ if (!doNotTrack) {
 </span></span><span style="display:flex;"><span>layer3 <span style="color:#f92672">=</span> folium<span style="color:#f92672">.</span>FeatureGroup(name<span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&lt;u&gt;&lt;b&gt;group3&lt;/b&gt;&lt;/u&gt;&#39;</span>,show<span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>)
 </span></span><span style="display:flex;"><span>m<span style="color:#f92672">.</span>add_child(layer3)
 </span></span><span style="display:flex;"><span>layer4 <span style="color:#f92672">=</span> folium<span style="color:#f92672">.</span>FeatureGroup(name<span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&lt;u&gt;&lt;b&gt;group4&lt;/b&gt;&lt;/u&gt;&#39;</span>,show<span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>)
-</span></span><span style="display:flex;"><span>m<span style="color:#f92672">.</span>add_child(layer4)
+</span></span><span style="display:flex;"><span>m<span style="color:#f92672">.</span>add_child(layer4)  <span style="color:#75715e"># 加入圖層</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 建立圖標(利用 html 的 CSS 語法)</span>
-</span></span><span style="display:flex;"><span>my_symbol_css_class<span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;&#34; &lt;style&gt;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">.fa-g1:before {
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    font-family: Arial; 
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    font-weight: bold;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    font-size: 12px;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    color: black;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    background-color:white;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    border-radius: 10px; 
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    white-space: pre;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    content: &#39; g1 &#39;;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    }
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">.fa-g2:before {
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    font-family: Arial; 
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    font-weight: bold;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    font-size: 12px;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    color: black;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    background-color:white;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    border-radius: 10px; 
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    white-space: pre;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    content: &#39; g2 &#39;;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    }
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">.fa-g3:before {
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    font-family: Arial; 
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    font-weight: bold;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    font-size: 12px;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    color: black;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    background-color:white;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    border-radius: 10px; 
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    white-space: pre;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    content: &#39; g3 &#39;;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    }
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">.fa-g4:before {
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    font-family: Arial; 
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    font-weight: bold;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    font-size: 12px;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    color: black;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    background-color:white;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    border-radius: 10px; 
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    white-space: pre;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    content: &#39; g4 &#39;;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    }
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">.fa-g1bad:before {
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    font-family: Arial; 
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    font-weight: bold;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    font-size: 12px;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    color: white;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    background-color:red;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    border-radius: 10px; 
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    white-space: pre;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    content: &#39; g1 &#39;;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    }
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">.fa-g2bad:before {
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    font-family: Arial; 
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    font-weight: bold;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    font-size: 12px;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    color: white;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    background-color:red;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    border-radius: 10px; 
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    white-space: pre;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    content: &#39; g2 &#39;;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    }
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">.fa-g3bad:before {
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    font-family: Arial; 
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    font-weight: bold;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    font-size: 12px;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    color: white;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    background-color:red;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    border-radius: 10px; 
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    white-space: pre;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    content: &#39; g3 &#39;;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    }
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">.fa-g4bad:before {
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    font-family: Arial; 
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    font-weight: bold;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    font-size: 12px;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    color: white;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    background-color:red;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    border-radius: 10px; 
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    white-space: pre;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    content: &#39; g4 &#39;;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    }
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&lt;/style&gt;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 將語法加進地圖中      </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 自訂 CSS 樣式</span>
 </span></span><span style="display:flex;"><span>m<span style="color:#f92672">.</span>get_root()<span style="color:#f92672">.</span>html<span style="color:#f92672">.</span>add_child(folium<span style="color:#f92672">.</span>Element(my_symbol_css_class))
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 創建每個圖標的 icon </span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> index, row <span style="color:#f92672">in</span> clusterp<span style="color:#f92672">.</span>iterrows():
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 遍歷資料框並根據分群結果放置標記</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> index, row <span style="color:#f92672">in</span> clusterp<span style="color:#f92672">.</span>iterrows():  <span style="color:#75715e"># 遍歷每一行資料</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 決定要使用哪一個圖層和 icon</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> row[<span style="color:#e6db74">&#39;cluster&#39;</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>:
 </span></span><span style="display:flex;"><span>        color<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;black&#39;</span>
 </span></span><span style="display:flex;"><span>        fa_symbol <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;fa-g1&#39;</span>
@@ -598,61 +580,75 @@ if (!doNotTrack) {
 </span></span><span style="display:flex;"><span>        color<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;blue&#39;</span>
 </span></span><span style="display:flex;"><span>        fa_symbol <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;fa-g4&#39;</span>
 </span></span><span style="display:flex;"><span>        lay <span style="color:#f92672">=</span> layer4
-</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 在地圖上創建標記</span>
 </span></span><span style="display:flex;"><span>    folium<span style="color:#f92672">.</span>Marker(
 </span></span><span style="display:flex;"><span>        location<span style="color:#f92672">=</span>[row[<span style="color:#e6db74">&#39;lat&#39;</span>], row[<span style="color:#e6db74">&#39;lon&#39;</span>]],
-</span></span><span style="display:flex;"><span>        title <span style="color:#f92672">=</span> row[<span style="color:#e6db74">&#39;name&#39;</span>]<span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;group:</span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#39;</span><span style="color:#f92672">.</span>format(str(row[<span style="color:#e6db74">&#34;cluster&#34;</span>])),
-</span></span><span style="display:flex;"><span>        popup <span style="color:#f92672">=</span> row[<span style="color:#e6db74">&#39;name&#39;</span>]<span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;group:</span><span style="color:#e6db74">{}</span><span style="color:#e6db74">,value:</span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#39;</span><span style="color:#f92672">.</span>format(str(row[<span style="color:#e6db74">&#34;cluster&#34;</span>]),str(row[<span style="color:#e6db74">&#39;Observations&#39;</span>])),
-</span></span><span style="display:flex;"><span>        icon<span style="color:#f92672">=</span> folium<span style="color:#f92672">.</span>Icon(color<span style="color:#f92672">=</span>color, icon<span style="color:#f92672">=</span>fa_symbol, prefix<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;fa&#39;</span>))<span style="color:#f92672">.</span>add_to(lay)
+</span></span><span style="display:flex;"><span>        title<span style="color:#f92672">=</span>row[<span style="color:#e6db74">&#39;name&#39;</span>]<span style="color:#f92672">+</span> <span style="color:#e6db74">&#39; group:</span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#39;</span><span style="color:#f92672">.</span>format(str(row[<span style="color:#e6db74">&#34;cluster&#34;</span>])),
+</span></span><span style="display:flex;"><span>        popup<span style="color:#f92672">=</span>row[<span style="color:#e6db74">&#39;name&#39;</span>]<span style="color:#f92672">+</span> <span style="color:#e6db74">&#39; group:</span><span style="color:#e6db74">{}</span><span style="color:#e6db74">,value:</span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#39;</span><span style="color:#f92672">.</span>format(str(row[<span style="color:#e6db74">&#34;cluster&#34;</span>]),str(row[<span style="color:#e6db74">&#39;Observations&#39;</span>])),
+</span></span><span style="display:flex;"><span>        icon<span style="color:#f92672">=</span>folium<span style="color:#f92672">.</span>Icon(color<span style="color:#f92672">=</span>color, icon<span style="color:#f92672">=</span>fa_symbol, prefix<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;fa&#39;</span>))<span style="color:#f92672">.</span>add_to(lay)  <span style="color:#75715e"># 將標記添加到對應的圖層</span>
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 準備將資料畫上地圖</span>
 </span></span><span style="display:flex;"><span>layer_list <span style="color:#f92672">=</span> [layer1,layer2,layer3,layer4]
 </span></span><span style="display:flex;"><span>color_list <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;black&#39;</span>,<span style="color:#e6db74">&#39;purple&#39;</span>,<span style="color:#e6db74">&#39;orange&#39;</span>,<span style="color:#e6db74">&#39;blue&#39;</span>]
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> g <span style="color:#f92672">in</span> clusterp[<span style="color:#e6db74">&#39;cluster&#39;</span>]<span style="color:#f92672">.</span>unique():
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 利用 ConvexHull 找到每個群的邊界</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 首先，取出每群的 lat lon </span>
-</span></span><span style="display:flex;"><span>    latlon_cut <span style="color:#f92672">=</span>clusterp[clusterp[<span style="color:#e6db74">&#39;cluster&#39;</span>]<span style="color:#f92672">==</span>g]<span style="color:#f92672">.</span>iloc[:, <span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">3</span>]
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 再來，使用 scipy 中的 ConvexHull 函式</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 將剛剛的資料 (lat lon) 放進該函式</span>
-</span></span><span style="display:flex;"><span>    hull <span style="color:#f92672">=</span> ConvexHull(latlon_cut<span style="color:#f92672">.</span>values)
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 取得每群的 lat lon 邊界</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 遍歷每一個獨立的群組</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> g <span style="color:#f92672">in</span> clusterp[<span style="color:#e6db74">&#39;cluster&#39;</span>]<span style="color:#f92672">.</span>unique():  
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 利用 ConvexHull 找到每個群的邊界</span>
+</span></span><span style="display:flex;"><span>    latlon_cut <span style="color:#f92672">=</span>clusterp[clusterp[<span style="color:#e6db74">&#39;cluster&#39;</span>]<span style="color:#f92672">==</span>g]<span style="color:#f92672">.</span>iloc[:, <span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">3</span>]  <span style="color:#75715e"># 選取該群組的經緯度</span>
+</span></span><span style="display:flex;"><span>    hull <span style="color:#f92672">=</span> ConvexHull(latlon_cut<span style="color:#f92672">.</span>values)  <span style="color:#75715e"># 使用 ConvexHull 計算邊界</span>
 </span></span><span style="display:flex;"><span>    Lat <span style="color:#f92672">=</span> latlon_cut<span style="color:#f92672">.</span>values[hull<span style="color:#f92672">.</span>vertices,<span style="color:#ae81ff">0</span>]
-</span></span><span style="display:flex;"><span>    Long <span style="color:#f92672">=</span> latlon_cut<span style="color:#f92672">.</span>values[hull<span style="color:#f92672">.</span>vertices,<span style="color:#ae81ff">1</span>] 
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 將 boundary 存成 dataframe ，並轉成 lat lon 的 list</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 在 folium 中畫出邊界的 polygon</span>
-</span></span><span style="display:flex;"><span>    cluster <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame({<span style="color:#e6db74">&#39;lat&#39;</span>:Lat,<span style="color:#e6db74">&#39;lon&#39;</span>:Long })       
+</span></span><span style="display:flex;"><span>    Long <span style="color:#f92672">=</span> latlon_cut<span style="color:#f92672">.</span>values[hull<span style="color:#f92672">.</span>vertices,<span style="color:#ae81ff">1</span>]  <span style="color:#75715e"># 獲取邊界的經緯度</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 將經緯度資訊轉成 list，以在 folium 中使用</span>
+</span></span><span style="display:flex;"><span>    cluster <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame({<span style="color:#e6db74">&#39;lat&#39;</span>:Lat,<span style="color:#e6db74">&#39;lon&#39;</span>:Long })  
 </span></span><span style="display:flex;"><span>    area <span style="color:#f92672">=</span> list(zip(cluster[<span style="color:#e6db74">&#39;lat&#39;</span>],cluster[<span style="color:#e6db74">&#39;lon&#39;</span>]))
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    list_index <span style="color:#f92672">=</span> g<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> 
-</span></span><span style="display:flex;"><span>    lay_cluster <span style="color:#f92672">=</span> layer_list[list_index ] 
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 畫出該群組的邊界</span>
+</span></span><span style="display:flex;"><span>    list_index <span style="color:#f92672">=</span> g<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>  
+</span></span><span style="display:flex;"><span>    lay_cluster <span style="color:#f92672">=</span> layer_list[list_index]  
 </span></span><span style="display:flex;"><span>    folium<span style="color:#f92672">.</span>Polygon(locations<span style="color:#f92672">=</span>area,
-</span></span><span style="display:flex;"><span>        color<span style="color:#f92672">=</span>color_list[list_index],
-</span></span><span style="display:flex;"><span>        weight<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>,
-</span></span><span style="display:flex;"><span>        fill<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>,
-</span></span><span style="display:flex;"><span>        fill_opacity<span style="color:#f92672">=</span><span style="color:#ae81ff">0.1</span>,
-</span></span><span style="display:flex;"><span>        opacity<span style="color:#f92672">=</span><span style="color:#ae81ff">0.8</span>)<span style="color:#f92672">.</span>add_to(lay_cluster) 
-</span></span><span style="display:flex;"><span>            
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 加入可以選擇 layer 的控制區</span>
+</span></span><span style="display:flex;"><span>                   color<span style="color:#f92672">=</span>color_list[list_index],
+</span></span><span style="display:flex;"><span>                   weight<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>,
+</span></span><span style="display:flex;"><span>                   fill<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>,
+</span></span><span style="display:flex;"><span>                   fill_opacity<span style="color:#f92672">=</span><span style="color:#ae81ff">0.1</span>,
+</span></span><span style="display:flex;"><span>                   opacity<span style="color:#f92672">=</span><span style="color:#ae81ff">0.8</span>)<span style="color:#f92672">.</span>add_to(lay_cluster)  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 加入圖層控制器</span>
 </span></span><span style="display:flex;"><span>folium<span style="color:#f92672">.</span>LayerControl(collapsed<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>,position<span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;bottomright&#39;</span>)<span style="color:#f92672">.</span>add_to(m)
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 存成 html 檔</span>
-</span></span><span style="display:flex;"><span>print(m)
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 地圖會存在與程式碼相同路徑的資料夾中</span>
-</span></span><span style="display:flex;"><span>m<span style="color:#f92672">.</span>save(<span style="color:#e6db74">&#39;River_clustering.html&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 輸出地圖並存為 HTML</span>
+</span></span><span style="display:flex;"><span>print(m)  <span style="color:#75715e"># 顯示地圖</span>
+</span></span><span style="display:flex;"><span>m<span style="color:#f92672">.</span>save(<span style="color:#e6db74">&#39;River_clustering.html&#39;</span>)  <span style="color:#75715e"># 將地圖儲存為 HTML 檔案</span>
 </span></span></code></pre></div><p><img src="figures/5-2-3-2.png" alt="Python output"></p>
 <h2 id="密度-kernel-density">密度 (Kernel density)</h2>
 <p>密度是我們常用以描述事件聚集強度的觀念，而傳統一般的密度都是以：個數/面積的公式去計算，但是，這樣的計算方法卻容易受到面積的影響，同樣的測站數/案例數在面積不同的鄉鎮，就會出現不同的密度，反而讓我們無法正確地探勘事件的聚集強度。</p>
 <p>因此，為了避免面積造成計算的差異，所以我們可以用核密度 (kernel density) 的方式去描述事件聚集的強度；核密度的概念就是：以樣本點為中心，並利用固定半徑的移動視窗 (moving windows) 去框選其他樣本點，最後以所有樣本點的數值加總來取代樣本點的舊有數值。這樣的方式可以標準化密度公式中的「面積」，並取得一個全面性的密度分佈圖，以協助我們瞭解整體事件的分佈強度 (圖1)。</p>
 <p>在這個案例中，我們也來看看是否能用核密度的方法去描述地下水位站的分佈強弱。</p>
 <p><img src="figures/5-2-4-1.png" alt="圖1：核密度推估法的概念圖"></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>basemap <span style="color:#f92672">=</span> county<span style="color:#f92672">.</span>loc[county[<span style="color:#e6db74">&#39;COUNTYNAME&#39;</span>]<span style="color:#f92672">.</span>isin([<span style="color:#e6db74">&#34;嘉義縣&#34;</span>,<span style="color:#e6db74">&#34;嘉義市&#34;</span>])]
-</span></span><span style="display:flex;"><span>basemap <span style="color:#f92672">=</span> basemap<span style="color:#f92672">.</span>set_crs(<span style="color:#ae81ff">4326</span>,allow_override<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
-</span></span><span style="display:flex;"><span>gdf <span style="color:#f92672">=</span> gpd<span style="color:#f92672">.</span>overlay(gdf_level, basemap, how<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;intersection&#39;</span>) 
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># selecting the polygon&#39;s geometry field to filter out points that </span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># are not overlaid</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 篩選出 &#34;嘉義縣&#34; 和 &#34;嘉義市&#34; 的地圖資料</span>
+</span></span><span style="display:flex;"><span>basemap <span style="color:#f92672">=</span> county<span style="color:#f92672">.</span>loc[county[<span style="color:#e6db74">&#39;COUNTYNAME&#39;</span>]<span style="color:#f92672">.</span>isin([<span style="color:#e6db74">&#34;嘉義縣&#34;</span>, <span style="color:#e6db74">&#34;嘉義市&#34;</span>])]
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 將坐標系統設為 WGS 84 (EPSG:4326)</span>
+</span></span><span style="display:flex;"><span>basemap <span style="color:#f92672">=</span> basemap<span style="color:#f92672">.</span>set_crs(<span style="color:#ae81ff">4326</span>, allow_override<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用 &#39;intersection&#39; 方法來找出 gdf_level 和 basemap 的交集</span>
+</span></span><span style="display:flex;"><span>gdf <span style="color:#f92672">=</span> gpd<span style="color:#f92672">.</span>overlay(gdf_level, basemap, how<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;intersection&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 接下來，我們會選擇多邊形的幾何字段，</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 以過濾出那些未與基礎地圖重疊的點。</span>
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 利用plotly套件 畫出河川水位核密度地圖，gdf為河川水位資料點位與數值</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 載入 plotly.express 套件，用於繪製核密度地圖</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> plotly.express <span style="color:#66d9ef">as</span> px
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用 density_mapbox 函式來繪製核密度地圖</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 參數設定：</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># - lat, lon, z 來自 gdf DataFrame，分別代表緯度、經度和觀測值</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># - radius 是用來計算密度的半徑，設為 25</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># - center 指定地圖中心點的緯度和經度</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># - zoom 設為 8，是地圖的初始縮放等級</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># - mapbox_style 是地圖的風格</span>
 </span></span><span style="display:flex;"><span>fig <span style="color:#f92672">=</span> px<span style="color:#f92672">.</span>density_mapbox(gdf, lat<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;lat&#39;</span>, lon<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;lon&#39;</span>, z<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;Observations&#39;</span>, radius<span style="color:#f92672">=</span><span style="color:#ae81ff">25</span>,
 </span></span><span style="display:flex;"><span>                        center<span style="color:#f92672">=</span>dict(lat<span style="color:#f92672">=</span><span style="color:#ae81ff">23.5</span>, lon<span style="color:#f92672">=</span><span style="color:#ae81ff">120.5</span>), zoom<span style="color:#f92672">=</span><span style="color:#ae81ff">8</span>,
 </span></span><span style="display:flex;"><span>                        mapbox_style<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;stamen-terrain&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示地圖</span>
 </span></span><span style="display:flex;"><span>fig<span style="color:#f92672">.</span>show()
 </span></span></code></pre></div><p><img src="figures/5-2-4-2.png" alt="Python output"></p>
 <h2 id="空間內插-spatial-interpolation">空間內插 (Spatial interpolation)</h2>
@@ -661,127 +657,175 @@ if (!doNotTrack) {
 <p>所以，接下來我們就利用雲林的地下水位站來練習幾種常見的空間內插方法。</p>
 <h3 id="反距離加權法-inverse-distance-weighting">反距離加權法 (Inverse Distance Weighting)</h3>
 <p>在反距離加權法的模式中，我們會利用已知樣本點間的數值差與間距建立推估模型。一般而言，若兩點的差值為10單位、而間距為100公尺，則理論上每10公尺的差值應該為1，但是考量到差值的分佈不應該是線性關係，所以反距離加權法利用地理學第一定律：越鄰近的事物越相近，去以距離作為評估兩點之間數值差異的依據，其策略就是把差值X距離次方的倒數，以獲得該位置的推估值。所以，距離越大權數越小，反之距離越近，權數愈大。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 引入 numpy 套件用於數值運算</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 引入 matplotlib.pyplot 用於數據繪製</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 引入 scipy.interpolate 的 Rbf 函式用於進行徑向基函式插值</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> scipy.interpolate <span style="color:#f92672">import</span> Rbf
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 定義一個函式計算兩組點之間的距離矩陣</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">distance_matrix</span>(x0, y0, x1, y1):
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 垂直堆疊 x 和 y 坐標，並轉置</span>
 </span></span><span style="display:flex;"><span>    obs <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>vstack((x0, y0))<span style="color:#f92672">.</span>T
 </span></span><span style="display:flex;"><span>    interp <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>vstack((x1, y1))<span style="color:#f92672">.</span>T
 </span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 在指定範圍中建立 distance matrix</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 參考資料: &lt;http://stackoverflow.com/questions/1871536&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 建立距離矩陣，根據 x 和 y 的差值</span>
 </span></span><span style="display:flex;"><span>    d0 <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>subtract<span style="color:#f92672">.</span>outer(obs[:,<span style="color:#ae81ff">0</span>], interp[:,<span style="color:#ae81ff">0</span>])
 </span></span><span style="display:flex;"><span>    d1 <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>subtract<span style="color:#f92672">.</span>outer(obs[:,<span style="color:#ae81ff">1</span>], interp[:,<span style="color:#ae81ff">1</span>])
-</span></span><span style="display:flex;"><span>    print(d0<span style="color:#f92672">.</span>dtype,d1<span style="color:#f92672">.</span>dtype)
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 輸出矩陣的資料型別（用於除錯）</span>
+</span></span><span style="display:flex;"><span>    print(d0<span style="color:#f92672">.</span>dtype, d1<span style="color:#f92672">.</span>dtype)
 </span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 計算歐式距離並返回</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> np<span style="color:#f92672">.</span>hypot(d0, d1)
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 定義一個簡單的 IDW（Inverse Distance Weighting）函式</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">simple_idw</span>(x, y, z, xi, yi, pows):
-</span></span><span style="display:flex;"><span>    dist <span style="color:#f92672">=</span> distance_matrix(x,y, xi,yi)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># IDW 權重為 1 / distance</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 計算距離矩陣</span>
+</span></span><span style="display:flex;"><span>    dist <span style="color:#f92672">=</span> distance_matrix(x, y, xi, yi)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 計算 IDW 權重，即 1/距離</span>
 </span></span><span style="display:flex;"><span>    weights <span style="color:#f92672">=</span> <span style="color:#ae81ff">1.0</span> <span style="color:#f92672">/</span> dist
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 使權重加總為 1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 正規化權重，使其總和為 1</span>
 </span></span><span style="display:flex;"><span>    weights <span style="color:#f92672">/=</span> weights<span style="color:#f92672">.</span>sum(axis<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 在每個要插值的點上，將權重乘以 Z 值</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 計算加權的 z 值</span>
 </span></span><span style="display:flex;"><span>    zi <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>dot(weights<span style="color:#f92672">.</span>T, z)
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> zi
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 初始化繪圖環境，設定圖片大小與長寬比</span>
 </span></span><span style="display:flex;"><span>fig, ax <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplots(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">4</span>))
 </span></span><span style="display:flex;"><span>ax<span style="color:#f92672">.</span>set_aspect(<span style="color:#e6db74">&#39;equal&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 設定權重參數與網格數量</span>
 </span></span><span style="display:flex;"><span>pows <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
 </span></span><span style="display:flex;"><span>nx, ny <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">100</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 設定網格範圍</span>
 </span></span><span style="display:flex;"><span>xmin, xmax <span style="color:#f92672">=</span> <span style="color:#ae81ff">119.8</span>, <span style="color:#ae81ff">121.2</span>
 </span></span><span style="display:flex;"><span>ymin, ymax <span style="color:#f92672">=</span> <span style="color:#ae81ff">23</span>, <span style="color:#ae81ff">24</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 提取 gdf 中的經緯度和觀測數據</span>
 </span></span><span style="display:flex;"><span>interpolatep <span style="color:#f92672">=</span> gdf[[<span style="color:#e6db74">&#34;lon&#34;</span>, <span style="color:#e6db74">&#39;lat&#39;</span>, <span style="color:#e6db74">&#39;Observations&#39;</span>]]
-</span></span><span style="display:flex;"><span>x <span style="color:#f92672">=</span> interpolatep[<span style="color:#e6db74">&#39;lon&#39;</span>]
-</span></span><span style="display:flex;"><span>y <span style="color:#f92672">=</span> interpolatep[<span style="color:#e6db74">&#39;lat&#39;</span>]
-</span></span><span style="display:flex;"><span>z <span style="color:#f92672">=</span> interpolatep[<span style="color:#e6db74">&#39;Observations&#39;</span>]
-</span></span><span style="display:flex;"><span>x <span style="color:#f92672">=</span> x<span style="color:#f92672">.</span>astype(<span style="color:#e6db74">&#34;float64&#34;</span>)
-</span></span><span style="display:flex;"><span>y <span style="color:#f92672">=</span> y<span style="color:#f92672">.</span>astype(<span style="color:#e6db74">&#34;float64&#34;</span>)
-</span></span><span style="display:flex;"><span>z <span style="color:#f92672">=</span> z<span style="color:#f92672">.</span>astype(<span style="color:#e6db74">&#34;float64&#34;</span>)
-</span></span><span style="display:flex;"><span>xi <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>linspace(xmin,xmax, nx)
+</span></span><span style="display:flex;"><span>x <span style="color:#f92672">=</span> interpolatep[<span style="color:#e6db74">&#39;lon&#39;</span>]<span style="color:#f92672">.</span>astype(<span style="color:#e6db74">&#34;float64&#34;</span>)
+</span></span><span style="display:flex;"><span>y <span style="color:#f92672">=</span> interpolatep[<span style="color:#e6db74">&#39;lat&#39;</span>]<span style="color:#f92672">.</span>astype(<span style="color:#e6db74">&#34;float64&#34;</span>)
+</span></span><span style="display:flex;"><span>z <span style="color:#f92672">=</span> interpolatep[<span style="color:#e6db74">&#39;Observations&#39;</span>]<span style="color:#f92672">.</span>astype(<span style="color:#e6db74">&#34;float64&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 產生插值點的網格</span>
+</span></span><span style="display:flex;"><span>xi <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>linspace(xmin, xmax, nx)
 </span></span><span style="display:flex;"><span>yi <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>linspace(ymin, ymax, ny)
 </span></span><span style="display:flex;"><span>xi, yi <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>meshgrid(xi, yi)
 </span></span><span style="display:flex;"><span>xi, yi <span style="color:#f92672">=</span> xi<span style="color:#f92672">.</span>flatten(), yi<span style="color:#f92672">.</span>flatten()
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 計算 IDW</span>
-</span></span><span style="display:flex;"><span>grid <span style="color:#f92672">=</span> simple_idw(x,y,z,xi,yi,pows)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用 IDW 插值算法計算插值結果</span>
+</span></span><span style="display:flex;"><span>grid <span style="color:#f92672">=</span> simple_idw(x, y, z, xi, yi, pows)
 </span></span><span style="display:flex;"><span>grid <span style="color:#f92672">=</span> grid<span style="color:#f92672">.</span>reshape((ny, nx))
-</span></span><span style="display:flex;"><span>grid <span style="color:#f92672">=</span> grid<span style="color:#f92672">.</span>astype(<span style="color:#e6db74">&#34;float64&#34;</span>)
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 繪製 IDW 插值結果</span>
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>imshow(grid, extent<span style="color:#f92672">=</span>(xmin, xmax, ymin, ymax))
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>basemap<span style="color:#f92672">.</span>plot(ax<span style="color:#f92672">=</span>ax, facecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;none&#39;</span>, edgecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;lightgray&#39;</span>);
-</span></span><span style="display:flex;"><span>ax<span style="color:#f92672">.</span>scatter(x, y, marker<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;.&#34;</span>, color<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;orange&#39;</span>, s<span style="color:#f92672">=</span>z,label<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;input point&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 繪製底圖與數據點</span>
+</span></span><span style="display:flex;"><span>basemap<span style="color:#f92672">.</span>plot(ax<span style="color:#f92672">=</span>ax, facecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;none&#39;</span>, edgecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;lightgray&#39;</span>)
+</span></span><span style="display:flex;"><span>ax<span style="color:#f92672">.</span>scatter(x, y, marker<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;.&#34;</span>, color<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;orange&#39;</span>, s<span style="color:#f92672">=</span>z, label<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;input point&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示顏色條與座標軸範圍</span>
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>colorbar()
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>xlim(xmin, xmax)
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>ylim(ymin, ymax)
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 設定標題並顯示圖片</span>
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>title(<span style="color:#e6db74">&#39;IDW&#39;</span>)
-</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>show()
 </span></span></code></pre></div><p><img src="figures/5-2-5-1.png" alt="Python output"></p>
 <h3 id="克力金法-kriging">克力金法 (Kriging)</h3>
 <p>克利金法的原理則是利用已知點的位置與數值，去建立一個半變異圖 (semi-variogram)，並依據這個圖進行樣本點的分組，以得到數個區域性變量 (regionalized variable)，並以其為基礎進行數值推估。克利金法與前述反距離加權法相似，都是利用已知點的數值與距離去推估鄰近地區的未知點數值，比較大的差異是克力金法會將樣本的依照距離作分組，從而依照距離調整其不同的推估公式。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 建立網格範圍與解析度</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 引入 NumPy 套件</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
-</span></span><span style="display:flex;"><span>resolution <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.1</span>  <span style="color:#75715e"># cell size in meters</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 設定網格解析度，以公尺為單位</span>
+</span></span><span style="display:flex;"><span>resolution <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.1</span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 根據解析度建立 x 和 y 的網格範圍</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># x 軸範圍從 119.8 到 121.2</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># y 軸範圍從 23 到 24</span>
 </span></span><span style="display:flex;"><span>gridx <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>arange(<span style="color:#ae81ff">119.8</span>, <span style="color:#ae81ff">121.2</span>, resolution)
 </span></span><span style="display:flex;"><span>gridy <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>arange(<span style="color:#ae81ff">23</span>, <span style="color:#ae81ff">24</span>, resolution)
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 定義函式 raster to polygon </span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> itertools
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> shapely.geometry <span style="color:#f92672">import</span> Polygon
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 定義 raster to polygon 函式</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">pixel2poly</span>(x, y, z, resolution):
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    x: x coords of cell
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    y: y coords of cell
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    z: matrix of values for each (x,y)
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    resolution: spatial resolution of each cell
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    x: x座標的網格點
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    y: y座標的網格點
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    z: 每個 (x, y) 座標點對應的數值矩陣
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    resolution: 每個網格單元的空間解析度
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
-</span></span><span style="display:flex;"><span>    polygons <span style="color:#f92672">=</span> []
-</span></span><span style="display:flex;"><span>    values <span style="color:#f92672">=</span> []
-</span></span><span style="display:flex;"><span>    half_res <span style="color:#f92672">=</span> resolution <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i, j  <span style="color:#f92672">in</span> itertools<span style="color:#f92672">.</span>product(range(len(x)), range(len(y))):
+</span></span><span style="display:flex;"><span>    polygons <span style="color:#f92672">=</span> []  <span style="color:#75715e"># 存放多邊形資訊</span>
+</span></span><span style="display:flex;"><span>    values <span style="color:#f92672">=</span> []  <span style="color:#75715e"># 存放 z 值資訊</span>
+</span></span><span style="display:flex;"><span>    half_res <span style="color:#f92672">=</span> resolution <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>  <span style="color:#75715e"># 網格單元一半的解析度</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 利用 itertools.product 遍歷每個網格點</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i, j <span style="color:#f92672">in</span> itertools<span style="color:#f92672">.</span>product(range(len(x)), range(len(y))):
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 計算多邊形邊界</span>
 </span></span><span style="display:flex;"><span>        minx, maxx <span style="color:#f92672">=</span> x[i] <span style="color:#f92672">-</span> half_res, x[i] <span style="color:#f92672">+</span> half_res
 </span></span><span style="display:flex;"><span>        miny, maxy <span style="color:#f92672">=</span> y[j] <span style="color:#f92672">-</span> half_res, y[j] <span style="color:#f92672">+</span> half_res
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 創建多邊形並存入列表</span>
 </span></span><span style="display:flex;"><span>        polygons<span style="color:#f92672">.</span>append(Polygon([(minx, miny), (minx, maxy), (maxx, maxy), (maxx, miny)]))
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 根據 z 是否為單一數值或矩陣，來存入對應的 z 值</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> isinstance(z, (int, float)):
 </span></span><span style="display:flex;"><span>            values<span style="color:#f92672">.</span>append(z)
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>:
 </span></span><span style="display:flex;"><span>            values<span style="color:#f92672">.</span>append(z[j, i])
+</span></span><span style="display:flex;"><span>            
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> polygons, values
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 利用pykrige 內插計算網格數值</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 引入 pykrige 套件中的 OrdinaryKriging 類別進行克里金內插</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pykrige.ok <span style="color:#f92672">import</span> OrdinaryKriging
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 初始化 OrdinaryKriging 類別，設定變異函式模型為 &#34;spherical&#34;，並啟用偽逆矩陣計算</span>
 </span></span><span style="display:flex;"><span>krig <span style="color:#f92672">=</span> OrdinaryKriging(x<span style="color:#f92672">=</span>gdf[<span style="color:#e6db74">&#34;lon&#34;</span>], y<span style="color:#f92672">=</span>gdf[<span style="color:#e6db74">&#34;lat&#34;</span>], z<span style="color:#f92672">=</span>gdf[<span style="color:#e6db74">&#39;Observations&#39;</span>], variogram_model<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;spherical&#34;</span>, pseudo_inv<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 執行克里金內插，對 gridx 和 gridy 進行計算，返回數值 z 和半方差 ss</span>
 </span></span><span style="display:flex;"><span>z, ss <span style="color:#f92672">=</span> krig<span style="color:#f92672">.</span>execute(<span style="color:#e6db74">&#34;grid&#34;</span>, gridx, gridy)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用 matplotlib 繪製內插後的數值 z</span>
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>imshow(z);
 </span></span></code></pre></div><p><img src="figures/5-2-5-2.png" alt="Python output"></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 利用plotly 將網格與地圖疊合呈現</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 引入 plotly.express 進行視覺化</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> plotly.express <span style="color:#66d9ef">as</span> px
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用先前定義的 pixel2poly 函式將網格轉換為多邊形和相應的數值</span>
 </span></span><span style="display:flex;"><span>polygons, values <span style="color:#f92672">=</span> pixel2poly(gridx, gridy, z, resolution)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 將多邊形和數值組合成 GeoDataFrame，並設定座標系統</span>
 </span></span><span style="display:flex;"><span>water_model <span style="color:#f92672">=</span> (gpd<span style="color:#f92672">.</span>GeoDataFrame({<span style="color:#e6db74">&#34;water_modelled&#34;</span>: values}, geometry<span style="color:#f92672">=</span>polygons, crs<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;EPSG:4326&#34;</span>)
 </span></span><span style="display:flex;"><span>                 <span style="color:#f92672">.</span>to_crs(<span style="color:#e6db74">&#34;EPSG:4326&#34;</span>)
 </span></span><span style="display:flex;"><span>                 )
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 利用 plotly 建立地圖，並將多邊形與地圖疊合</span>
 </span></span><span style="display:flex;"><span>fig <span style="color:#f92672">=</span> px<span style="color:#f92672">.</span>choropleth_mapbox(water_model, geojson<span style="color:#f92672">=</span>water_model<span style="color:#f92672">.</span>geometry, locations<span style="color:#f92672">=</span>water_model<span style="color:#f92672">.</span>index,
 </span></span><span style="display:flex;"><span>                           color<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;water_modelled&#34;</span>, color_continuous_scale<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;RdYlGn_r&#34;</span>, opacity<span style="color:#f92672">=</span><span style="color:#ae81ff">0.5</span>,
 </span></span><span style="display:flex;"><span>                           center<span style="color:#f92672">=</span>{<span style="color:#e6db74">&#34;lat&#34;</span>: <span style="color:#ae81ff">24</span>, <span style="color:#e6db74">&#34;lon&#34;</span>: <span style="color:#ae81ff">121</span>}, zoom<span style="color:#f92672">=</span><span style="color:#ae81ff">6</span>,
 </span></span><span style="display:flex;"><span>                           mapbox_style<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;carto-positron&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 更新 layout 和 trace 設定</span>
 </span></span><span style="display:flex;"><span>fig<span style="color:#f92672">.</span>update_layout(margin<span style="color:#f92672">=</span>dict(l<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, r<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, t<span style="color:#f92672">=</span><span style="color:#ae81ff">30</span>, b<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>))
 </span></span><span style="display:flex;"><span>fig<span style="color:#f92672">.</span>update_traces(marker_line_width<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)
 </span></span></code></pre></div><p><img src="figures/5-2-5-3.png" alt="Python output"></p>
 <h3 id="最近鄰居插值-nearest-neighbor-interpolation">最近鄰居插值 (Nearest neighbor Interpolation)</h3>
 <p>最近鄰居法的方法其實很簡單，若我們想得知空間上某一個位置的數值，只需要找到最鄰近且有數值的測站，就可以當作是這個位置的數值。這個方法基本上也是依循越鄰近越相似的原理去設計，且常被應用在影像處理及放大的案例上。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> scipy.interpolate <span style="color:#f92672">import</span> NearestNDInterpolator
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 引入所需的套件</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> scipy.interpolate <span style="color:#f92672">import</span> NearestNDInterpolator
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 初始化 matplotlib 的 figure 和 axis</span>
 </span></span><span style="display:flex;"><span>fig, ax <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplots(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">4</span>))
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 從 GeoDataFrame 中提取需要的經緯度和觀察數據</span>
 </span></span><span style="display:flex;"><span>interpolatep <span style="color:#f92672">=</span> gdf[[<span style="color:#e6db74">&#34;lon&#34;</span>, <span style="color:#e6db74">&#39;lat&#39;</span>, <span style="color:#e6db74">&#39;Observations&#39;</span>]]
 </span></span><span style="display:flex;"><span>xd <span style="color:#f92672">=</span> interpolatep[<span style="color:#e6db74">&#39;lon&#39;</span>]
 </span></span><span style="display:flex;"><span>yd <span style="color:#f92672">=</span> interpolatep[<span style="color:#e6db74">&#39;lat&#39;</span>]
@@ -790,113 +834,169 @@ if (!doNotTrack) {
 </span></span><span style="display:flex;"><span>yd <span style="color:#f92672">=</span> yd<span style="color:#f92672">.</span>astype(<span style="color:#e6db74">&#34;float64&#34;</span>)
 </span></span><span style="display:flex;"><span>zd <span style="color:#f92672">=</span> zd<span style="color:#f92672">.</span>astype(<span style="color:#e6db74">&#34;float64&#34;</span>)
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 建立網格範圍</span>
 </span></span><span style="display:flex;"><span>X <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>linspace(min(xd), max(xd))
 </span></span><span style="display:flex;"><span>Y <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>linspace(min(yd), max(yd))
-</span></span><span style="display:flex;"><span>X, Y <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>meshgrid(X, Y)  <span style="color:#75715e"># 2D grid for interpolation</span>
+</span></span><span style="display:flex;"><span>X, Y <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>meshgrid(X, Y)  <span style="color:#75715e"># 轉為 2D 網格</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用 NearestNDInterpolator 方法進行內插</span>
 </span></span><span style="display:flex;"><span>interp <span style="color:#f92672">=</span> NearestNDInterpolator(list(zip(xd, yd)), zd)
 </span></span><span style="display:flex;"><span>Z <span style="color:#f92672">=</span> interp(X, Y)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 繪製內插後的數據</span>
 </span></span><span style="display:flex;"><span>im <span style="color:#f92672">=</span> ax<span style="color:#f92672">.</span>pcolormesh(X, Y, Z, shading<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;auto&#39;</span>)
-</span></span><span style="display:flex;"><span>basemap<span style="color:#f92672">.</span>plot(ax<span style="color:#f92672">=</span>ax, facecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;none&#39;</span>, edgecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;gray&#39;</span>);
-</span></span><span style="display:flex;"><span>sns<span style="color:#f92672">.</span>scatterplot(x<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;lon&#39;</span>, y<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;lat&#39;</span>, data<span style="color:#f92672">=</span>interpolatep,label<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;input point&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 繪製基本地圖</span>
+</span></span><span style="display:flex;"><span>basemap<span style="color:#f92672">.</span>plot(ax<span style="color:#f92672">=</span>ax, facecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;none&#39;</span>, edgecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;gray&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 繪製原始的數據點</span>
+</span></span><span style="display:flex;"><span>sns<span style="color:#f92672">.</span>scatterplot(x<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;lon&#39;</span>, y<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;lat&#39;</span>, data<span style="color:#f92672">=</span>interpolatep, label<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;input point&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 加入圖例和顏色條</span>
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>legend()
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>colorbar(im)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 設定 x 和 y 軸的範圍</span>
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>xlim(xmin, xmax)
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>ylim(ymin, ymax)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示圖形</span>
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>show()
 </span></span></code></pre></div><p><img src="figures/5-2-5-4.png" alt="Python output"></p>
 <h2 id="空間內插後的資料處理">空間內插後的資料處理</h2>
 <h3 id="擷取等值線資料-contour">擷取等值線資料 (contour)</h3>
 <p>一般來說，我們將測站依照其位置與數值進行空間內插後，就會得到一個全面性的網格資料，然而，我們可以如何解析這些網格資料呢？首先，最容易的方式就是依照網格的數值與位置，去將數值相近的點連成一條線，其概念類似於在起伏不定的地形上，劃設等高線，而我們這樣的話法可以將其視為等值線。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> osgeo <span style="color:#f92672">import</span> gdal
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib 
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> elevation 
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 利用 Matplotlib 中的 &#39;contourf&#39; 函式來畫</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 引入 GDAL 模組，用於地理空間數據操作</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> osgeo <span style="color:#f92672">import</span> gdal  
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 引入 NumPy 模組，用於數組運算</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np  
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 引入 Matplotlib 模組，用於繪圖</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib  
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 引入 pyplot，用於 2D 圖形繪製</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt  
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 引入 elevation 模組，用於處理高程數據</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> elevation  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 初始化 Matplotlib 的 figure 和 axis</span>
 </span></span><span style="display:flex;"><span>fig, ax <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplots(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">10</span>))
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 定義網格範圍</span>
 </span></span><span style="display:flex;"><span>X <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>linspace(xmin, xmax)
 </span></span><span style="display:flex;"><span>Y <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>linspace(ymin, ymax)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用 OrdinaryKriging 進行克里金內插</span>
 </span></span><span style="display:flex;"><span>krig <span style="color:#f92672">=</span> OrdinaryKriging(x<span style="color:#f92672">=</span>interpolatep[<span style="color:#e6db74">&#39;lon&#39;</span>], y<span style="color:#f92672">=</span>interpolatep[<span style="color:#e6db74">&#39;lat&#39;</span>], z<span style="color:#f92672">=</span>interpolatep[<span style="color:#e6db74">&#39;Observations&#39;</span>], variogram_model<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;spherical&#34;</span>)
 </span></span><span style="display:flex;"><span>z, ss <span style="color:#f92672">=</span> krig<span style="color:#f92672">.</span>execute(<span style="color:#e6db74">&#34;grid&#34;</span>, X, Y)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>im <span style="color:#f92672">=</span> ax<span style="color:#f92672">.</span>contourf(z, cmap <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;viridis&#34;</span>, 
-</span></span><span style="display:flex;"><span>            levels <span style="color:#f92672">=</span> list(range(<span style="color:#f92672">-</span><span style="color:#ae81ff">30</span>, <span style="color:#ae81ff">30</span>, <span style="color:#ae81ff">10</span>)),extent<span style="color:#f92672">=</span>(xmin, xmax, ymin, ymax))
-</span></span><span style="display:flex;"><span>basemap<span style="color:#f92672">.</span>plot(ax<span style="color:#f92672">=</span>ax, facecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;none&#39;</span>, edgecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;black&#39;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 利用 contourf 繪製等高線圖</span>
+</span></span><span style="display:flex;"><span>im <span style="color:#f92672">=</span> ax<span style="color:#f92672">.</span>contourf(z, cmap<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;viridis&#34;</span>, levels<span style="color:#f92672">=</span>list(range(<span style="color:#f92672">-</span><span style="color:#ae81ff">30</span>, <span style="color:#ae81ff">30</span>, <span style="color:#ae81ff">10</span>)), extent<span style="color:#f92672">=</span>(xmin, xmax, ymin, ymax))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 繪製基本地圖</span>
+</span></span><span style="display:flex;"><span>basemap<span style="color:#f92672">.</span>plot(ax<span style="color:#f92672">=</span>ax, facecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;none&#39;</span>, edgecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;black&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 加入標題</span>
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>title(<span style="color:#e6db74">&#34;Elevation Contours Taiwan&#34;</span>)
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示圖形</span>
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>show()
 </span></span></code></pre></div><p><img src="figures/5-2-6-1.png" alt="Python output"></p>
 <h3 id="擷取橫切面的資料-profile">擷取橫切面的資料 (Profile)</h3>
 <p>劃設等值線可以讓我們獲知數值的分佈梯度與範圍，而另一個協助我們瞭解數值分佈的方式則是剖面線，其原理就是在兩點之間劃設一條直線，並依照直線的位置去擷取相對應的推估數值。這樣的方法可以協助我們知道兩點之間的數值變化起伏，在某些空氣品質的研究中，科學家就會利用剖面線的方式評估道路兩側的PM2.5變化。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">export_kde_raster</span>(Z, XX, YY, min_x, max_x, min_y, max_y, proj, filename):
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 引入 Affine 和 rasterio 模組，用於處理地理轉換和寫入 GeoTIFF 檔</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> affine <span style="color:#f92672">import</span> Affine
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> rasterio
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 定義將內核密度估計輸出為 raster 格式的函式</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">export_kde_raster</span>(Z, XX, YY, min_x, max_x, min_y, max_y, proj, filename):
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;&#39;&#39;Export and save a kernel density raster.&#39;&#39;&#39;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 取得解析度</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 計算 X 和 Y 的解析度</span>
 </span></span><span style="display:flex;"><span>    xres <span style="color:#f92672">=</span> (max_x <span style="color:#f92672">-</span> min_x) <span style="color:#f92672">/</span> len(XX)
 </span></span><span style="display:flex;"><span>    yres <span style="color:#f92672">=</span> (max_y <span style="color:#f92672">-</span> min_y) <span style="color:#f92672">/</span> len(YY)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 取得 bound 等資訊</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 創建轉換矩陣，用於定義地理空間的定位</span>
 </span></span><span style="display:flex;"><span>    transform <span style="color:#f92672">=</span> Affine<span style="color:#f92672">.</span>translation(min_x <span style="color:#f92672">-</span> xres <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>, min_y <span style="color:#f92672">-</span> yres <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>) <span style="color:#f92672">*</span> Affine<span style="color:#f92672">.</span>scale(xres, yres)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 輸出為 raster</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 使用 rasterio 模組開啟一個新的 GeoTIFF 檔案來儲存輸出</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">with</span> rasterio<span style="color:#f92672">.</span>open(
 </span></span><span style="display:flex;"><span>            filename,
-</span></span><span style="display:flex;"><span>            mode <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;w&#34;</span>,
-</span></span><span style="display:flex;"><span>            driver <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;GTiff&#34;</span>,
-</span></span><span style="display:flex;"><span>            height <span style="color:#f92672">=</span> Z<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>],
-</span></span><span style="display:flex;"><span>            width <span style="color:#f92672">=</span> Z<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">1</span>],
-</span></span><span style="display:flex;"><span>            count <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>,
-</span></span><span style="display:flex;"><span>            dtype <span style="color:#f92672">=</span> Z<span style="color:#f92672">.</span>dtype,
-</span></span><span style="display:flex;"><span>            crs <span style="color:#f92672">=</span> proj,
-</span></span><span style="display:flex;"><span>            transform <span style="color:#f92672">=</span> transform,
+</span></span><span style="display:flex;"><span>            mode<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;w&#34;</span>,
+</span></span><span style="display:flex;"><span>            driver<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;GTiff&#34;</span>,
+</span></span><span style="display:flex;"><span>            height<span style="color:#f92672">=</span>Z<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>],
+</span></span><span style="display:flex;"><span>            width<span style="color:#f92672">=</span>Z<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">1</span>],
+</span></span><span style="display:flex;"><span>            count<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>,
+</span></span><span style="display:flex;"><span>            dtype<span style="color:#f92672">=</span>Z<span style="color:#f92672">.</span>dtype,
+</span></span><span style="display:flex;"><span>            crs<span style="color:#f92672">=</span>proj,
+</span></span><span style="display:flex;"><span>            transform<span style="color:#f92672">=</span>transform,
 </span></span><span style="display:flex;"><span>    ) <span style="color:#66d9ef">as</span> new_dataset:
-</span></span><span style="display:flex;"><span>            new_dataset<span style="color:#f92672">.</span>write(Z, <span style="color:#ae81ff">1</span>)
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> pykrige.ok <span style="color:#f92672">import</span> OrdinaryKriging
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 將計算好的內核密度估計寫入新的 GeoTIFF 檔案</span>
+</span></span><span style="display:flex;"><span>        new_dataset<span style="color:#f92672">.</span>write(Z, <span style="color:#ae81ff">1</span>)
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 引入 Kriging 插值需要的 pykrige 模組</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pykrige.ok <span style="color:#f92672">import</span> OrdinaryKriging
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 引入 affine 模組，用於處理坐標轉換</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> affine <span style="color:#f92672">import</span> Affine
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 引入 rasterio 模組，用於讀寫 raster 格式的地理資料</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> rasterio
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 引入 math 模組，用於數學運算，如平方根等</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> math
-</span></span><span style="display:flex;"><span>start_cor <span style="color:#f92672">=</span> [<span style="color:#ae81ff">119.9</span>,<span style="color:#ae81ff">23.2</span>]
-</span></span><span style="display:flex;"><span>end_cor <span style="color:#f92672">=</span> [<span style="color:#ae81ff">120.1</span>,<span style="color:#ae81ff">23.9</span>]
-</span></span><span style="display:flex;"><span>npoints<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 引入 pandas 模組，用於數據分析</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> pandas <span style="color:#66d9ef">as</span> pd
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 引入 geopandas 模組，用於處理地理空間資料</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> geopandas <span style="color:#66d9ef">as</span> gpd
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 引入 numpy 模組，用於數值計算</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 設定起點和終點的座標，以及網格解析度</span>
+</span></span><span style="display:flex;"><span>start_cor <span style="color:#f92672">=</span> [<span style="color:#ae81ff">119.9</span>, <span style="color:#ae81ff">23.2</span>]
+</span></span><span style="display:flex;"><span>end_cor <span style="color:#f92672">=</span> [<span style="color:#ae81ff">120.1</span>, <span style="color:#ae81ff">23.9</span>]
+</span></span><span style="display:flex;"><span>npoints <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span>
 </span></span><span style="display:flex;"><span>X <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>linspace(xmin, xmax, npoints)
 </span></span><span style="display:flex;"><span>Y <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>linspace(ymin, ymax, npoints)
-</span></span><span style="display:flex;"><span>interpolatep <span style="color:#f92672">=</span> gdf[[<span style="color:#e6db74">&#34;lon&#34;</span>, <span style="color:#e6db74">&#39;lat&#39;</span>, <span style="color:#e6db74">&#39;Observations&#39;</span>]]
-</span></span><span style="display:flex;"><span>xd <span style="color:#f92672">=</span> interpolatep[<span style="color:#e6db74">&#39;lon&#39;</span>]
-</span></span><span style="display:flex;"><span>yd <span style="color:#f92672">=</span> interpolatep[<span style="color:#e6db74">&#39;lat&#39;</span>]
-</span></span><span style="display:flex;"><span>zd <span style="color:#f92672">=</span> interpolatep[<span style="color:#e6db74">&#39;Observations&#39;</span>]
-</span></span><span style="display:flex;"><span>xd <span style="color:#f92672">=</span> xd<span style="color:#f92672">.</span>astype(<span style="color:#e6db74">&#34;float64&#34;</span>)
-</span></span><span style="display:flex;"><span>yd <span style="color:#f92672">=</span> yd<span style="color:#f92672">.</span>astype(<span style="color:#e6db74">&#34;float64&#34;</span>)
-</span></span><span style="display:flex;"><span>zd <span style="color:#f92672">=</span> zd<span style="color:#f92672">.</span>astype(<span style="color:#e6db74">&#34;float64&#34;</span>)
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 從 GeoDataFrame 中取出觀測資料</span>
+</span></span><span style="display:flex;"><span>interpolatep <span style="color:#f92672">=</span> gdf[[<span style="color:#e6db74">&#34;lon&#34;</span>, <span style="color:#e6db74">&#39;lat&#39;</span>, <span style="color:#e6db74">&#39;Observations&#39;</span>]]
+</span></span><span style="display:flex;"><span>xd <span style="color:#f92672">=</span> interpolatep[<span style="color:#e6db74">&#39;lon&#39;</span>]<span style="color:#f92672">.</span>astype(<span style="color:#e6db74">&#34;float64&#34;</span>)
+</span></span><span style="display:flex;"><span>yd <span style="color:#f92672">=</span> interpolatep[<span style="color:#e6db74">&#39;lat&#39;</span>]<span style="color:#f92672">.</span>astype(<span style="color:#e6db74">&#34;float64&#34;</span>)
+</span></span><span style="display:flex;"><span>zd <span style="color:#f92672">=</span> interpolatep[<span style="color:#e6db74">&#39;Observations&#39;</span>]<span style="color:#f92672">.</span>astype(<span style="color:#e6db74">&#34;float64&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 執行 Ordinary Kriging 插值</span>
 </span></span><span style="display:flex;"><span>krig <span style="color:#f92672">=</span> OrdinaryKriging(x<span style="color:#f92672">=</span>xd, y<span style="color:#f92672">=</span>yd, z<span style="color:#f92672">=</span>zd, variogram_model<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;spherical&#34;</span>)
 </span></span><span style="display:flex;"><span>zr, ss <span style="color:#f92672">=</span> krig<span style="color:#f92672">.</span>execute(<span style="color:#e6db74">&#34;grid&#34;</span>, X, Y)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 輸出 raster</span>
-</span></span><span style="display:flex;"><span>export_kde_raster(Z <span style="color:#f92672">=</span> zr, XX <span style="color:#f92672">=</span> X, YY <span style="color:#f92672">=</span> Y,
-</span></span><span style="display:flex;"><span>                  min_x <span style="color:#f92672">=</span> xmin, max_x <span style="color:#f92672">=</span> xmax, min_y <span style="color:#f92672">=</span> ymin, max_y <span style="color:#f92672">=</span> ymax,
-</span></span><span style="display:flex;"><span>                  proj <span style="color:#f92672">=</span> <span style="color:#ae81ff">4326</span>, filename <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;kriging_result.tif&#34;</span>)
-</span></span><span style="display:flex;"><span>kriging <span style="color:#f92672">=</span> rasterio<span style="color:#f92672">.</span>open(<span style="color:#e6db74">&#34;kriging_result.tif&#34;</span>,mode<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;r&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用之前定義的函式輸出 Kriging 插值結果為 raster 格式</span>
+</span></span><span style="display:flex;"><span>export_kde_raster(Z<span style="color:#f92672">=</span>zr, XX<span style="color:#f92672">=</span>X, YY<span style="color:#f92672">=</span>Y,
+</span></span><span style="display:flex;"><span>                  min_x<span style="color:#f92672">=</span>xmin, max_x<span style="color:#f92672">=</span>xmax, min_y<span style="color:#f92672">=</span>ymin, max_y<span style="color:#f92672">=</span>ymax,
+</span></span><span style="display:flex;"><span>                  proj<span style="color:#f92672">=</span><span style="color:#ae81ff">4326</span>, filename<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;kriging_result.tif&#34;</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>dist <span style="color:#f92672">=</span> math<span style="color:#f92672">.</span>sqrt((end_cor[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">-</span>start_cor[<span style="color:#ae81ff">0</span>])<span style="color:#f92672">**</span><span style="color:#ae81ff">2</span><span style="color:#f92672">+</span>(end_cor[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">-</span>start_cor[<span style="color:#ae81ff">1</span>])<span style="color:#f92672">**</span><span style="color:#ae81ff">2</span>)<span style="color:#f92672">*</span><span style="color:#ae81ff">111</span>
-</span></span><span style="display:flex;"><span>npoints<span style="color:#f92672">=</span><span style="color:#ae81ff">500</span>
-</span></span><span style="display:flex;"><span>lat <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>linspace(start_cor[<span style="color:#ae81ff">1</span>], end_cor[<span style="color:#ae81ff">1</span>],npoints)
-</span></span><span style="display:flex;"><span>lon <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>linspace(start_cor[<span style="color:#ae81ff">0</span>], end_cor[<span style="color:#ae81ff">0</span>],npoints)
-</span></span><span style="display:flex;"><span>distarray <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>linspace(<span style="color:#ae81ff">0</span>, dist,npoints)
-</span></span><span style="display:flex;"><span>np<span style="color:#f92672">.</span>append(distarray, dist)
-</span></span><span style="display:flex;"><span>df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame({<span style="color:#e6db74">&#39;Latitude&#39;</span>: lat, <span style="color:#e6db74">&#39;Longtitude&#39;</span>:lon,<span style="color:#e6db74">&#39;h_distance&#39;</span>:distarray})
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 開啟輸出的 Kriging raster</span>
+</span></span><span style="display:flex;"><span>kriging <span style="color:#f92672">=</span> rasterio<span style="color:#f92672">.</span>open(<span style="color:#e6db74">&#34;kriging_result.tif&#34;</span>, mode<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;r&#39;</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>df[<span style="color:#e6db74">&#39;Observations&#39;</span>]<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>gdf_pcs <span style="color:#f92672">=</span> gpd<span style="color:#f92672">.</span>GeoDataFrame(df, geometry <span style="color:#f92672">=</span> gpd<span style="color:#f92672">.</span>points_from_xy(df<span style="color:#f92672">.</span>Longtitude, df<span style="color:#f92672">.</span>Latitude))
-</span></span><span style="display:flex;"><span>gdf_pcs<span style="color:#f92672">.</span>crs <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;init&#39;</span>:<span style="color:#e6db74">&#39;epsg:4326&#39;</span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 計算起點和終點之間的距離</span>
+</span></span><span style="display:flex;"><span>dist <span style="color:#f92672">=</span> math<span style="color:#f92672">.</span>sqrt((end_cor[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">-</span> start_cor[<span style="color:#ae81ff">0</span>]) <span style="color:#f92672">**</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> (end_cor[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">-</span> start_cor[<span style="color:#ae81ff">1</span>]) <span style="color:#f92672">**</span> <span style="color:#ae81ff">2</span>) <span style="color:#f92672">*</span> <span style="color:#ae81ff">111</span>
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 建立線性內插的網格點</span>
+</span></span><span style="display:flex;"><span>npoints <span style="color:#f92672">=</span> <span style="color:#ae81ff">500</span>
+</span></span><span style="display:flex;"><span>lat <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>linspace(start_cor[<span style="color:#ae81ff">1</span>], end_cor[<span style="color:#ae81ff">1</span>], npoints)
+</span></span><span style="display:flex;"><span>lon <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>linspace(start_cor[<span style="color:#ae81ff">0</span>], end_cor[<span style="color:#ae81ff">0</span>], npoints)
+</span></span><span style="display:flex;"><span>distarray <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>linspace(<span style="color:#ae81ff">0</span>, dist, npoints)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 創建 DataFrame 來儲存資料</span>
+</span></span><span style="display:flex;"><span>df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame({<span style="color:#e6db74">&#39;Latitude&#39;</span>: lat, <span style="color:#e6db74">&#39;Longtitude&#39;</span>: lon, <span style="color:#e6db74">&#39;h_distance&#39;</span>: distarray})
+</span></span><span style="display:flex;"><span>df[<span style="color:#e6db74">&#39;Observations&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>gdf_pcs <span style="color:#f92672">=</span> gpd<span style="color:#f92672">.</span>GeoDataFrame(df, geometry<span style="color:#f92672">=</span>gpd<span style="color:#f92672">.</span>points_from_xy(df<span style="color:#f92672">.</span>Longtitude, df<span style="color:#f92672">.</span>Latitude))
+</span></span><span style="display:flex;"><span>gdf_pcs<span style="color:#f92672">.</span>crs <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;init&#39;</span>: <span style="color:#e6db74">&#39;epsg:4326&#39;</span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 從 Kriging raster 中讀取對應點的數值</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> index, row <span style="color:#f92672">in</span> gdf_pcs<span style="color:#f92672">.</span>iterrows():
-</span></span><span style="display:flex;"><span>    rows, cols <span style="color:#f92672">=</span> kriging<span style="color:#f92672">.</span>index(row[<span style="color:#e6db74">&#39;geometry&#39;</span>]<span style="color:#f92672">.</span>x,row[<span style="color:#e6db74">&#39;geometry&#39;</span>]<span style="color:#f92672">.</span>y)
-</span></span><span style="display:flex;"><span>    kri_data <span style="color:#f92672">=</span> kriging<span style="color:#f92672">.</span>read(<span style="color:#ae81ff">1</span>)    
+</span></span><span style="display:flex;"><span>    rows, cols <span style="color:#f92672">=</span> kriging<span style="color:#f92672">.</span>index(row[<span style="color:#e6db74">&#39;geometry&#39;</span>]<span style="color:#f92672">.</span>x, row[<span style="color:#e6db74">&#39;geometry&#39;</span>]<span style="color:#f92672">.</span>y)
+</span></span><span style="display:flex;"><span>    kri_data <span style="color:#f92672">=</span> kriging<span style="color:#f92672">.</span>read(<span style="color:#ae81ff">1</span>)
 </span></span><span style="display:flex;"><span>    df[<span style="color:#e6db74">&#39;Observations&#39;</span>]<span style="color:#f92672">.</span>loc[index] <span style="color:#f92672">=</span> kri_data[rows, cols]
-</span></span><span style="display:flex;"><span>profile <span style="color:#f92672">=</span> df[[<span style="color:#e6db74">&#39;h_distance&#39;</span>,<span style="color:#e6db74">&#39;Observations&#39;</span>]]
-</span></span><span style="display:flex;"><span>profile<span style="color:#f92672">.</span>plot(x<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;h_distance&#39;</span>,y<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;Observations&#39;</span>)
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 繪製水平距離和觀測數值的關係圖</span>
+</span></span><span style="display:flex;"><span>profile <span style="color:#f92672">=</span> df[[<span style="color:#e6db74">&#39;h_distance&#39;</span>, <span style="color:#e6db74">&#39;Observations&#39;</span>]]
+</span></span><span style="display:flex;"><span>profile<span style="color:#f92672">.</span>plot(x<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;h_distance&#39;</span>, y<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;Observations&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 關閉 raster 檔</span>
 </span></span><span style="display:flex;"><span>kriging<span style="color:#f92672">.</span>close()
 </span></span></code></pre></div><p><img src="figures/5-2-6-2.png" alt="Python output"></p>
 <h2 id="參考資源">參考資源</h2>
@@ -1009,12 +1109,12 @@ This work is licensed under a <a rel="license" href="http://creativecommons.org/
         <script>
           var contentLangs=['zh'];
         </script>
-        <script src="/js/auto-complete.js?1697343365" defer></script>
-        <script src="/js/lunr.min.js?1697343365" defer></script>
-        <script src="/js/lunr.stemmer.support.min.js?1697343365" defer></script>
-        <script src="/js/lunr.multi.min.js?1697343365" defer></script>
-        <script src="/js/lunr.zh.min.js?1697343365" defer></script>
-        <script src="/js/search.js?1697343365" defer></script>
+        <script src="/js/auto-complete.js?1697458045" defer></script>
+        <script src="/js/lunr.min.js?1697458045" defer></script>
+        <script src="/js/lunr.stemmer.support.min.js?1697458045" defer></script>
+        <script src="/js/lunr.multi.min.js?1697458045" defer></script>
+        <script src="/js/lunr.zh.min.js?1697458045" defer></script>
+        <script src="/js/search.js?1697458045" defer></script>
       </div>
       <div id="content-wrapper" class="highlightable">
         <ul class="topics">
@@ -1039,7 +1139,7 @@ This work is licensed under a <a rel="license" href="http://creativecommons.org/
           <li data-nav-id="/ch7/" title="7. 系統整合應用" class="dd-item"><label for="section-c663021a728355d88e45618764e92f92" ></label><a href="/ch7/">7. 系統整合應用<i class="fas fa-check read-icon"></i></a><ul>
           <li data-nav-id="/ch7/ch7.1/" title="7.1. QGIS 應用" class="dd-item"><a href="/ch7/ch7.1/">7.1. QGIS 應用<i class="fas fa-check read-icon"></i></a></li>
           <li data-nav-id="/ch7/ch7.2/" title="7.2. Tableau 應用" class="dd-item"><a href="/ch7/ch7.2/">7.2. Tableau 應用<i class="fas fa-check read-icon"></i></a></li>
-          <li data-nav-id="/ch7/ch7.3/" title="7.3. Leafmap 應用" class="dd-item"><a href="/ch7/ch7.3/">7.3. Leafmap 應用<i class="fas fa-check read-icon"></i></a></li></ul></li>
+          <li data-nav-id="/ch7/ch7.3/" title="7.3 Leafmap 應用" class="dd-item"><a href="/ch7/ch7.3/">7.3 Leafmap 應用<i class="fas fa-check read-icon"></i></a></li></ul></li>
           <li data-nav-id="/video/" title="教學影片" class="dd-item"><a href="/video/">教學影片<i class="fas fa-check read-icon"></i></a></li>
           <li data-nav-id="/about/" title="關於我們" class="dd-item"><a href="/about/">關於我們<i class="fas fa-check read-icon"></i></a></li>
         </ul>
@@ -1091,14 +1191,14 @@ This work is licensed under a <a rel="license" href="http://creativecommons.org/
       </div>
     </aside>
 
-    <script src="/js/clipboard.min.js?1697343365" defer></script>
-    <script src="/js/perfect-scrollbar.min.js?1697343365" defer></script>
-    <script src="/js/featherlight.min.js?1697343365" defer></script>
-    <script src="/js/jquery.svg.pan.zoom.js?1697343365" defer></script>
-    <script src="/js/mermaid.min.js?1697343365" defer></script>
+    <script src="/js/clipboard.min.js?1697458045" defer></script>
+    <script src="/js/perfect-scrollbar.min.js?1697458045" defer></script>
+    <script src="/js/featherlight.min.js?1697458045" defer></script>
+    <script src="/js/jquery.svg.pan.zoom.js?1697458045" defer></script>
+    <script src="/js/mermaid.min.js?1697458045" defer></script>
     <script>
       window.themeUseMermaid = JSON.parse("{}");
     </script>
-    <script src="/js/theme.js?1697343365" defer></script>
+    <script src="/js/theme.js?1697458045" defer></script>
   </body>
 </html>

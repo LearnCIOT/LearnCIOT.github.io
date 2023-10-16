@@ -16,18 +16,18 @@
     <meta name="author" content="Ling-Jyh Chen">
     <title>5.1. 地理空間篩選 :: Tutorial for CIoT Open Data Applications</title>
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="/css/fontawesome-all.min.css?1697343365" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1697343365" rel="stylesheet"></noscript>
-    <link href="/css/featherlight.min.css?1697343365" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1697343365" rel="stylesheet"></noscript>
-    <link href="/css/auto-complete.css?1697343365" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1697343365" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar.min.css?1697343365" rel="stylesheet">
-    <link href="/css/nucleus.css?1697343365" rel="stylesheet">
-    <link href="/css/fonts.css?1697343365" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1697343365" rel="stylesheet"></noscript>
-    <link href="/css/theme.css?1697343365" rel="stylesheet">
-    <link href="/css/theme-relearn-light.css?1697343365" rel="stylesheet" id="variant-style">
-    <link href="/css/ie.css?1697343365" rel="stylesheet">
-    <link href="/css/variant.css?1697343365" rel="stylesheet">
-    <link href="/css/print.css?1697343365" rel="stylesheet" media="print">
-    <script src="/js/variant.js?1697343365"></script>
+    <link href="/css/fontawesome-all.min.css?1697458045" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1697458045" rel="stylesheet"></noscript>
+    <link href="/css/featherlight.min.css?1697458045" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1697458045" rel="stylesheet"></noscript>
+    <link href="/css/auto-complete.css?1697458045" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1697458045" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar.min.css?1697458045" rel="stylesheet">
+    <link href="/css/nucleus.css?1697458045" rel="stylesheet">
+    <link href="/css/fonts.css?1697458045" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1697458045" rel="stylesheet"></noscript>
+    <link href="/css/theme.css?1697458045" rel="stylesheet">
+    <link href="/css/theme-relearn-light.css?1697458045" rel="stylesheet" id="variant-style">
+    <link href="/css/ie.css?1697458045" rel="stylesheet">
+    <link href="/css/variant.css?1697458045" rel="stylesheet">
+    <link href="/css/print.css?1697458045" rel="stylesheet" media="print">
+    <script src="/js/variant.js?1697458045"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -43,7 +43,7 @@
       var baseUriFull='https:\/\/LearnCIOT.github.io/';
       window.variants && variants.init( [ 'relearn-light' ] );
     </script>
-    <script src="/js/jquery.min.js?1697343365" defer></script>
+    <script src="/js/jquery.min.js?1697458045" defer></script>
 <meta property="fb:app_id" content="601826851395774" />
   </head>
   <body class="default-animation" data-url="/ch5/ch5.1/">
@@ -288,64 +288,74 @@ if (!doNotTrack) {
 <p>民生公共物聯網的測站都有其空間位置，由於同一區域內常有類似的環境因子，所以它們的感測數值也會具有類似的起伏趨勢，而這也就是地理學的第一定律：“All things are related, but nearby things are more related than distant things.” (Waldo R. Tobler)</p>
 <p>此外，單一測站的感測數據有可能因為局部干擾因子的影響，而產生較大的起伏，所以為進一步確認數據的可信度，我們會需要以單一測站為中心，依照其所屬的行政區或是指定距離 (半徑)，選取鄰近的測站ID與數值，並將其以表單或地圖的方式呈現，以便進行比對。</p>
 <p>這個章節中，我們會利用環保署的空品測站、氣象局的局屬測站以及水利署在各縣市佈建的淹水感測器，示範如何利用地理空間篩選測站，並以其「位置」與「數值」為基礎，轉化成可利用的空間資訊。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 引入 matplotlib、seaborn 等繪圖模組</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> seaborn <span style="color:#66d9ef">as</span> sns
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 引入 pandas 和 numpy 進行數據分析</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> pandas <span style="color:#66d9ef">as</span> pd
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 引入 urllib.request 來處理網路資源</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> urllib.request
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 引入 ssl 和 json 來處理安全連線和 JSON 格式</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> ssl
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> json
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#install geopython libraries</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 安裝 geopython 相關套件，主要是用在地理資料處理</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>apt install gdal<span style="color:#f92672">-</span>bin python<span style="color:#f92672">-</span>gdal python3<span style="color:#f92672">-</span>gdal
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#install python3-rtree - Geopandas requirement</span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>apt install python3<span style="color:#f92672">-</span>rtree 
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#install geopandas</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 安裝 python3-rtree，這是 Geopandas 的需求</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>apt install python3<span style="color:#f92672">-</span>rtree
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 安裝 Geopandas，用於處理地理資料</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>pip install geopandas
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#install descartes - Geopandas requirement</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 安裝 descartes，也是 Geopandas 的需求</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>pip install descartes
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 引入 geopandas 模組</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> geopandas <span style="color:#66d9ef">as</span> gpd
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 安裝 pyCIOT 模組，這是專門用於 CIoT 數據處理的</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>pip install pyCIOT
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 引入 pyCIOT 的數據處理模組</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> pyCIOT.data <span style="color:#66d9ef">as</span> CIoT
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 前往政府開放資料庫下載 縣市界線(TWD97經緯度) 的資料，並解壓縮到名為 shp 的資料夾</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用 wget 指令下載一個名為 &#34;shp.zip&#34; 的壓縮檔，檔案來源網址是內政部開放資料平台</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>wget <span style="color:#f92672">-</span>O <span style="color:#e6db74">&#34;shp.zip&#34;</span> <span style="color:#f92672">-</span>q <span style="color:#e6db74">&#34;https://data.moi.gov.tw/MoiOD/System/DownloadFile.aspx?DATA=72874C55-884D-4CEA-B7D6-F60B0BE85AB0&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用 unzip 指令解壓縮 &#34;shp.zip&#34;，並將解壓縮的內容存到 &#34;shp&#34; 資料夾</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>unzip shp<span style="color:#f92672">.</span>zip <span style="color:#f92672">-</span>d shp
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 以水利署淹水感測器資料為例，其中，資料集 gpd 為感測器數值與位置資料、basemap 為 county.shp (台灣縣市邊界)</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 以pyCIOT取得資料</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 從 pyCIOT 取得水利署淹水感測器資料和天氣資料</span>
 </span></span><span style="display:flex;"><span>wa <span style="color:#f92672">=</span> CIoT<span style="color:#f92672">.</span>Water()<span style="color:#f92672">.</span>get_data(src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;FLOODING:WRA&#34;</span>)
 </span></span><span style="display:flex;"><span>wa2 <span style="color:#f92672">=</span> CIoT<span style="color:#f92672">.</span>Water()<span style="color:#f92672">.</span>get_data(src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;FLOODING:WRA2&#34;</span>)
 </span></span><span style="display:flex;"><span>wea_list <span style="color:#f92672">=</span> CIoT<span style="color:#f92672">.</span>Weather()<span style="color:#f92672">.</span>get_station(<span style="color:#e6db74">&#39;GENERAL:CWB&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 讀取台灣縣市邊界的 shapefile</span>
 </span></span><span style="display:flex;"><span>county <span style="color:#f92672">=</span> gpd<span style="color:#f92672">.</span>read_file(<span style="color:#e6db74">&#39;county.shp&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 篩選出嘉義縣和嘉義市的資料作為底圖</span>
 </span></span><span style="display:flex;"><span>basemap <span style="color:#f92672">=</span> county<span style="color:#f92672">.</span>loc[county[<span style="color:#e6db74">&#39;COUNTYNAME&#39;</span>]<span style="color:#f92672">.</span>isin([<span style="color:#e6db74">&#34;嘉義縣&#34;</span>,<span style="color:#e6db74">&#34;嘉義市&#34;</span>])]
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 整理資料並轉成 geopandas.GeoDataFrame 格式</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 合併淹水感測器的資料並轉成 DataFrame 格式</span>
 </span></span><span style="display:flex;"><span>flood_list <span style="color:#f92672">=</span> wa <span style="color:#f92672">+</span> wa2
-</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>flood_df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame([],columns <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;name&#39;</span>,  <span style="color:#e6db74">&#39;Observations&#39;</span>,<span style="color:#e6db74">&#39;lon&#39;</span>, <span style="color:#e6db74">&#39;lat&#39;</span>])
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 迴圈處理每個感測器的資料</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> flood_list:
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#print(i[&#39;data&#39;][0])</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> len(i[<span style="color:#e6db74">&#39;data&#39;</span>])<span style="color:#f92672">&gt;</span><span style="color:#ae81ff">0</span>:
 </span></span><span style="display:flex;"><span>        df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame([[i[<span style="color:#e6db74">&#39;properties&#39;</span>][<span style="color:#e6db74">&#39;stationName&#39;</span>],i[<span style="color:#e6db74">&#39;data&#39;</span>][<span style="color:#ae81ff">0</span>][<span style="color:#e6db74">&#39;values&#39;</span>][<span style="color:#ae81ff">0</span>][<span style="color:#e6db74">&#39;value&#39;</span>],i[<span style="color:#e6db74">&#39;location&#39;</span>][<span style="color:#e6db74">&#39;longitude&#39;</span>],i[<span style="color:#e6db74">&#39;location&#39;</span>][<span style="color:#e6db74">&#39;latitude&#39;</span>]]],columns <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;name&#39;</span>,  <span style="color:#e6db74">&#39;Observations&#39;</span>,<span style="color:#e6db74">&#39;lon&#39;</span>, <span style="color:#e6db74">&#39;lat&#39;</span>])
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> :
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>:
 </span></span><span style="display:flex;"><span>        df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame([[i[<span style="color:#e6db74">&#39;properties&#39;</span>][<span style="color:#e6db74">&#39;stationName&#39;</span>],<span style="color:#f92672">-</span><span style="color:#ae81ff">999</span>,<span style="color:#f92672">-</span><span style="color:#ae81ff">999</span>,<span style="color:#f92672">-</span><span style="color:#ae81ff">999</span>]],columns <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;name&#39;</span>,  <span style="color:#e6db74">&#39;Observations&#39;</span>,<span style="color:#e6db74">&#39;lon&#39;</span>, <span style="color:#e6db74">&#39;lat&#39;</span>])
 </span></span><span style="display:flex;"><span>    flood_df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>concat([flood_df,df])
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#print(df)</span>
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 去除重複站點並排序</span>
 </span></span><span style="display:flex;"><span>result_df <span style="color:#f92672">=</span> flood_df<span style="color:#f92672">.</span>drop_duplicates(subset<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;name&#39;</span>], keep<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;first&#39;</span>)
 </span></span><span style="display:flex;"><span>station<span style="color:#f92672">=</span>result_df<span style="color:#f92672">.</span>sort_values(by<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;lon&#39;</span>, <span style="color:#e6db74">&#39;lat&#39;</span>])
 </span></span><span style="display:flex;"><span>station <span style="color:#f92672">=</span> station[station<span style="color:#f92672">.</span>lon<span style="color:#f92672">!=-</span><span style="color:#ae81ff">999</span>]
 </span></span><span style="display:flex;"><span>station<span style="color:#f92672">.</span>reset_index(inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>, drop<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 轉成 GeoDataFrame 格式，方便地理資訊處理</span>
 </span></span><span style="display:flex;"><span>gdf_flood <span style="color:#f92672">=</span> gpd<span style="color:#f92672">.</span>GeoDataFrame(
 </span></span><span style="display:flex;"><span>    station, geometry<span style="color:#f92672">=</span>gpd<span style="color:#f92672">.</span>points_from_xy(station<span style="color:#f92672">.</span>lon, station<span style="color:#f92672">.</span>lat),crs<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;EPSG:4326&#34;</span>)
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 同樣地，整理天氣資料</span>
 </span></span><span style="display:flex;"><span>weather_df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame([],columns <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;name&#39;</span>,<span style="color:#e6db74">&#39;lon&#39;</span>, <span style="color:#e6db74">&#39;lat&#39;</span>])
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> wea_list:
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#print(i[&#39;data&#39;][0])</span>
 </span></span><span style="display:flex;"><span>    df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame([[i[<span style="color:#e6db74">&#39;name&#39;</span>],i[<span style="color:#e6db74">&#39;location&#39;</span>][<span style="color:#e6db74">&#39;longitude&#39;</span>],i[<span style="color:#e6db74">&#39;location&#39;</span>][<span style="color:#e6db74">&#39;latitude&#39;</span>]]],columns <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;name&#39;</span>,<span style="color:#e6db74">&#39;lon&#39;</span>, <span style="color:#e6db74">&#39;lat&#39;</span>])
-</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    weather_df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>concat([weather_df,df])
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#print(df)</span>
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 去除重複站點並排序，然後轉成 GeoDataFrame</span>
 </span></span><span style="display:flex;"><span>result_df <span style="color:#f92672">=</span> weather_df<span style="color:#f92672">.</span>drop_duplicates(subset<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;name&#39;</span>], keep<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;first&#39;</span>)
 </span></span><span style="display:flex;"><span>station<span style="color:#f92672">=</span>result_df<span style="color:#f92672">.</span>sort_values(by<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;lon&#39;</span>, <span style="color:#e6db74">&#39;lat&#39;</span>])
 </span></span><span style="display:flex;"><span>station<span style="color:#f92672">.</span>reset_index(inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>, drop<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
@@ -353,44 +363,58 @@ if (!doNotTrack) {
 </span></span><span style="display:flex;"><span>    station, geometry<span style="color:#f92672">=</span>gpd<span style="color:#f92672">.</span>points_from_xy(station<span style="color:#f92672">.</span>lon, station<span style="color:#f92672">.</span>lat),crs<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;EPSG:4326&#34;</span>)
 </span></span></code></pre></div><h2 id="交集-intersect">交集 (Intersect)</h2>
 <p>一般而言，手邊有很多的測站點位時，我們可以利用村里或鄉鎮等行政區界為範圍，利用資料的在空間上的交集 (intersect) 以篩選出特定行政區內的測站ID，並以API擷取這些測站的：瞬時值、小時平均值、日平均值、週平均值，這樣我們就可以檢視同一行政區內的測站，是否有類似的數值趨勢，抑或哪些測站的數值與其他測站有明顯的差異。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 引入 matplotlib 和 seaborn 用於繪圖</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> seaborn <span style="color:#66d9ef">as</span> sns
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 設置畫布和子圖大小</span>
 </span></span><span style="display:flex;"><span>fig, ax <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplots(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">10</span>))
-</span></span><span style="display:flex;"><span>ax <span style="color:#f92672">=</span> sns<span style="color:#f92672">.</span>scatterplot(x<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;lon&#39;</span>, y<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;lat&#39;</span>, data<span style="color:#f92672">=</span>gdf_weather) 
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># this is plotting the datapoints from the EPA dataframe</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用 seaborn 的 scatterplot 功能，繪製氣象站的經緯度</span>
+</span></span><span style="display:flex;"><span>ax <span style="color:#f92672">=</span> sns<span style="color:#f92672">.</span>scatterplot(x<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;lon&#39;</span>, y<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;lat&#39;</span>, data<span style="color:#f92672">=</span>gdf_weather)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用 Geopandas 的 plot 功能，繪製嘉義縣和嘉義市的邊界</span>
 </span></span><span style="display:flex;"><span>basemap<span style="color:#f92672">.</span>plot(ax<span style="color:#f92672">=</span>ax, facecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;none&#39;</span>, edgecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;purple&#39;</span>);
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># plotting the city&#39;s boundaries here, with facecolor = none to </span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># remove the polygon&#39;s fill color</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 調整畫布的排版</span>
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>tight_layout();
 </span></span></code></pre></div><p><img src="figures/5-1-1-1.png" alt="Python output"></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>basemap <span style="color:#f92672">=</span> basemap<span style="color:#f92672">.</span>set_crs(<span style="color:#ae81ff">4326</span>,allow_override<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
-</span></span><span style="display:flex;"><span>intersected_data <span style="color:#f92672">=</span> gpd<span style="color:#f92672">.</span>overlay(gdf_weather, basemap, how<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;intersection&#39;</span>) 
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># selecting the polygon&#39;s geometry field to filter out points that </span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># are not overlaid</span>
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 資料剩下感測器與地理邊界交集重疊的點位</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 將 basemap 的坐標系統設為 EPSG:4326，這樣才能和 gdf_weather 進行操作</span>
+</span></span><span style="display:flex;"><span>basemap <span style="color:#f92672">=</span> basemap<span style="color:#f92672">.</span>set_crs(<span style="color:#ae81ff">4326</span>, allow_override<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用 Geopandas 的 overlay 函式來找出和嘉義縣、嘉義市邊界重疊的氣象站</span>
+</span></span><span style="display:flex;"><span>intersected_data <span style="color:#f92672">=</span> gpd<span style="color:#f92672">.</span>overlay(gdf_weather, basemap, how<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;intersection&#39;</span>)
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 設置畫布和子圖大小</span>
 </span></span><span style="display:flex;"><span>fig, ax <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplots(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">10</span>))
-</span></span><span style="display:flex;"><span>ax <span style="color:#f92672">=</span> sns<span style="color:#f92672">.</span>scatterplot(x<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;lon&#39;</span>, y<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;lat&#39;</span>, data<span style="color:#f92672">=</span>intersected_data) 
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 繪製過濾後，只在嘉義縣和嘉義市內的氣象站位置</span>
+</span></span><span style="display:flex;"><span>ax <span style="color:#f92672">=</span> sns<span style="color:#f92672">.</span>scatterplot(x<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;lon&#39;</span>, y<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;lat&#39;</span>, data<span style="color:#f92672">=</span>intersected_data)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 繪製嘉義縣和嘉義市的邊界</span>
 </span></span><span style="display:flex;"><span>basemap<span style="color:#f92672">.</span>plot(ax<span style="color:#f92672">=</span>ax, facecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;none&#39;</span>, edgecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;purple&#39;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 調整畫布的排版</span>
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>tight_layout();
 </span></span></code></pre></div><p><img src="figures/5-1-1-2.png" alt="Python output"></p>
 <h2 id="緩衝區-buffer">緩衝區 (Buffer)</h2>
 <p>此外，部分測站也有可能是位在兩個行政界的邊界處，所以用行政界當成選取的標準，就有可能出現偏誤。所以這種狀況下，我們可以利用緩衝區 (buffer) 的概念，以測站的座標位置為中心，並指定一個距離半徑以建立一個虛擬的圓形 (圖1)，並以此範圍去查找有幾何相交的測站位置。</p>
 <p>當我們掌握了緩衝區的概念後，我們也可以某個地標 (例如：學校、公園、工廠&hellip;）標為中心，去查找鄰近的測站。甚至，我們可以用一個線段 (Line 例如：道路、河流…) 或一個區域 (polygon 例如：公園、工業區)，去建立一個查找範圍，以更具體地找出自己想要的測站點位。在這個範例中，我們以氣象局的局屬氣象站為中心，去建立緩衝區。</p>
 <p><img src="figures/5-1-2-1.png" alt="圖1：不同緩衝區的概念示意圖"></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 設定buffer 緩衝帶邊界距離 （此處設定0.05，因為x,y 為經緯度，1單位距離約100km）</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 設置畫布和子圖大小</span>
 </span></span><span style="display:flex;"><span>fig, ax <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplots(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">10</span>))
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用 Geopandas 的 buffer 函式建立緩衝帶，這邊緩衝帶的寬度設為 0.05</span>
 </span></span><span style="display:flex;"><span>buffer <span style="color:#f92672">=</span> intersected_data<span style="color:#f92672">.</span>buffer(<span style="color:#ae81ff">0.05</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 繪製緩衝帶，透明度設為 0.5</span>
 </span></span><span style="display:flex;"><span>buffer<span style="color:#f92672">.</span>plot(ax<span style="color:#f92672">=</span>ax, alpha<span style="color:#f92672">=</span><span style="color:#ae81ff">0.5</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 繪製過濾後的氣象站位置，顏色設為紅色，透明度為 0.5</span>
 </span></span><span style="display:flex;"><span>intersected_data<span style="color:#f92672">.</span>plot(ax<span style="color:#f92672">=</span>ax, color<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;red&#39;</span>, alpha<span style="color:#f92672">=</span><span style="color:#ae81ff">0.5</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 繪製嘉義縣和嘉義市的邊界</span>
 </span></span><span style="display:flex;"><span>basemap<span style="color:#f92672">.</span>plot(ax<span style="color:#f92672">=</span>ax, facecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;none&#39;</span>, edgecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;purple&#39;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 調整畫布的排版</span>
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>tight_layout();
 </span></span></code></pre></div><p><img src="figures/5-1-2-2.png" alt="Python output"></p>
 <h2 id="多重緩衝區-multi-ring-buffer">多重緩衝區 (Multi-ring buffer)</h2>
 <p>當然，我們也可以設定不同的距離半徑 ，進而把緩衝區畫成多個同心圓 (圖2)，這樣就可以利用不同的遠近/階層，以將鄰近的測站分組，從而檢視越鄰近的測站是否有越相近的數值趨勢。在這個案例中，我們可以用氣象局的局屬氣象站去建立多重緩衝區，並檢視不同的緩衝區內的水利署淹水感測器，從而探勘：雨量、水平距離與淹水高度之間的關係。</p>
 <p><img src="figures/5-1-3-1.png" alt="圖2：多重緩衝區的概念圖"></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 利用不同的經緯度作為半徑以建立多重緩衝區，並依照 0.05度=藍色；0.1度=綠色；0.2度=橘色；0.3=紅色 進行顏色設定</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 設置畫布和子圖大小</span>
 </span></span><span style="display:flex;"><span>fig, ax <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplots(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">10</span>))
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 建立不同寬度的緩衝帶，並分別以不同顏色繪製</span>
 </span></span><span style="display:flex;"><span>buffer_03 <span style="color:#f92672">=</span> intersected_data<span style="color:#f92672">.</span>buffer(<span style="color:#ae81ff">0.3</span>)
 </span></span><span style="display:flex;"><span>buffer_03<span style="color:#f92672">.</span>plot(ax<span style="color:#f92672">=</span>ax, color<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;red&#39;</span>, alpha<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)
 </span></span><span style="display:flex;"><span>buffer_02 <span style="color:#f92672">=</span> intersected_data<span style="color:#f92672">.</span>buffer(<span style="color:#ae81ff">0.2</span>)
@@ -399,29 +423,36 @@ if (!doNotTrack) {
 </span></span><span style="display:flex;"><span>buffer_01<span style="color:#f92672">.</span>plot(ax<span style="color:#f92672">=</span>ax, color<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;green&#39;</span>, alpha<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)
 </span></span><span style="display:flex;"><span>buffer_005 <span style="color:#f92672">=</span> intersected_data<span style="color:#f92672">.</span>buffer(<span style="color:#ae81ff">0.05</span>)
 </span></span><span style="display:flex;"><span>buffer_005<span style="color:#f92672">.</span>plot(ax<span style="color:#f92672">=</span>ax, alpha<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 繪製原始交集點，用黑色表示</span>
 </span></span><span style="display:flex;"><span>intersected_data<span style="color:#f92672">.</span>plot(ax<span style="color:#f92672">=</span>ax, color<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;black&#39;</span>, alpha<span style="color:#f92672">=</span><span style="color:#ae81ff">0.5</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 用最大的 buffer 跟淹水感測器 intersect</span>
-</span></span><span style="display:flex;"><span>buffer <span style="color:#f92672">=</span> gpd<span style="color:#f92672">.</span>GeoDataFrame(buffer_03,geometry<span style="color:#f92672">=</span>buffer_03)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 建立最大緩衝帶（0.3）的 GeoDataFrame，然後和淹水感測器進行空間交集運算</span>
+</span></span><span style="display:flex;"><span>buffer <span style="color:#f92672">=</span> gpd<span style="color:#f92672">.</span>GeoDataFrame(buffer_03, geometry<span style="color:#f92672">=</span>buffer_03)
 </span></span><span style="display:flex;"><span>buffer <span style="color:#f92672">=</span> buffer<span style="color:#f92672">.</span>to_crs(<span style="color:#ae81ff">4326</span>)
-</span></span><span style="display:flex;"><span>intersected_flood <span style="color:#f92672">=</span> gpd<span style="color:#f92672">.</span>overlay(gdf_flood, buffer, how<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;intersection&#39;</span>) 
+</span></span><span style="display:flex;"><span>intersected_flood <span style="color:#f92672">=</span> gpd<span style="color:#f92672">.</span>overlay(gdf_flood, buffer, how<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;intersection&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 繪製交集後的淹水感測器位置，用淺灰色表示</span>
 </span></span><span style="display:flex;"><span>intersected_flood<span style="color:#f92672">.</span>plot(ax<span style="color:#f92672">=</span>ax, color<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;lightgray&#39;</span>, alpha<span style="color:#f92672">=</span><span style="color:#ae81ff">0.5</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 繪製嘉義縣和嘉義市的邊界</span>
 </span></span><span style="display:flex;"><span>basemap<span style="color:#f92672">.</span>plot(ax<span style="color:#f92672">=</span>ax, facecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;none&#39;</span>, edgecolor<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;purple&#39;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 調整畫布的排版</span>
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>tight_layout();
 </span></span></code></pre></div><p><img src="figures/5-1-3-2.png" alt="Python output"></p>
 <h2 id="距離矩陣-distance-matrix">距離矩陣 (Distance Matrix)</h2>
-<p>最後，因為每一個測站都有具體的座標數值，所以我們也可以三角函數結合座標數值，取得兩兩測站間的絕對距離，從而建立所有測站間的距離矩陣 (distance matrix)，而這樣的矩陣可以協助我們快速檢視兩兩測站間的距離關係，並從中確認測站是否具有鄰近性，從而以更一步確認感測間的數值趨勢是否與其距離具有相關性 (圖3)。在這個範例中，我們可以利用台北市內的淹水感測器位置，並將其轉換成為距離矩陣，以協助我們掌握淹水是否具有鄰近關係。</p>
+<p>最後，因為每一個測站都有具體的座標數值，所以我們也可以三角函式結合座標數值，取得兩兩測站間的絕對距離，從而建立所有測站間的距離矩陣 (distance matrix)，而這樣的矩陣可以協助我們快速檢視兩兩測站間的距離關係，並從中確認測站是否具有鄰近性，從而以更一步確認感測間的數值趨勢是否與其距離具有相關性 (圖3)。在這個範例中，我們可以利用台北市內的淹水感測器位置，並將其轉換成為距離矩陣，以協助我們掌握淹水是否具有鄰近關係。</p>
 <p><img src="figures/5-1-4-1.png" alt="圖3：距離矩陣的概念圖"></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 製作每個感測器位置之間的距離矩陣，首先將資料整理成座標資料</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 為了製作距離矩陣，先將 gdf_weather 資料整理一下，新增一個 &#39;ID&#39; 欄位來存放 index</span>
 </span></span><span style="display:flex;"><span>gdf_weather[<span style="color:#e6db74">&#34;ID&#34;</span>] <span style="color:#f92672">=</span> gdf_weather<span style="color:#f92672">.</span>index
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 挑選出需要的欄位（&#39;ID&#39;, &#39;lon&#39;, &#39;lat&#39;），並建立一個新的 DataFrame</span>
 </span></span><span style="display:flex;"><span>df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame(gdf_weather, columns<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;ID&#39;</span>,<span style="color:#e6db74">&#39;lon&#39;</span>, <span style="color:#e6db74">&#39;lat&#39;</span>])
-</span></span><span style="display:flex;"><span>df<span style="color:#f92672">.</span>set_index(<span style="color:#e6db74">&#39;ID&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 將 &#39;ID&#39; 設定為 DataFrame 的 index</span>
+</span></span><span style="display:flex;"><span>df<span style="color:#f92672">.</span>set_index(<span style="color:#e6db74">&#39;ID&#39;</span>, inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
 </span></span></code></pre></div><p><img src="figures/5-1-4-2.png" alt="Python output"></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 計算感測器位置彼此的距離，並轉化為距離矩陣</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 引入 scipy 的 distance_matrix 函式來計算距離</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> scipy.spatial <span style="color:#f92672">import</span> distance_matrix
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>pd<span style="color:#f92672">.</span>DataFrame(distance_matrix(df<span style="color:#f92672">.</span>values, df<span style="color:#f92672">.</span>values), 
-</span></span><span style="display:flex;"><span>							index<span style="color:#f92672">=</span>df<span style="color:#f92672">.</span>index, columns<span style="color:#f92672">=</span>df<span style="color:#f92672">.</span>index)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用 distance_matrix 函式計算 df（感測器的經緯度）彼此之間的距離</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 輸出會是一個距離矩陣，然後再轉成 DataFrame 格式</span>
+</span></span><span style="display:flex;"><span>distance_df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame(distance_matrix(df<span style="color:#f92672">.</span>values, df<span style="color:#f92672">.</span>values), index<span style="color:#f92672">=</span>df<span style="color:#f92672">.</span>index, columns<span style="color:#f92672">=</span>df<span style="color:#f92672">.</span>index)
 </span></span></code></pre></div><p><img src="figures/5-1-4-3.png" alt="Python output"></p>
 <h2 id="小結">小結</h2>
 <p>透過前述的方式，我們可以從地理空間 (行政區或鄰近性)  進行測站的篩選機制，並從而能從地理空間的特性檢視測站間的數值相關性。</p>
@@ -536,12 +567,12 @@ This work is licensed under a <a rel="license" href="http://creativecommons.org/
         <script>
           var contentLangs=['zh'];
         </script>
-        <script src="/js/auto-complete.js?1697343365" defer></script>
-        <script src="/js/lunr.min.js?1697343365" defer></script>
-        <script src="/js/lunr.stemmer.support.min.js?1697343365" defer></script>
-        <script src="/js/lunr.multi.min.js?1697343365" defer></script>
-        <script src="/js/lunr.zh.min.js?1697343365" defer></script>
-        <script src="/js/search.js?1697343365" defer></script>
+        <script src="/js/auto-complete.js?1697458045" defer></script>
+        <script src="/js/lunr.min.js?1697458045" defer></script>
+        <script src="/js/lunr.stemmer.support.min.js?1697458045" defer></script>
+        <script src="/js/lunr.multi.min.js?1697458045" defer></script>
+        <script src="/js/lunr.zh.min.js?1697458045" defer></script>
+        <script src="/js/search.js?1697458045" defer></script>
       </div>
       <div id="content-wrapper" class="highlightable">
         <ul class="topics">
@@ -566,7 +597,7 @@ This work is licensed under a <a rel="license" href="http://creativecommons.org/
           <li data-nav-id="/ch7/" title="7. 系統整合應用" class="dd-item"><label for="section-c663021a728355d88e45618764e92f92" ></label><a href="/ch7/">7. 系統整合應用<i class="fas fa-check read-icon"></i></a><ul>
           <li data-nav-id="/ch7/ch7.1/" title="7.1. QGIS 應用" class="dd-item"><a href="/ch7/ch7.1/">7.1. QGIS 應用<i class="fas fa-check read-icon"></i></a></li>
           <li data-nav-id="/ch7/ch7.2/" title="7.2. Tableau 應用" class="dd-item"><a href="/ch7/ch7.2/">7.2. Tableau 應用<i class="fas fa-check read-icon"></i></a></li>
-          <li data-nav-id="/ch7/ch7.3/" title="7.3. Leafmap 應用" class="dd-item"><a href="/ch7/ch7.3/">7.3. Leafmap 應用<i class="fas fa-check read-icon"></i></a></li></ul></li>
+          <li data-nav-id="/ch7/ch7.3/" title="7.3 Leafmap 應用" class="dd-item"><a href="/ch7/ch7.3/">7.3 Leafmap 應用<i class="fas fa-check read-icon"></i></a></li></ul></li>
           <li data-nav-id="/video/" title="教學影片" class="dd-item"><a href="/video/">教學影片<i class="fas fa-check read-icon"></i></a></li>
           <li data-nav-id="/about/" title="關於我們" class="dd-item"><a href="/about/">關於我們<i class="fas fa-check read-icon"></i></a></li>
         </ul>
@@ -618,14 +649,14 @@ This work is licensed under a <a rel="license" href="http://creativecommons.org/
       </div>
     </aside>
 
-    <script src="/js/clipboard.min.js?1697343365" defer></script>
-    <script src="/js/perfect-scrollbar.min.js?1697343365" defer></script>
-    <script src="/js/featherlight.min.js?1697343365" defer></script>
-    <script src="/js/jquery.svg.pan.zoom.js?1697343365" defer></script>
-    <script src="/js/mermaid.min.js?1697343365" defer></script>
+    <script src="/js/clipboard.min.js?1697458045" defer></script>
+    <script src="/js/perfect-scrollbar.min.js?1697458045" defer></script>
+    <script src="/js/featherlight.min.js?1697458045" defer></script>
+    <script src="/js/jquery.svg.pan.zoom.js?1697458045" defer></script>
+    <script src="/js/mermaid.min.js?1697458045" defer></script>
     <script>
       window.themeUseMermaid = JSON.parse("{}");
     </script>
-    <script src="/js/theme.js?1697343365" defer></script>
+    <script src="/js/theme.js?1697458045" defer></script>
   </body>
 </html>

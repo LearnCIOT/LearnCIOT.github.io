@@ -82,7 +82,7 @@ Previous Next &amp;nbsp; &amp;nbsp; Page: / &amp;nbsp; &amp;nbsp; Download </des
       <description>7. 系統整合應用 在這個主題中，我們將著重在民生公共物聯網開放資料與其他應用軟體的整合應用，透過其他應用軟體的專業功能，進一步深化與發揮民生公共物聯網開放資料的價值。
 7.1. QGIS 應用我們介紹使用 QGIS 系統進行的地理資料呈現，並且以Civil IoT Taiwan 的資料當作範例，利用點擊拖拉的方式，進行地理空間分析。同時我們也討論 QGIS 軟體的優缺點與使用時機。
 7.2. Tableau 應用我們介紹使用 Tableau 工具呈現民生公共物聯網的開放資料，並使用空品資料和災害通報資料進行兩個範例演示。我們介紹如何使用工作表、儀表板和文本來建立互動式的資料視覺化系統，方便使用者近一步深入探索。我們同時提供豐富的參考資料供使用者學習參考。
-7.3. Leafmap 應用我們介紹 leafmap 套件在民生公共物聯網資料平台中使用不同類型數據進行地理信息表示和空間分析的能力，並演示了 leafmap 和 streamlit 套件的結合共同構建 Web GIS 的應用。透過跨域與跨工具的資源整合，將能拓展讀者對數據分析和信息服務未來的想像。
+7.3 Leafmap 應用我們介紹 leafmap 套件在民生公共物聯網資料平台中使用不同類型數據進行地理信息表示和空間分析的能力，並演示了 leafmap 和 streamlit 套件的結合共同構建 Web GIS 的應用。透過跨域與跨工具的資源整合，將能拓展讀者對數據分析和信息服務未來的想像。
 Previous Next &amp;nbsp; &amp;nbsp; Page: / &amp;nbsp; &amp;nbsp; Download </description>
     </item>
     <item>
@@ -133,7 +133,7 @@ pyCIOT API 是什麼 政府開放資料現已有非常多種類的資料及窗�
       <description>Table Of Contents 交集 (Intersect) 緩衝區 (Buffer) 多重緩衝區 (Multi-ring buffer) 距離矩陣 (Distance Matrix) 小結 民生公共物聯網的測站都有其空間位置，由於同一區域內常有類似的環境因子，所以它們的感測數值也會具有類似的起伏趨勢，而這也就是地理學的第一定律：“All things are related, but nearby things are more related than distant things.” (Waldo R. Tobler)
 此外，單一測站的感測數據有可能因為局部干擾因子的影響，而產生較大的起伏，所以為進一步確認數據的可信度，我們會需要以單一測站為中心，依照其所屬的行政區或是指定距離 (半徑)，選取鄰近的測站ID與數值，並將其以表單或地圖的方式呈現，以便進行比對。
 這個章節中，我們會利用環保署的空品測站、氣象局的局屬測站以及水利署在各縣市佈建的淹水感測器，示範如何利用地理空間篩選測站，並以其「位置」與「數值」為基礎，轉化成可利用的空間資訊。
-import matplotlib.pyplot as plt import seaborn as sns import pandas as pd import numpy as np import urllib.request import ssl import json #install geopython libraries !apt install gdal-bin python-gdal python3-gdal #install python3-rtree - Geopandas requirement !apt install python3-rtree #install geopandas !</description>
+# 引入 matplotlib、seaborn 等繪圖模組 import matplotlib.pyplot as plt import seaborn as sns # 引入 pandas 和 numpy 進行數據分析 import pandas as pd import numpy as np # 引入 urllib.request 來處理網路資源 import urllib.request # 引入 ssl 和 json 來處理安全連線和 JSON 格式 import ssl import json # 安裝 geopython 相關套件，主要是用在地理資料處理 !</description>
     </item>
     <item>
       <title>7.1. QGIS 應用</title>

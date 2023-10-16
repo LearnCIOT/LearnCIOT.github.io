@@ -13,7 +13,7 @@
       <guid>https://LearnCIOT.github.io/ch5/ch5.2/</guid>
       <description>Table Of Contents 勢力分佈圖 (Voronoi diagram) 最小範圍多邊形/凸包 (Convex hull) 空間群聚 (Clustering) 密度 (Kernel density) 空間內插 (Spatial interpolation) 反距離加權法 (Inverse Distance Weighting) 克力金法 (Kriging) 最近鄰居插值 (Nearest neighbor Interpolation) 空間內插後的資料處理 擷取等值線資料 (contour) 擷取橫切面的資料 (Profile) 參考資源 廣布在生活環境中的微型測站，協助我們掌握細緻的環境變化，並可據以決策跟行動。所以，清楚地掌握測站間的分布和數據特性，也是我們在分析測站數據時的重要基礎。這些測站除了本身的位置可能會形成某種幾何結構或空間群聚。同時，我們也可以依照測站位置與數值的差異，去推估沒有測站的區域的數值，從而獲得一個更為全面的數值分佈狀況，並從中探索感測數值與環境因子間的相關性。在這一個段落中，我們會利用水利署在不同縣市的淹水感測器與地下水位站資料，來進行一些簡單的空間分析。
 勢力分佈圖 (Voronoi diagram) 首先，我們可能需要釐清個別測站的服務/防守範圍，並以此範圍中的測站數據來代表該區的現況。這個時候，我們可以利用沃羅諾伊圖（voronoi diagram）的方法去找尋這個範圍。沃羅諾伊圖的原理是在兩個相鄰測站間建立一條垂直平分線段，並藉由整合這些線段以構成一個多邊形；每個多邊形範圍的中心點就是測站，而該測站的數值則約可代表這個範圍內的數值。在這個範例中，我們嘗試利用嘉義縣、嘉義市的淹水感測器資料，去練習建立沃羅諾伊圖，這樣我們就可以初略知道這些淹水感測器的勢力分佈範圍。
-import matplotlib.pyplot as plt import seaborn as sns import pandas as pd import numpy as np import urllib.request import ssl import json #install geopython libraries !apt install gdal-bin python-gdal python3-gdal #install python3-rtree - Geopandas requirement !</description>
+# 引入所需的模組 import matplotlib.pyplot as plt import seaborn as sns import pandas as pd import numpy as np import urllib.request import ssl import json # 安裝 Geopython 相關函式模組 !apt install gdal-bin python-gdal python3-gdal # 安裝 Geopandas 需要的 python3-rtree !</description>
     </item>
   </channel>
 </rss>
