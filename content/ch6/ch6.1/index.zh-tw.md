@@ -302,16 +302,29 @@ plt.show()
 移除離群值的方法，不外乎運用一些資料的統計特徵，可以依據不同的應用情境需求自行定義。在我們的範例中，我們定義如果一筆資料在其中一種感測資料的數值，距離平均值超過兩個標準差以上，該筆資料便歸類為離群值。我們將這些離群值的資料移除後，照例繪製一張三維空間的分佈圖觀察其分布狀況。
 
 ```python
+"""
+    函數用於過濾多維陣列中的極端值。
+
+    輸入:
+    arr: Numpy 二維陣列，其中每一行代表一個數據點，每一列是一個特徵。
+    k: 一個常數，用於設定極端值過濾的閾值。
+
+    輸出:
+    Boolean_Arr: 一個布林陣列，True 表示對應的數據點不是極端值，False 表示它是極端值。
+    """
 def Outlier_Filter(arr, k):
     Boolean_Arr =  np.ones(arr.shape[0], dtype=bool)
     for i in range(arr.shape[1]):
         Boolean_Arr = Boolean_Arr & (abs(arr[:,i] - np.mean(arr[:,i])) <  k*np.std(arr[:,i]))
     return Boolean_Arr
 
+# 使用 Outlier_Filter 函數找出不是極端值的數據點。
 OutlierFilter = Outlier_Filter(DataX_Numpy, 2)
 DataX_Numpy = DataX_Numpy[OutlierFilter]
 DataY_Numpy = DataY_Numpy[OutlierFilter]
+# 輸出過濾後的數據點數量。
 print("After removing Outliers, there are {} records left.".format(DataX_Numpy.shape[0]))
+# 設定圖例字體大小並畫出 3D 散點圖。
 plt.rc('legend',fontsize="xx-small")
 fig = plt.figure(figsize=(8, 6), dpi=150)
 ax = fig.add_subplot(projection='3d')
@@ -333,15 +346,28 @@ After removing Outliers, there are 7161 records left.
 從最後呈現的結果中，我們共移除了 7709 - 7161 = 548 筆離群值資料，而最後留下的資料在三維空間的分佈也較為集中，不再有偏移在外圍的狀況發生。為了更容易觀察，我們以每次挑選兩個維度的方式，分別繪製三張資料在不同維度間的分佈狀況。
 
 ```python
+# 設定圖例的字體大小為大號。
 plt.rc('legend',fontsize="large")
+# 創建一個1x3的子圖，每個子圖大小為24x6。
 fig, axes = plt.subplots(1,3,figsize=(24, 6))
+
+# 定義各特徵的標籤。（ChatGPT移到這裡？）
+# Axis_label = ['Temperature', 'Relative humidity', 'PM2.5']
+
+# 迴圈遍歷每一個特徵。
 for i in range(DataX_Numpy.shape[1]):
+    # 迴圈遍歷每一種標籤。
     for j in range(len(Label)):
+        # 畫出2D散點圖。
         axes[i].scatter(DataX_Numpy[DataY_Numpy==j][:,i%3],DataX_Numpy[DataY_Numpy==j][:,(i+1)%3], s=1, label=Label[j])
+        # 設定圖例的位置在左上角。
         axes[i].legend(loc=2)
+        # 定義各特徵的標籤。（ChatGPT移到迴圈外？）
         Axis_label = ['Temperature', 'Relative humidity', 'PM2.5']
+        # 設定X軸和Y軸的標籤。
         axes[i].set_xlabel(Axis_label[i%3])
         axes[i].set_ylabel(Axis_label[(i+1)%3])
+# 調整子圖之間的間隔。
 plt.tight_layout()
 ```
 
@@ -355,9 +381,13 @@ plt.tight_layout()
 在進入分類器的模型訓練前，我們還有一個步驟需要處理，那就是拆分數據，將現有的資料集分為訓練資料和測試資料。顧名思義，訓練資料將被用於調校分類器的模型，而測試資料則是用來測試所建構出來的分類器，在處理新資料時的效果。我們使用下列的範例程式，將資料集按照 4:1 的比例，切割成訓練資料與測試資料。
 
 ```python
+# 隨機排列 DataX_Numpy 的索引。
 indices = np.random.permutation(DataX_Numpy.shape[0])
+# 取得訓練集的索引（佔總數的 80%），測試集的索引（從第 80 個開始，佔總數的 20%）。
 Train_idx, Test_idx = indices[:int(DataX_Numpy.shape[0]*0.8)], indices[80:(DataX_Numpy.shape[0] - int(DataX_Numpy.shape[0]*0.8))]
+# 根據上述索引，從 DataX_Numpy 選取訓練集和測試集的特徵
 TrainX, TestX = DataX_Numpy[Train_idx,:], DataX_Numpy[Test_idx,:]
+# 根據上述索引，從 DataY_Numpy 選取訓練集和測試集的標籤
 TrainY, TestY = DataY_Numpy[Train_idx], DataY_Numpy[Test_idx]
 ```
 
@@ -366,6 +396,7 @@ TrainY, TestY = DataY_Numpy[Train_idx], DataY_Numpy[Test_idx]
 我們直接使用 Scikit learn (sklearn) 這個 Python 套件所提供的分類器模型來進行訓練與測試，在系列的程式範例中，我們總共使用 Nearest neighbors, Linear SVM, RBF SVM, Decision Tree, Random Forest, Neural Net, Adaboost, Naive Bayes, QDA 共計九種模型，我們依次帶入訓練資料進行調校後，接著帶入測試資料進行預測，並且將測試資料與預測結果中的標籤內容進行比對，並用混淆矩陣 (confusion matrix) 的方式，呈現不同標籤組合的分類結果。
 
 ```python
+# 定義分類器的名稱列表。
 classifier_names = [
     "Nearest Neighbors",
     "Linear SVM",
@@ -378,6 +409,7 @@ classifier_names = [
     "QDA",
 ]
 
+# 定義對應的分類器模型。
 classifiers = [
     KNeighborsClassifier(3),
     SVC(kernel="linear", C=0.025),
@@ -390,16 +422,24 @@ classifiers = [
     QuadraticDiscriminantAnalysis(),
 ]
 
+# 建立 3x3 的子圖，用於顯示每個模型的混淆矩陣。
 fig, axes = plt.subplots(3,3,figsize=(18, 13.5))
+# 迴圈遍歷每一個分類器模型。
 for i, model in enumerate(classifiers):
+    # 使用訓練集資料訓練模型。
     model.fit(TrainX, TrainY)
+    # 使用測試集資料進行預測。
     Result = model.predict(TestX)
+    # 計算混淆矩陣。
     mat = confusion_matrix(TestY, Result)
+    # 以熱度圖顯示混淆矩陣。
     sns.heatmap(mat.T, square=True, annot=True, fmt='d', cbar=False,
                 xticklabels=Label, yticklabels=Label, ax = axes[i//3][i%3])
+    # 設定子圖標題，顯示模型名稱及準確率。
     axes[i//3][i%3].set_title("{},  Accuracy : {}".format(classifier_names[i], round(accuracy_score(Result, TestY), 3)), fontweight="bold", size=13)
     axes[i//3][i%3].set_xlabel('true label', fontsize = 10.0)
     axes[i//3][i%3].set_ylabel('predicted label', fontsize = 10.0)
+# 調整子圖之間的間距。
 plt.tight_layout()
 ```
 
@@ -416,7 +456,9 @@ plt.tight_layout()
 我們使用下列的程式碼，從民生公共物聯網開放資料平台的[歷史資料庫](https://history.colife.org.tw/)中下載 2021 年環保署國家空品測站的所有感測資料，並將下載回來的壓縮檔解開後，置於 `/content` 的目錄下。
 
 ```python
+# 下載感測資料。
 !wget -O 'EPA_OD_2021.zip' -q "https://history.colife.org.tw/?r=/download&path=L%2Bepuuawo%2BWTgeizqi%2FnkrDkv53nvbJf5ZyL5a6256m65ZOB5ris56uZL0VQQV9PRF8yMDIxLnppcA%3D%3D"
+# 解開壓縮檔，置於 '/content' 的目錄下。
 !unzip -q 'EPA_OD_2021.zip' && rm 'EPA_OD_2021.zip' 
 !unzip -q '/content/EPA_OD_2021/EPA_OD_202112.zip' -d '/content'
 !rm -rf '/content/EPA_OD_2021'
@@ -425,14 +467,21 @@ plt.tight_layout()
 我們先選用 2021 年 12月的資料，先把不需要的欄位 `Pollutant`、`SiteId`、`Status`、`SO2_AVG` 刪除，並且將感測資料的數值資料型態改為浮點數，以利後續的處理。
 
 ```python
+# 讀取 CSV 檔案，並解析 'PublishTime' 欄位為日期時間格式。
 Dataframe = pd.read_csv("/content/EPA_OD_202112.csv", parse_dates=['PublishTime'])
+# 移除不需要的欄位。
 Dataframe = Dataframe.drop(columns=["Pollutant", "SiteId", "Status", "SO2_AVG"])
+# 取得所有數值型態的欄位名稱。
 Numerical_ColumnNames = list(Dataframe.columns.values)
+# 從列表中移除非數值型態的欄位名稱。
 for ColumnName in ['SiteName', 'County', 'PublishTime']:
     Numerical_ColumnNames.remove(ColumnName)
+# 將數值型態的欄位轉換為浮點數格式，並對無法轉換的值設為 NaN。
 for Numerical_ColumnName in Numerical_ColumnNames:
     Dataframe[Numerical_ColumnName] = pd.to_numeric(Dataframe[Numerical_ColumnName], errors='coerce').astype('float64')
+# 移除所有含有 NaN 的資料列。
 Dataframe = Dataframe.dropna()
+# 顯示數據的前五行。
 Dataframe.head()
 ```
 
@@ -441,11 +490,17 @@ Dataframe.head()
 由於一個月的資料量十分龐大，為了精簡範例程式的執行時間，我們抽取其中 2021-12-13 至 2021-12-17 共計五天的資料 (`FiveDay_Dataframe`) 作為接下來的範例，並且把 `Country` 與 `SiteName` 兩個欄位合併，同時根據合併後的欄位和資料發佈時間進行排序。
 
 ```python
+# 篩選出 'PublishTime' 在 2021-12-13 到 2021-12-17 之間的數據。
 FiveDay_Dataframe = Dataframe.loc[(Dataframe['PublishTime'] <= '2021-12-17 23:00:00') & (Dataframe['PublishTime'] >= '2021-12-13 00:00:00')]
+# 將 'County' 和 'SiteName' 的內容結合，形成一個新的欄位 'CountyAndSiteName'。
 FiveDay_Dataframe['CountyAndSiteName'] = FiveDay_Dataframe['County'] + FiveDay_Dataframe['SiteName']
+# 移除 'County' 和 'SiteName' 這兩個欄位。
 FiveDay_Dataframe = FiveDay_Dataframe.drop(columns=["County", "SiteName"])
+# 根據 'CountyAndSiteName' 和 'PublishTime' 進行排序。
 FiveDay_Dataframe = FiveDay_Dataframe.sort_values(by=['CountyAndSiteName','PublishTime'])
+# 將 'CountyAndSiteName' 設為索引。
 FiveDay_Dataframe = FiveDay_Dataframe.set_index(keys = ['CountyAndSiteName'])
+# 顯示 DataFrame。
 FiveDay_Dataframe
 ```
 
@@ -456,22 +511,27 @@ FiveDay_Dataframe
 接下來，我們必須判斷兩個測站之間的「相似度」，並且將其量化成一個數字。最基本的相似度量測方式，是直接將兩測站的資料，按照感測時間對齊後，計算兩兩之間空氣汙染物質感測數據的差距；但是，若考量測站資料具備時間序列的特性，空氣污染在各個測站間可能發生的順序不一，影響的時間長度亦不一定相同，需要更有彈性的推估兩個測站之間的相似度，因此我們先扣除掉資料中的風向、感測時間、經緯度等資訊後，選用動態時間校正 (DTW) 方法進行相似度量測，若兩個測站資料的 DTW 距離越小，代表兩者的相似度越高。
 
 ```python
+# 初始化一個字典，用來儲存每個測站的時間序列資料。
 Site_TimeSeriesData = dict()
+# 針對每個測站提取其時間序列資料。
 for Site in np.unique(FiveDay_Dataframe.index.values):
     tmp = FiveDay_Dataframe[FiveDay_Dataframe.index == Site]
     tmp = tmp.groupby(['CountyAndSiteName', 'PublishTime'], as_index=False).mean()
     tmp = tmp.loc[:,~tmp.columns.isin(['CountyAndSiteName', 'PublishTime'])]
     Site_TimeSeriesData[Site] = tmp.to_numpy()
 
+# 獲取測站的名稱。
 DictKeys = Site_TimeSeriesData.keys()
+# 初始化一個字典，用來儲存每兩個測站之間的 DTW 距離。
 Sites_DTW = dict()
 for i, key1 in enumerate(DictKeys):
     for j, key2 in enumerate(DictKeys):
         if i >= j: 
             continue
         else:
-						# 計算扣除風向、感測時間、經度、緯度後資料的 DTW 距離
+            # 計算扣除風向、感測時間、經度、緯度後資料的 DTW 距離。
             Sites_DTW[str(key1)+" "+str(key2)] = fastdtw(Site_TimeSeriesData[key1][:,:-4], Site_TimeSeriesData[key2][:,:-4], dist=euclidean)[0]
+# 將測站之間的 DTW 距離轉換為 numpy 數組形式。
 Sites_DTW_keys = np.array(list(Sites_DTW.keys()))
 Site_DTW_Numpy = np.array([[value] for _, value in Sites_DTW.items()])
 ```
@@ -479,9 +539,13 @@ Site_DTW_Numpy = np.array([[value] for _, value in Sites_DTW.items()])
 我們將所有測站兩兩間的 DTW 距離畫在數線上，可以得到下方的圖形；其中 DTW 距離從小到大皆有，若要進一步處理，便需要開始使用分群演算法來分析。
 
 ```python
+# 創建一個 4x3 大小，解析度為 150 dpi 的圖片。
 fig = plt.figure(figsize=(4, 3), dpi=150)
+# 在圖片中加入一個子圖。
 ax = fig.add_subplot(1,1,1)
+# 在子圖上繪製散點圖，其中 x 軸為測站間的 DTW 距離，y 軸都設定為 1。每個點的大小設為 0.05。
 ax.scatter(Site_DTW_Numpy[:,0], [1]*len(Sites_DTW.items()), s=0.05)
+# 隱藏 y 軸。
 ax.get_yaxis().set_visible(False)
 ```
 
@@ -492,18 +556,23 @@ ax.get_yaxis().set_visible(False)
 我們使用 sklearn 套件中的 K-Means 模組來進行資料分群，由於分群演算法需事先設定最後要產生的群組數目，我們先設定為 3。我們使用下列的程式碼進行分群，並將結果依照資料所歸屬的群組組別 (Y 軸) 以及與其他資料的 DTW 相似度值 (X 軸) 繪製出來。
 
 ```python
+# 從 sklearn 引入 KMeans 模組。
 from sklearn.cluster import KMeans
 
+# 使用 KMeans 演算法對測站間的 DTW 距離進行分群，並設定群數為 3。
 model = KMeans(n_clusters=3, random_state=0).fit([[value] for _, value in Sites_DTW.items()])
+# 取得分群的結果。
 Result = model.labels_
+# 輸出每個群的數量。
 for i in np.unique(Result):
     print("Number of Cluster{} : {}".format(i,len(Result[Result==i])))
 
-# 將結果繪圖呈現
+# 將分群結果繪製成散點圖。
 fig = plt.figure(figsize=(4, 3), dpi=150)
 ax = fig.add_subplot(1,1,1)
 for i in np.unique(Result):
     ax.scatter(Site_DTW_Numpy[Result==i][:,0],[i]*len(Site_DTW_Numpy[Result==i]), s=0.05)
+# 隱藏 y 軸。
 ax.get_yaxis().set_visible(False)
 ```
 
@@ -522,16 +591,20 @@ Number of Cluster2 : 542
 我們首先假設空氣品質的變化具有地域性，因此探究資料分群的結果，是否和空品測站的地理位置有關。我們首先擷取測站的 GPS 經緯度座標，並換算出兩倆地理位置的實體距離，接著按照資料分群的結果，把不同群組的實體距離進行簡單的統計分析，並繪製在下方圖片中。
 
 ```python
+# 初始化一個列表來儲存每個分群的實體距離。
 Dist_for_Clusters = [None]*len(np.unique(Result))
+# 迴圈遍歷所有的分群。
 for i in np.unique(Result):
+    # 初始化一個列表來儲存此分群的實體距離。
     Dist_for_Cluster = []
     Cluster = Sites_DTW_keys[Result==i]
+    # 迴圈遍歷分群中的每對站點組合。
     for Sites in Cluster:
         Site1, Site2 = Sites.split(' ')
-        # 獲取兩個測站的經緯度座標
+        # 獲取兩個測站的經緯度座標。
         coord1 = Site_TimeSeriesData[Site1][0,-1], Site_TimeSeriesData[Site1][0,-2]
         coord2 = Site_TimeSeriesData[Site2][0,-1], Site_TimeSeriesData[Site2][0,-2]
-        # 計算兩個測站的實體位置距離
+        # 使用 geopy.distance.geodesic 函式計算兩個測站的實體位置距離，並將結果加到 Dist_for_Cluster 列表。
         Dist_for_Cluster.append(geopy.distance.geodesic(coord1, coord2).km)
     Dist_for_Cluster = np.array(Dist_for_Cluster)
     Dist_for_Clusters[i] = Dist_for_Cluster
@@ -539,16 +612,22 @@ Dist_for_Clusters = np.array(Dist_for_Clusters)
 # for Dist_for_Cluster in Dist_for_Clusters:
 #     print(np.mean(Dist_for_Cluster))
 
+# 創建一個新的散點圖，用於展示每個分群的距離數據。
 fig = plt.figure(figsize=(4, 3), dpi=150)
 ax = fig.add_subplot(1,1,1)
+# 迴圈遍歷所有的分群，並為每個分群繪製散點和平均距離線。
 for i in np.unique(Result):
     gtMean = Dist_for_Clusters[i][Dist_for_Clusters[i]>np.mean(Dist_for_Clusters[i])]
     ltMean = Dist_for_Clusters[i][Dist_for_Clusters[i]<np.mean(Dist_for_Clusters[i])]
+     # 輸出當前分群的平均距離和其上下偏差的百分比。
     print("Mean Distance between Sites for Cluster{} : {}".format(i, np.mean(Dist_for_Clusters[i])))
     print("In Cluster{} there are {:.2%} less than mean, and {:.2%} greater than mean.\n".format(i, len(ltMean)/len(Dist_for_Clusters[i]), len(gtMean)/len(Dist_for_Clusters[i])))
+    # 用不同顏色繪製大於和小於平均距離的點。
     ax.scatter(gtMean, [i]*len(gtMean), s=0.05, color="orange")
     ax.scatter(ltMean, [i]*len(ltMean), s=0.05, color="pink")
+    # 畫出該分群的平均距離的紅色線。
     ax.axvline(np.mean(Dist_for_Clusters[i]), ymin = 0.45*i, ymax = 0.45*i+0.1, color = "red", linewidth=0.5)
+# 隱藏 y 軸。
 ax.get_yaxis().set_visible(False)
 ```
 
@@ -572,6 +651,7 @@ In Cluster2 there are 39.48% less than mean, and 60.52% greater than mean.
 我們接著假設空氣品質的變化受到環境風場的影響，因此探究資料分群的結果，是否和空品測站所在地的風向有關。我們首先擷取測站的 GPS 經緯度座標，並換算出兩倆地理位置的方位角關係，接著按照資料分群的結果，根據地理位置方位角與現場風向計算兩者的相關性，並將所獲得的數值進行簡單的統計分析，再繪製於下圖。
 
 ```python
+# 計算兩點之間的方位角。
 def get_bearing(lat1, long1, lat2, long2):
     dLon = (long2 - long1)
     x = math.cos(math.radians(lat2)) * math.sin(math.radians(dLon))
@@ -580,24 +660,30 @@ def get_bearing(lat1, long1, lat2, long2):
     brng = np.degrees(brng)
     return brng
 
+# 檢查方位角和風向之間的關聯性。
 def Check_Wind_Dirc(brng, wind_dirc):
+    # 確定方位角和風向之間的差距是否在45度之內。
     if brng > 180:
         return ((brng < wind_dirc + 45) and (brng > wind_dirc - 45)) or ((brng - 180 < wind_dirc + 45) and (brng - 180 > wind_dirc - 45))
     else:
         return ((brng < wind_dirc + 45) and (brng > wind_dirc - 45)) or ((brng + 180 < wind_dirc + 45) and (brng + 180 > wind_dirc - 45))
 
+# 初始化兩個列表來儲存每個分群的方位角和風相關布爾值。
 Brng_for_Clusters = [None]*len(np.unique(Result))
 Boolean_WindRelated_for_Clusters = [None]*len(np.unique(Result))
+# 迴圈遍歷所有分群。
 for i in np.unique(Result):
     Brng_for_Cluster = []
     Boolean_WindRelated_for_Cluster = []
     Cluster = Sites_DTW_keys[Result==i]
+    # 迴圈遍歷分群中的每對站點組合。
     for Sites in Cluster:
         Site1, Site2 = Sites.split(' ')
         coord1 = Site_TimeSeriesData[Site1][0,-1], Site_TimeSeriesData[Site1][0,-2]
         coord2 = Site_TimeSeriesData[Site2][0,-1], Site_TimeSeriesData[Site2][0,-2]
         Brng_Between_Site = get_bearing(coord1[0], coord1[1], coord2[0], coord2[1])
         Brng_for_Cluster.append(Brng_Between_Site)
+        # 取得兩個站點的平均風向。
         MeanWindDirc1 = np.mean(Site_TimeSeriesData[Site1][:,-3])
         MeanWindDirc2 = np.mean(Site_TimeSeriesData[Site2][:,-3])
         Boolean_WindRelated_for_Cluster.append(Check_Wind_Dirc(Brng_Between_Site, MeanWindDirc1) or Check_Wind_Dirc(Brng_Between_Site, MeanWindDirc2))
@@ -608,14 +694,17 @@ for i in np.unique(Result):
 Brng_for_Clusters = np.array(Brng_for_Clusters)
 Boolean_WindRelated_for_Clusters = np.array(Boolean_WindRelated_for_Clusters)
 
+# 顯示和風向相關或不相關的測站間的距離。
 fig = plt.figure(figsize=(4, 3), dpi=150)
 ax = fig.add_subplot(1,1,1)
 for i in np.unique(Result):
     print("Relevance for Cluster{} : {:.2%}".format(i, len(Dist_for_Clusters[i][Boolean_WindRelated_for_Clusters[i] == True])/len(Dist_for_Clusters[i])))
+    # 以不同的顏色顯示與風向相關或不相關的測站
     ax.scatter(Dist_for_Clusters[i][Boolean_WindRelated_for_Clusters[i] == True],\
                [i]*len(Dist_for_Clusters[i][Boolean_WindRelated_for_Clusters[i] == True]), s=2, color="green")
     ax.scatter(Dist_for_Clusters[i][Boolean_WindRelated_for_Clusters[i] == False],\
                [i]*len(Dist_for_Clusters[i][Boolean_WindRelated_for_Clusters[i] == False]), s=0.05, color="violet")
+    # 畫出該分群的平均距離的紅色線
     ax.axvline(np.mean(Dist_for_Clusters[i]), ymin = 0.45*i, ymax = 0.45*i+0.1, color = "red", linewidth=2)
 ax.get_yaxis().set_visible(False)
 ```
@@ -639,14 +728,14 @@ Relevance for Cluster2 : 22.69%
 我們使用下列的程式碼，從民生公共物聯網開放資料平台的[歷史資料庫](https://history.colife.org.tw/)中下載 2021 年中央氣象局雨量站和水利署（與縣市政府合建）淹水感測器的所有感測資料，並將下載回來的壓縮檔解開後，置於 `/content` 的目錄下。
 
 ```python
-# 下載中央氣象局雨量站歷史資料
+# 下載中央氣象局雨量站歷史資料。
 !wget -O 'Rain_2021.zip' -q "https://history.colife.org.tw/?r=/download&path=L%2Bawo%2BixoS%2FkuK3lpK7msKPosaHlsYBf6Zuo6YeP56uZLzIwMjEuemlw"
 !wget -O 'Rain_Stataion.csv' -q "https://history.colife.org.tw/?r=/download&path=L%2Bawo%2BixoS%2FkuK3lpK7msKPosaHlsYBf6Zuo6YeP56uZL3JhaW5fc3RhdGlvbi5jc3Y%3D"
 !unzip -q 'Rain_2021.zip' && rm 'Rain_2021.zip' 
 !find '/content/2021' -name '*.zip'  -exec unzip -q {} -d '/content/Rain_2021_csv' \;
 !rm -rf '/content/2021'
 
-# 下載水利署（與縣市政府合建）淹水感測器資料
+# 下載水利署（與縣市政府合建）淹水感測器資料。
 !wget -O 'Flood_2021.zip' -q "https://history.colife.org.tw/?r=/download&path=L%2BawtOizh%2Ba6kC%2FmsLTliKnnvbLvvIjoiIfnuKPluILmlL%2FlupzlkIjlu7rvvIlf5re55rC05oSf5ris5ZmoLzIwMjEuemlw"
 !wget -O 'Flood_Stataion.csv' -q "https://history.colife.org.tw/?r=/download&path=L%2BawtOizh%2Ba6kC%2FmsLTliKnnvbLvvIjoiIfnuKPluILmlL%2FlupzlkIjlu7rvvIlf5re55rC05oSf5ris5ZmoL3N0YXRpb25f5rC05Yip572y77yI6IiH57ij5biC5pS%2F5bqc5ZCI5bu677yJX%2Ba3ueawtOaEn%2Ba4rOWZqC5jc3Y%3D"
 !unzip -q 'Flood_2021.zip' && rm 'Flood_2021.zip' 
@@ -657,25 +746,38 @@ Relevance for Cluster2 : 22.69%
 接下來我們先處理降雨量資料，將所下載的 2021 年所有測站的資料逐一讀取，並把接下來不會使用到的 `MIN_10`、`HOUR_6`、`HOUR_12`、`NOW` 欄位刪除，同時移除 11 月以後的資料後，彙整為 `Rain_df` 物件，同時讀入測站資訊成為 `Rain_Station_df` 物件。由於這個步驟所處理的資料量十分龐大，因此會花費較多的時間，請耐心等候。
 
 ```python
+# 從 Rain_2021_csv 資料夾中找到所有 csv 檔案的路徑，並將這些路徑排序。
 csv_files = glob.glob(os.path.join("/content/Rain_2021_csv", "*.csv"))
 csv_files.sort()
+# 建立一個空的 DataFrame，用於後續儲存資料。
 Rain_df = pd.DataFrame()
-# 將所有資料逐一讀取，並把接下來不會使用到的 MIN_10、HOUR_6、HOUR_12、NOW 欄位刪除
+# 迴圈遍歷所有 csv 檔案。將所有資料逐一讀取，並把接下來不會使用到的 MIN_10、HOUR_6、HOUR_12、NOW 欄位刪除
 for csv_file in tqdm(csv_files):
+    # 讀取 csv 檔案，並將 obsTime 欄位解析為日期時間格式。
     tmp_df = pd.read_csv(csv_file, parse_dates=['obsTime'])
+    # 移除不必要的欄位。
     tmp_df.drop(['MIN_10','HOUR_6', 'HOUR_12', 'NOW'], axis=1, inplace=True)
     try:
+        # 保留在每小時整點觀測的資料。
         tmp_df = tmp_df.loc[tmp_df['obsTime'].dt.minute == 00]
+        # 將處理過的資料加入到 Rain_df 中。
         Rain_df =  pd.concat([Rain_df, tmp_df])
     except:
+        # 若有異常，輸出有問題的 csv 檔名。
         print(csv_file)
         continue
+# 只保留 2021 年 10 月 31 日之前的資料。
 Rain_df = Rain_df.loc[Rain_df['obsTime'] < "2021-11-01 00:00:00"]
 num = Rain_df._get_numeric_data()
+# 將數值小於 0 的資料設為 0。
 num[num < 0] = 0
+# 去除有缺失值的資料行。
 Rain_df.dropna(inplace=True)
+# 根據站點 ID 和觀測時間排序資料。
 Rain_df.sort_values(by=['station_id','obsTime'], inplace=True)
+# 讀取雨量站資料。
 Rain_Station_df = pd.read_csv('/content/Rain_Stataion.csv')
+# 最後顯示整理後的雨量資料。
 Rain_df
 ```
 
@@ -684,19 +786,30 @@ Rain_df
 我們接下來處理淹水感測器的資料，將所下載的 2021 年所有測站的資料逐一讀取，並移除 11 月以後的資料，以及含有缺失值的資料後，將資料儲存為 `Flood_df` 物件，同時讀入測站資訊成為 `Flood_Station_df` 物件。這個步驟所處理的資料量一樣十分龐大，因此會花費較多的時間，請務必耐心等候。
 
 ```python
+# 取得 "/content/Flood_2021_csv" 目錄下所有的結尾是 "_QC.csv" 的文件路徑。
 csv_files = glob.glob(os.path.join("/content/Flood_2021_csv", "*_QC.csv"))
 csv_files.sort()
+# 創建一個空的 DataFrame 來存放所有的淹水感測器資料。
 Flood_df = pd.DataFrame()
-# 將所有資料逐一讀取，並彙整成 Flood_df 
+# 迴圈遍歷每一個 CSV 文件，將所有資料逐一讀取，並彙整成 Flood_df 
 for csv_file in tqdm(csv_files):
+    # 讀取 CSV 文件到暫時的 DataFrame。
     tmp_df = pd.read_csv(csv_file, parse_dates=['timestamp'])
+    # 選取單位為 'cm' 的資料。
     tmp_df = tmp_df.loc[(tmp_df['PQ_unit'] == 'cm')]
+    # 將 tmp_df 的資料加到主 DataFrame。
     Flood_df = pd.concat([Flood_df,tmp_df], axis=0, ignore_index=True)
+# 選取 timestamp 小於 "2021-11-01 00:00:00" 的資料。
 Flood_df = Flood_df.loc[Flood_df['timestamp'] < "2021-11-01 00:00:00"]
+# 將數值為 -999.0 的資料替換成 0.0。
 Flood_df.replace(-999.0,0.0, inplace=True)
+# 去除 NaN 的資料。
 Flood_df.dropna(inplace=True)
+# 根據 timestamp 來排序資料。
 Flood_df.sort_values(by=['timestamp'], inplace=True)
+# 讀取淹水感測器的站點資料。
 Flood_Station_df = pd.read_csv('/content/Flood_Stataion.csv')
+# 輸出整理好的 Flood_df。
 Flood_df
 ```
 
@@ -707,7 +820,9 @@ Flood_df
 由於淹水感測器的資料量十分龐大，因此我們先挑選一個位於雲林縣且編號為 `43b2aec1-69b0-437b-b2a2-27c76a3949e8` 的淹水感測器，將其資料取出後存在 `Flood_Site_df` 物件中，作為後續處理的範例。
 
 ```python
+# 從 Flood_df 中選取 station_id 為 '43b2aec1-69b0-437b-b2a2-27c76a3949e8' 的資料。
 Flood_Site_df = Flood_df.loc[Flood_df['station_id'] == '43b2aec1-69b0-437b-b2a2-27c76a3949e8']
+# 輸出 Flood_Site_df 的前五行資料。
 Flood_Site_df.head()
 ```
 
@@ -716,16 +831,24 @@ Flood_Site_df.head()
 我們接著計算雨量站資料與選定的淹水感測器之間的相似度，我們一樣使用動態時間校正 (Dynamic Time Warping, DTW) 進行量測，由於 DTW 的值越小代表相似度越大，為了能更直觀表達相似度，我們在這個案例中，將相似度定義為 DTW 值的倒數，並且計算這個選定的淹水感測器與所有雨量站資料的相似度。
 
 ```python
+# 將 Flood_Site_df 的 'value' 欄位的值重複三次，製作成一個新的 NumPy 陣列。
 Flood_Sensor_np = np.array([[v,v,v] for v in Flood_Site_df['value'].to_numpy()])
+# 初始化一個空字典，用來儲存每個雨量站與淹水感測器資料的 DTW 距離。
 Site_dtw_Dist = dict()
+# 從 Rain_df 中選取小時為 1 的資料。
 Rain_tmp_df = Rain_df.loc[(Rain_df['obsTime'].dt.hour == 1)]
+# 迴圈遍歷臺南市的所有雨量站。
 for Site in tqdm(np.unique(Rain_Station_df.loc[Rain_Station_df['city']=='臺南市']['station_id'].to_numpy())):
     tmp_df = Rain_tmp_df.loc[(Rain_tmp_df['station_id'] == Site)]
     if tmp_df.empty:
         continue
     tmp_np = tmp_df[['RAIN','HOUR_3','HOUR_24']].to_numpy()
+    # 使用 fastdtw 計算 Flood_Sensor_np 和 tmp_np 之間的 DTW 距離。
+    # 計算完的值取倒數，儲存到 Site_dtw_Dist 字典中。
     Site_dtw_Dist[Site] = (1/fastdtw(Flood_Sensor_np, tmp_np, dist=euclidean)[0])
+# 根據 DTW 距離值排序 Site_dtw_Dist 字典。
 Site_dtw_Dist = dict(sorted(Site_dtw_Dist.items(), key=lambda item: item[1]))
+# 輸出 Site_dtw_Dist 字典的內容。
 print(json.dumps(Site_dtw_Dist, indent=4, ensure_ascii=False))
 ```
 
@@ -774,22 +897,35 @@ print(json.dumps(Site_dtw_Dist, indent=4, ensure_ascii=False))
 如同前面的作法，我們藉由分群演算法來幫我們依照相似度的關係，將雨量計分為三個群組，並且找出其中相似度最高的群組，以及群組中的雨量計代碼。在我們的範例中，我們找到的三個群組各自有 9、23、3 個雨量計，同時第二個群組的時間序列資料與淹水感測器的資料相似度最高。
 
 ```python
+# 使用 KMeans 演算法進行分群，並將分成3個群組的結果保存到 cluster_model 中。
 cluster_model = KMeans(n_clusters=3).fit([[value] for _, value in Site_dtw_Dist.items()])
 Result = cluster_model.labels_
+# 迴圈遍歷每一個群組，輸出該群組中的站點數量。
 for i in np.unique(Result):
     print("Number of Cluster {} : {}".format(i,len(Result[Result==i])))
+# 初始化一個繪圖畫布，大小為 4x3，解析度為 150dpi
 fig = plt.figure(figsize=(4, 3), dpi=150)
 ax = fig.add_subplot(1,1,1)
+# 將 Site_dtw_Dist 轉換成 numpy 陣列，方便後續操作。
 Site_DTW_Numpy = np.array([value for _, value in Site_dtw_Dist.items()])
 Site_Name_Numpy = np.array([key for key, _ in Site_dtw_Dist.items()])
+# 初始化一個陣列，用來儲存每一群的平均 DTW 距離。
 Mean_Dis_For_Cluster = [None] * len(np.unique(Result))
+# 迴圈遍歷每一群，計算該群的平均 DTW 距離，並在散佈圖上畫出該群的所有點。
 for i in np.unique(Result):
+    # 計算並儲存該群組的平均 DTW 距離。
     Mean_Dis_For_Cluster[i] = (np.mean(Site_DTW_Numpy[Result==i]))
+    # 繪製散佈圖，將該群組中的所有點都畫出來。
     ax.scatter(Site_DTW_Numpy[Result==i],[i]*len(Site_DTW_Numpy[Result==i]), s=10)
+    # 輸出該群組的平均 DTW 距離。
     print("Mean Distance of Cluster {} : {}".format(i,Mean_Dis_For_Cluster[i]))
+# 由於 y 軸僅代表群組標籤，因此隱藏 y 軸以提高可讀性。
 ax.get_yaxis().set_visible(False)
+# 找出所有群組中，平均 DTW 距離最大的群組。
 Best_Cluster = np.where(Mean_Dis_For_Cluster == np.amax(Mean_Dis_For_Cluster))[0]
+# 從該最大平均距離群組中，取得所有站點的名稱。
 Best_Site = Site_Name_Numpy[Result == Best_Cluster]
+# 輸出該群組中的站點名稱。
 print(Best_Site)
 ```
 
@@ -810,9 +946,15 @@ Mean Distance of Cluster 2 : 4.7058249208614454e-05
 為了更進一步了解淹水感測器與這 23 個雨量計之間的相互關係，我們將這個選定的淹水感測器的感測資料按照時間順序繪製成圖。
 
 ```python
+# 從 Flood_Site_df 的 'value' 欄位中提取數值，並將其轉換成 numpy 陣列格式。
 tmp= Flood_Site_df['value'].to_numpy()
+# 初始化一個繪圖畫布，設定其大小為 6x3，解析度為 150dpi。
 fig= plt.figure(figsize=(6, 3), dpi=150)
+# 在畫布上新增一個子圖。
 ax= fig.add_subplot(1,1,1)
+# 使用 ax.plot 函數繪製 tmp 的曲線圖
+# X 軸的數值是 tmp 陣列的索引，Y 軸的數值是 tmp 陣列的實際數值
+# 設定線的寬度為 0.5
 ax.plot(range(len(tmp)),tmp, linewidth=0.5)
 ```
 
@@ -821,10 +963,15 @@ ax.plot(range(len(tmp)),tmp, linewidth=0.5)
 接著我們將最相似群組的這 23 個雨量計的每小時降雨資料按照時間順序分別繪製成 23 張圖，由圖中所示，可以發現在淹水感測器出現高值時，雨量計的數值確實也都有增加的狀態發生，兩者的變化趨勢確實具備極高的相似度，符合我們的常理預期。
 
 ```python
+# 建立一個新的繪圖區域，設定其大小和解析度。
 fig = plt.figure(figsize=(8, 2*(len(Best_Site)//4+1)), dpi=150)
+# 迴圈遍歷 Best_Site 內的所有站點，並繪製對應的降雨數據。
 for i, Site in enumerate(Best_Site):
+    # 取得指定站點的降雨數據
     tmp = Rain_df.loc[Rain_df['station_id']==Site]['RAIN']
+    # 在繪圖區域中新增子圖，排列方式依賴於 Best_Site 的長度。
     ax = fig.add_subplot(len(Best_Site)//4+1,4,i+1)
+    # 繪製降雨數據。
     ax.plot(range(len(tmp)),tmp, linewidth=0.5)
 ```
 
@@ -835,25 +982,35 @@ for i, Site in enumerate(Best_Site):
 接下來我們利用資料分類的方法，以所選定的淹水感測器所記載的淹水資料作為標籤，搭配最佳相似群組的雨量計，建構一個簡單的分類器，預測淹水感測器所在地是否發生淹水現象。我們將原有 2021 年 1 到 10 月的資料區分為前 7 個月的訓練資料和後 2 個月的測試資料，並將前七個月中淹水感測器中數值大於 0 的資料標記為淹水事件（註：本範例乃基於方便使用的原則，採取最寬鬆的標準將水位大於 0 的事件皆認定為淹水事件；然而，有關淹水事件的判定其實有更嚴謹的相關規定，在正式使用時，建議仍應遵照相關法規的規範判定），數值等於 ０的資料標記為無淹水事件，並將整理完畢的資料，儲存在訓練資料 `Train_DataSet` 物件中。
 
 ```python
+# 取得2021年8月1日前有發生洪水（淹水值>0）的時間區段和淹水值。
 Flooding = Flood_Site_df.loc[(Flood_Site_df['value'] > 0.0) & (Flood_Site_df['timestamp'] < "2021-08-01 00:00:00")][['timestamp', 'value']].values
+# 從非洪水的時間區段中隨機選取10倍的洪水時間區段數量，以作為平衡的樣本。
 Not_Flooding = Flood_Site_df.loc[(Flood_Site_df['value'] == 0.0) & (Flood_Site_df['timestamp'] < "2021-08-01 00:00:00")][['timestamp', 'value']]\
                 .sample(n=10*len(Flooding)).values
 
+# 初始化訓練資料集的結構。
 Train_DataSet = {'x':[], 'y':[]}
+# 處理發生洪水的時間區段資料。
 for timestamp, _ in  tqdm(Flooding):
     tmp_x = []
+    # 找出距離該洪水事件1到60小時內的降雨資料。
     tmp_df = Rain_df.loc[(Rain_df['obsTime'] < (timestamp - timedelta(hours=1))) & (Rain_df['obsTime'] > (timestamp - timedelta(hours=60)))]
     for Site in Best_Site:
         Site_tmp_df = tmp_df.loc[(tmp_df['station_id']==Site)]
+        # 如果找到相關站點的資料，則取最近24小時的降雨和3小時的累積雨量。
         if not Site_tmp_df.empty:
             tmp_x.append(Site_tmp_df.tail(24)[['RAIN', 'HOUR_3']].values.flatten())
+    # 若某些站點缺少資料，則以第一個站點的資料作為填充。
     while len(tmp_x) < len(Best_Site):
+        # 若資料不足，補充資料。
         tmp_x.append(tmp_x[0])
     tmp_x = np.array(tmp_x).flatten()
+    # 只有當資料長度符合期望的長度時，才加入到訓練資料集中。
     if len(tmp_x) == 24*len(Best_Site)*2:
         Train_DataSet['x'].append(tmp_x)
-        Train_DataSet['y'].append(1)
+        Train_DataSet['y'].append(1)  # 洪水的標籤為 1
 
+# 處理非洪水的時間區段資料，流程與上面類似。
 for timestamp, _ in  tqdm(Not_Flooding):
     tmp_x = []
     tmp_df = Rain_df.loc[(Rain_df['obsTime'] < (timestamp - timedelta(hours=1))) & (Rain_df['obsTime'] > (timestamp - timedelta(hours=60)))]
@@ -905,6 +1062,7 @@ for timestamp, _ in  tqdm(Not_Flooding):
 最後我們使用 Scikit learn (sklearn) 這個 Python 套件所提供的九個分類器模型 (Nearest neighbors, Linear SVM, RBF SVM, Decision tree, Random forest, Neural net, Adaboost, Naive Bayes, QDA) ，並且依次帶入訓練資料進行調校後，接著帶入測試資料進行淹水與否的預測，並且將預測結果與測試資料中的標籤內容進行比對，再用混淆矩陣 (confusion matrix) 的方式，呈現不同標籤組合的分類結果。
 
 ```python
+# 定義分類器的名稱列表。
 names = [
     "Nearest Neighbors",
     "Linear SVM",
@@ -917,6 +1075,7 @@ names = [
     "QDA",
 ]
 
+# 定義對應的分類器實例。
 classifiers = [
     KNeighborsClassifier(3),
     SVC(kernel="linear", C=0.025),
@@ -929,16 +1088,24 @@ classifiers = [
     QuadraticDiscriminantAnalysis(),
 ]
 
+# 創建 3x3 的子圖，用於顯示混淆矩陣。
 fig, axes = plt.subplots(3,3,figsize=(18, 13.5))
+# 迴圈遍歷每一個分類器。
 for i, model in enumerate(classifiers):
+    # 使用訓練資料集來訓練該分類器。
     model.fit(Train_DataSet['x'], Train_DataSet['y'])
+    # 使用測試資料集來進行預測。
     Result = model.predict(Test_DataSet['x'])
+    # 計算混淆矩陣。
     mat = confusion_matrix(Test_DataSet['y'], Result)
+    # 繪製混淆矩陣。
     sns.heatmap(mat.T, square=True, annot=True, fmt='d', cbar=False,
                 xticklabels=["不淹水","淹水"], yticklabels=["不淹水","淹水"], ax = axes[i//3][i%3])
+    # 設置子圖的標題，顯示分類器名稱和精確度。
     axes[i//3][i%3].set_title("{},  Accuracy : {}".format(names[i], round(accuracy_score(Result, Test_DataSet['y']), 3)), fontweight="bold", size=13)
     axes[i//3][i%3].set_xlabel('true label', fontsize = 10.0)
     axes[i//3][i%3].set_ylabel('predicted label', fontsize = 10.0)
+# 調整子圖之間的間距。
 plt.tight_layout()
 ```
 
