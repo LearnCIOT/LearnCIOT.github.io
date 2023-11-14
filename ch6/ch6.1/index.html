@@ -16,18 +16,18 @@
     <meta name="author" content="Ling-Jyh Chen">
     <title>6.1. 機器學習初探 :: Tutorial for CIoT Open Data Applications</title>
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="/css/fontawesome-all.min.css?1697458045" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1697458045" rel="stylesheet"></noscript>
-    <link href="/css/featherlight.min.css?1697458045" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1697458045" rel="stylesheet"></noscript>
-    <link href="/css/auto-complete.css?1697458045" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1697458045" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar.min.css?1697458045" rel="stylesheet">
-    <link href="/css/nucleus.css?1697458045" rel="stylesheet">
-    <link href="/css/fonts.css?1697458045" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1697458045" rel="stylesheet"></noscript>
-    <link href="/css/theme.css?1697458045" rel="stylesheet">
-    <link href="/css/theme-relearn-light.css?1697458045" rel="stylesheet" id="variant-style">
-    <link href="/css/ie.css?1697458045" rel="stylesheet">
-    <link href="/css/variant.css?1697458045" rel="stylesheet">
-    <link href="/css/print.css?1697458045" rel="stylesheet" media="print">
-    <script src="/js/variant.js?1697458045"></script>
+    <link href="/css/fontawesome-all.min.css?1699937930" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1699937930" rel="stylesheet"></noscript>
+    <link href="/css/featherlight.min.css?1699937930" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1699937930" rel="stylesheet"></noscript>
+    <link href="/css/auto-complete.css?1699937930" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1699937930" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar.min.css?1699937930" rel="stylesheet">
+    <link href="/css/nucleus.css?1699937930" rel="stylesheet">
+    <link href="/css/fonts.css?1699937930" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1699937930" rel="stylesheet"></noscript>
+    <link href="/css/theme.css?1699937930" rel="stylesheet">
+    <link href="/css/theme-relearn-light.css?1699937930" rel="stylesheet" id="variant-style">
+    <link href="/css/ie.css?1699937930" rel="stylesheet">
+    <link href="/css/variant.css?1699937930" rel="stylesheet">
+    <link href="/css/print.css?1699937930" rel="stylesheet" media="print">
+    <script src="/js/variant.js?1699937930"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -43,7 +43,7 @@
       var baseUriFull='https:\/\/LearnCIOT.github.io/';
       window.variants && variants.init( [ 'relearn-light' ] );
     </script>
-    <script src="/js/jquery.min.js?1697458045" defer></script>
+    <script src="/js/jquery.min.js?1699937930" defer></script>
 <meta property="fb:app_id" content="601826851395774" />
   </head>
   <body class="default-animation" data-url="/ch6/ch6.1/">
@@ -577,16 +577,29 @@ if (!doNotTrack) {
 <p>從資料分布圖中，我們可以發現絕大多數的資料都群聚在某一個特定的空間內，但仍有少數的資料零散地分布在很外圍的地方，這些遠離群體的資料我們稱為離群值 (Outlier)，對於資料分類或資料分群而言，離群值很容易導致我們的模型或演算法走向極端化，因而失去其通用性，因此我們需要先將這些資料予以移除。</p>
 <h3 id="移除離群值">移除離群值</h3>
 <p>移除離群值的方法，不外乎運用一些資料的統計特徵，可以依據不同的應用情境需求自行定義。在我們的範例中，我們定義如果一筆資料在其中一種感測資料的數值，距離平均值超過兩個標準差以上，該筆資料便歸類為離群值。我們將這些離群值的資料移除後，照例繪製一張三維空間的分佈圖觀察其分布狀況。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">Outlier_Filter</span>(arr, k):
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    函數用於過濾多維陣列中的極端值。
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    輸入:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    arr: Numpy 二維陣列，其中每一行代表一個數據點，每一列是一個特徵。
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    k: 一個常數，用於設定極端值過濾的閾值。
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    輸出:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Boolean_Arr: 一個布林陣列，True 表示對應的數據點不是極端值，False 表示它是極端值。
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">Outlier_Filter</span>(arr, k):
 </span></span><span style="display:flex;"><span>    Boolean_Arr <span style="color:#f92672">=</span>  np<span style="color:#f92672">.</span>ones(arr<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>], dtype<span style="color:#f92672">=</span>bool)
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(arr<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">1</span>]):
 </span></span><span style="display:flex;"><span>        Boolean_Arr <span style="color:#f92672">=</span> Boolean_Arr <span style="color:#f92672">&amp;</span> (abs(arr[:,i] <span style="color:#f92672">-</span> np<span style="color:#f92672">.</span>mean(arr[:,i])) <span style="color:#f92672">&lt;</span>  k<span style="color:#f92672">*</span>np<span style="color:#f92672">.</span>std(arr[:,i]))
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> Boolean_Arr
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用 Outlier_Filter 函數找出不是極端值的數據點。</span>
 </span></span><span style="display:flex;"><span>OutlierFilter <span style="color:#f92672">=</span> Outlier_Filter(DataX_Numpy, <span style="color:#ae81ff">2</span>)
 </span></span><span style="display:flex;"><span>DataX_Numpy <span style="color:#f92672">=</span> DataX_Numpy[OutlierFilter]
 </span></span><span style="display:flex;"><span>DataY_Numpy <span style="color:#f92672">=</span> DataY_Numpy[OutlierFilter]
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 輸出過濾後的數據點數量。</span>
 </span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;After removing Outliers, there are </span><span style="color:#e6db74">{}</span><span style="color:#e6db74"> records left.&#34;</span><span style="color:#f92672">.</span>format(DataX_Numpy<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>]))
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 設定圖例字體大小並畫出 3D 散點圖。</span>
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>rc(<span style="color:#e6db74">&#39;legend&#39;</span>,fontsize<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;xx-small&#34;</span>)
 </span></span><span style="display:flex;"><span>fig <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>figure(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">6</span>), dpi<span style="color:#f92672">=</span><span style="color:#ae81ff">150</span>)
 </span></span><span style="display:flex;"><span>ax <span style="color:#f92672">=</span> fig<span style="color:#f92672">.</span>add_subplot(projection<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;3d&#39;</span>)
@@ -600,27 +613,45 @@ if (!doNotTrack) {
 </span></span></code></pre></div><pre tabindex="0"><code>After removing Outliers, there are 7161 records left.
 </code></pre><p><img src="figures/6-1-3-2.png" alt="Python output"></p>
 <p>從最後呈現的結果中，我們共移除了 7709 - 7161 = 548 筆離群值資料，而最後留下的資料在三維空間的分佈也較為集中，不再有偏移在外圍的狀況發生。為了更容易觀察，我們以每次挑選兩個維度的方式，分別繪製三張資料在不同維度間的分佈狀況。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>rc(<span style="color:#e6db74">&#39;legend&#39;</span>,fontsize<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;large&#34;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 設定圖例的字體大小為大號。</span>
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>rc(<span style="color:#e6db74">&#39;legend&#39;</span>,fontsize<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;large&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 創建一個1x3的子圖，每個子圖大小為24x6。</span>
 </span></span><span style="display:flex;"><span>fig, axes <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplots(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">3</span>,figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">24</span>, <span style="color:#ae81ff">6</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 定義各特徵的標籤。（ChatGPT移到這裡？）</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Axis_label = [&#39;Temperature&#39;, &#39;Relative humidity&#39;, &#39;PM2.5&#39;]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 迴圈遍歷每一個特徵。</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(DataX_Numpy<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">1</span>]):
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 迴圈遍歷每一種標籤。</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> j <span style="color:#f92672">in</span> range(len(Label)):
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 畫出2D散點圖。</span>
 </span></span><span style="display:flex;"><span>        axes[i]<span style="color:#f92672">.</span>scatter(DataX_Numpy[DataY_Numpy<span style="color:#f92672">==</span>j][:,i<span style="color:#f92672">%</span><span style="color:#ae81ff">3</span>],DataX_Numpy[DataY_Numpy<span style="color:#f92672">==</span>j][:,(i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">%</span><span style="color:#ae81ff">3</span>], s<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, label<span style="color:#f92672">=</span>Label[j])
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 設定圖例的位置在左上角。</span>
 </span></span><span style="display:flex;"><span>        axes[i]<span style="color:#f92672">.</span>legend(loc<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 定義各特徵的標籤。（ChatGPT移到迴圈外？）</span>
 </span></span><span style="display:flex;"><span>        Axis_label <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;Temperature&#39;</span>, <span style="color:#e6db74">&#39;Relative humidity&#39;</span>, <span style="color:#e6db74">&#39;PM2.5&#39;</span>]
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 設定X軸和Y軸的標籤。</span>
 </span></span><span style="display:flex;"><span>        axes[i]<span style="color:#f92672">.</span>set_xlabel(Axis_label[i<span style="color:#f92672">%</span><span style="color:#ae81ff">3</span>])
 </span></span><span style="display:flex;"><span>        axes[i]<span style="color:#f92672">.</span>set_ylabel(Axis_label[(i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">%</span><span style="color:#ae81ff">3</span>])
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 調整子圖之間的間隔。</span>
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>tight_layout()
 </span></span></code></pre></div><p><img src="figures/6-1-3-3.png" alt="Python output"></p>
 <p>從這三張圖中，我們已可發現不同顏色（場所型態）的資料隱約中似乎存在某種關係，雖然用肉眼很難直接敘明，但接下來我們將帶入分類模型來建構專屬的分類器。</p>
 <h3 id="區別訓練資料與測試資料">區別訓練資料與測試資料</h3>
 <p>在進入分類器的模型訓練前，我們還有一個步驟需要處理，那就是拆分數據，將現有的資料集分為訓練資料和測試資料。顧名思義，訓練資料將被用於調校分類器的模型，而測試資料則是用來測試所建構出來的分類器，在處理新資料時的效果。我們使用下列的範例程式，將資料集按照 4:1 的比例，切割成訓練資料與測試資料。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>indices <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>permutation(DataX_Numpy<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>])
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 隨機排列 DataX_Numpy 的索引。</span>
+</span></span><span style="display:flex;"><span>indices <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>permutation(DataX_Numpy<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>])
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 取得訓練集的索引（佔總數的 80%），測試集的索引（從第 80 個開始，佔總數的 20%）。</span>
 </span></span><span style="display:flex;"><span>Train_idx, Test_idx <span style="color:#f92672">=</span> indices[:int(DataX_Numpy<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">*</span><span style="color:#ae81ff">0.8</span>)], indices[<span style="color:#ae81ff">80</span>:(DataX_Numpy<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">-</span> int(DataX_Numpy<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">*</span><span style="color:#ae81ff">0.8</span>))]
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 根據上述索引，從 DataX_Numpy 選取訓練集和測試集的特徵</span>
 </span></span><span style="display:flex;"><span>TrainX, TestX <span style="color:#f92672">=</span> DataX_Numpy[Train_idx,:], DataX_Numpy[Test_idx,:]
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 根據上述索引，從 DataY_Numpy 選取訓練集和測試集的標籤</span>
 </span></span><span style="display:flex;"><span>TrainY, TestY <span style="color:#f92672">=</span> DataY_Numpy[Train_idx], DataY_Numpy[Test_idx]
 </span></span></code></pre></div><h3 id="使用-sklearn-預建模型">使用 Sklearn 預建模型</h3>
 <p>我們直接使用 Scikit learn (sklearn) 這個 Python 套件所提供的分類器模型來進行訓練與測試，在系列的程式範例中，我們總共使用 Nearest neighbors, Linear SVM, RBF SVM, Decision Tree, Random Forest, Neural Net, Adaboost, Naive Bayes, QDA 共計九種模型，我們依次帶入訓練資料進行調校後，接著帶入測試資料進行預測，並且將測試資料與預測結果中的標籤內容進行比對，並用混淆矩陣 (confusion matrix) 的方式，呈現不同標籤組合的分類結果。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>classifier_names <span style="color:#f92672">=</span> [
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 定義分類器的名稱列表。</span>
+</span></span><span style="display:flex;"><span>classifier_names <span style="color:#f92672">=</span> [
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;Nearest Neighbors&#34;</span>,
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;Linear SVM&#34;</span>,
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;RBF SVM&#34;</span>,
@@ -632,6 +663,7 @@ if (!doNotTrack) {
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;QDA&#34;</span>,
 </span></span><span style="display:flex;"><span>]
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 定義對應的分類器模型。</span>
 </span></span><span style="display:flex;"><span>classifiers <span style="color:#f92672">=</span> [
 </span></span><span style="display:flex;"><span>    KNeighborsClassifier(<span style="color:#ae81ff">3</span>),
 </span></span><span style="display:flex;"><span>    SVC(kernel<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;linear&#34;</span>, C<span style="color:#f92672">=</span><span style="color:#ae81ff">0.025</span>),
@@ -644,16 +676,24 @@ if (!doNotTrack) {
 </span></span><span style="display:flex;"><span>    QuadraticDiscriminantAnalysis(),
 </span></span><span style="display:flex;"><span>]
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 建立 3x3 的子圖，用於顯示每個模型的混淆矩陣。</span>
 </span></span><span style="display:flex;"><span>fig, axes <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplots(<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">3</span>,figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">18</span>, <span style="color:#ae81ff">13.5</span>))
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 迴圈遍歷每一個分類器模型。</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i, model <span style="color:#f92672">in</span> enumerate(classifiers):
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 使用訓練集資料訓練模型。</span>
 </span></span><span style="display:flex;"><span>    model<span style="color:#f92672">.</span>fit(TrainX, TrainY)
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 使用測試集資料進行預測。</span>
 </span></span><span style="display:flex;"><span>    Result <span style="color:#f92672">=</span> model<span style="color:#f92672">.</span>predict(TestX)
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 計算混淆矩陣。</span>
 </span></span><span style="display:flex;"><span>    mat <span style="color:#f92672">=</span> confusion_matrix(TestY, Result)
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 以熱度圖顯示混淆矩陣。</span>
 </span></span><span style="display:flex;"><span>    sns<span style="color:#f92672">.</span>heatmap(mat<span style="color:#f92672">.</span>T, square<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>, annot<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>, fmt<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;d&#39;</span>, cbar<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>,
 </span></span><span style="display:flex;"><span>                xticklabels<span style="color:#f92672">=</span>Label, yticklabels<span style="color:#f92672">=</span>Label, ax <span style="color:#f92672">=</span> axes[i<span style="color:#f92672">//</span><span style="color:#ae81ff">3</span>][i<span style="color:#f92672">%</span><span style="color:#ae81ff">3</span>])
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 設定子圖標題，顯示模型名稱及準確率。</span>
 </span></span><span style="display:flex;"><span>    axes[i<span style="color:#f92672">//</span><span style="color:#ae81ff">3</span>][i<span style="color:#f92672">%</span><span style="color:#ae81ff">3</span>]<span style="color:#f92672">.</span>set_title(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{}</span><span style="color:#e6db74">,  Accuracy : </span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">.</span>format(classifier_names[i], round(accuracy_score(Result, TestY), <span style="color:#ae81ff">3</span>)), fontweight<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;bold&#34;</span>, size<span style="color:#f92672">=</span><span style="color:#ae81ff">13</span>)
 </span></span><span style="display:flex;"><span>    axes[i<span style="color:#f92672">//</span><span style="color:#ae81ff">3</span>][i<span style="color:#f92672">%</span><span style="color:#ae81ff">3</span>]<span style="color:#f92672">.</span>set_xlabel(<span style="color:#e6db74">&#39;true label&#39;</span>, fontsize <span style="color:#f92672">=</span> <span style="color:#ae81ff">10.0</span>)
 </span></span><span style="display:flex;"><span>    axes[i<span style="color:#f92672">//</span><span style="color:#ae81ff">3</span>][i<span style="color:#f92672">%</span><span style="color:#ae81ff">3</span>]<span style="color:#f92672">.</span>set_ylabel(<span style="color:#e6db74">&#39;predicted label&#39;</span>, fontsize <span style="color:#f92672">=</span> <span style="color:#ae81ff">10.0</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 調整子圖之間的間距。</span>
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>tight_layout()
 </span></span></code></pre></div><p><img src="figures/6-1-3-4.png" alt="Python output"></p>
 <p>在這九種分類模型的分類結果中，我們發現 RBF SVM 可以達到將近 7成的分類成功率，事實上，這只是我們使用原始資料尚未進行更進一步處理分析的結果，讀者們若對於分類器有興趣，可以參考相關資源，進行更深入的探究，將能更加提升分類器對不同種類資料的分類能力。</p>
@@ -661,69 +701,98 @@ if (!doNotTrack) {
 <p>在這個案例中，我們使用民生公共物聯網開放資料中的環保署國家空品測站的感測資料，並且透過歷史資料的分析，利用資料分群的方式，將這些空品測站依照感測資料的變化趨勢關係予以分群，讓每一群的測站具有類似的感測資料變化趨勢。</p>
 <h3 id="資料下載與前處理">資料下載與前處理</h3>
 <p>我們使用下列的程式碼，從民生公共物聯網開放資料平台的<a href="https://history.colife.org.tw/">歷史資料庫</a>中下載 2021 年環保署國家空品測站的所有感測資料，並將下載回來的壓縮檔解開後，置於 <code>/content</code> 的目錄下。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>wget <span style="color:#f92672">-</span>O <span style="color:#e6db74">&#39;EPA_OD_2021.zip&#39;</span> <span style="color:#f92672">-</span>q <span style="color:#e6db74">&#34;https://history.colife.org.tw/?r=/download&amp;path=L%2Bepuuawo%2BWTgeizqi</span><span style="color:#e6db74">%2F</span><span style="color:#e6db74">nkrDkv53nvbJf5ZyL5a6256m65ZOB5ris56uZL0VQQV9PRF8yMDIxLnppcA%3D%3D&#34;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 下載感測資料。</span>
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>wget <span style="color:#f92672">-</span>O <span style="color:#e6db74">&#39;EPA_OD_2021.zip&#39;</span> <span style="color:#f92672">-</span>q <span style="color:#e6db74">&#34;https://history.colife.org.tw/?r=/download&amp;path=L%2Bepuuawo%2BWTgeizqi</span><span style="color:#e6db74">%2F</span><span style="color:#e6db74">nkrDkv53nvbJf5ZyL5a6256m65ZOB5ris56uZL0VQQV9PRF8yMDIxLnppcA%3D%3D&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 解開壓縮檔，置於 &#39;/content&#39; 的目錄下。</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>unzip <span style="color:#f92672">-</span>q <span style="color:#e6db74">&#39;EPA_OD_2021.zip&#39;</span> <span style="color:#f92672">&amp;&amp;</span> rm <span style="color:#e6db74">&#39;EPA_OD_2021.zip&#39;</span> 
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>unzip <span style="color:#f92672">-</span>q <span style="color:#e6db74">&#39;/content/EPA_OD_2021/EPA_OD_202112.zip&#39;</span> <span style="color:#f92672">-</span>d <span style="color:#e6db74">&#39;/content&#39;</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>rm <span style="color:#f92672">-</span>rf <span style="color:#e6db74">&#39;/content/EPA_OD_2021&#39;</span>
 </span></span></code></pre></div><p>我們先選用 2021 年 12月的資料，先把不需要的欄位 <code>Pollutant</code>、<code>SiteId</code>、<code>Status</code>、<code>SO2_AVG</code> 刪除，並且將感測資料的數值資料型態改為浮點數，以利後續的處理。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>Dataframe <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(<span style="color:#e6db74">&#34;/content/EPA_OD_202112.csv&#34;</span>, parse_dates<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;PublishTime&#39;</span>])
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 讀取 CSV 檔案，並解析 &#39;PublishTime&#39; 欄位為日期時間格式。</span>
+</span></span><span style="display:flex;"><span>Dataframe <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(<span style="color:#e6db74">&#34;/content/EPA_OD_202112.csv&#34;</span>, parse_dates<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;PublishTime&#39;</span>])
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 移除不需要的欄位。</span>
 </span></span><span style="display:flex;"><span>Dataframe <span style="color:#f92672">=</span> Dataframe<span style="color:#f92672">.</span>drop(columns<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#34;Pollutant&#34;</span>, <span style="color:#e6db74">&#34;SiteId&#34;</span>, <span style="color:#e6db74">&#34;Status&#34;</span>, <span style="color:#e6db74">&#34;SO2_AVG&#34;</span>])
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 取得所有數值型態的欄位名稱。</span>
 </span></span><span style="display:flex;"><span>Numerical_ColumnNames <span style="color:#f92672">=</span> list(Dataframe<span style="color:#f92672">.</span>columns<span style="color:#f92672">.</span>values)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 從列表中移除非數值型態的欄位名稱。</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> ColumnName <span style="color:#f92672">in</span> [<span style="color:#e6db74">&#39;SiteName&#39;</span>, <span style="color:#e6db74">&#39;County&#39;</span>, <span style="color:#e6db74">&#39;PublishTime&#39;</span>]:
 </span></span><span style="display:flex;"><span>    Numerical_ColumnNames<span style="color:#f92672">.</span>remove(ColumnName)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 將數值型態的欄位轉換為浮點數格式，並對無法轉換的值設為 NaN。</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> Numerical_ColumnName <span style="color:#f92672">in</span> Numerical_ColumnNames:
 </span></span><span style="display:flex;"><span>    Dataframe[Numerical_ColumnName] <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>to_numeric(Dataframe[Numerical_ColumnName], errors<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;coerce&#39;</span>)<span style="color:#f92672">.</span>astype(<span style="color:#e6db74">&#39;float64&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 移除所有含有 NaN 的資料列。</span>
 </span></span><span style="display:flex;"><span>Dataframe <span style="color:#f92672">=</span> Dataframe<span style="color:#f92672">.</span>dropna()
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示數據的前五行。</span>
 </span></span><span style="display:flex;"><span>Dataframe<span style="color:#f92672">.</span>head()
 </span></span></code></pre></div><p><img src="figures/6-1-4-1.png" alt="Python output"></p>
 <p>由於一個月的資料量十分龐大，為了精簡範例程式的執行時間，我們抽取其中 2021-12-13 至 2021-12-17 共計五天的資料 (<code>FiveDay_Dataframe</code>) 作為接下來的範例，並且把 <code>Country</code> 與 <code>SiteName</code> 兩個欄位合併，同時根據合併後的欄位和資料發佈時間進行排序。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>FiveDay_Dataframe <span style="color:#f92672">=</span> Dataframe<span style="color:#f92672">.</span>loc[(Dataframe[<span style="color:#e6db74">&#39;PublishTime&#39;</span>] <span style="color:#f92672">&lt;=</span> <span style="color:#e6db74">&#39;2021-12-17 23:00:00&#39;</span>) <span style="color:#f92672">&amp;</span> (Dataframe[<span style="color:#e6db74">&#39;PublishTime&#39;</span>] <span style="color:#f92672">&gt;=</span> <span style="color:#e6db74">&#39;2021-12-13 00:00:00&#39;</span>)]
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 篩選出 &#39;PublishTime&#39; 在 2021-12-13 到 2021-12-17 之間的數據。</span>
+</span></span><span style="display:flex;"><span>FiveDay_Dataframe <span style="color:#f92672">=</span> Dataframe<span style="color:#f92672">.</span>loc[(Dataframe[<span style="color:#e6db74">&#39;PublishTime&#39;</span>] <span style="color:#f92672">&lt;=</span> <span style="color:#e6db74">&#39;2021-12-17 23:00:00&#39;</span>) <span style="color:#f92672">&amp;</span> (Dataframe[<span style="color:#e6db74">&#39;PublishTime&#39;</span>] <span style="color:#f92672">&gt;=</span> <span style="color:#e6db74">&#39;2021-12-13 00:00:00&#39;</span>)]
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 將 &#39;County&#39; 和 &#39;SiteName&#39; 的內容結合，形成一個新的欄位 &#39;CountyAndSiteName&#39;。</span>
 </span></span><span style="display:flex;"><span>FiveDay_Dataframe[<span style="color:#e6db74">&#39;CountyAndSiteName&#39;</span>] <span style="color:#f92672">=</span> FiveDay_Dataframe[<span style="color:#e6db74">&#39;County&#39;</span>] <span style="color:#f92672">+</span> FiveDay_Dataframe[<span style="color:#e6db74">&#39;SiteName&#39;</span>]
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 移除 &#39;County&#39; 和 &#39;SiteName&#39; 這兩個欄位。</span>
 </span></span><span style="display:flex;"><span>FiveDay_Dataframe <span style="color:#f92672">=</span> FiveDay_Dataframe<span style="color:#f92672">.</span>drop(columns<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#34;County&#34;</span>, <span style="color:#e6db74">&#34;SiteName&#34;</span>])
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 根據 &#39;CountyAndSiteName&#39; 和 &#39;PublishTime&#39; 進行排序。</span>
 </span></span><span style="display:flex;"><span>FiveDay_Dataframe <span style="color:#f92672">=</span> FiveDay_Dataframe<span style="color:#f92672">.</span>sort_values(by<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;CountyAndSiteName&#39;</span>,<span style="color:#e6db74">&#39;PublishTime&#39;</span>])
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 將 &#39;CountyAndSiteName&#39; 設為索引。</span>
 </span></span><span style="display:flex;"><span>FiveDay_Dataframe <span style="color:#f92672">=</span> FiveDay_Dataframe<span style="color:#f92672">.</span>set_index(keys <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;CountyAndSiteName&#39;</span>])
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示 DataFrame。</span>
 </span></span><span style="display:flex;"><span>FiveDay_Dataframe
 </span></span></code></pre></div><p><img src="figures/6-1-4-2.png" alt="Python output"></p>
 <h3 id="動態時間校正-dynamic-time-warping-dtw">動態時間校正 (Dynamic Time Warping, DTW)</h3>
 <p>接下來，我們必須判斷兩個測站之間的「相似度」，並且將其量化成一個數字。最基本的相似度量測方式，是直接將兩測站的資料，按照感測時間對齊後，計算兩兩之間空氣汙染物質感測數據的差距；但是，若考量測站資料具備時間序列的特性，空氣污染在各個測站間可能發生的順序不一，影響的時間長度亦不一定相同，需要更有彈性的推估兩個測站之間的相似度，因此我們先扣除掉資料中的風向、感測時間、經緯度等資訊後，選用動態時間校正 (DTW) 方法進行相似度量測，若兩個測站資料的 DTW 距離越小，代表兩者的相似度越高。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>Site_TimeSeriesData <span style="color:#f92672">=</span> dict()
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 初始化一個字典，用來儲存每個測站的時間序列資料。</span>
+</span></span><span style="display:flex;"><span>Site_TimeSeriesData <span style="color:#f92672">=</span> dict()
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 針對每個測站提取其時間序列資料。</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> Site <span style="color:#f92672">in</span> np<span style="color:#f92672">.</span>unique(FiveDay_Dataframe<span style="color:#f92672">.</span>index<span style="color:#f92672">.</span>values):
 </span></span><span style="display:flex;"><span>    tmp <span style="color:#f92672">=</span> FiveDay_Dataframe[FiveDay_Dataframe<span style="color:#f92672">.</span>index <span style="color:#f92672">==</span> Site]
 </span></span><span style="display:flex;"><span>    tmp <span style="color:#f92672">=</span> tmp<span style="color:#f92672">.</span>groupby([<span style="color:#e6db74">&#39;CountyAndSiteName&#39;</span>, <span style="color:#e6db74">&#39;PublishTime&#39;</span>], as_index<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)<span style="color:#f92672">.</span>mean()
 </span></span><span style="display:flex;"><span>    tmp <span style="color:#f92672">=</span> tmp<span style="color:#f92672">.</span>loc[:,<span style="color:#f92672">~</span>tmp<span style="color:#f92672">.</span>columns<span style="color:#f92672">.</span>isin([<span style="color:#e6db74">&#39;CountyAndSiteName&#39;</span>, <span style="color:#e6db74">&#39;PublishTime&#39;</span>])]
 </span></span><span style="display:flex;"><span>    Site_TimeSeriesData[Site] <span style="color:#f92672">=</span> tmp<span style="color:#f92672">.</span>to_numpy()
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 獲取測站的名稱。</span>
 </span></span><span style="display:flex;"><span>DictKeys <span style="color:#f92672">=</span> Site_TimeSeriesData<span style="color:#f92672">.</span>keys()
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 初始化一個字典，用來儲存每兩個測站之間的 DTW 距離。</span>
 </span></span><span style="display:flex;"><span>Sites_DTW <span style="color:#f92672">=</span> dict()
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i, key1 <span style="color:#f92672">in</span> enumerate(DictKeys):
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> j, key2 <span style="color:#f92672">in</span> enumerate(DictKeys):
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> i <span style="color:#f92672">&gt;=</span> j: 
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">continue</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>:
-</span></span><span style="display:flex;"><span>						<span style="color:#75715e"># 計算扣除風向、感測時間、經度、緯度後資料的 DTW 距離</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># 計算扣除風向、感測時間、經度、緯度後資料的 DTW 距離。</span>
 </span></span><span style="display:flex;"><span>            Sites_DTW[str(key1)<span style="color:#f92672">+</span><span style="color:#e6db74">&#34; &#34;</span><span style="color:#f92672">+</span>str(key2)] <span style="color:#f92672">=</span> fastdtw(Site_TimeSeriesData[key1][:,:<span style="color:#f92672">-</span><span style="color:#ae81ff">4</span>], Site_TimeSeriesData[key2][:,:<span style="color:#f92672">-</span><span style="color:#ae81ff">4</span>], dist<span style="color:#f92672">=</span>euclidean)[<span style="color:#ae81ff">0</span>]
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 將測站之間的 DTW 距離轉換為 numpy 數組形式。</span>
 </span></span><span style="display:flex;"><span>Sites_DTW_keys <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array(list(Sites_DTW<span style="color:#f92672">.</span>keys()))
 </span></span><span style="display:flex;"><span>Site_DTW_Numpy <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array([[value] <span style="color:#66d9ef">for</span> _, value <span style="color:#f92672">in</span> Sites_DTW<span style="color:#f92672">.</span>items()])
 </span></span></code></pre></div><p>我們將所有測站兩兩間的 DTW 距離畫在數線上，可以得到下方的圖形；其中 DTW 距離從小到大皆有，若要進一步處理，便需要開始使用分群演算法來分析。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>fig <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>figure(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">3</span>), dpi<span style="color:#f92672">=</span><span style="color:#ae81ff">150</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 創建一個 4x3 大小，解析度為 150 dpi 的圖片。</span>
+</span></span><span style="display:flex;"><span>fig <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>figure(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">3</span>), dpi<span style="color:#f92672">=</span><span style="color:#ae81ff">150</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 在圖片中加入一個子圖。</span>
 </span></span><span style="display:flex;"><span>ax <span style="color:#f92672">=</span> fig<span style="color:#f92672">.</span>add_subplot(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 在子圖上繪製散點圖，其中 x 軸為測站間的 DTW 距離，y 軸都設定為 1。每個點的大小設為 0.05。</span>
 </span></span><span style="display:flex;"><span>ax<span style="color:#f92672">.</span>scatter(Site_DTW_Numpy[:,<span style="color:#ae81ff">0</span>], [<span style="color:#ae81ff">1</span>]<span style="color:#f92672">*</span>len(Sites_DTW<span style="color:#f92672">.</span>items()), s<span style="color:#f92672">=</span><span style="color:#ae81ff">0.05</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 隱藏 y 軸。</span>
 </span></span><span style="display:flex;"><span>ax<span style="color:#f92672">.</span>get_yaxis()<span style="color:#f92672">.</span>set_visible(<span style="color:#66d9ef">False</span>)
 </span></span></code></pre></div><p><img src="figures/6-1-4-3.png" alt="Python output"></p>
 <h3 id="使用-k-mean-分群演算法">使用 K-Mean 分群演算法</h3>
 <p>我們使用 sklearn 套件中的 K-Means 模組來進行資料分群，由於分群演算法需事先設定最後要產生的群組數目，我們先設定為 3。我們使用下列的程式碼進行分群，並將結果依照資料所歸屬的群組組別 (Y 軸) 以及與其他資料的 DTW 相似度值 (X 軸) 繪製出來。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> sklearn.cluster <span style="color:#f92672">import</span> KMeans
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 從 sklearn 引入 KMeans 模組。</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> sklearn.cluster <span style="color:#f92672">import</span> KMeans
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用 KMeans 演算法對測站間的 DTW 距離進行分群，並設定群數為 3。</span>
 </span></span><span style="display:flex;"><span>model <span style="color:#f92672">=</span> KMeans(n_clusters<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>, random_state<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)<span style="color:#f92672">.</span>fit([[value] <span style="color:#66d9ef">for</span> _, value <span style="color:#f92672">in</span> Sites_DTW<span style="color:#f92672">.</span>items()])
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 取得分群的結果。</span>
 </span></span><span style="display:flex;"><span>Result <span style="color:#f92672">=</span> model<span style="color:#f92672">.</span>labels_
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 輸出每個群的數量。</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> np<span style="color:#f92672">.</span>unique(Result):
 </span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;Number of Cluster</span><span style="color:#e6db74">{}</span><span style="color:#e6db74"> : </span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">.</span>format(i,len(Result[Result<span style="color:#f92672">==</span>i])))
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 將結果繪圖呈現</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 將分群結果繪製成散點圖。</span>
 </span></span><span style="display:flex;"><span>fig <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>figure(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">3</span>), dpi<span style="color:#f92672">=</span><span style="color:#ae81ff">150</span>)
 </span></span><span style="display:flex;"><span>ax <span style="color:#f92672">=</span> fig<span style="color:#f92672">.</span>add_subplot(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>)
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> np<span style="color:#f92672">.</span>unique(Result):
 </span></span><span style="display:flex;"><span>    ax<span style="color:#f92672">.</span>scatter(Site_DTW_Numpy[Result<span style="color:#f92672">==</span>i][:,<span style="color:#ae81ff">0</span>],[i]<span style="color:#f92672">*</span>len(Site_DTW_Numpy[Result<span style="color:#f92672">==</span>i]), s<span style="color:#f92672">=</span><span style="color:#ae81ff">0.05</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 隱藏 y 軸。</span>
 </span></span><span style="display:flex;"><span>ax<span style="color:#f92672">.</span>get_yaxis()<span style="color:#f92672">.</span>set_visible(<span style="color:#66d9ef">False</span>)
 </span></span></code></pre></div><pre tabindex="0"><code>Number of Cluster0 : 1165
 Number of Cluster1 : 994
@@ -732,16 +801,20 @@ Number of Cluster2 : 542
 <p>從分群結果中，我們可以看到 K-Means 演算法將原始資料分為三個群組，分別有 1165、994、542 筆資料，為了更進一步了解這三個群組的成因，我們繼續追查每個群組形成的可能原因。</p>
 <h3 id="探究資料分群與地理位置的關係">探究資料分群與地理位置的關係</h3>
 <p>我們首先假設空氣品質的變化具有地域性，因此探究資料分群的結果，是否和空品測站的地理位置有關。我們首先擷取測站的 GPS 經緯度座標，並換算出兩倆地理位置的實體距離，接著按照資料分群的結果，把不同群組的實體距離進行簡單的統計分析，並繪製在下方圖片中。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>Dist_for_Clusters <span style="color:#f92672">=</span> [<span style="color:#66d9ef">None</span>]<span style="color:#f92672">*</span>len(np<span style="color:#f92672">.</span>unique(Result))
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 初始化一個列表來儲存每個分群的實體距離。</span>
+</span></span><span style="display:flex;"><span>Dist_for_Clusters <span style="color:#f92672">=</span> [<span style="color:#66d9ef">None</span>]<span style="color:#f92672">*</span>len(np<span style="color:#f92672">.</span>unique(Result))
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 迴圈遍歷所有的分群。</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> np<span style="color:#f92672">.</span>unique(Result):
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 初始化一個列表來儲存此分群的實體距離。</span>
 </span></span><span style="display:flex;"><span>    Dist_for_Cluster <span style="color:#f92672">=</span> []
 </span></span><span style="display:flex;"><span>    Cluster <span style="color:#f92672">=</span> Sites_DTW_keys[Result<span style="color:#f92672">==</span>i]
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 迴圈遍歷分群中的每對站點組合。</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> Sites <span style="color:#f92672">in</span> Cluster:
 </span></span><span style="display:flex;"><span>        Site1, Site2 <span style="color:#f92672">=</span> Sites<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#39; &#39;</span>)
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 獲取兩個測站的經緯度座標</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 獲取兩個測站的經緯度座標。</span>
 </span></span><span style="display:flex;"><span>        coord1 <span style="color:#f92672">=</span> Site_TimeSeriesData[Site1][<span style="color:#ae81ff">0</span>,<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>], Site_TimeSeriesData[Site1][<span style="color:#ae81ff">0</span>,<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>]
 </span></span><span style="display:flex;"><span>        coord2 <span style="color:#f92672">=</span> Site_TimeSeriesData[Site2][<span style="color:#ae81ff">0</span>,<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>], Site_TimeSeriesData[Site2][<span style="color:#ae81ff">0</span>,<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>]
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 計算兩個測站的實體位置距離</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 使用 geopy.distance.geodesic 函式計算兩個測站的實體位置距離，並將結果加到 Dist_for_Cluster 列表。</span>
 </span></span><span style="display:flex;"><span>        Dist_for_Cluster<span style="color:#f92672">.</span>append(geopy<span style="color:#f92672">.</span>distance<span style="color:#f92672">.</span>geodesic(coord1, coord2)<span style="color:#f92672">.</span>km)
 </span></span><span style="display:flex;"><span>    Dist_for_Cluster <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array(Dist_for_Cluster)
 </span></span><span style="display:flex;"><span>    Dist_for_Clusters[i] <span style="color:#f92672">=</span> Dist_for_Cluster
@@ -749,16 +822,22 @@ Number of Cluster2 : 542
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># for Dist_for_Cluster in Dist_for_Clusters:</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#     print(np.mean(Dist_for_Cluster))</span>
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 創建一個新的散點圖，用於展示每個分群的距離數據。</span>
 </span></span><span style="display:flex;"><span>fig <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>figure(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">3</span>), dpi<span style="color:#f92672">=</span><span style="color:#ae81ff">150</span>)
 </span></span><span style="display:flex;"><span>ax <span style="color:#f92672">=</span> fig<span style="color:#f92672">.</span>add_subplot(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 迴圈遍歷所有的分群，並為每個分群繪製散點和平均距離線。</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> np<span style="color:#f92672">.</span>unique(Result):
 </span></span><span style="display:flex;"><span>    gtMean <span style="color:#f92672">=</span> Dist_for_Clusters[i][Dist_for_Clusters[i]<span style="color:#f92672">&gt;</span>np<span style="color:#f92672">.</span>mean(Dist_for_Clusters[i])]
 </span></span><span style="display:flex;"><span>    ltMean <span style="color:#f92672">=</span> Dist_for_Clusters[i][Dist_for_Clusters[i]<span style="color:#f92672">&lt;</span>np<span style="color:#f92672">.</span>mean(Dist_for_Clusters[i])]
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e"># 輸出當前分群的平均距離和其上下偏差的百分比。</span>
 </span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;Mean Distance between Sites for Cluster</span><span style="color:#e6db74">{}</span><span style="color:#e6db74"> : </span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">.</span>format(i, np<span style="color:#f92672">.</span>mean(Dist_for_Clusters[i])))
 </span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;In Cluster</span><span style="color:#e6db74">{}</span><span style="color:#e6db74"> there are </span><span style="color:#e6db74">{:.2%}</span><span style="color:#e6db74"> less than mean, and </span><span style="color:#e6db74">{:.2%}</span><span style="color:#e6db74"> greater than mean.</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">.</span>format(i, len(ltMean)<span style="color:#f92672">/</span>len(Dist_for_Clusters[i]), len(gtMean)<span style="color:#f92672">/</span>len(Dist_for_Clusters[i])))
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 用不同顏色繪製大於和小於平均距離的點。</span>
 </span></span><span style="display:flex;"><span>    ax<span style="color:#f92672">.</span>scatter(gtMean, [i]<span style="color:#f92672">*</span>len(gtMean), s<span style="color:#f92672">=</span><span style="color:#ae81ff">0.05</span>, color<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;orange&#34;</span>)
 </span></span><span style="display:flex;"><span>    ax<span style="color:#f92672">.</span>scatter(ltMean, [i]<span style="color:#f92672">*</span>len(ltMean), s<span style="color:#f92672">=</span><span style="color:#ae81ff">0.05</span>, color<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;pink&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 畫出該分群的平均距離的紅色線。</span>
 </span></span><span style="display:flex;"><span>    ax<span style="color:#f92672">.</span>axvline(np<span style="color:#f92672">.</span>mean(Dist_for_Clusters[i]), ymin <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.45</span><span style="color:#f92672">*</span>i, ymax <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.45</span><span style="color:#f92672">*</span>i<span style="color:#f92672">+</span><span style="color:#ae81ff">0.1</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;red&#34;</span>, linewidth<span style="color:#f92672">=</span><span style="color:#ae81ff">0.5</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 隱藏 y 軸。</span>
 </span></span><span style="display:flex;"><span>ax<span style="color:#f92672">.</span>get_yaxis()<span style="color:#f92672">.</span>set_visible(<span style="color:#66d9ef">False</span>)
 </span></span></code></pre></div><pre tabindex="0"><code>Mean Distance between Sites for Cluster0 : 84.34126465234523
 In Cluster0 there are 60.09% less than mean, and 39.91% greater than mean.
@@ -772,7 +851,8 @@ In Cluster2 there are 39.48% less than mean, and 60.52% greater than mean.
 <p>從分析的結果中，我們可以發現對於 DTW 數值較高（時間序列相似度較低）的群組，其測站間的距離平均值亦較高，反之則距離平均值較低，由此可知測站資料的相似度確實與地理位置的差異有關，也應證了我們的假設，確認了空氣污染物的擴散確實會受到地理位置距離的影響。</p>
 <h3 id="探究資料分群與風場風向的關係">探究資料分群與風場風向的關係</h3>
 <p>我們接著假設空氣品質的變化受到環境風場的影響，因此探究資料分群的結果，是否和空品測站所在地的風向有關。我們首先擷取測站的 GPS 經緯度座標，並換算出兩倆地理位置的方位角關係，接著按照資料分群的結果，根據地理位置方位角與現場風向計算兩者的相關性，並將所獲得的數值進行簡單的統計分析，再繪製於下圖。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_bearing</span>(lat1, long1, lat2, long2):
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 計算兩點之間的方位角。</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_bearing</span>(lat1, long1, lat2, long2):
 </span></span><span style="display:flex;"><span>    dLon <span style="color:#f92672">=</span> (long2 <span style="color:#f92672">-</span> long1)
 </span></span><span style="display:flex;"><span>    x <span style="color:#f92672">=</span> math<span style="color:#f92672">.</span>cos(math<span style="color:#f92672">.</span>radians(lat2)) <span style="color:#f92672">*</span> math<span style="color:#f92672">.</span>sin(math<span style="color:#f92672">.</span>radians(dLon))
 </span></span><span style="display:flex;"><span>    y <span style="color:#f92672">=</span> math<span style="color:#f92672">.</span>cos(math<span style="color:#f92672">.</span>radians(lat1)) <span style="color:#f92672">*</span> math<span style="color:#f92672">.</span>sin(math<span style="color:#f92672">.</span>radians(lat2)) <span style="color:#f92672">-</span> math<span style="color:#f92672">.</span>sin(math<span style="color:#f92672">.</span>radians(lat1)) <span style="color:#f92672">*</span> math<span style="color:#f92672">.</span>cos(math<span style="color:#f92672">.</span>radians(lat2)) <span style="color:#f92672">*</span> math<span style="color:#f92672">.</span>cos(math<span style="color:#f92672">.</span>radians(dLon))
@@ -780,24 +860,30 @@ In Cluster2 there are 39.48% less than mean, and 60.52% greater than mean.
 </span></span><span style="display:flex;"><span>    brng <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>degrees(brng)
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> brng
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 檢查方位角和風向之間的關聯性。</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">Check_Wind_Dirc</span>(brng, wind_dirc):
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 確定方位角和風向之間的差距是否在45度之內。</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> brng <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">180</span>:
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> ((brng <span style="color:#f92672">&lt;</span> wind_dirc <span style="color:#f92672">+</span> <span style="color:#ae81ff">45</span>) <span style="color:#f92672">and</span> (brng <span style="color:#f92672">&gt;</span> wind_dirc <span style="color:#f92672">-</span> <span style="color:#ae81ff">45</span>)) <span style="color:#f92672">or</span> ((brng <span style="color:#f92672">-</span> <span style="color:#ae81ff">180</span> <span style="color:#f92672">&lt;</span> wind_dirc <span style="color:#f92672">+</span> <span style="color:#ae81ff">45</span>) <span style="color:#f92672">and</span> (brng <span style="color:#f92672">-</span> <span style="color:#ae81ff">180</span> <span style="color:#f92672">&gt;</span> wind_dirc <span style="color:#f92672">-</span> <span style="color:#ae81ff">45</span>))
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>:
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> ((brng <span style="color:#f92672">&lt;</span> wind_dirc <span style="color:#f92672">+</span> <span style="color:#ae81ff">45</span>) <span style="color:#f92672">and</span> (brng <span style="color:#f92672">&gt;</span> wind_dirc <span style="color:#f92672">-</span> <span style="color:#ae81ff">45</span>)) <span style="color:#f92672">or</span> ((brng <span style="color:#f92672">+</span> <span style="color:#ae81ff">180</span> <span style="color:#f92672">&lt;</span> wind_dirc <span style="color:#f92672">+</span> <span style="color:#ae81ff">45</span>) <span style="color:#f92672">and</span> (brng <span style="color:#f92672">+</span> <span style="color:#ae81ff">180</span> <span style="color:#f92672">&gt;</span> wind_dirc <span style="color:#f92672">-</span> <span style="color:#ae81ff">45</span>))
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 初始化兩個列表來儲存每個分群的方位角和風相關布爾值。</span>
 </span></span><span style="display:flex;"><span>Brng_for_Clusters <span style="color:#f92672">=</span> [<span style="color:#66d9ef">None</span>]<span style="color:#f92672">*</span>len(np<span style="color:#f92672">.</span>unique(Result))
 </span></span><span style="display:flex;"><span>Boolean_WindRelated_for_Clusters <span style="color:#f92672">=</span> [<span style="color:#66d9ef">None</span>]<span style="color:#f92672">*</span>len(np<span style="color:#f92672">.</span>unique(Result))
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 迴圈遍歷所有分群。</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> np<span style="color:#f92672">.</span>unique(Result):
 </span></span><span style="display:flex;"><span>    Brng_for_Cluster <span style="color:#f92672">=</span> []
 </span></span><span style="display:flex;"><span>    Boolean_WindRelated_for_Cluster <span style="color:#f92672">=</span> []
 </span></span><span style="display:flex;"><span>    Cluster <span style="color:#f92672">=</span> Sites_DTW_keys[Result<span style="color:#f92672">==</span>i]
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 迴圈遍歷分群中的每對站點組合。</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> Sites <span style="color:#f92672">in</span> Cluster:
 </span></span><span style="display:flex;"><span>        Site1, Site2 <span style="color:#f92672">=</span> Sites<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#39; &#39;</span>)
 </span></span><span style="display:flex;"><span>        coord1 <span style="color:#f92672">=</span> Site_TimeSeriesData[Site1][<span style="color:#ae81ff">0</span>,<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>], Site_TimeSeriesData[Site1][<span style="color:#ae81ff">0</span>,<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>]
 </span></span><span style="display:flex;"><span>        coord2 <span style="color:#f92672">=</span> Site_TimeSeriesData[Site2][<span style="color:#ae81ff">0</span>,<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>], Site_TimeSeriesData[Site2][<span style="color:#ae81ff">0</span>,<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>]
 </span></span><span style="display:flex;"><span>        Brng_Between_Site <span style="color:#f92672">=</span> get_bearing(coord1[<span style="color:#ae81ff">0</span>], coord1[<span style="color:#ae81ff">1</span>], coord2[<span style="color:#ae81ff">0</span>], coord2[<span style="color:#ae81ff">1</span>])
 </span></span><span style="display:flex;"><span>        Brng_for_Cluster<span style="color:#f92672">.</span>append(Brng_Between_Site)
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 取得兩個站點的平均風向。</span>
 </span></span><span style="display:flex;"><span>        MeanWindDirc1 <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>mean(Site_TimeSeriesData[Site1][:,<span style="color:#f92672">-</span><span style="color:#ae81ff">3</span>])
 </span></span><span style="display:flex;"><span>        MeanWindDirc2 <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>mean(Site_TimeSeriesData[Site2][:,<span style="color:#f92672">-</span><span style="color:#ae81ff">3</span>])
 </span></span><span style="display:flex;"><span>        Boolean_WindRelated_for_Cluster<span style="color:#f92672">.</span>append(Check_Wind_Dirc(Brng_Between_Site, MeanWindDirc1) <span style="color:#f92672">or</span> Check_Wind_Dirc(Brng_Between_Site, MeanWindDirc2))
@@ -808,14 +894,17 @@ In Cluster2 there are 39.48% less than mean, and 60.52% greater than mean.
 </span></span><span style="display:flex;"><span>Brng_for_Clusters <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array(Brng_for_Clusters)
 </span></span><span style="display:flex;"><span>Boolean_WindRelated_for_Clusters <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array(Boolean_WindRelated_for_Clusters)
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 顯示和風向相關或不相關的測站間的距離。</span>
 </span></span><span style="display:flex;"><span>fig <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>figure(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">3</span>), dpi<span style="color:#f92672">=</span><span style="color:#ae81ff">150</span>)
 </span></span><span style="display:flex;"><span>ax <span style="color:#f92672">=</span> fig<span style="color:#f92672">.</span>add_subplot(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>)
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> np<span style="color:#f92672">.</span>unique(Result):
 </span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;Relevance for Cluster</span><span style="color:#e6db74">{}</span><span style="color:#e6db74"> : </span><span style="color:#e6db74">{:.2%}</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">.</span>format(i, len(Dist_for_Clusters[i][Boolean_WindRelated_for_Clusters[i] <span style="color:#f92672">==</span> <span style="color:#66d9ef">True</span>])<span style="color:#f92672">/</span>len(Dist_for_Clusters[i])))
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 以不同的顏色顯示與風向相關或不相關的測站</span>
 </span></span><span style="display:flex;"><span>    ax<span style="color:#f92672">.</span>scatter(Dist_for_Clusters[i][Boolean_WindRelated_for_Clusters[i] <span style="color:#f92672">==</span> <span style="color:#66d9ef">True</span>],\
 </span></span><span style="display:flex;"><span>               [i]<span style="color:#f92672">*</span>len(Dist_for_Clusters[i][Boolean_WindRelated_for_Clusters[i] <span style="color:#f92672">==</span> <span style="color:#66d9ef">True</span>]), s<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>, color<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;green&#34;</span>)
 </span></span><span style="display:flex;"><span>    ax<span style="color:#f92672">.</span>scatter(Dist_for_Clusters[i][Boolean_WindRelated_for_Clusters[i] <span style="color:#f92672">==</span> <span style="color:#66d9ef">False</span>],\
 </span></span><span style="display:flex;"><span>               [i]<span style="color:#f92672">*</span>len(Dist_for_Clusters[i][Boolean_WindRelated_for_Clusters[i] <span style="color:#f92672">==</span> <span style="color:#66d9ef">False</span>]), s<span style="color:#f92672">=</span><span style="color:#ae81ff">0.05</span>, color<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;violet&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 畫出該分群的平均距離的紅色線</span>
 </span></span><span style="display:flex;"><span>    ax<span style="color:#f92672">.</span>axvline(np<span style="color:#f92672">.</span>mean(Dist_for_Clusters[i]), ymin <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.45</span><span style="color:#f92672">*</span>i, ymax <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.45</span><span style="color:#f92672">*</span>i<span style="color:#f92672">+</span><span style="color:#ae81ff">0.1</span>, color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;red&#34;</span>, linewidth<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>)
 </span></span><span style="display:flex;"><span>ax<span style="color:#f92672">.</span>get_yaxis()<span style="color:#f92672">.</span>set_visible(<span style="color:#66d9ef">False</span>)
 </span></span></code></pre></div><pre tabindex="0"><code>Relevance for Cluster0 : 54.08%
@@ -827,73 +916,107 @@ Relevance for Cluster2 : 22.69%
 <p>在這個案例中，我們結合資料分群與資料分類同時進行演練。我們使用民生公共物聯網開放資料中的中央氣象局雨量站和水利署（與縣市政府合建）淹水感測器的感測資料，並且透過歷史資料的分析，利用資料分群的方式，尋找和降雨變化最為相關的河川水位站群組，並且利用資料分類的方式，在僅有雨量資料的狀況時，得以進行特定地區是否造成淹水的預測。</p>
 <h3 id="資料下載與前處理-1">資料下載與前處理</h3>
 <p>我們使用下列的程式碼，從民生公共物聯網開放資料平台的<a href="https://history.colife.org.tw/">歷史資料庫</a>中下載 2021 年中央氣象局雨量站和水利署（與縣市政府合建）淹水感測器的所有感測資料，並將下載回來的壓縮檔解開後，置於 <code>/content</code> 的目錄下。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 下載中央氣象局雨量站歷史資料</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 下載中央氣象局雨量站歷史資料。</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>wget <span style="color:#f92672">-</span>O <span style="color:#e6db74">&#39;Rain_2021.zip&#39;</span> <span style="color:#f92672">-</span>q <span style="color:#e6db74">&#34;https://history.colife.org.tw/?r=/download&amp;path=L%2Bawo%2BixoS</span><span style="color:#e6db74">%2F</span><span style="color:#e6db74">kuK3lpK7msKPosaHlsYBf6Zuo6YeP56uZLzIwMjEuemlw&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>wget <span style="color:#f92672">-</span>O <span style="color:#e6db74">&#39;Rain_Stataion.csv&#39;</span> <span style="color:#f92672">-</span>q <span style="color:#e6db74">&#34;https://history.colife.org.tw/?r=/download&amp;path=L%2Bawo%2BixoS</span><span style="color:#e6db74">%2F</span><span style="color:#e6db74">kuK3lpK7msKPosaHlsYBf6Zuo6YeP56uZL3JhaW5fc3RhdGlvbi5jc3Y%3D&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>unzip <span style="color:#f92672">-</span>q <span style="color:#e6db74">&#39;Rain_2021.zip&#39;</span> <span style="color:#f92672">&amp;&amp;</span> rm <span style="color:#e6db74">&#39;Rain_2021.zip&#39;</span> 
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>find <span style="color:#e6db74">&#39;/content/2021&#39;</span> <span style="color:#f92672">-</span>name <span style="color:#e6db74">&#39;*.zip&#39;</span>  <span style="color:#f92672">-</span>exec unzip <span style="color:#f92672">-</span>q {} <span style="color:#f92672">-</span>d <span style="color:#e6db74">&#39;/content/Rain_2021_csv&#39;</span> \;
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>rm <span style="color:#f92672">-</span>rf <span style="color:#e6db74">&#39;/content/2021&#39;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 下載水利署（與縣市政府合建）淹水感測器資料</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 下載水利署（與縣市政府合建）淹水感測器資料。</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>wget <span style="color:#f92672">-</span>O <span style="color:#e6db74">&#39;Flood_2021.zip&#39;</span> <span style="color:#f92672">-</span>q <span style="color:#e6db74">&#34;https://history.colife.org.tw/?r=/download&amp;path=L%2BawtOizh%2Ba6kC</span><span style="color:#e6db74">%2F</span><span style="color:#e6db74">msLTliKnnvbLvvIjoiIfnuKPluILmlL</span><span style="color:#e6db74">%2F</span><span style="color:#e6db74">lupzlkIjlu7rvvIlf5re55rC05oSf5ris5ZmoLzIwMjEuemlw&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>wget <span style="color:#f92672">-</span>O <span style="color:#e6db74">&#39;Flood_Stataion.csv&#39;</span> <span style="color:#f92672">-</span>q <span style="color:#e6db74">&#34;https://history.colife.org.tw/?r=/download&amp;path=L%2BawtOizh%2Ba6kC</span><span style="color:#e6db74">%2F</span><span style="color:#e6db74">msLTliKnnvbLvvIjoiIfnuKPluILmlL</span><span style="color:#e6db74">%2F</span><span style="color:#e6db74">lupzlkIjlu7rvvIlf5re55rC05oSf5ris5ZmoL3N0YXRpb25f5rC05Yip572y77yI6IiH57ij5biC5pS</span><span style="color:#e6db74">%2F</span><span style="color:#e6db74">5bqc5ZCI5bu677yJX%2Ba3ueawtOaEn%2Ba4rOWZqC5jc3Y%3D&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>unzip <span style="color:#f92672">-</span>q <span style="color:#e6db74">&#39;Flood_2021.zip&#39;</span> <span style="color:#f92672">&amp;&amp;</span> rm <span style="color:#e6db74">&#39;Flood_2021.zip&#39;</span> 
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>find <span style="color:#e6db74">&#39;/content/2021&#39;</span> <span style="color:#f92672">-</span>name <span style="color:#e6db74">&#39;*_QC.zip&#39;</span>  <span style="color:#f92672">-</span>exec unzip <span style="color:#f92672">-</span>q {} <span style="color:#f92672">-</span>d <span style="color:#e6db74">&#39;/content/Flood_2021_csv&#39;</span> \;
 </span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">!</span>rm <span style="color:#f92672">-</span>rf <span style="color:#e6db74">&#39;/content/2021&#39;</span>
 </span></span></code></pre></div><p>接下來我們先處理降雨量資料，將所下載的 2021 年所有測站的資料逐一讀取，並把接下來不會使用到的 <code>MIN_10</code>、<code>HOUR_6</code>、<code>HOUR_12</code>、<code>NOW</code> 欄位刪除，同時移除 11 月以後的資料後，彙整為 <code>Rain_df</code> 物件，同時讀入測站資訊成為 <code>Rain_Station_df</code> 物件。由於這個步驟所處理的資料量十分龐大，因此會花費較多的時間，請耐心等候。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>csv_files <span style="color:#f92672">=</span> glob<span style="color:#f92672">.</span>glob(os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(<span style="color:#e6db74">&#34;/content/Rain_2021_csv&#34;</span>, <span style="color:#e6db74">&#34;*.csv&#34;</span>))
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 從 Rain_2021_csv 資料夾中找到所有 csv 檔案的路徑，並將這些路徑排序。</span>
+</span></span><span style="display:flex;"><span>csv_files <span style="color:#f92672">=</span> glob<span style="color:#f92672">.</span>glob(os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(<span style="color:#e6db74">&#34;/content/Rain_2021_csv&#34;</span>, <span style="color:#e6db74">&#34;*.csv&#34;</span>))
 </span></span><span style="display:flex;"><span>csv_files<span style="color:#f92672">.</span>sort()
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 建立一個空的 DataFrame，用於後續儲存資料。</span>
 </span></span><span style="display:flex;"><span>Rain_df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame()
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 將所有資料逐一讀取，並把接下來不會使用到的 MIN_10、HOUR_6、HOUR_12、NOW 欄位刪除</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 迴圈遍歷所有 csv 檔案。將所有資料逐一讀取，並把接下來不會使用到的 MIN_10、HOUR_6、HOUR_12、NOW 欄位刪除</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> csv_file <span style="color:#f92672">in</span> tqdm(csv_files):
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 讀取 csv 檔案，並將 obsTime 欄位解析為日期時間格式。</span>
 </span></span><span style="display:flex;"><span>    tmp_df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(csv_file, parse_dates<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;obsTime&#39;</span>])
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 移除不必要的欄位。</span>
 </span></span><span style="display:flex;"><span>    tmp_df<span style="color:#f92672">.</span>drop([<span style="color:#e6db74">&#39;MIN_10&#39;</span>,<span style="color:#e6db74">&#39;HOUR_6&#39;</span>, <span style="color:#e6db74">&#39;HOUR_12&#39;</span>, <span style="color:#e6db74">&#39;NOW&#39;</span>], axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 保留在每小時整點觀測的資料。</span>
 </span></span><span style="display:flex;"><span>        tmp_df <span style="color:#f92672">=</span> tmp_df<span style="color:#f92672">.</span>loc[tmp_df[<span style="color:#e6db74">&#39;obsTime&#39;</span>]<span style="color:#f92672">.</span>dt<span style="color:#f92672">.</span>minute <span style="color:#f92672">==</span> <span style="color:#ae81ff">00</span>]
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 將處理過的資料加入到 Rain_df 中。</span>
 </span></span><span style="display:flex;"><span>        Rain_df <span style="color:#f92672">=</span>  pd<span style="color:#f92672">.</span>concat([Rain_df, tmp_df])
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">except</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 若有異常，輸出有問題的 csv 檔名。</span>
 </span></span><span style="display:flex;"><span>        print(csv_file)
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">continue</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 只保留 2021 年 10 月 31 日之前的資料。</span>
 </span></span><span style="display:flex;"><span>Rain_df <span style="color:#f92672">=</span> Rain_df<span style="color:#f92672">.</span>loc[Rain_df[<span style="color:#e6db74">&#39;obsTime&#39;</span>] <span style="color:#f92672">&lt;</span> <span style="color:#e6db74">&#34;2021-11-01 00:00:00&#34;</span>]
 </span></span><span style="display:flex;"><span>num <span style="color:#f92672">=</span> Rain_df<span style="color:#f92672">.</span>_get_numeric_data()
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 將數值小於 0 的資料設為 0。</span>
 </span></span><span style="display:flex;"><span>num[num <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 去除有缺失值的資料行。</span>
 </span></span><span style="display:flex;"><span>Rain_df<span style="color:#f92672">.</span>dropna(inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 根據站點 ID 和觀測時間排序資料。</span>
 </span></span><span style="display:flex;"><span>Rain_df<span style="color:#f92672">.</span>sort_values(by<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;station_id&#39;</span>,<span style="color:#e6db74">&#39;obsTime&#39;</span>], inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 讀取雨量站資料。</span>
 </span></span><span style="display:flex;"><span>Rain_Station_df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(<span style="color:#e6db74">&#39;/content/Rain_Stataion.csv&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 最後顯示整理後的雨量資料。</span>
 </span></span><span style="display:flex;"><span>Rain_df
 </span></span></code></pre></div><p><img src="figures/6-1-5-1.png" alt="Python output"></p>
 <p>我們接下來處理淹水感測器的資料，將所下載的 2021 年所有測站的資料逐一讀取，並移除 11 月以後的資料，以及含有缺失值的資料後，將資料儲存為 <code>Flood_df</code> 物件，同時讀入測站資訊成為 <code>Flood_Station_df</code> 物件。這個步驟所處理的資料量一樣十分龐大，因此會花費較多的時間，請務必耐心等候。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>csv_files <span style="color:#f92672">=</span> glob<span style="color:#f92672">.</span>glob(os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(<span style="color:#e6db74">&#34;/content/Flood_2021_csv&#34;</span>, <span style="color:#e6db74">&#34;*_QC.csv&#34;</span>))
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 取得 &#34;/content/Flood_2021_csv&#34; 目錄下所有的結尾是 &#34;_QC.csv&#34; 的文件路徑。</span>
+</span></span><span style="display:flex;"><span>csv_files <span style="color:#f92672">=</span> glob<span style="color:#f92672">.</span>glob(os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(<span style="color:#e6db74">&#34;/content/Flood_2021_csv&#34;</span>, <span style="color:#e6db74">&#34;*_QC.csv&#34;</span>))
 </span></span><span style="display:flex;"><span>csv_files<span style="color:#f92672">.</span>sort()
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 創建一個空的 DataFrame 來存放所有的淹水感測器資料。</span>
 </span></span><span style="display:flex;"><span>Flood_df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>DataFrame()
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 將所有資料逐一讀取，並彙整成 Flood_df </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 迴圈遍歷每一個 CSV 文件，將所有資料逐一讀取，並彙整成 Flood_df </span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> csv_file <span style="color:#f92672">in</span> tqdm(csv_files):
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 讀取 CSV 文件到暫時的 DataFrame。</span>
 </span></span><span style="display:flex;"><span>    tmp_df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(csv_file, parse_dates<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;timestamp&#39;</span>])
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 選取單位為 &#39;cm&#39; 的資料。</span>
 </span></span><span style="display:flex;"><span>    tmp_df <span style="color:#f92672">=</span> tmp_df<span style="color:#f92672">.</span>loc[(tmp_df[<span style="color:#e6db74">&#39;PQ_unit&#39;</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;cm&#39;</span>)]
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 將 tmp_df 的資料加到主 DataFrame。</span>
 </span></span><span style="display:flex;"><span>    Flood_df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>concat([Flood_df,tmp_df], axis<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, ignore_index<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 選取 timestamp 小於 &#34;2021-11-01 00:00:00&#34; 的資料。</span>
 </span></span><span style="display:flex;"><span>Flood_df <span style="color:#f92672">=</span> Flood_df<span style="color:#f92672">.</span>loc[Flood_df[<span style="color:#e6db74">&#39;timestamp&#39;</span>] <span style="color:#f92672">&lt;</span> <span style="color:#e6db74">&#34;2021-11-01 00:00:00&#34;</span>]
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 將數值為 -999.0 的資料替換成 0.0。</span>
 </span></span><span style="display:flex;"><span>Flood_df<span style="color:#f92672">.</span>replace(<span style="color:#f92672">-</span><span style="color:#ae81ff">999.0</span>,<span style="color:#ae81ff">0.0</span>, inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 去除 NaN 的資料。</span>
 </span></span><span style="display:flex;"><span>Flood_df<span style="color:#f92672">.</span>dropna(inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 根據 timestamp 來排序資料。</span>
 </span></span><span style="display:flex;"><span>Flood_df<span style="color:#f92672">.</span>sort_values(by<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;timestamp&#39;</span>], inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 讀取淹水感測器的站點資料。</span>
 </span></span><span style="display:flex;"><span>Flood_Station_df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(<span style="color:#e6db74">&#39;/content/Flood_Stataion.csv&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 輸出整理好的 Flood_df。</span>
 </span></span><span style="display:flex;"><span>Flood_df
 </span></span></code></pre></div><p><img src="figures/6-1-5-2.png" alt="Python output"></p>
 <h3 id="計算特定淹水感測器與雨量測站資料的相似度">計算特定淹水感測器與雨量測站資料的相似度</h3>
 <p>由於淹水感測器的資料量十分龐大，因此我們先挑選一個位於雲林縣且編號為 <code>43b2aec1-69b0-437b-b2a2-27c76a3949e8</code> 的淹水感測器，將其資料取出後存在 <code>Flood_Site_df</code> 物件中，作為後續處理的範例。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>Flood_Site_df <span style="color:#f92672">=</span> Flood_df<span style="color:#f92672">.</span>loc[Flood_df[<span style="color:#e6db74">&#39;station_id&#39;</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;43b2aec1-69b0-437b-b2a2-27c76a3949e8&#39;</span>]
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 從 Flood_df 中選取 station_id 為 &#39;43b2aec1-69b0-437b-b2a2-27c76a3949e8&#39; 的資料。</span>
+</span></span><span style="display:flex;"><span>Flood_Site_df <span style="color:#f92672">=</span> Flood_df<span style="color:#f92672">.</span>loc[Flood_df[<span style="color:#e6db74">&#39;station_id&#39;</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;43b2aec1-69b0-437b-b2a2-27c76a3949e8&#39;</span>]
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 輸出 Flood_Site_df 的前五行資料。</span>
 </span></span><span style="display:flex;"><span>Flood_Site_df<span style="color:#f92672">.</span>head()
 </span></span></code></pre></div><p><img src="figures/6-1-5-3.png" alt="Python output"></p>
 <p>我們接著計算雨量站資料與選定的淹水感測器之間的相似度，我們一樣使用動態時間校正 (Dynamic Time Warping, DTW) 進行量測，由於 DTW 的值越小代表相似度越大，為了能更直觀表達相似度，我們在這個案例中，將相似度定義為 DTW 值的倒數，並且計算這個選定的淹水感測器與所有雨量站資料的相似度。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>Flood_Sensor_np <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array([[v,v,v] <span style="color:#66d9ef">for</span> v <span style="color:#f92672">in</span> Flood_Site_df[<span style="color:#e6db74">&#39;value&#39;</span>]<span style="color:#f92672">.</span>to_numpy()])
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 將 Flood_Site_df 的 &#39;value&#39; 欄位的值重複三次，製作成一個新的 NumPy 陣列。</span>
+</span></span><span style="display:flex;"><span>Flood_Sensor_np <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array([[v,v,v] <span style="color:#66d9ef">for</span> v <span style="color:#f92672">in</span> Flood_Site_df[<span style="color:#e6db74">&#39;value&#39;</span>]<span style="color:#f92672">.</span>to_numpy()])
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 初始化一個空字典，用來儲存每個雨量站與淹水感測器資料的 DTW 距離。</span>
 </span></span><span style="display:flex;"><span>Site_dtw_Dist <span style="color:#f92672">=</span> dict()
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 從 Rain_df 中選取小時為 1 的資料。</span>
 </span></span><span style="display:flex;"><span>Rain_tmp_df <span style="color:#f92672">=</span> Rain_df<span style="color:#f92672">.</span>loc[(Rain_df[<span style="color:#e6db74">&#39;obsTime&#39;</span>]<span style="color:#f92672">.</span>dt<span style="color:#f92672">.</span>hour <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>)]
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 迴圈遍歷臺南市的所有雨量站。</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> Site <span style="color:#f92672">in</span> tqdm(np<span style="color:#f92672">.</span>unique(Rain_Station_df<span style="color:#f92672">.</span>loc[Rain_Station_df[<span style="color:#e6db74">&#39;city&#39;</span>]<span style="color:#f92672">==</span><span style="color:#e6db74">&#39;臺南市&#39;</span>][<span style="color:#e6db74">&#39;station_id&#39;</span>]<span style="color:#f92672">.</span>to_numpy())):
 </span></span><span style="display:flex;"><span>    tmp_df <span style="color:#f92672">=</span> Rain_tmp_df<span style="color:#f92672">.</span>loc[(Rain_tmp_df[<span style="color:#e6db74">&#39;station_id&#39;</span>] <span style="color:#f92672">==</span> Site)]
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> tmp_df<span style="color:#f92672">.</span>empty:
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">continue</span>
 </span></span><span style="display:flex;"><span>    tmp_np <span style="color:#f92672">=</span> tmp_df[[<span style="color:#e6db74">&#39;RAIN&#39;</span>,<span style="color:#e6db74">&#39;HOUR_3&#39;</span>,<span style="color:#e6db74">&#39;HOUR_24&#39;</span>]]<span style="color:#f92672">.</span>to_numpy()
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 使用 fastdtw 計算 Flood_Sensor_np 和 tmp_np 之間的 DTW 距離。</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 計算完的值取倒數，儲存到 Site_dtw_Dist 字典中。</span>
 </span></span><span style="display:flex;"><span>    Site_dtw_Dist[Site] <span style="color:#f92672">=</span> (<span style="color:#ae81ff">1</span><span style="color:#f92672">/</span>fastdtw(Flood_Sensor_np, tmp_np, dist<span style="color:#f92672">=</span>euclidean)[<span style="color:#ae81ff">0</span>])
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 根據 DTW 距離值排序 Site_dtw_Dist 字典。</span>
 </span></span><span style="display:flex;"><span>Site_dtw_Dist <span style="color:#f92672">=</span> dict(sorted(Site_dtw_Dist<span style="color:#f92672">.</span>items(), key<span style="color:#f92672">=</span><span style="color:#66d9ef">lambda</span> item: item[<span style="color:#ae81ff">1</span>]))
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 輸出 Site_dtw_Dist 字典的內容。</span>
 </span></span><span style="display:flex;"><span>print(json<span style="color:#f92672">.</span>dumps(Site_dtw_Dist, indent<span style="color:#f92672">=</span><span style="color:#ae81ff">4</span>, ensure_ascii<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>))
 </span></span></code></pre></div><pre tabindex="0"><code>{
     &#34;88K590&#34;: 4.580649481044748e-05,
@@ -934,22 +1057,35 @@ Relevance for Cluster2 : 22.69%
 }
 </code></pre><h3 id="資料分群並探究相關性高的雨量站">資料分群並探究相關性高的雨量站</h3>
 <p>如同前面的作法，我們藉由分群演算法來幫我們依照相似度的關係，將雨量計分為三個群組，並且找出其中相似度最高的群組，以及群組中的雨量計代碼。在我們的範例中，我們找到的三個群組各自有 9、23、3 個雨量計，同時第二個群組的時間序列資料與淹水感測器的資料相似度最高。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>cluster_model <span style="color:#f92672">=</span> KMeans(n_clusters<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>)<span style="color:#f92672">.</span>fit([[value] <span style="color:#66d9ef">for</span> _, value <span style="color:#f92672">in</span> Site_dtw_Dist<span style="color:#f92672">.</span>items()])
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 使用 KMeans 演算法進行分群，並將分成3個群組的結果保存到 cluster_model 中。</span>
+</span></span><span style="display:flex;"><span>cluster_model <span style="color:#f92672">=</span> KMeans(n_clusters<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>)<span style="color:#f92672">.</span>fit([[value] <span style="color:#66d9ef">for</span> _, value <span style="color:#f92672">in</span> Site_dtw_Dist<span style="color:#f92672">.</span>items()])
 </span></span><span style="display:flex;"><span>Result <span style="color:#f92672">=</span> cluster_model<span style="color:#f92672">.</span>labels_
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 迴圈遍歷每一個群組，輸出該群組中的站點數量。</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> np<span style="color:#f92672">.</span>unique(Result):
 </span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;Number of Cluster </span><span style="color:#e6db74">{}</span><span style="color:#e6db74"> : </span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">.</span>format(i,len(Result[Result<span style="color:#f92672">==</span>i])))
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 初始化一個繪圖畫布，大小為 4x3，解析度為 150dpi</span>
 </span></span><span style="display:flex;"><span>fig <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>figure(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">3</span>), dpi<span style="color:#f92672">=</span><span style="color:#ae81ff">150</span>)
 </span></span><span style="display:flex;"><span>ax <span style="color:#f92672">=</span> fig<span style="color:#f92672">.</span>add_subplot(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 將 Site_dtw_Dist 轉換成 numpy 陣列，方便後續操作。</span>
 </span></span><span style="display:flex;"><span>Site_DTW_Numpy <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array([value <span style="color:#66d9ef">for</span> _, value <span style="color:#f92672">in</span> Site_dtw_Dist<span style="color:#f92672">.</span>items()])
 </span></span><span style="display:flex;"><span>Site_Name_Numpy <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array([key <span style="color:#66d9ef">for</span> key, _ <span style="color:#f92672">in</span> Site_dtw_Dist<span style="color:#f92672">.</span>items()])
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 初始化一個陣列，用來儲存每一群的平均 DTW 距離。</span>
 </span></span><span style="display:flex;"><span>Mean_Dis_For_Cluster <span style="color:#f92672">=</span> [<span style="color:#66d9ef">None</span>] <span style="color:#f92672">*</span> len(np<span style="color:#f92672">.</span>unique(Result))
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 迴圈遍歷每一群，計算該群的平均 DTW 距離，並在散佈圖上畫出該群的所有點。</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> np<span style="color:#f92672">.</span>unique(Result):
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 計算並儲存該群組的平均 DTW 距離。</span>
 </span></span><span style="display:flex;"><span>    Mean_Dis_For_Cluster[i] <span style="color:#f92672">=</span> (np<span style="color:#f92672">.</span>mean(Site_DTW_Numpy[Result<span style="color:#f92672">==</span>i]))
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 繪製散佈圖，將該群組中的所有點都畫出來。</span>
 </span></span><span style="display:flex;"><span>    ax<span style="color:#f92672">.</span>scatter(Site_DTW_Numpy[Result<span style="color:#f92672">==</span>i],[i]<span style="color:#f92672">*</span>len(Site_DTW_Numpy[Result<span style="color:#f92672">==</span>i]), s<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 輸出該群組的平均 DTW 距離。</span>
 </span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;Mean Distance of Cluster </span><span style="color:#e6db74">{}</span><span style="color:#e6db74"> : </span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">.</span>format(i,Mean_Dis_For_Cluster[i]))
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 由於 y 軸僅代表群組標籤，因此隱藏 y 軸以提高可讀性。</span>
 </span></span><span style="display:flex;"><span>ax<span style="color:#f92672">.</span>get_yaxis()<span style="color:#f92672">.</span>set_visible(<span style="color:#66d9ef">False</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 找出所有群組中，平均 DTW 距離最大的群組。</span>
 </span></span><span style="display:flex;"><span>Best_Cluster <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>where(Mean_Dis_For_Cluster <span style="color:#f92672">==</span> np<span style="color:#f92672">.</span>amax(Mean_Dis_For_Cluster))[<span style="color:#ae81ff">0</span>]
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 從該最大平均距離群組中，取得所有站點的名稱。</span>
 </span></span><span style="display:flex;"><span>Best_Site <span style="color:#f92672">=</span> Site_Name_Numpy[Result <span style="color:#f92672">==</span> Best_Cluster]
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 輸出該群組中的站點名稱。</span>
 </span></span><span style="display:flex;"><span>print(Best_Site)
 </span></span></code></pre></div><pre tabindex="0"><code>Number of Cluster 0 : 9
 Number of Cluster 1 : 23
@@ -962,39 +1098,60 @@ Mean Distance of Cluster 2 : 4.7058249208614454e-05
  &#39;C0K440&#39; &#39;C0K430&#39; &#39;01J930&#39; &#39;C0K580&#39; &#39;C0K390&#39; &#39;01J100&#39; &#39;01K060&#39;]
 </code></pre><p><img src="figures/6-1-5-4.png" alt="Python output"></p>
 <p>為了更進一步了解淹水感測器與這 23 個雨量計之間的相互關係，我們將這個選定的淹水感測器的感測資料按照時間順序繪製成圖。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>tmp<span style="color:#f92672">=</span> Flood_Site_df[<span style="color:#e6db74">&#39;value&#39;</span>]<span style="color:#f92672">.</span>to_numpy()
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 從 Flood_Site_df 的 &#39;value&#39; 欄位中提取數值，並將其轉換成 numpy 陣列格式。</span>
+</span></span><span style="display:flex;"><span>tmp<span style="color:#f92672">=</span> Flood_Site_df[<span style="color:#e6db74">&#39;value&#39;</span>]<span style="color:#f92672">.</span>to_numpy()
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 初始化一個繪圖畫布，設定其大小為 6x3，解析度為 150dpi。</span>
 </span></span><span style="display:flex;"><span>fig<span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>figure(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">3</span>), dpi<span style="color:#f92672">=</span><span style="color:#ae81ff">150</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 在畫布上新增一個子圖。</span>
 </span></span><span style="display:flex;"><span>ax<span style="color:#f92672">=</span> fig<span style="color:#f92672">.</span>add_subplot(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用 ax.plot 函數繪製 tmp 的曲線圖</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># X 軸的數值是 tmp 陣列的索引，Y 軸的數值是 tmp 陣列的實際數值</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 設定線的寬度為 0.5</span>
 </span></span><span style="display:flex;"><span>ax<span style="color:#f92672">.</span>plot(range(len(tmp)),tmp, linewidth<span style="color:#f92672">=</span><span style="color:#ae81ff">0.5</span>)
 </span></span></code></pre></div><p><img src="figures/6-1-5-5.png" alt="Python output"></p>
 <p>接著我們將最相似群組的這 23 個雨量計的每小時降雨資料按照時間順序分別繪製成 23 張圖，由圖中所示，可以發現在淹水感測器出現高值時，雨量計的數值確實也都有增加的狀態發生，兩者的變化趨勢確實具備極高的相似度，符合我們的常理預期。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>fig <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>figure(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>(len(Best_Site)<span style="color:#f92672">//</span><span style="color:#ae81ff">4</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)), dpi<span style="color:#f92672">=</span><span style="color:#ae81ff">150</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 建立一個新的繪圖區域，設定其大小和解析度。</span>
+</span></span><span style="display:flex;"><span>fig <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>figure(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>(len(Best_Site)<span style="color:#f92672">//</span><span style="color:#ae81ff">4</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)), dpi<span style="color:#f92672">=</span><span style="color:#ae81ff">150</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 迴圈遍歷 Best_Site 內的所有站點，並繪製對應的降雨數據。</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i, Site <span style="color:#f92672">in</span> enumerate(Best_Site):
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 取得指定站點的降雨數據</span>
 </span></span><span style="display:flex;"><span>    tmp <span style="color:#f92672">=</span> Rain_df<span style="color:#f92672">.</span>loc[Rain_df[<span style="color:#e6db74">&#39;station_id&#39;</span>]<span style="color:#f92672">==</span>Site][<span style="color:#e6db74">&#39;RAIN&#39;</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 在繪圖區域中新增子圖，排列方式依賴於 Best_Site 的長度。</span>
 </span></span><span style="display:flex;"><span>    ax <span style="color:#f92672">=</span> fig<span style="color:#f92672">.</span>add_subplot(len(Best_Site)<span style="color:#f92672">//</span><span style="color:#ae81ff">4</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">4</span>,i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 繪製降雨數據。</span>
 </span></span><span style="display:flex;"><span>    ax<span style="color:#f92672">.</span>plot(range(len(tmp)),tmp, linewidth<span style="color:#f92672">=</span><span style="color:#ae81ff">0.5</span>)
 </span></span></code></pre></div><p><img src="figures/6-1-5-6.png" alt="Python output"></p>
 <h3 id="資料分類並由雨量計資料預測淹水可能性">資料分類並由雨量計資料預測淹水可能性</h3>
 <p>接下來我們利用資料分類的方法，以所選定的淹水感測器所記載的淹水資料作為標籤，搭配最佳相似群組的雨量計，建構一個簡單的分類器，預測淹水感測器所在地是否發生淹水現象。我們將原有 2021 年 1 到 10 月的資料區分為前 7 個月的訓練資料和後 2 個月的測試資料，並將前七個月中淹水感測器中數值大於 0 的資料標記為淹水事件（註：本範例乃基於方便使用的原則，採取最寬鬆的標準將水位大於 0 的事件皆認定為淹水事件；然而，有關淹水事件的判定其實有更嚴謹的相關規定，在正式使用時，建議仍應遵照相關法規的規範判定），數值等於 ０的資料標記為無淹水事件，並將整理完畢的資料，儲存在訓練資料 <code>Train_DataSet</code> 物件中。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>Flooding <span style="color:#f92672">=</span> Flood_Site_df<span style="color:#f92672">.</span>loc[(Flood_Site_df[<span style="color:#e6db74">&#39;value&#39;</span>] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0.0</span>) <span style="color:#f92672">&amp;</span> (Flood_Site_df[<span style="color:#e6db74">&#39;timestamp&#39;</span>] <span style="color:#f92672">&lt;</span> <span style="color:#e6db74">&#34;2021-08-01 00:00:00&#34;</span>)][[<span style="color:#e6db74">&#39;timestamp&#39;</span>, <span style="color:#e6db74">&#39;value&#39;</span>]]<span style="color:#f92672">.</span>values
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 取得2021年8月1日前有發生洪水（淹水值&gt;0）的時間區段和淹水值。</span>
+</span></span><span style="display:flex;"><span>Flooding <span style="color:#f92672">=</span> Flood_Site_df<span style="color:#f92672">.</span>loc[(Flood_Site_df[<span style="color:#e6db74">&#39;value&#39;</span>] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0.0</span>) <span style="color:#f92672">&amp;</span> (Flood_Site_df[<span style="color:#e6db74">&#39;timestamp&#39;</span>] <span style="color:#f92672">&lt;</span> <span style="color:#e6db74">&#34;2021-08-01 00:00:00&#34;</span>)][[<span style="color:#e6db74">&#39;timestamp&#39;</span>, <span style="color:#e6db74">&#39;value&#39;</span>]]<span style="color:#f92672">.</span>values
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 從非洪水的時間區段中隨機選取10倍的洪水時間區段數量，以作為平衡的樣本。</span>
 </span></span><span style="display:flex;"><span>Not_Flooding <span style="color:#f92672">=</span> Flood_Site_df<span style="color:#f92672">.</span>loc[(Flood_Site_df[<span style="color:#e6db74">&#39;value&#39;</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0.0</span>) <span style="color:#f92672">&amp;</span> (Flood_Site_df[<span style="color:#e6db74">&#39;timestamp&#39;</span>] <span style="color:#f92672">&lt;</span> <span style="color:#e6db74">&#34;2021-08-01 00:00:00&#34;</span>)][[<span style="color:#e6db74">&#39;timestamp&#39;</span>, <span style="color:#e6db74">&#39;value&#39;</span>]]\
 </span></span><span style="display:flex;"><span>                <span style="color:#f92672">.</span>sample(n<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span><span style="color:#f92672">*</span>len(Flooding))<span style="color:#f92672">.</span>values
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 初始化訓練資料集的結構。</span>
 </span></span><span style="display:flex;"><span>Train_DataSet <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;x&#39;</span>:[], <span style="color:#e6db74">&#39;y&#39;</span>:[]}
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 處理發生洪水的時間區段資料。</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> timestamp, _ <span style="color:#f92672">in</span>  tqdm(Flooding):
 </span></span><span style="display:flex;"><span>    tmp_x <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 找出距離該洪水事件1到60小時內的降雨資料。</span>
 </span></span><span style="display:flex;"><span>    tmp_df <span style="color:#f92672">=</span> Rain_df<span style="color:#f92672">.</span>loc[(Rain_df[<span style="color:#e6db74">&#39;obsTime&#39;</span>] <span style="color:#f92672">&lt;</span> (timestamp <span style="color:#f92672">-</span> timedelta(hours<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>))) <span style="color:#f92672">&amp;</span> (Rain_df[<span style="color:#e6db74">&#39;obsTime&#39;</span>] <span style="color:#f92672">&gt;</span> (timestamp <span style="color:#f92672">-</span> timedelta(hours<span style="color:#f92672">=</span><span style="color:#ae81ff">60</span>)))]
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> Site <span style="color:#f92672">in</span> Best_Site:
 </span></span><span style="display:flex;"><span>        Site_tmp_df <span style="color:#f92672">=</span> tmp_df<span style="color:#f92672">.</span>loc[(tmp_df[<span style="color:#e6db74">&#39;station_id&#39;</span>]<span style="color:#f92672">==</span>Site)]
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 如果找到相關站點的資料，則取最近24小時的降雨和3小時的累積雨量。</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> Site_tmp_df<span style="color:#f92672">.</span>empty:
 </span></span><span style="display:flex;"><span>            tmp_x<span style="color:#f92672">.</span>append(Site_tmp_df<span style="color:#f92672">.</span>tail(<span style="color:#ae81ff">24</span>)[[<span style="color:#e6db74">&#39;RAIN&#39;</span>, <span style="color:#e6db74">&#39;HOUR_3&#39;</span>]]<span style="color:#f92672">.</span>values<span style="color:#f92672">.</span>flatten())
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 若某些站點缺少資料，則以第一個站點的資料作為填充。</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> len(tmp_x) <span style="color:#f92672">&lt;</span> len(Best_Site):
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 若資料不足，補充資料。</span>
 </span></span><span style="display:flex;"><span>        tmp_x<span style="color:#f92672">.</span>append(tmp_x[<span style="color:#ae81ff">0</span>])
 </span></span><span style="display:flex;"><span>    tmp_x <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array(tmp_x)<span style="color:#f92672">.</span>flatten()
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 只有當資料長度符合期望的長度時，才加入到訓練資料集中。</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> len(tmp_x) <span style="color:#f92672">==</span> <span style="color:#ae81ff">24</span><span style="color:#f92672">*</span>len(Best_Site)<span style="color:#f92672">*</span><span style="color:#ae81ff">2</span>:
 </span></span><span style="display:flex;"><span>        Train_DataSet[<span style="color:#e6db74">&#39;x&#39;</span>]<span style="color:#f92672">.</span>append(tmp_x)
-</span></span><span style="display:flex;"><span>        Train_DataSet[<span style="color:#e6db74">&#39;y&#39;</span>]<span style="color:#f92672">.</span>append(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>        Train_DataSet[<span style="color:#e6db74">&#39;y&#39;</span>]<span style="color:#f92672">.</span>append(<span style="color:#ae81ff">1</span>)  <span style="color:#75715e"># 洪水的標籤為 1</span>
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 處理非洪水的時間區段資料，流程與上面類似。</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> timestamp, _ <span style="color:#f92672">in</span>  tqdm(Not_Flooding):
 </span></span><span style="display:flex;"><span>    tmp_x <span style="color:#f92672">=</span> []
 </span></span><span style="display:flex;"><span>    tmp_df <span style="color:#f92672">=</span> Rain_df<span style="color:#f92672">.</span>loc[(Rain_df[<span style="color:#e6db74">&#39;obsTime&#39;</span>] <span style="color:#f92672">&lt;</span> (timestamp <span style="color:#f92672">-</span> timedelta(hours<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>))) <span style="color:#f92672">&amp;</span> (Rain_df[<span style="color:#e6db74">&#39;obsTime&#39;</span>] <span style="color:#f92672">&gt;</span> (timestamp <span style="color:#f92672">-</span> timedelta(hours<span style="color:#f92672">=</span><span style="color:#ae81ff">60</span>)))]
@@ -1038,7 +1195,8 @@ Mean Distance of Cluster 2 : 4.7058249208614454e-05
 </span></span><span style="display:flex;"><span>        Test_DataSet[<span style="color:#e6db74">&#39;x&#39;</span>]<span style="color:#f92672">.</span>append(tmp_x)
 </span></span><span style="display:flex;"><span>        Test_DataSet[<span style="color:#e6db74">&#39;y&#39;</span>]<span style="color:#f92672">.</span>append(<span style="color:#ae81ff">0</span>)
 </span></span></code></pre></div><p>最後我們使用 Scikit learn (sklearn) 這個 Python 套件所提供的九個分類器模型 (Nearest neighbors, Linear SVM, RBF SVM, Decision tree, Random forest, Neural net, Adaboost, Naive Bayes, QDA) ，並且依次帶入訓練資料進行調校後，接著帶入測試資料進行淹水與否的預測，並且將預測結果與測試資料中的標籤內容進行比對，再用混淆矩陣 (confusion matrix) 的方式，呈現不同標籤組合的分類結果。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>names <span style="color:#f92672">=</span> [
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 定義分類器的名稱列表。</span>
+</span></span><span style="display:flex;"><span>names <span style="color:#f92672">=</span> [
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;Nearest Neighbors&#34;</span>,
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;Linear SVM&#34;</span>,
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;RBF SVM&#34;</span>,
@@ -1050,6 +1208,7 @@ Mean Distance of Cluster 2 : 4.7058249208614454e-05
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;QDA&#34;</span>,
 </span></span><span style="display:flex;"><span>]
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 定義對應的分類器實例。</span>
 </span></span><span style="display:flex;"><span>classifiers <span style="color:#f92672">=</span> [
 </span></span><span style="display:flex;"><span>    KNeighborsClassifier(<span style="color:#ae81ff">3</span>),
 </span></span><span style="display:flex;"><span>    SVC(kernel<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;linear&#34;</span>, C<span style="color:#f92672">=</span><span style="color:#ae81ff">0.025</span>),
@@ -1062,16 +1221,24 @@ Mean Distance of Cluster 2 : 4.7058249208614454e-05
 </span></span><span style="display:flex;"><span>    QuadraticDiscriminantAnalysis(),
 </span></span><span style="display:flex;"><span>]
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 創建 3x3 的子圖，用於顯示混淆矩陣。</span>
 </span></span><span style="display:flex;"><span>fig, axes <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplots(<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">3</span>,figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">18</span>, <span style="color:#ae81ff">13.5</span>))
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 迴圈遍歷每一個分類器。</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i, model <span style="color:#f92672">in</span> enumerate(classifiers):
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 使用訓練資料集來訓練該分類器。</span>
 </span></span><span style="display:flex;"><span>    model<span style="color:#f92672">.</span>fit(Train_DataSet[<span style="color:#e6db74">&#39;x&#39;</span>], Train_DataSet[<span style="color:#e6db74">&#39;y&#39;</span>])
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 使用測試資料集來進行預測。</span>
 </span></span><span style="display:flex;"><span>    Result <span style="color:#f92672">=</span> model<span style="color:#f92672">.</span>predict(Test_DataSet[<span style="color:#e6db74">&#39;x&#39;</span>])
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 計算混淆矩陣。</span>
 </span></span><span style="display:flex;"><span>    mat <span style="color:#f92672">=</span> confusion_matrix(Test_DataSet[<span style="color:#e6db74">&#39;y&#39;</span>], Result)
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 繪製混淆矩陣。</span>
 </span></span><span style="display:flex;"><span>    sns<span style="color:#f92672">.</span>heatmap(mat<span style="color:#f92672">.</span>T, square<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>, annot<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>, fmt<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;d&#39;</span>, cbar<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>,
 </span></span><span style="display:flex;"><span>                xticklabels<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#34;不淹水&#34;</span>,<span style="color:#e6db74">&#34;淹水&#34;</span>], yticklabels<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#34;不淹水&#34;</span>,<span style="color:#e6db74">&#34;淹水&#34;</span>], ax <span style="color:#f92672">=</span> axes[i<span style="color:#f92672">//</span><span style="color:#ae81ff">3</span>][i<span style="color:#f92672">%</span><span style="color:#ae81ff">3</span>])
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 設置子圖的標題，顯示分類器名稱和精確度。</span>
 </span></span><span style="display:flex;"><span>    axes[i<span style="color:#f92672">//</span><span style="color:#ae81ff">3</span>][i<span style="color:#f92672">%</span><span style="color:#ae81ff">3</span>]<span style="color:#f92672">.</span>set_title(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{}</span><span style="color:#e6db74">,  Accuracy : </span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#34;</span><span style="color:#f92672">.</span>format(names[i], round(accuracy_score(Result, Test_DataSet[<span style="color:#e6db74">&#39;y&#39;</span>]), <span style="color:#ae81ff">3</span>)), fontweight<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;bold&#34;</span>, size<span style="color:#f92672">=</span><span style="color:#ae81ff">13</span>)
 </span></span><span style="display:flex;"><span>    axes[i<span style="color:#f92672">//</span><span style="color:#ae81ff">3</span>][i<span style="color:#f92672">%</span><span style="color:#ae81ff">3</span>]<span style="color:#f92672">.</span>set_xlabel(<span style="color:#e6db74">&#39;true label&#39;</span>, fontsize <span style="color:#f92672">=</span> <span style="color:#ae81ff">10.0</span>)
 </span></span><span style="display:flex;"><span>    axes[i<span style="color:#f92672">//</span><span style="color:#ae81ff">3</span>][i<span style="color:#f92672">%</span><span style="color:#ae81ff">3</span>]<span style="color:#f92672">.</span>set_ylabel(<span style="color:#e6db74">&#39;predicted label&#39;</span>, fontsize <span style="color:#f92672">=</span> <span style="color:#ae81ff">10.0</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 調整子圖之間的間距。</span>
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>tight_layout()
 </span></span></code></pre></div><p><img src="figures/6-1-5-7.png" alt="Python output"></p>
 <p>在這個案例中，我們發現 Nearest Neighbors 方法可以達到將近 7.3 成的分類成功率，事實上，這只是我們使用原始資料尚未進行更進一步處理分析的結果，倘若我們對於資料本身進行更多的分析，擷取更多的特徵，還有可能將分類成功率繼續提升，讀者們若對於分類器有興趣，可以參考相關資源，進行更深入的探究，將能更加提升分類器對不同種類資料的分類能力。</p>
@@ -1195,12 +1362,12 @@ This work is licensed under a <a rel="license" href="http://creativecommons.org/
         <script>
           var contentLangs=['zh'];
         </script>
-        <script src="/js/auto-complete.js?1697458045" defer></script>
-        <script src="/js/lunr.min.js?1697458045" defer></script>
-        <script src="/js/lunr.stemmer.support.min.js?1697458045" defer></script>
-        <script src="/js/lunr.multi.min.js?1697458045" defer></script>
-        <script src="/js/lunr.zh.min.js?1697458045" defer></script>
-        <script src="/js/search.js?1697458045" defer></script>
+        <script src="/js/auto-complete.js?1699937930" defer></script>
+        <script src="/js/lunr.min.js?1699937930" defer></script>
+        <script src="/js/lunr.stemmer.support.min.js?1699937930" defer></script>
+        <script src="/js/lunr.multi.min.js?1699937930" defer></script>
+        <script src="/js/lunr.zh.min.js?1699937930" defer></script>
+        <script src="/js/search.js?1699937930" defer></script>
       </div>
       <div id="content-wrapper" class="highlightable">
         <ul class="topics">
@@ -1277,14 +1444,14 @@ This work is licensed under a <a rel="license" href="http://creativecommons.org/
       </div>
     </aside>
 
-    <script src="/js/clipboard.min.js?1697458045" defer></script>
-    <script src="/js/perfect-scrollbar.min.js?1697458045" defer></script>
-    <script src="/js/featherlight.min.js?1697458045" defer></script>
-    <script src="/js/jquery.svg.pan.zoom.js?1697458045" defer></script>
-    <script src="/js/mermaid.min.js?1697458045" defer></script>
+    <script src="/js/clipboard.min.js?1699937930" defer></script>
+    <script src="/js/perfect-scrollbar.min.js?1699937930" defer></script>
+    <script src="/js/featherlight.min.js?1699937930" defer></script>
+    <script src="/js/jquery.svg.pan.zoom.js?1699937930" defer></script>
+    <script src="/js/mermaid.min.js?1699937930" defer></script>
     <script>
       window.themeUseMermaid = JSON.parse("{}");
     </script>
-    <script src="/js/theme.js?1697458045" defer></script>
+    <script src="/js/theme.js?1699937930" defer></script>
   </body>
 </html>
