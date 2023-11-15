@@ -10,10 +10,12 @@ authors: ["Yu-Shen Cheng", "Ming-Kuang Chung"]
 
 {{< toc >}}
 
-QGIS is a free geographic information system. In addition to presenting the data collected by users in the form of geographic data, users can also process, analyze and integrate geospatial data through QGIS, and draw thematic maps. In this article, we will use QGIS to assist in the analysis and presentation of PM2.5 data obtained from Civil IoT Taiwan, and output the results as a thematic map for interpretation after the analysis is complete. We also demonstrate how to combine the disaster prevention data of Civil IoT Taiwan to draw a distribution map of disaster prevention shelters through the QGIS system, allowing citizens to easily query the nearest disaster shelters.
+QGIS, which stands for Quantum Geographic Information System, is an open-source desktop application that allows users to work with geographic data. Not only can you visualize the data collected by users in various geographic formats, but you can also process, analyze, and integrate geospatial information. One of its powerful features is the ability to create thematic maps.
+
+In this article, we’ll explore how QGIS assists in analyzing and presenting PM2.5 data obtained from Civil IoT Taiwan. After completing the analysis, we’ll generate a thematic map to interpret the results. Additionally, we’ll demonstrate how to combine disaster prevention data from Civil IoT Taiwan to create a distribution map of disaster shelters. This functionality enables citizens to easily locate the nearest shelters in times of need.
 
 {{% notice style="note" %}}
-Note: The QGIS version used in this article is 3.16.8, but the functions used in this article are the basic functions of the software. If you use another version of the software, you should still be able to run it normally.
+Please note: The version of QGIS used in this article is 3.16.8. However, the functions discussed here are fundamental features of the software. If you’re using a different version, you should still be able to use these functions without any issues.
 {{% /notice %}}
 
 ## Goal
@@ -32,12 +34,18 @@ After entering the QGIS software, you can see the following operation interface.
 
 Data source: Civil IoT Taiwan - Historical Data ([https://history.colife.org.tw/#/?cd=%2F空氣品質%2F中研院_校園空品微型感測器](https://history.colife.org.tw/#/?cd=%2F空氣品質%2F中研院_校園空品微型感測器))
 
-In this section, we will first describe how to import data into QGIS. Since some data will be split into multiple different data tables during the storage process, we should pay special attention to whether this is the case with the data at hand when analyzing, and recombine the data into the original single data table. Here's how to recombine the data:
+In this section, we’ll begin by explaining how to import data into QGIS. When dealing with data that might be split across multiple tables during storage, it’s crucial to pay attention to whether this applies to the dataset you’re analyzing. If so, you’ll need to recombine the data into a single, cohesive table.
+
+Let’s break down the process:
 
 - Import data
   
-  First, we need to import the csv file directly downloaded from Civil IoT Taiwan Historical Data into QGIS. Since there are Chinese characters in the data, garbled characters will be displayed when importing, so the import method is Layer (at the top menu) > Add Layer > Add Delimited Text Layer, and the import interface is as follows:
-  ![](figures/7-1-2-1.png)
+    - Start by importing the CSV file directly downloaded from Civil IoT Taiwan Historical Data into QGIS.
+    - Keep in mind that the data contains Chinese characters, which can sometimes appear garbled during the import process.
+    - To import the data, follow these steps:
+            - Go to the top menu and select Layer > Add Layer > Add Delimited Text Layer.
+            - The import interface will appear, allowing you to configure the import settings.
+![](figures/7-1-2-1.png)
     
 - Join data
 
@@ -55,9 +63,10 @@ In this section, we will first describe how to import data into QGIS. Since some
 
 ### GeoJSON Output
 
-Then we use the built-in functions of QGIS to convert the original csv data into [GeoJSON](https://en.wikipedia.org/wiki/GeoJSON) files, which is a geographical data representation in JSON format. The operation procedure is to click Processing > Toolbox > Create points from table.
 
-Please note that after clicking, select the Table to be imported, select lon in X, enter lat in Y, and specify WGS 84 (latitude and longitude coordinates) in Target CRS, and then enter the name of the file to be output, as shown below.
+Next, we’ll utilize the built-in features of QGIS to transform the original CSV data into [GeoJSON](https://en.wikipedia.org/wiki/GeoJSON) files, which represent geographical data in JSON format. The process involves navigating to Processing > Toolbox > Create points from the table.
+
+Remember, once you’ve clicked on that option, choose the table you want to import. Specify longitude for the X-coordinate and latitude for the Y-coordinate. Set the Target CRS to WGS 84 (which corresponds to latitude and longitude coordinates). Finally, provide a name for the output file, as demonstrated below."
 
 ![](figures/7-1-2-5.png)
 
@@ -67,42 +76,44 @@ Then select the file format you want to export, and click "Save".
 
 ### Data Filter and Change Colors
 
-Next, we demonstrate how to use QGIS to filter the required stations, and let the color of the stations change with the PM2.5 value.
+Next, we’ll showcase how to utilize QGIS for filtering the necessary stations and dynamically adjusting their colors based on the PM2.5 values.
+
 
 - Use Intersection to filter the required stations by county
-    
-  Before screening, you need to download the shp files of municipalities, counties and cities from the [government data open platform](https://data.gov.tw/dataset/7442), and then import the shp files of the county and city boundaries into QGIS, as shown below:
+
+  Before proceeding with the screening process, you’ll need to download the shapefiles (shp files) for municipalities, counties, and cities from the [government data open platform](https://data.gov.tw/dataset/7442) open platform. Once you’ve obtained these files, import the shapefiles for county and city boundaries into QGIS, following the steps below:
   {{% notice style="note" %}}
-  Note: In the Civil IoT Taiwan project, National Chi Nan University is responsible for the deployment of micro air quality sensors in Changhua and Nantou counties and cities. Therefore, in the data obtained this time, there is no Changhua and Nantou. material.
+  Note: As part of the Civil IoT Taiwan project, National Chi Nan University has deployed micro air quality sensors in Changhua and Nantou counties and cities. Consequently, the data collected this time does not include information from Changhua and Nantou.
   {{% /notice %}}
   ![](figures/7-1-2-7.png)
-  Then we click on the icon for “Select Feature”, then click on “Country of Country” and select the desired county. Selected counties will be displayed in yellow. Here we take New Taipei City as an example, as shown in the following figure:
-  ![](figures/7-1-2-8.png)
-  We then look for the “Intersection” function in “Processing Toolbox”, and after clicking, the following interface will appear, in which there are three input options, namely:
-  - Input Layer
-  - Overlay Layer
-  - Intersection (Output)
+    1. Click on the ‘Select Feature’ icon.
+    2. Then, select the desired county by clicking on its name. The selected counties will be highlighted in yellow. Let’s take New Taipei City as an example, as shown in the figure below:
 
-  Next, please put the PM2.5 layer in the “Input Layer”, put the county-city boundary layer in the “Overlay Layer” and check “Select features only”, which means that only the stations that intersect with the New Taipei City selected in the previous step are filtered out. Next, enter the name of the file to be exported in the “Intersection”. The supported export file format options are the same as the previously selected options.
+  ![](figures/7-1-2-8.png)
+    3. In the ‘Processing Toolbox’, search for the ‘Intersection’ function. Click on it to open the interface, which provides three input options: Input Layer, Overlay Layer, and Intersection (Output)
+    4. Place the PM2.5 layer in the ‘Input Layer’, and add the county-city boundary layer to the ‘Overlay Layer’. Make sure to check the ‘Select features only’ option. This ensures that only the stations intersecting with the previously selected New Taipei City are filtered out.
+    5. Finally, enter a name for the exported file in the ‘Intersection’ section. The supported export file formats are the same as the ones you’ve previously selected.
 
 ![](figures/7-1-2-9.png)
-  Then, the following results will be obtained:
+  Upon completing these steps, you’ll obtain the desired results."
+
 ![](figures/7-1-2-10.png)
     
 - Display different colors according to the value of PM2.5
     
-  Then we right click on the PM2.5 layer > Properties > Symbology to see the dot color settings. The color setting steps for each PM2.5 station are as follows:
-    
-  1. Change the top original setting from “No Symbols” to “Graduated” as follows
-  2. Select PM25 in the “Value” part
-  3. Click the “Classify” button at the bottom
-  4. Set the number of colors in “Classes” (Note: It is recommended to set the number of categories should not be too many)
-  5. Go to “Color ramp” to set the color of each value
-  6. Clock “OK”
+  Then we right click on the PM2.5 layer and choose Properties. In the Symbology section, you’ll find the dot color settings. Follow these steps for each PM2.5 station:
+    - Change the original setting from “No Symbols” to “Graduated.”
+    - Select PM25 in the “Value” part.
+    - Click the “Classify” button at the bottom.
+    - Set the number of colors in “Classes” (Remember, it’s best not to have too many categories).
+    - Go to “Color ramp” and choose the color for each value.
+    - Click “OK” when you’re done.
+
 ![](figures/7-1-2-11.png)
-  When everything is set, you will get the following image, where the color of the dots changes with the PM 2.5 value, and the Layer on the right shows the PM 2.5 value represented by the different colors.
+  Once you’ve completed these steps, the resulting image will display dots with colors corresponding to the PM 2.5 value. The layer on the right will show how different colors represent varying PM 2.5 levels.
+
   {{% notice style="note" %}}
-  Note: The new version of QGIS (after 3.16) already has the basemap of OpenStreetMap, you can click XYZ Tiles -> OpenStreetMap in the figure below to add the OSM basemap.
+  Note: If you’re using the new version of QGIS (after 3.16), you can easily add the OpenStreetMap basemap by clicking XYZ Tiles and selecting OpenStreetMap in the figure below.
   {{% /notice %}}
     
 ![](figures/7-1-2-12.png)
@@ -110,49 +121,55 @@ Next, we demonstrate how to use QGIS to filter the required stations, and let th
 
 ### Export Thematic Maps
 
-After completing the above settings, the next step is to output the QGIS project as a JPG image. After we click Project > New Print Layout, the Layout name setting will pop up. After the setting is completed, the following screen will appear:
+- After configuring the previous settings, the next step involves exporting your QGIS project as a JPG image. 
+- Click on Project and then select New Print Layout. A dialog for setting the layout name will appear.
+- Once you’ve completed the layout name setting, the following screen will be displayed.
 
 ![](figures/7-1-2-13.png)
 
-Click “Add map” on the left, and select the range on the drawing area to add the PM 2.5 map, as shown below
+- On the left side, click “Add map” and choose the area on the drawing canvas where you want to include the PM 2.5 map.
 
 ![](figures/7-1-2-14.png)
 
 ![](figures/7-1-2-15.png)
 
-Next, click “Add Legend” on the left and select a range to import the label, while the “Item Properties” on the right can be used to change the font size, color, etc. in the label. Finally, we put the title, scale bar, and compass to complete the thematic map.
+- Next, still on the left side, click “Add Legend” and select a range to import the label. You can adjust font size, color, and other properties in the “Item Properties” on the right.
+- To finish, add the title, scale bar, and compass to create a comprehensive thematic map.
 
 ![](figures/7-1-2-16.png)
 
-Finally, click Layout > Export as Image in the upper left corner to export the thematic map as an image file.
+- Lastly, in the upper left corner, click “Layout” and choose “Export as Image” to save your thematic map as an image file.
 
 ## Example 2: Distribution of Emergency Shelters
 
 Data source: [https://data.gov.tw/dataset/73242](https://data.gov.tw/dataset/73242)
 
-In the government's public information, Taiwan's emergency shelters have been organized into electronic files for the convenience of citizens to download and use. In this example, we'll use this data to describe how to find the closest shelter to home via QGIS.
+Government public information has neatly organized Taiwan’s emergency shelters into electronic files, making it convenient for citizens to download and utilize them. In this example, we’ll demonstrate how to locate the nearest shelter to your home using QGIS.
 
-We first obtain the shelter information from the above URL, and then load the information according to the method mentioned above, as shown below:
+We start by obtaining the shelter information from the provided URL and load this information into QGIS following the method mentioned earlier.
 
 ![](figures/7-1-3-1.png)
 
-Due to the large number of shelters in Taiwan, this article only analyzes the shelters in Taipei City, and other counties and cities can also be analyzed in the same way. Readers are welcome to try it for themselves. We first use the above intersection method to find the shelters in Taipei City, and then use the Voronoi Polygons on the side toolbar to draw the Voronoi diagram, as shown below:
+Given the substantial number of shelters across Taiwan, this article will focus on analyzing shelters specifically in Taipei City. However, the same approach can be applied to other counties and cities. If you’re curious, feel free to explore this process for yourself.
+
+We then begin by using the intersection method to identify shelters within Taipei City.
 
 ![](figures/7-1-3-2.png)
 
-Fill in the layer of the shelters in Voronoi Polygons and press “Run”
+Next, we utilize Voronoi Polygons from the side toolbar to create a Voronoi diagram, and we ill in the layer of shelters within the Voronoi Polygons and click “Run” as depicted below.
 
 ![](figures/7-1-3-3.png)
 
-According to the characteristics of Voronoi Diagram, we can know the location of the closest shelter to our house, as shown below:
+The Voronoi Diagram’s characteristics will reveal the location of the closest shelter to your residence, as shown in the image.
 
 ![](figures/7-1-3-4.png)
 
-After the analysis is completed, the analysis results can be produced into a thematic map according to the previous method.
+Once the analysis is complete, you can generate a thematic map using the same method as before.
 
 ## Conclusion
 
-In this chapter, we introduced how to import data into QGIS, and how to use the analysis tools in QGIS to investigate the data. Finally, we introduce the method of data exporting, which can make the analyzed data into thematic maps for interpretation. Of course, there are still many functions in QGIS that are not covered in this chapter. If you are interested in QGIS, you can refer to additional resources below.
+In this chapter, we’ve covered the process of importing data into QGIS and utilizing its analysis tools to explore that data. Additionally, we’ve introduced the data exporting method, which allows you to transform your analyzed data into thematic maps for interpretation. Keep in mind that there are many other features in QGIS that we haven’t covered here. If you’re keen on diving deeper into QGIS, we recommend exploring additional resources below.
+
 
 ## References
 
