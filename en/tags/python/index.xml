@@ -82,7 +82,7 @@ Suppose that we want to see the air quality in neighborhoods of our house, one i
       <link>https://LearnCIOT.github.io/en/ch7/ch7.3/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://LearnCIOT.github.io/en/ch7/ch7.3/</guid>
-      <description>Table Of Contents Package Installation and Importing Data Access Leafmap Basics Basic Data Presentation Cluster Data Presentation Change Leafmap Basemap Integrate OSM Resources Heatmap Presentation Split Window Presentation Leafmap for Web Applications Conclusion References In the previous chapters, we have demonstrated how to use programming languages to analyze data on geographic attributes, and we have also demonstrated how to use GIS software for simple geographic data analysis and presentation. Next, we will introduce how to use the Leafmap suite in Python language for GIS applications, and the Streamlit suite for website development.</description>
+      <description>Table Of Contents Package Installation and Importing Data Access Leafmap Basics Basic Data Presentation Cluster Data Presentation Change Leafmap Basemap Integrate OSM Resources Heatmap Presentation Split Window Presentation Leafmap for Web Applications Conclusion References In earlier sections, we showed you how to analyze geographic data using programming and how to use GIS (Geographic Information System) software for basic analysis and display of this data. Now, we&amp;rsquo;re going to teach you how to use Leafmap in Python for GIS tasks, and how to develop websites with Streamlit.</description>
     </item>
   </channel>
 </rss>
