@@ -19,7 +19,7 @@ Suppose that we want to see the air quality in neighborhoods of our house, one i
       <link>https://LearnCIOT.github.io/en/ch7/ch7.1/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://LearnCIOT.github.io/en/ch7/ch7.1/</guid>
-      <description>Table Of Contents Goal QGIS Basic Operation Data Preparation GeoJSON Output Data Filter and Change Colors Export Thematic Maps Example 2: Distribution of Emergency Shelters Conclusion References QGIS is a free geographic information system. In addition to presenting the data collected by users in the form of geographic data, users can also process, analyze and integrate geospatial data through QGIS, and draw thematic maps. In this article, we will use QGIS to assist in the analysis and presentation of PM2.</description>
+      <description>Table Of Contents Goal QGIS Basic Operation Data Preparation GeoJSON Output Data Filter and Change Colors Export Thematic Maps Example 2: Distribution of Emergency Shelters Conclusion References QGIS, which stands for Quantum Geographic Information System, is an open-source desktop application that allows users to work with geographic data. Not only can you visualize the data collected by users in various geographic formats, but you can also process, analyze, and integrate geospatial information.</description>
     </item>
     <item>
       <title>5.2. Geospatial Analysis</title>
