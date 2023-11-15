@@ -116,7 +116,7 @@ Suppose that we want to see the air quality in neighborhoods of our house, one i
       <link>https://LearnCIOT.github.io/en/ch7/ch7.2/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://LearnCIOT.github.io/en/ch7/ch7.2/</guid>
-      <description>Table Of Contents Goal Data Source Tableau Basic Operation Data Import Worksheet Introduction Tableau Example 1: Spatio-temporal Distribution of Air Quality Data Spatial Distribution Graph Time Series Graph Tableau Example 2: Disaster Notification Dashboard Disaster data format conversion Dashboard size Add worksheets to a dashboard Add interactions Interacting multiple worksheet Additional information Story Conclusion References Data visualization is a method of expressing data in a graphical way, which can help us to have a better understanding of the data.</description>
+      <description>Table Of Contents Goal Data Source Tableau Basic Operation Data Import Worksheet Introduction Tableau Example 1: Spatio-temporal Distribution of Air Quality Data Spatial Distribution Graph Time Series Graph Tableau Example 2: Disaster Notification Dashboard Disaster data format conversion Dashboard size Add worksheets to a dashboard Add interactions Interacting multiple worksheet Additional information Story Conclusion References Data visualization transforms data into graphical formats, making it easier to understand and interpret. Different graph types are better suited for various data sets.</description>
     </item>
   </channel>
 </rss>

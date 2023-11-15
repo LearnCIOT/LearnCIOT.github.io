@@ -16,18 +16,18 @@
     <meta name="author" content="Ling-Jyh Chen">
     <title>7.2. Tableau Application :: Tutorial for CIoT Open Data Applications</title>
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="/css/fontawesome-all.min.css?1700029387" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1700029387" rel="stylesheet"></noscript>
-    <link href="/css/featherlight.min.css?1700029387" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1700029387" rel="stylesheet"></noscript>
-    <link href="/css/auto-complete.css?1700029387" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1700029387" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar.min.css?1700029387" rel="stylesheet">
-    <link href="/css/nucleus.css?1700029387" rel="stylesheet">
-    <link href="/css/fonts.css?1700029387" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1700029387" rel="stylesheet"></noscript>
-    <link href="/css/theme.css?1700029387" rel="stylesheet">
-    <link href="/css/theme-relearn-light.css?1700029387" rel="stylesheet" id="variant-style">
-    <link href="/css/ie.css?1700029387" rel="stylesheet">
-    <link href="/css/variant.css?1700029387" rel="stylesheet">
-    <link href="/css/print.css?1700029387" rel="stylesheet" media="print">
-    <script src="/js/variant.js?1700029387"></script>
+    <link href="/css/fontawesome-all.min.css?1700030826" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1700030826" rel="stylesheet"></noscript>
+    <link href="/css/featherlight.min.css?1700030826" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1700030826" rel="stylesheet"></noscript>
+    <link href="/css/auto-complete.css?1700030826" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1700030826" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar.min.css?1700030826" rel="stylesheet">
+    <link href="/css/nucleus.css?1700030826" rel="stylesheet">
+    <link href="/css/fonts.css?1700030826" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1700030826" rel="stylesheet"></noscript>
+    <link href="/css/theme.css?1700030826" rel="stylesheet">
+    <link href="/css/theme-relearn-light.css?1700030826" rel="stylesheet" id="variant-style">
+    <link href="/css/ie.css?1700030826" rel="stylesheet">
+    <link href="/css/variant.css?1700030826" rel="stylesheet">
+    <link href="/css/print.css?1700030826" rel="stylesheet" media="print">
+    <script src="/js/variant.js?1700030826"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -43,7 +43,7 @@
       var baseUriFull='https:\/\/LearnCIOT.github.io/';
       window.variants && variants.init( [ 'relearn-light' ] );
     </script>
-    <script src="/js/jquery.min.js?1700029387" defer></script>
+    <script src="/js/jquery.min.js?1700030826" defer></script>
 <meta property="fb:app_id" content="601826851395774" />
   </head>
   <body class="default-animation" data-url="/en/ch7/ch7.2/">
@@ -327,20 +327,20 @@ if (!doNotTrack) {
 </nav>
 </div>
 
-<p>Data visualization is a method of expressing data in a graphical way, which can help us to have a better understanding of the data. When visualizing data, different types of graphs are suitable for different types of data. For example, when presenting data with latitude and longitude coordinates, map-type charts are mostly used; when presenting time series data, line charts or histograms can be used. However, many real-world data often have more than one characteristic. For example, the sensor data of Civil IoT Taiwan has both latitude and longitude coordinates and time series characteristics. Therefore, when presenting these data, it is often necessary to use more than one kind of chart to present the insight of the data. In this chapter, we will introduce a very popular software, Tableau, to help us present the above-mentioned complex data types.</p>
-<p>Tableau is an easy-to-use visual analysis platform. In addition to quickly creating various charts, its dashboard function makes it easier for users to present and integrate different data charts. In addition, dashboards allow users to interact with graphs, which not only helps users understand data more easily and quickly, but also makes data analysis easier. Tableau was originally a paid commercial software, but it also provides a free version of <a href="https://public.tableau.com/">Tableau Public</a> for everyone to use. Note, however, that when using the free version of Tableau, all work produced with it must be made public.</p>
+<p>Data visualization transforms data into graphical formats, making it easier to understand and interpret. Different graph types are better suited for various data sets. For instance, map-type charts are often used for data with latitude and longitude coordinates, while line charts or histograms are ideal for time series data. However, many real-world data sets have multiple characteristics. Take the sensor data from Civil IoT Taiwan, for example; it includes both geographical coordinates and time-series elements. Hence, to effectively convey the insights of such data, we might need to use multiple types of charts. In this chapter, we introduce Tableau, a widely-used software, to help us effectively present these complex types of data.</p>
+<p>Tableau is a user-friendly platform for visual analysis. It enables quick creation of diverse charts, and its dashboard feature simplifies the presentation and integration of different data visualizations. Dashboards in Tableau also offer interactive elements with graphs, enhancing both the ease and speed of understanding data, as well as simplifying data analysis. Originally a paid commercial software, Tableau also offers <a href="https://public.tableau.com/">Tableau Public</a>, a free version accessible to everyone. It&rsquo;s important to note, however, that any work created using the free version of Tableau must be publicly available.</p>
 
 <div class="box notices cstyle note">
     <div class="box-label"><i class="fa-fw fas fa-exclamation-circle"></i> Note</div>
     <div class="box-content">
-<p>Note: The Tableau Public version used in this article is Tableau Desktop Public Edition (2022.2.2 (20222.22.0916.1526) 64-bit), but the functions used in this article are the basic functions of the software. If you use other versions of the software, you should still be able to run it normally.</p>
+<p>Please note: The version of Tableau Public used in this article is Tableau Desktop Public Edition (2022.2.2 (20222.22.0916.1526) 64-bit). However, we only utilize the basic functions of the software, which are generally consistent across different versions. Therefore, if you are using another version of the software, you should still be able to follow along and execute the processes described here without issues.</p>
     </div>
 </div>
 <h2 id="goal">Goal</h2>
 <ul>
-<li>Import data into Tableau for data visualization</li>
-<li>Create data charts using Worksheets</li>
-<li>Create interactive charts and reports using dashboards and stories in Tableau Public</li>
+<li>Load data into Tableau for visual representation.</li>
+<li>Use Worksheets in Tableau to design various data charts.</li>
+<li>Develop interactive visuals and reports by employing dashboards and stories within Tableau Public.</li>
 </ul>
 <h2 id="data-source">Data Source</h2>
 <ul>
@@ -349,62 +349,62 @@ if (!doNotTrack) {
 </ul>
 <h2 id="tableau-basic-operation">Tableau Basic Operation</h2>
 <h3 id="data-import">Data Import</h3>
-<p>Tableau can read text files (csv) and spatial information files (shp, geojson). To import data, click Data &gt; Add Data Source to select the data file to be imported.</p>
+<p>Tableau is capable of reading text files (like csv) and spatial information files (such as shp and geojson). To import data, you need to go to Data &gt; Add Data Source and then select the data file you wish to import.</p>
 <p><img src="figures/7-2-3-1.png" alt="Tableau screenshot"></p>
-<p>Depending on the type of input file, we provide different examples of operations below:</p>
+<p>Depending on the type of file you&rsquo;re working with, we have different examples to guide you:</p>
 <ul>
 <li>
-<p>Examples using geospatial data format (shp、geojson)</p>
+<p>For Geospatial Data Formats (shp, geojson):</p>
 <ol>
-<li>First, please click the data source in the lower left corner, and then you can see the data fields imported now.</li>
+<li>First, click on the data source in the lower left corner to view the currently imported data fields.</li>
 </ol>
 <pre><code>![Tableau screenshot](figures/7-2-3-2.png)
 </code></pre>
 <ol start="2">
 <li>
-<p>Then click the symbol above the field name to change the properties of that field.</p>
+<p>Next, click the icon above the field name to modify the properties of that field.</p>
 <p><img src="figures/7-2-3-3.png" alt="Tableau screenshot"></p>
 </li>
 <li>
-<p>Finally, we assign the latitude and longitude coordinates to geographic roles for subsequent work.</p>
+<p>Lastly, assign latitude and longitude coordinates to geographic roles to prepare for further operations.</p>
 <p><img src="figures/7-2-3-4.png" alt="Tableau screenshot"></p>
 </li>
 </ol>
 </li>
 <li>
-<p>Examples using test data format (CSV)</p>
+<p>For Text Data Formats (CSV):</p>
 <ol>
 <li>
-<p>After importing the PM 2.5 records and station locations into Tableau, we establish the relationship between the data tables:</p>
+<p>After importing the PM 2.5 records and station locations into Tableau, establish a relationship between these data tables.</p>
 <p><img src="figures/7-2-3-5.png" alt="Tableau screenshot"></p>
 </li>
 <li>
-<p>Next we establish the link between the PM 2.5 station and the station coordinates. We first click the station data twice to enter the connection canvas, and drag another data table to the connection canvas.</p>
+<p>To link the PM 2.5 station data with station coordinates, first double-click on the station data to enter the connection canvas. Then, drag another data table onto this canvas.</p>
 <p><img src="figures/7-2-3-6.png" alt="Tableau screenshot"></p>
 </li>
 <li>
-<p>Finally, we click the link icon in the middle to set the link type and operation logic.</p>
+<p>Now, click the link icon in the middle to set the type of link and define how they interact.</p>
 <p><img src="figures/7-2-3-7.png" alt="Tableau screenshot"></p>
 </li>
 <li>
-<p>When the setting is completed, you can see that the Station id in the lower right corner is from the Location data table, so that the PM 2.5 data and the station location data are linked together.</p>
+<p>Once set up, you&rsquo;ll notice that the Station id in the lower right corner is sourced from the Location data table, linking the PM 2.5 data with the station location data.</p>
 </li>
 </ol>
 </li>
 </ul>
 <h3 id="worksheet-introduction">Worksheet Introduction</h3>
-<p>A worksheet is where Tableau can use to visualize data. In addition to plotting data into traditional graphs such as pie, bar, and line graphs, it can also be used to map geographic information. Next we will show how to draw different shapes.</p>
-<p>After processing the data, click the new worksheet in the lower left, and you can see the interface below after entering the worksheet.</p>
+<p>A worksheet in Tableau is the space where you can create visual representations of your data. It&rsquo;s not limited to traditional graph types like pie, bar, and line graphs; it can also be used to plot geographic information. We&rsquo;ll guide you through how to create various visualizations.</p>
+<p>Once you&rsquo;ve prepared your data, click on &lsquo;New Worksheet&rsquo; in the lower left corner. Upon entering the worksheet, you&rsquo;ll be presented with the interface we&rsquo;re about to discuss.</p>
 <p><img src="figures/7-2-3-8.png" alt="Tableau screenshot"></p>
-<p>There is a &ldquo;Show&rdquo; button in the upper right corner of the worksheet. After clicking, you will see different types of charts (the system will automatically determine the charts that can be drawn, and those that cannot be drawn will be highlighted), and then you can click the desired type to change the chart.</p>
+<p>In the upper right corner of the worksheet in Tableau, there&rsquo;s a &ldquo;Show Me&rdquo; button. When you click on it, a variety of chart types will be displayed. The system automatically identifies which types of charts can be created based on your data. Those that aren&rsquo;t suitable for your data will be grayed out or highlighted. You can then click on the chart type you want to use to change the visualization accordingly.</p>
 <p><img src="figures/7-2-3-9.png" alt="Tableau screenshot"></p>
 <h2 id="tableau-example-1-spatio-temporal-distribution-of-air-quality-data">Tableau Example 1: Spatio-temporal Distribution of Air Quality Data</h2>
 <h3 id="spatial-distribution-graph">Spatial Distribution Graph</h3>
-<p>Before starting to draw, we need to change the latitude and longitude from a measure to a dimension. For a detailed explanation of the measure and dimension, please refer to the <a href="https://help.tableau.com/current/pro/desktop/en-us/datafields_typesandroles.htm">reference materials</a>. The detailed operation process is shown in the following animation:</p>
+<p>Before you begin creating your visualization, it&rsquo;s important to change the latitude and longitude fields from being a &lsquo;measure&rsquo; to a &lsquo;dimension&rsquo;. Understanding the difference between a measure and a dimension is crucial in Tableau. For a more detailed explanation of these concepts, please refer to the <a href="https://help.tableau.com/current/pro/desktop/en-us/datafields_typesandroles.htm">reference materials</a>. The specific steps to change these fields in Tableau are demonstrated in the following animation:</p>
 <p><img src="figures/7-2-4-1.gif" alt="Tableau screenshot"></p>
-<p>Then we drag the latitude and longitude to the position of the column and row, and drag the PM 2.5 value to the marked position. Then we change the mark to color to generate the distribution map of PM 2.5 in Taiwan, as shown in the following animation.</p>
+<p>Next, you&rsquo;ll need to drag the latitude and longitude fields to the respective column and row areas in Tableau. After that, drag the PM 2.5 value to the indicated area for it to be included in the visualization. Then, change the mark type to &lsquo;Color&rsquo; to create a distribution map showing PM 2.5 levels across Taiwan. This process is demonstrated in the animation below.</p>
 <p><img src="figures/7-2-4-2.gif" alt="Tableau screenshot"></p>
-<p>We can click on the color to change the color of the dots, and the filter above can filter the PM 2.5 value for a specific condition. If you click PM 2.5 &gt; Metric, you can select the mean, sum, or median value of PM 2.5. The following will demonstrate how to display the PM 2.5 value for New Taipei City.</p>
+<p>You have the option to click on the color section to alter the color of the dots on your map. Additionally, the filter tool can be used to narrow down the PM 2.5 values based on specific conditions. For instance, by selecting PM 2.5 &gt; Metric, you can choose to display the mean, sum, or median values of PM 2.5. The following steps will guide you on how to specifically display the PM 2.5 values for New Taipei City.</p>
 <ol>
 <li>Drag “Site Name” to filter</li>
 <li>Click on wildcards, click “Include” and enter New Taipei City</li>
@@ -412,60 +412,60 @@ if (!doNotTrack) {
 </ol>
 <p><img src="figures/7-2-4-3.png" alt="Tableau screenshot"></p>
 <h3 id="time-series-graph">Time Series Graph</h3>
-<p>We drag &ldquo;Timestamp&rdquo; to the column and &ldquo;Site Name&rdquo; and PM 2.5 value to the row. Then we click &ldquo;Timestamp&rdquo; to set the time interval. For example, we set the interval to 1 hour in the image below. Note that, similar to plotting the spatial distribution, the filter function can also be used to filter the stations to be displayed. In the animation below, we demonstrate how to display the monitoring values of the Kaohsiung PM2.5 station throughout the day.</p>
+<p>To create a time-based visualization, start by dragging &ldquo;Timestamp&rdquo; to the column area and both &ldquo;Site Name&rdquo; and the PM 2.5 value to the row area. Next, click on &ldquo;Timestamp&rdquo; to adjust the time interval. For instance, in the example below, the interval is set to 1 hour. Similar to plotting spatial distribution, you can also use the filter function to select specific stations for display. In the animation provided below, we illustrate how to showcase the daily monitoring values of the PM2.5 station in Kaohsiung.</p>
 <p><img src="figures/7-2-4-4.gif" alt="Tableau screenshot"></p>
 <h2 id="tableau-example-2-disaster-notification-dashboard">Tableau Example 2: Disaster Notification Dashboard</h2>
-<p>Dashboards can combine different worksheets (charts) to present richer information and allow users to interact with thedata. In the following example, we will introduce how to create a simple dashboard using the rainstorm disaster data provided by the Civil IoT Taiwan project.</p>
+<p>Dashboards in Tableau offer the ability to amalgamate various worksheets (charts) into a single view, presenting a more comprehensive set of information and enabling users to interact with the data. In the upcoming example, we&rsquo;ll guide you through creating a simple dashboard utilizing rainstorm disaster data from the Civil IoT Taiwan project. This will demonstrate how you can effectively use dashboards to display and interact with complex data sets.</p>
 <h3 id="disaster-data-format-conversion">Disaster data format conversion</h3>
-<p>We use the 823 flood that occurred on 2018/08/23 as an example. Since the original data format is an xml file, we first use the following URL to convert the original data to a csv file: <a href="https://www.convertcsv.com/xml-to-csv.htm">https://www.convertcsv.com/xml-to-csv.htm</a> (animated below)</p>
+<p>For our example, we&rsquo;ll focus on the flood event that happened on August 23, 2018, known as the &ldquo;823 flood.&rdquo; The original data for this event is in XML format. To use this data in Tableau, we first need to convert it into a CSV file. You can do this conversion using an online tool available at <a href="https://www.convertcsv.com/xml-to-csv.htm">https://www.convertcsv.com/xml-to-csv.htm</a>. The process of converting the XML file to a CSV format using this website is demonstrated in the animation below.</p>
 <p><img src="figures/7-2-5-1.gif" alt="Tableau screenshot"></p>
 <h3 id="dashboard-size">Dashboard size</h3>
-<p>After clicking Dashboard in the Tableau menu, you can set the size of the dashboard in the tool list on the left.</p>
+<p>Once you click on &lsquo;Dashboard&rsquo; in the Tableau menu, you&rsquo;ll have the option to set the size of your dashboard. This can be done using the tool list located on the left-hand side. This feature allows you to customize the layout and size of your dashboard to best fit the data visualizations you plan to include.</p>
 <p><img src="figures/7-2-5-2.png" alt="Tableau screenshot"></p>
 <h3 id="add-worksheets-to-a-dashboard">Add worksheets to a dashboard</h3>
-<p>Then you can see the previously created worksheet in the tool list on the left, you can add it to the dashboard by dragging and dropping the worksheet to the empty space of the dashboard.</p>
+<p>Next, you&rsquo;ll see the worksheet(s) you created earlier listed in the tool list on the left side of the dashboard interface in Tableau. To add any of these worksheets to your dashboard, simply drag and drop them into the empty space of the dashboard. This intuitive feature allows you to easily organize and display the various data visualizations you&rsquo;ve created in a cohesive and interactive dashboard layout.</p>
 <p><img src="figures/7-2-5-3.png" alt="Tableau screenshot"></p>
-<p>After Tableau receives the data of the worksheet, it will automatically read the information of the content and automatically generate the corresponding initial chart.</p>
+<p>Once you&rsquo;ve added a worksheet to your Tableau dashboard, the software automatically processes the data from that worksheet. It reads the information contained within and automatically generates an initial chart based on that data. This feature simplifies the initial steps of data visualization, providing you with a starting point that you can then customize and refine according to your needs and preferences.</p>
 <p><img src="figures/7-2-5-4.png" alt="Tableau screenshot"></p>
-<p>The worksheet you just dragged in has a fixed size and cannot be changed at will. There is a downward arrow at the top right of the worksheet, and you can change the size of the graph by clicking and selecting &ldquo;Float&rdquo;.</p>
+<p>The worksheet you&rsquo;ve just dragged into your Tableau dashboard comes with a preset size. If you want to adjust this size, look for a downward arrow at the top right corner of the worksheet within the dashboard. By clicking on this arrow and selecting the &ldquo;Float&rdquo; option, you gain the flexibility to resize the graph as needed. This feature allows you to customize the layout of your dashboard more dynamically, ensuring that each visual element fits and complements the overall design.</p>
 <p><img src="figures/7-2-5-5.png" alt="Tableau screenshot"></p>
 <h3 id="add-interactions">Add interactions</h3>
-<p>Next, we demonstrate how to provide an interactive interface that allows users to select the point in time in the disaster data that they want to observe.</p>
-<p>We start by clicking the down arrow in the upper right corner of the sheet, then selecting Filters, then Case Time.</p>
+<p>Next, we’ll show you how to create an interactive interface that lets users choose a specific point in time from the disaster data for observation.</p>
+<p>Begin by clicking the downward arrow located in the upper right corner of the sheet. From the dropdown menu, select ‘Filters,’ and then choose ‘Case Time.’</p>
 <p><img src="figures/7-2-5-6.png" alt="Tableau screenshot"></p>
-<p>After clicking, you will see a selection field pop up in the worksheet where you can check the date. At this time, the user only needs to check the date they want to observe, and then they can see the disaster situation on that day.</p>
+<p>Once you click, a selection field will appear in the worksheet. From there, you can choose the date you want to observe. After selecting the date, you’ll be able to view the disaster situation for that specific day.</p>
 <p><img src="figures/7-2-5-7.png" alt="Tableau screenshot"></p>
-<p>If we want to change the date selection method, we can also click the down key at the top right of the selection field to change the style of the selection field.</p>
+<p>To modify the date selection method, you can also click the downward arrow at the top right corner of the selection field. This will allow you to adjust the appearance of the selection field.</p>
 <p><img src="figures/7-2-5-8.png" alt="Tableau screenshot"></p>
-<p>For example, we can change the selection method from the original list method to the slider method as follows.</p>
+<p>As an illustration, we can switch the selection method from the initial list format to the slider format in the following manner.</p>
 <p><img src="figures/7-2-5-9.png" alt="Tableau screenshot"></p>
 <h3 id="interacting-multiple-worksheet">Interacting multiple worksheet</h3>
-<p>The above interaction buttons can only be used for one worksheet. If you want multiple worksheets on the dashboard to share the same interactive button at the same time, you can refer to the following methods:</p>
+<p>The interaction buttons mentioned above are applicable to a single worksheet only. If you wish to have multiple worksheets on the dashboard share the same interactive button simultaneously, consider the following steps:</p>
 <ol>
 <li>
-<p>According to the above method, first create an interactive button field;</p>
+<p>Start by creating an interactive button field using the method described above.</p>
 </li>
 <li>
-<p>Click the down button at the top right of the interactive button field, select Apply to worksheet and click the selected worksheet;</p>
+<p>Next, click the downward arrow at the top right corner of the interactive button field. From the dropdown menu, choose ‘Apply to worksheet’ and select the desired worksheet.</p>
 <p><img src="figures/7-2-5-10.png" alt="Tableau screenshot"></p>
 </li>
 <li>
-<p>Select the worksheet to apply to complete the setting.</p>
+<p>Finally, apply the settings to the selected worksheet.</p>
 <p><img src="figures/7-2-5-11.png" alt="Tableau screenshot"></p>
 </li>
 </ol>
 <h3 id="additional-information">Additional information</h3>
-<p>If you need to add other information on the dashboard, you can find an object column at the bottom left of the toolbar, which contains text, pictures and other objects. Just drag and drop the required objects to the top of the dashboard to display them in the dashboard, and then add text, pictures and other objects.</p>
+<p>If you’d like to include additional information on the dashboard, look for the object column located at the bottom left of the toolbar. This column houses various elements such as text, images, and other objects. Simply drag and drop the necessary items to the top of the dashboard to display them there. You can then add text, pictures, and any other relevant objects.</p>
 <p><img src="figures/7-2-5-12.png" alt="Tableau screenshot"></p>
 <h2 id="story">Story</h2>
-<p>A story is a combination of multiple dashboards or sheets used to create a slideshow-like display. Adding a story to a dashboard or sheet is the same as adding a sheet from a dashboard, just drag the sheet or dashboard created on the right to the empty space of the story.</p>
+<p>A story in this context is a collection of multiple dashboards or sheets that come together to create a slideshow-like presentation. Adding a story to a dashboard or sheet is quite similar to adding a sheet from a dashboard. You simply need to drag the sheet or dashboard you’ve created on the right and place it into the empty space designated for the story.</p>
 <p><img src="figures/7-2-5-13.png" alt="Tableau screenshot"></p>
-<p>If you need to add a new story page, you can click New Story at the top to add a new blank page, or copy an existing page to become a new page.</p>
+<p>If you want to add a new page to your story, just click on ‘New Story’ at the top. This will create a fresh blank page. Alternatively, you can duplicate an existing page to create a new one.</p>
 <p><img src="figures/7-2-5-14.png" alt="Tableau screenshot"></p>
-<p>Finally, to make the text information better fit its content, we can modify the title of the page by double-clicking the box above the text page.</p>
+<p>Lastly, if you want the text information to better align with its content, you can modify the title of the page by double-clicking the box above the text area.</p>
 <p><img src="figures/7-2-5-15.png" alt="Tableau screenshot"></p>
 <h2 id="conclusion">Conclusion</h2>
-<p>In this chapter, we briefly introduce the basic operations of Tableau, and use Tableau to design presentations/charts that interact with users. However, Tableau&rsquo;s functions are far more than these, and there are many classic examples created using Tableau on the Internet. If you are interested in Tableau, you can refer to additional resources below.</p>
+<p>In this chapter, we’ll provide a brief overview of the fundamental operations in Tableau. We’ll explore how to create interactive presentations and charts that engage users. However, it’s essential to note that Tableau offers a wealth of functionalities beyond what we cover here. Many classic examples showcasing Tableau’s capabilities can be found online. If you’re interested in diving deeper, consider exploring the additional resources listed below.</p>
 <h2 id="references">References</h2>
 <ul>
 <li>Tableau Public (<a href="https://public.tableau.com/">https://public.tableau.com/</a>)</li>
@@ -578,12 +578,12 @@ This work is licensed under a <a rel="license" href="http://creativecommons.org/
         <script>
           var contentLangs=['en'];
         </script>
-        <script src="/js/auto-complete.js?1700029387" defer></script>
-        <script src="/js/lunr.min.js?1700029387" defer></script>
-        <script src="/js/lunr.stemmer.support.min.js?1700029387" defer></script>
-        <script src="/js/lunr.multi.min.js?1700029387" defer></script>
-        <script src="/js/lunr.en.min.js?1700029387" defer></script>
-        <script src="/js/search.js?1700029387" defer></script>
+        <script src="/js/auto-complete.js?1700030826" defer></script>
+        <script src="/js/lunr.min.js?1700030826" defer></script>
+        <script src="/js/lunr.stemmer.support.min.js?1700030826" defer></script>
+        <script src="/js/lunr.multi.min.js?1700030826" defer></script>
+        <script src="/js/lunr.en.min.js?1700030826" defer></script>
+        <script src="/js/search.js?1700030826" defer></script>
       </div>
       <div id="content-wrapper" class="highlightable">
         <ul class="topics">
@@ -659,14 +659,14 @@ This work is licensed under a <a rel="license" href="http://creativecommons.org/
       </div>
     </aside>
 
-    <script src="/js/clipboard.min.js?1700029387" defer></script>
-    <script src="/js/perfect-scrollbar.min.js?1700029387" defer></script>
-    <script src="/js/featherlight.min.js?1700029387" defer></script>
-    <script src="/js/jquery.svg.pan.zoom.js?1700029387" defer></script>
-    <script src="/js/mermaid.min.js?1700029387" defer></script>
+    <script src="/js/clipboard.min.js?1700030826" defer></script>
+    <script src="/js/perfect-scrollbar.min.js?1700030826" defer></script>
+    <script src="/js/featherlight.min.js?1700030826" defer></script>
+    <script src="/js/jquery.svg.pan.zoom.js?1700030826" defer></script>
+    <script src="/js/mermaid.min.js?1700030826" defer></script>
     <script>
       window.themeUseMermaid = JSON.parse("{}");
     </script>
-    <script src="/js/theme.js?1700029387" defer></script>
+    <script src="/js/theme.js?1700030826" defer></script>
   </body>
 </html>
