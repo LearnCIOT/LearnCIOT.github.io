@@ -13,11 +13,11 @@ authors: ["Yu-Shen Cheng", "Ming-Kuang Chung", "Ling-Jyh Chen"]
 
 {{< toc >}}
 
-In the previous chapters, we have demonstrated how to use programming languages to analyze data on geographic attributes, and we have also demonstrated how to use GIS software for simple geographic data analysis and presentation. Next, we will introduce how to use the Leafmap suite in Python language for GIS applications, and the Streamlit suite for website development. Finally, we will combine Leafmap and Streamlit to make a simple web GIS system by ourselves, and present the results of data processing and analysis through web pages.
+In earlier sections, we showed you how to analyze geographic data using programming and how to use GIS (Geographic Information System) software for basic analysis and display of this data. Now, we're going to teach you how to use Leafmap in Python for GIS tasks, and how to develop websites with Streamlit. At the end, we'll show you how to combine Leafmap and Streamlit to create your own basic web-based GIS system. This will allow you to display your data analysis results on web pages.
 
 ## Package Installation and Importing
 
-In this chapter, we will use packages such as pandas, geopandas, leafmap, ipyleaflet, osmnx, streamlit, geocoder, and pyCIOT. Apart from pandas, our development platform Google Colab does not provide these packages, so we need to install them ourselves first. Since there are many packages installed this time, in order to avoid a large amount of information output after the command is executed, we have added the '-q' parameter to each installation command, which can make the output of the screen more concise.
+In this chapter, we're going to use a variety of packages including pandas, geopandas, leafmap, ipyleaflet, osmnx, streamlit, geocoder, and pyCIOT. However, except for pandas, these packages are not pre-installed on our development platform, Google Colab. So, we need to install them ourselves. To make this process smoother and avoid flooding the screen with too much information, we've added the '-q' parameter to each installation command. This will help keep the output on the screen more streamlined and easier to read.
 
 ```python
 !pip install -q geopandas
@@ -29,7 +29,7 @@ In this chapter, we will use packages such as pandas, geopandas, leafmap, ipylea
 !pip install -q pyCIOT
 ```
 
-After the installation is complete, we can use the following syntax to import the relevant packages to complete the preparations in this article.
+Once the installation is done, you can use the syntax provided below to import the necessary packages. This will complete the setup required for the tasks in this chapter.
 
 ```python
 import pandas as pd
@@ -44,9 +44,9 @@ from pyCIOT.data import *
 
 ## Data Access
 
-In the examples in this article, we use several datasets on the Civil IoT Taiwan Data Service Platform, including air quality data from the EPA, and seismic monitoring station measurements from the National Earthquake Engineering Research Center and the Central Weather Bureau.
+In this article, we work with several datasets from the Civil IoT Taiwan Data Service Platform. This includes air quality data from the Environmental Protection Administration (EPA), and seismic data from the National Earthquake Engineering Research Center and the Central Weather Bureau.
 
-For the EPA air quality data, we use the pyCIOT package to obtain the latest measurement results of all EPA air quality stations, and convert the resulting JSON format data into a DataFrame through the `json_normalize()` method in the pandas package format. We only keep the station name, latitude, longitude and ozone (O3) concentration information for future use. The code for this part of data collection and processing is as follows:
+For the EPA air quality data, we utilize the pyCIOT package to fetch the latest readings from all the EPA air quality monitoring stations. We then convert this data, which is initially in JSON format, into a more usable format called a DataFrame. This is done using the `json_normalize()` method from the pandas package. In our analysis, we'll focus on specific data points: the station names, their latitude and longitude, and the concentration of ozone (O3). The code for gathering and processing this data is as follows:
 
 ```python
 epa_station = Air().get_data(src="OBS:EPA")
@@ -63,7 +63,7 @@ df_air
 
 ![Python output](figures/7-3-2-1.png)
 
-Then we extract the seismic monitoring station data from the National Earthquake Engineering Research Center and the Central Weather Bureau in a similar way, leaving only the station name, longitude and latitude information for subsequent operations. The code for this part of data collection and processing is as follows:
+Similarly, we'll extract data from the seismic monitoring stations managed by the National Earthquake Engineering Research Center and the Central Weather Bureau. In this case, we'll only retain essential information such as the station names and their longitude and latitude for our upcoming tasks. The code used to collect and process this data is as follows:
 
 ```python
 quake_station = Quake().get_station(src="EARTHQUAKE:CWB+NCREE")
@@ -74,13 +74,15 @@ df_quake
 
 ![Python output](figures/7-3-2-2.png)
 
-We have successfully demonstrated the reading examples of air quality data (air) and seismic data (quake). In the following discussion, we will use these data for the operation and application using the leafmap suite. The same methods can also be easily applied to other datasets on the Civil IoT Taiwan Data Service Platform. You are encouraged to try it yourself.
+We've successfully shown you how to read air quality (air) data and seismic (quake) data. In the next part of our discussion, we'll use these datasets to demonstrate operations and applications using the Leafmap suite. It's worth noting that these methods can also be applied to other datasets available on the Civil IoT Taiwan Data Service Platform. We encourage you to experiment with these techniques on your own.
 
 ## Leafmap Basics
 
 ### Basic Data Presentation
 
-Using the data `df_air` and seismic data `df_quake` that we are currently processing, we first convert the format of these two data from the DataFrame format provided by the pandas package to the GeoDataFrame format provided by the geopandas package which supports geographic information attributes. We then use Leafmap's`add_gdf()` method to create a presentation layer for each dataset and add them to the map in one go.
+With the air quality data `df_air` and seismic data `df_quake` that we've prepared, our next step is to convert these datasets from the DataFrame format (provided by the pandas package) to the GeoDataFrame format. The GeoDataFrame format, supported by the geopandas package, is more suitable for handling geographic information.
+
+Once we have our data in the GeoDataFrame format, we can utilize Leafmap's `add_gdf()` method. This method allows us to create a distinct presentation layer for each dataset. After these layers are created, we can easily add both of them to our map in a single step.
 
 ```python
 gdf_air = gpd.GeoDataFrame(df_air, geometry=gpd.points_from_xy(df_air['location.longitude'], df_air['location.latitude']), crs='epsg:4326')
@@ -94,9 +96,10 @@ m1
 
 ![Python output](figures/7-3-3-1.png)
 
-From the map output by the program, we can see the names of the two data in the upper right corner of the map, which have been added to the map in the form of two layers. Users can click the layer to be queried to browse according to their own needs. However, when we want to browse the data of two layers at the same time, we will find that both layers are rendering the same icon, so there will be confusion on the map.
 
-To solve this problem, we introduce another way of data presentation. We use the GeoData layer data format provided by the ipyleaflet suite and add the GeoData layer to the map using leafmap's `add_layer()` method. For easy identification, we use the small blue circle icon to represent the data of the empty station, and the small red circle icon to represent the data of the seismic station.
+In the map generated by our program, you'll notice the names of the two datasets in the top-right corner of the map. They are added as two separate layers, allowing users to select and view the layer they're interested in. However, when trying to view both layers simultaneously, there's an issue: both layers use the same icon for representation, leading to confusion on the map.
+
+To address this, we introduce a different approach for displaying data. We use the GeoData layer format provided by the ipyleaflet suite. By utilizing Leafmap's `add_layer()` method, we can add these GeoData layers to the map. To make each dataset distinct and easily identifiable, we represent air quality stations with small blue circle icons and seismic stations with small red circle icons.
 
 ```python
 geo_data_air = ipyleaflet.GeoData(
@@ -120,9 +123,9 @@ m2
 
 ### Cluster Data Presentation
 
-In some data applications, when there are too many data points on the map, it is not easy to observe. If this is the case, we can use clustering to present the data. i.e. when there are too many data points for a small area, we cluster the points together to show the number of points. When the user zooms in on the map, these originally clustered points are slowly pulled apart. When there is only one point left in a small area, the information of that point can be directly seen.
+When dealing with maps that have a large number of data points, it can become difficult to clearly observe individual points. In such scenarios, clustering is a useful technique. Clustering groups nearby points together when viewing a map from a distance, displaying them as a single point that shows the number of clustered items. As the user zooms in on the map, these clusters start to separate, revealing the individual points. Once zoomed in enough, each point can be seen independently, allowing users to view information about specific data points.
 
-Let's take data from seismic stations as an example. Using leafmap's `add_points_from_xy()` method, the data of df2 can be placed on the map in a clustered manner.
+Let's use the seismic station data as an example. By employing the `add_points_from_xy()` method from Leafmap, we can display the data from `df2` on the map in a clustered format. This approach will make it easier to manage and view a large number of points on the map.
 
 ```python
 m3 = leafmap.Map(center=(23.8, 121), toolbar_control=False, layers_control=True)
@@ -134,14 +137,14 @@ m3
 
 ### Change Leafmap Basemap
 
-Leafmap uses OpenStreetMap as the default basemap and provides over 100 other basemap options. Users can change the basemap according to their own preferences and needs. You can use the following syntax to learn which basemaps currently supported by leafmap:
+Leafmap primarily uses OpenStreetMap as its default basemap, but it also offers a wide variety of over 100 other basemap options. This allows users to switch the basemap according to their personal preferences or specific requirements. To explore the basemaps currently supported by Leafmap, you can use the following syntax:
 
 ```python
 layers = list(leafmap.basemaps.keys())
 layers
 ```
 
-We select SATELLITE and Stamen.Terrain from these basemaps as demonstrations, and use the `add_basemap()` method of the leafmap package to add the basemap as a new layer. After adding, the leafmap preset will open all layers and stack them in the order of addition. You can select the layer you want to use through the layer menu in the upper right corner.
+From the array of basemaps available in Leafmap, let's choose SATELLITE and Stamen.Terrain for our demonstration. We can add these basemaps to our map as new layers using the `add_basemap()` method from the Leafmap package. Once added, Leafmap automatically activates all layers and stacks them in the order they were added. You can then easily select the specific layer you wish to view using the layer menu located in the upper right corner of the map. This feature allows for flexible and customized map viewing, tailored to your specific needs or preferences.
 
 ```python
 m4 = leafmap.Map(center=(23.8, 121), toolbar_control=False, layers_control=True)
@@ -154,7 +157,7 @@ m4
 
 ![Python output](figures/7-3-3-4.png)
 
-In addition to using the basemap provided by leafmap, you can also use Google Map's XYZ Tiles service to add layers of Google satellite imagery. The methods are as follows:
+Apart from utilizing the basemaps provided by Leafmap, you can also integrate layers from Google Maps by using its XYZ Tiles service. This allows you to add Google's satellite imagery as layers on your map. The method to do this is as follows:
 
 ```python
 m4.add_tile_layer(
@@ -170,9 +173,9 @@ m4
 
 ### Integrate OSM Resources
 
-In addition to some built-in resources, Leafmap also integrates many external geographic information resources. Among them, OSM (OpenStreetMap) is a well-known and rich open source geographic information resource. Various resources provided by OSM can be found on the OSM website, with [a complete list of properties](https://wiki.openstreetmap.org/wiki/Map_features).
+Leafmap not only includes built-in resources but also incorporates a wealth of external geographic information sources. One of the most prominent among these is OSM (OpenStreetMap), a widely recognized and comprehensive open-source geographic information resource. OSM offers a variety of resources, all of which can be explored on the OSM website. For a detailed view of what's available, you can refer to [the complete list of properties](https://wiki.openstreetmap.org/wiki/Map_features) provided on their website. This list outlines the diverse range of features and data types that OSM offers, making it a valuable resource for anyone working with geographic information in Leafmap.
 
-In the following example, we use the `add_osm_from_geocode()` method provided by the leafmap package to demonstrate how to get the outline of a city and render it on the map. Taking Taichung City as an example, combined with the location information in the EPA air quality monitoring station data, we can clearly see which stations are in Taichung City.
+In the next example, we'll demonstrate how to obtain and display the outline of a city on the map using the `add_osm_from_geocode()` method from the Leafmap package. We'll use Taichung City as our example. By combining this with the location information from the EPA air quality monitoring station data, we can easily identify which stations are located within Taichung City. This method effectively allows us to visually integrate specific geographic outlines with our existing dataset, offering a clearer understanding of the data's geographical context.
 
 ```python
 city_name = "Taichung, Taiwan"
@@ -185,7 +188,9 @@ m5
 
 ![Python output](figures/7-3-3-6.png)
 
-Then we continue to use the `add_osm_from_place()` method provided by the leafmap package to further search for specific facilities in Taichung City and add them to the map layer. The following procedure takes factory facilities as an example and uses the land use data of OSM to find out the relevant factory locations and areas in Taichung City, which can be analyzed and explained in combination with the locations of EPA air quality monitoring stations. For more types of OSM facilities, you can refer to [the complete properties list](https://wiki.openstreetmap.org/wiki/Map_features).
+Following the previous step, we'll further enhance our map by using the `add_osm_from_place()` method in the Leafmap package. This method allows us to search for and add specific facilities within Taichung City to our map layer. As an example, let's focus on factory facilities. We'll utilize OSM's land use data to identify the locations and areas of factories in Taichung City. This information can be very useful when analyzed in conjunction with the locations of the EPA air quality monitoring stations, providing insights into potential environmental impacts or correlations.
+
+For a broader range of OSM facility types that you might want to explore and add to your map, you can refer to [the complete properties list](https://wiki.openstreetmap.org/wiki/Map_features) provided by OpenStreetMap. This extensive list offers a variety of options, enabling detailed and specific geographic analyses and visualizations.
 
 ```python
 m5.add_osm_from_place(city_name, tags={"landuse": "industrial"}, layer_name=city_name+": Industrial")
@@ -194,7 +199,9 @@ m5
 
 ![Python output](figures/7-3-3-7.png)
 
-In addition, the leafmap package also provides a method for searching for OSM nearby facilities centered on a specific location, providing a very convenient function for analyzing and interpreting data. For example, in the following example, we use the `add_osm_from_address()` method to search for related religious facilities (attribute "amenity": "place_of_worship") within a 1,000-meter radius of Qingshui Station, Taichung; at the same time, we use the `add_osm_from_point()` method to search for relevant school facilities (attributes "amenity": "school") within 1,000 meters of the GPS coordinates (24.26365, 120.56917) of Taichung Qingshui Station. Finally, we overlay the results of these two queries on the existing map with different layers.
+The Leafmap package also offers a convenient feature for finding OSM facilities near a specific location, which is incredibly useful for data analysis and interpretation. For instance, in the following example, we'll use the `add_osm_from_address()` method to search for religious facilities (with the attribute "amenity": "place_of_worship") within a 1,000-meter radius of Qingshui Station in Taichung. Additionally, we'll employ the `add_osm_from_point()` method to look for school facilities (attributes "amenity": "school") within 1,000 meters of the GPS coordinates (24.26365, 120.56917) of Taichung Qingshui Station.
+
+We will then superimpose the results from these two searches as separate layers onto our existing map. This layered approach allows for a detailed and nuanced visual representation of how different types of facilities are distributed in relation to a specific point, offering valuable insights for spatial analysis.
 
 ```python
 m5.add_osm_from_address(
@@ -211,8 +218,9 @@ m5
 
 ### Heatmap Presentation
 
-A [heatmap](https://en.wikipedia.org/wiki/Heat_map) is a two-dimensional representation of event intensity through color changes. When matching a heatmap to a map, the state of event intensity can be expressed at different scales depending on the scale of the map used. It is a very common and powerful data representation tool. However, when drawing a heatmap, the user must confirm that the characteristics of the data are suitable for presentation by a heatmap, otherwise it is easy to be confused with the graphical data interpolation representations such as IDW and Kriging that we introduced in Chap 5. For example, we take the O3 concentration data of the EPA air quality data as an example, and draw the corresponding heat map as follows:
+A [heatmap](https://en.wikipedia.org/wiki/Heat_map) is a graphical representation that uses color variations to show the intensity of events in a two-dimensional format. When integrated with a map, a heatmap can effectively illustrate the intensity of events at various scales, depending on the map's scale. It's a widely used and powerful tool for visualizing data.
 
+However, it's important to ensure that the characteristics of the data are suitable for heatmap representation. Otherwise, it can be easily confused with other graphical data interpolation methods like IDW (Inverse Distance Weighting) and Kriging, which we discussed in Chapter 5. As an example, let's use the O3 concentration data from the EPA air quality dataset to create a corresponding heatmap. This approach will demonstrate how heatmaps can effectively visualize specific data points, like pollution levels, across a geographic area.
 
 ```python
 m6 = leafmap.Map(center=(23.8, 121), toolbar_control=False, layers_control=True)
@@ -230,15 +238,17 @@ m6
 
 ![Python output](figures/7-3-3-9.png)
 
-There is nothing obvious about this image at first glance, but if we zoom in on the Taichung city area, we can see that the appearance of the heatmap has changed a lot, showing completely different results at different scales.
+The initial view of the heatmap might not reveal much detail, especially when looking at a larger area. However, if you zoom in on a specific region, like Taichung city, you'll notice a significant change in the heatmap's appearance. This zoomed-in view can reveal more nuanced patterns and concentrations, showing how the heatmap provides different insights at various scales.
+
+This characteristic of heatmaps is particularly useful as it allows for both a broad overview when zoomed out and a detailed analysis when zoomed in. In the context of Taichung city, zooming in can help you better understand the distribution and intensity of O3 concentrations in more localized areas, offering a clearer picture of air quality in different parts of the city.
 
 ![Python output](figures/7-3-3-10.png)
 
 ![Python output](figures/7-3-3-11.png)
 
-The above example is actually an example of misuse of the heatmap, because the O3 concentration data reflects the local O3 concentration. Due to the change of the map scale, its values cannot be directly accumulated or distributed to adjacent areas. Therefore, the O3 concentration data used in the example is not suitable for heatmap representation and should be plotted using the geographic interpolation method described in Chapter 5.
+The previous example with the O3 concentration data actually illustrates a common pitfall in using heatmaps: not all types of data are suitable for this kind of representation. The O3 data reflects specific, local concentrations of ozone. These values don't necessarily accumulate or disperse to adjacent areas, especially when the map scale changes. Therefore, using O3 concentration data for a heatmap can be misleading. Instead, a geographic interpolation method, as described in Chapter 5, would be more appropriate for this type of data.
 
-To show the real effect of the heatmap, we use the location data of the seismic stations instead and add a field num with a default value of 10. Then we use the code below to generate a heatmap of the status of Taiwan Seismic Monitoring Stations.
+To demonstrate an appropriate use of heatmaps, let's consider the location data of seismic monitoring stations. We'll add a field named `num`, assigning it a default value of 10. This data is more suitable for a heatmap because it represents discrete, quantifiable events (in this case, the presence of seismic stations) that can be aggregated over an area. Here's the code we'll use to create a heatmap that accurately represents the distribution of Taiwan's Seismic Monitoring Stations. This will give a clearer and more accurate depiction of seismic monitoring coverage across different regions.
 
 ```python
 df_quake['num'] = 10
@@ -259,7 +269,7 @@ m7
 
 ### Split Window Presentation
 
-In the process of data analysis and interpretation, it is often necessary to switch between different basemaps to obtain different geographic information. Therefore, the leafmap package provides the `split_map()` method, which can split the original map output into two submaps, each applying a different basemap. Its sample code is as follows:
+In data analysis and interpretation, switching between various basemaps can be crucial to gain different geographic perspectives. The Leafmap package accommodates this need with the `split_map()` method. This method divides the original map display into two submaps, allowing each to use a different basemap. This feature is particularly useful for comparative analysis or for obtaining a more comprehensive understanding of the geographic context. Here's an example of how you can use this method:
 
 ```python
 m8 = leafmap.Map(center=(23.8, 121), toolbar_control=False, layers_control=True)
@@ -275,14 +285,15 @@ m8
 
 ## Leafmap for Web Applications
 
-In order to quickly share the processed map information, Leafmap suite also provides an integrated way of Streamlit suite, combining Leafmap's GIS technical expertise with Streamlit's web technical expertise to quickly build a Web GIS system. Below we demonstrate how it works through a simple example, you can extend and build your own Web GIS service according to this principle.
 
-In the use of the Streamlit package, there are two steps to build a web system:
+To facilitate the quick sharing of processed map information, the Leafmap suite offers an integrated approach with the Streamlit suite. This combination leverages Leafmap's GIS expertise and Streamlit's web development capabilities, enabling you to quickly build a Web GIS system. Below, we'll demonstrate how this works through a simple example. You can use this as a foundation to develop and expand your own Web GIS service.
 
-1. Package the Python program to be executed into a Streamlit object, and write the packaging process into the app.py file; and
-2. Execute app.py on the system.
+Building a web system with the Streamlit package involves two key steps:
 
-Since our operation process all use the Google Colab platform, in this platform we can directly write app.py into the temporary storage area with the special syntax `%%writefile`, and then Colab directly reads and runs the codes from the temporary storage area. Therefore, for the file writing part of step 1, we can proceed as follows:
+1. **Packaging the Python Program**: First, you need to package the Python program you want to execute into a Streamlit object. This packaging process is written into an `app.py` file.
+2. **Executing app.py**: Once your `app.py` is ready, you execute this file on your system to run your web application.
+
+Since our operations are all conducted on the Google Colab platform, we can take advantage of its unique features. Google Colab allows us to write `app.py` directly into its temporary storage area using the `%%writefile` magic command. Colab can then read and execute the code directly from this temporary storage. So, for the file writing part of step 1, we can proceed as follows:
 
 ```python
 %%writefile app.py
@@ -319,21 +330,21 @@ For the second part, we use the following instructions:
 !streamlit run app.py & npx localtunnel --port 8501
 ```
 
-After execution, an execution result similar to the following will appear:
+When you run it, you should see a result that looks something like this:
 
 ![Python output](figures/7-3-4-1.png)
 
-Then you can click on the URL after the string "your url is:", and something similar to the following will appear in the browser
+Next, click on the link that appears after the phrase "your url is:". This will open a page in your browser that should look like the following.
 
 ![Python output](figures/7-3-4-2.png)
 
-Finally, we click "Click to Continue" to execute the Python code packaged in app.py. In this example, we can see the distribution map of EPA's air quality monitoring stations presented by the leafmap package.
+Lastly, click on "Click to Continue" to run the Python code contained in the file named app.py. In this example, you'll see a map displaying the distribution of the EPA's air quality monitoring stations, which is created using the leafmap package.
 
 ![Python output](figures/7-3-4-3.png)
 
 ## Conclusion
 
-In this article, we introduced the Leafmap package to render geographic data and integrate external resources, and demonstrated the combination of the Leagmap and Streamlit packages to build a simple web-based GIS service on the Google Colab platform. It should be noted that Leafmap also has many more advanced functions, which are not introduced in this article. You can refer to the following references for more in-depth and extensive learning.
+This article has introduced the Leafmap package as a tool for displaying geographic data and incorporating external resources. We've shown how combining Leafmap with the Streamlit package can create a basic web-based GIS (Geographic Information System) service on the Google Colab platform. It's important to mention that Leafmap has many additional advanced features that we haven't covered here. For a more detailed and comprehensive understanding, you can refer to the following resources.
 
 ## References
 
