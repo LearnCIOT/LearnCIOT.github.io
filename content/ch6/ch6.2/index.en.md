@@ -14,39 +14,42 @@ authors: ["Quen Luo"]
 
 ## Anomaly Detection Framework
 
-Multiple large-scale micro air quality monitoring systems have been successfully deployed in different countries and cities. However, one of these micro sensors' main challenges is ensuring data quality and detecting possible anomalies in real-time. In 2018, the research team of the Network Research Laboratory of the Institute of Information Science, Academia Sinica, Taiwan, proposed an anomaly detection framework that can be used in real environments called the [Anomaly Detection Framework](https://ieeexplore.ieee.org/document/8081731) (ADF).
+In various countries and cities, we've seen the successful implementation of expansive networks for monitoring air quality at a micro level. One key issue with these tiny sensors is making sure they provide accurate data and can spot any unusual readings as they happen. Back in 2018, a team from the Network Research Laboratory at Academia Sinica's Institute of Information Science in Taiwan developed a special system for this purpose, known as the [Anomaly Detection Framework](https://ieeexplore.ieee.org/document/8081731) (ADF).
 
-This anomaly detection framework consists of four modules:
+The ADF is composed of four main parts:
 
-1. Time-Sliced Anomaly Detection (TSAD): It can detect abnormal sensor data in space or time in real-time and output the results to other modules for further analysis.
-2. Real-time Emission Detection (RED): It can detect potential regional pollution events in real-time through the detection results of TSAD.
-3. Sensor reliability evaluation module (Device Ranking, DR): It can accumulate the detection results of TSAD and evaluate the reliability of each miniature sensor device
-4. Abnormal use of machine detection module (Malfunction Detection, MD): It can accumulate the detection results of TSAD, and through data analysis, it can identify micro-sensors that may be used abnormally, such as machines installed indoors, placed in continuous Machines next to sources of sexual pollution, etc.
+1. **Time-Sliced Anomaly Detection (TSAD):** This part is all about catching odd data from the sensors, either related to time or location, right when it occurs. It then sends this information to other parts of the system for deeper analysis.
+2. **Real-time Emission Detection (RED):** Using the findings from TSAD, RED focuses on identifying possible pollution events happening in a specific area, doing this in real-time.
+3. **Sensor Reliability Evaluation (Device Ranking, DR):** DR takes the data flagged by TSAD to assess how trustworthy each small sensor device is.
+4. **Abnormal Use of Machine Detection (Malfunction Detection, MD):** Similar to DR, MD also uses TSAD's data but with a different goal. It looks for sensors that might not be used properly. For example, it can find sensors placed indoors or near constant sources of pollution, which could affect their readings.
+
+Each of these modules plays a crucial role in ensuring the micro sensors used in air quality monitoring systems work effectively and reliably.
 
 ![ADF Framework](figures/6-2-1-1.png)
 
 ### Types of abnormal events
 
-In the ADF framework, the TSAD module will judge the abnormal event of time or space every time the micro air quality sensor receives new sensing data. We will use the micro air quality sensor as an example to illustrate :
+In the ADF framework, the TSAD module assesses unusual occurrences in time or space whenever the micro air quality sensor gets new data. Let's use the micro air quality sensor as an example to explain this:
 
-- Time-type abnormal events: We assume that air diffusion is uniform and slow, so the value change of the same micro air quality sensor in a short period should be extremely gentle. There are drastic changes in a short period, which means that abnormal events may occur in the time dimension.
-- Spatial abnormal events: We can assume that the outdoor air will spread evenly in geographical space, so the sensing value of the micro-air sensor should be similar to the surrounding sensors. Suppose there is a considerable difference between the sensing value of one particular sensor and its neighboring at the same time. In that case, an abnormal event may occur in the space where the sensor is located.
+- Time-related abnormal events: We start with the assumption that air spreads out evenly and slowly. Therefore, the readings from the same micro air quality sensor should change only slightly over a short period. If there's a rapid and significant change in these readings in a short time, it could indicate something abnormal happening related to time.
+
+- Space-related abnormal events: We generally expect that outdoor air disperses uniformly over a geographical area. This means that the readings from a micro air quality sensor should be roughly similar to those from sensors nearby. If the readings from one specific sensor are drastically different from those of its neighbors at the same time, it might suggest an unusual event happening in the location of that sensor.
 
 ### Possible causes of abnormal events
 
-There are many possible causes for the abnormal events described above. Common ones are:
+There are several reasons why the abnormal events we've talked about might happen. Some of the most common ones include:
 
-- Abnormal installation environment: The sensor is installed in a specific environment, so it cannot show the overall environmental phenomenon, such as installed next to a temple, in a barbecue shop, or in other indoor places without ventilation.
-- Machine failure or installation error: For example, when the sensor is installed, the direction of the air intake is wrong, or the fan of the sensor is fouled so that the operation is not smooth.
-- A temporary source of contamination occurs: For example, someone smoking, a fire, or emitting pollutants right next to the sensor.
+- Putting the sensor in the wrong place: Sometimes, the sensor is set up in a specific area, which means it can't accurately measure the overall environment. This could be because it's placed next to a temple, inside a barbecue shop, or in any indoor area that doesn't have good air flow.
+- Issues with the sensor itself or how it's set up: For instance, the sensor might be installed facing the wrong way, which affects how it takes in air. Or, the fan in the sensor could be dirty, which would make it work poorly.
+- Sudden nearby pollution: This could be something like someone smoking close to the sensor, a nearby fire, or other pollutants being released right next to it.
 
 ## Case Study
 
-In this article, we will take the Civil IoT Taiwan project air quality data as an example. We will use some campus micro air quality sensors installed in Kaohsiung City for analysis and introduce how to use the ADF detection framework to find potential sensors that may be installed indoors or located near pollution sources. We will also rank the sensors depending on their trustworthiness.
+In this article, we're going to explore air quality data from the Civil IoT Taiwan project. Specifically, we'll look at data from small air quality sensors placed around campuses in Kaohsiung City. Our focus will be on how to use the ADF detection framework to identify sensors that might be inside buildings or near sources of pollution. Additionally, we'll discuss how to assess and rank these sensors based on how reliable their data is.
 
 ### Package Installation and Importing
 
-In this article, we will use the pandas, numpy, plotly, and geopy packages, which are pre-installed on our development platform, Google Colab, and do not need to be installed manually. We can use the following syntax to import the relevant packages to complete the preparations in this article.
+In this article, we're going to work with several tools that are already set up for us on Google Colab, our development platform. These include pandas, numpy, plotly, and geopy packages. Since they are pre-installed, we don't need to worry about installing them ourselves. To get started, we'll simply import these packages using the syntax provided below. This will set everything up for the tasks we'll be tackling in this article.
 
 ```python
 import pandas as pd
@@ -58,15 +61,16 @@ from geopy.distance import geodesic
 
 ### Initialization and Data Access
 
-In this case, we will use some of the micro air quality sensors deployed in Kaohsiung under the Civil IoT Taiwan Project for analysis. We consider the following spatial and temporal ranges of the data:
+For our analysis, we're going to use small air quality sensors located in Kaohsiung, which are part of the Civil IoT Taiwan Project. We'll focus on specific areas and timeframes:
 
-- Spatial range: latitude in the range of `22.631231 - 22.584989`, and longitude in the range of `120.263422 - 120.346764`
-- Temporal range: 2022.10.15 - 2022.10.28
+- For the area, we'll look at places between latitudes 22.631231 and 22.584989, and longitudes 120.263422 and 120.346764.
+- The time period we're interested in is from October 15, 2022, to October 28, 2022.
 
-Note that you can go to the [Civil IoT Taiwan Data Service Platform](https://ci.taiwan.gov.tw/dsp/) to download the raw data of micro air quality sensors on campus. However, for simplicity, we pre-download the data and make it available as [allLoc.csv](https://LearnCIOT.github.io/data/allLoc.csv) for the examples described in this article.
+You can find the raw data from these air quality sensors on the [Civil IoT Taiwan Data Service Platform](https://ci.taiwan.gov.tw/dsp/) at this link. This data is typically used for academic purposes, but to make things easier, we've already downloaded it and put it into a file named [allLoc.csv](https://LearnCIOT.github.io/data/allLoc.csv), which you can use for the examples in this article.
 
-We first load the data file and preview the contents of the data:
+Here's what we do with this data:
 
+1. We start by opening the data file to see what's inside.
 ```python
 DF = pd.read_csv("https://LearnCIOT.github.io/data/allLoc.csv")
 DF.head()
@@ -74,8 +78,7 @@ DF.head()
 
 ![Python output](figures/6-2-2-1.png)
 
-Then we fetch the GPS geolocation coordinates of each sensor in the data file. Since the GPS coordinates of these sensors will not change, we average each sensor's longitude and latitude data in the data file as the geographic coordinates of the sensor.
-
+2. Next, we look for the GPS coordinates of each sensor in the file. Since these sensors don't move, we calculate the average longitude and latitude for each one. This gives us a fixed geographical location for each sensor.
 ```python
 dfId = DF[["device_id","lon","lat"]].groupby("device_id").mean().reset_index()
 print(dfId.head())
@@ -90,8 +93,7 @@ print(dfId.head())
 4  74DA38F20BB6  120.324  22.600
 ```
 
-We plot the sensor locations on a map to get an overview of the geographic distribution of sensors in the data file.
-
+3. Finally, we create a map showing where each sensor is located. This helps us see how the sensors are spread out geographically in the dataset.
 ```python
 fig_map = px.scatter_mapbox(dfId, lat="lat", lon="lon",
                   color_continuous_scale=px.colors.cyclical.IceFire, zoom=9,
@@ -104,16 +106,16 @@ fig_map.show()
 
 ### Find nearby sensors
 
-Since the campus micro air quality sensors are fixedly installed, their GPS location coordinates will not change. To save the computing time for subsequent data analysis, we first calculate each sensor's "neighbor" list in a unified manner. In our case, we define that two tiny sensors become neighbors if their mutual distance is less than or equal to 3 kilometers.
+The micro air quality sensors on the campus are permanently installed, so their GPS locations remain the same. To make data analysis faster later on, we first create a list of "neighbors" for each sensor. In our approach, two small sensors are considered neighbors if they are 3 kilometers or less apart from each other.
 
-We first write a function `countDis` to calculate the physical kilometer distance between the two input GPS geographic coordinates.
+We begin by creating a function called `countDis` that measures the actual distance in kilometers between any two given GPS coordinates.
 
 ```python
 def countDis(deviceA, deviceB):
     return geodesic((deviceA["lat"], deviceB['lon']), (deviceB["lat"], deviceB['lon'])).km
 ```
 
-Then we convert the sensor list of raw data from DataFrame data type to Dictionary data type and calculate the distance between any two sensors. As long as the distance between the two is less than 3km, we store each other in the neighbor sensor list `dicNeighbor`.
+Next, we change the format of the sensor data from a DataFrame, which is a specific type of data structure, to a Dictionary, another type of data structure. This allows us to calculate the distance between each pair of sensors. If the distance between any two sensors is less than 3 kilometers, we add them to each other’s list of neighboring sensors, which we call `dicNeighbor`.
 
 ```python
 # set the maximum distance of two neighbors
@@ -142,7 +144,7 @@ for x in range(len(listId)):
 
 ### Time slicing every five minutes
 
-Since each sensor in the original data is not synchronized in time, it is proposed in the ADF framework to divide the sensing data at intervals of each unit of time to obtain the time slice of the overall sensing result. We first merge the `date` and `time` fields in the original data and store them in the datetime data type of the Python language to form a new `datetime` field, and then delete unnecessary fields such as `date`, `time`, `RH`, `temperature`, `lat`, and `lon`.
+In the original data, each sensor's readings aren't aligned in time. To tackle this in the ADF framework, we break down the sensor data into segments based on regular time intervals. This process creates a 'time slice' that gives us a comprehensive view of the data collected over each time period. We start by combining the `date` and `time` fields from the original data into a single field, using Python's `datetime` data type, and call this new field datetime. After creating `datetime`, we remove fields that are no longer needed, such as `date`, `time`, `RH`, `temperature`, `lat`, and `lon`.
 
 ```python
 # combine the 'date' and 'time' columns to a new column 'datetime'
@@ -155,7 +157,7 @@ DF.drop(columns=["date","time", "RH","temperature","lat","lon"], inplace=True)
 DF['datetime'] = pd.to_datetime(DF.datetime)
 ```
 
-Since the data frequency of the campus micro air quality sensors is about 5 minutes, we set the unit time `FREQ` of the time slice to 5 minutes and calculate the average value of the sensing values returned by each sensor every 5 minutes. To ensure the correctness of the data, we have also done additional verification and deleted the data with negative PM2.5 sensing values.
+Considering the data from campus micro air quality sensors is updated roughly every 5 minutes, we set our time slice interval, named `FREQ`, to 5 minutes. This means we calculate the average of the sensor readings every 5 minutes. To ensure the data's accuracy, we've also conducted extra checks and eliminated any readings where the PM2.5 levels were incorrectly showing as negative values.
 
 ```python
 FREQ = '5min'
@@ -217,9 +219,13 @@ device_id    datetime
 
 ### Abnormal event judgements
 
-Through observation, we found that the so-called "abnormal event" refers to the sensing value of a sensor being too far from the reasonable value in our mind. This reasonable value may be the sensing value of the adjacent sensor (spatial type anomaly), the previous sensing value of the same sensor (time type anomaly), or a reasonable estimate based on other information sources. At the same time, we also found that the so-called "too far from the reasonable value" is a very vague term, and its specific value varies significantly with the size of the sensing value.
+We've been looking into what counts as an "abnormal event" in our data. Basically, this means when a sensor's reading is way off what we'd normally expect. What's considered normal can depend on different things – like readings from nearby sensors, past readings from the same sensor, or even other kinds of information.
 
-Therefore, we first divide the distribution of `dfMean['avg']` values into nine intervals and calculate the standard deviation of the PM2.5 sensing value in each interval. Then, we use these values as the threshold values for sensing data judgment, as shown in the table below. For example, when the original value is 10 (ug/m3), if the average value of the surrounding sensors is higher than `10+6.6` or lower than `10-6.6`, we will determine that this sensing value is an abnormal event.
+But deciding what's "way off" from normal isn't so straightforward, as it really depends on how big or small the sensor readings usually are.
+
+To tackle this, we've broken down the average values (noted as `dfMean['avg']`) into nine different ranges. For each range, we've worked out the typical variation (or standard deviation) for PM2.5 sensor readings. This helps us set specific limits to decide if a reading is abnormal.
+
+For instance, if a sensor usually reads 10 (in micrograms per cubic meter), we'd expect normal readings from nearby sensors to be within 6.6 above or below this (so between `10-6.6` and `10+6.6`). If it's outside this range, we'd consider it abnormal.
 
 | Raw value (ug/m3) | threshold |
 | --- | --- |
@@ -233,7 +239,7 @@ Therefore, we first divide the distribution of `dfMean['avg']` values into nine 
 | 65-70 | 33.5 |
 | 71+ | 91.5 |
 
-According to this table, we write the following function `THRESHOLD` to return the corresponding threshold value according to the input sensing value, and store this threshold value in the new column `PM_thr` of `dfMEAN`.
+We've written a function called `THRESHOLD` that uses these limits to check readings. It adds this info to our data in a new column, `PM_thr`.
 
 ```python
 
@@ -262,7 +268,7 @@ def THRESHOLD(value):
 dfMean['PM_thr'] = dfMean['PM2.5'].apply(THRESHOLD)
 ```
 
-Since the last record time of the original data is 2022-10-28 23:45, we set the judgment time as 2022-10-29. Then, we created a new column, `day`, to represent the difference between each record in the original data and the judgment time of the data. We preview the current state of the `dfMEAN` data table below.
+Since our latest data is from October 28, 2022, we're using October 29, 2022, as our reference date. We've added another column, `day`, to keep track of how each reading's date compares to this reference date. Below, you can see the current setup of our data table, `dfMEAN`.
 
 ```python
 TARGET_DATE = "2022-10-29"
@@ -282,7 +288,12 @@ device_id    datetime
 
 ### Implementation of the Malfunction Detection module
 
-In the following example, we implement the Malfunction Detection module in ADF. The core concept is that if we compare the PM2.5 value of a certain micro-sensor with other sensors within 3 kilometers around, A machine is considered an indoor machine (labeled `indoor`) if its sensed value is below the average value (`avg`) of neighboring sensors minus the acceptable threshold (`PM_thr`). A machine is considered to be installed next to a pollution source (labeled `emission`) if its sensed value is higher than the average value (`avg`) of neighboring sensors plus an acceptable threshold (`PM_thr`). To avoid misjudgment due to insufficient neighboring sensors, we only take cases with more than two other sensors in the neighboring area.
+In this example, we set up a system to figure out if a sensor is either indoors or near a pollution source. We do this by comparing the PM2.5 (a type of pollution measurement) readings from a specific sensor with other sensors located within a 3-kilometer radius.
+
+- If a sensor's PM2.5 reading is lower than the average of nearby sensors minus a certain acceptable threshold (called `PM_thr`), we label it as `indoor`.
+- If it's higher than the average plus the threshold, we label it as `emission`, indicating it might be near a pollution source.
+- 
+However, to make sure our conclusions are accurate, we only consider areas where there are more than two other sensors nearby.
 
 ```python
 MINIMUM_NEIGHBORS = 2
@@ -295,7 +306,9 @@ dfMean
 
 ![Python output](figures/6-2-2-3.png)
 
-We can observe from the results that `indoor` and `emission` judgment results are likely to be different due to different daily air quality conditions. Thus, to obtain a more convincing judgment result, we consider the three time lengths of the past one day, seven days, and 14 days to calculate the ratios of each sensor's judgment results (`indoor` or `emission`). At the same time, to avoid the misjudgment caused by the external environment from affecting the final judgment result, we forcibly modified the calculation result, and we changed the value with a ratio of less than 1/3 to 0.
+We've noticed that the labels `indoor` and `emission` can change based on daily air quality. So, to get a more reliable result, we look at data over different time periods: 1 day, 7 days, and 14 days. For each sensor, we calculate how often it was labeled `indoor` or `emission` during these periods.
+
+To improve accuracy and avoid errors caused by unusual environmental conditions, we adjust our calculations. If a sensor is labeled `indoor` or `emission` less than one-third of the time in any period, we disregard that label.
 
 ```python
 # initialize
@@ -316,7 +329,7 @@ for iD in listId:
         )
 ```
 
-We then print out the contents of `dictIndoor` and `dictEmission`, respectively, and observe the judged results.
+We keep track of our findings in two records: `dictIndoor` for indoor sensors and `dictEmission` for sensors near pollution sources. By examining these records, we can see how the time period affects our labeling.
 
 ```python
 dictIndoor
@@ -372,13 +385,13 @@ dictEmission
  '74DA38F210FE': [0, 0, 0]}
 ```
 
-From the above results, it can be found that with the length of the past reference time, there will be some differences in the indoor and emission judgment results. Since different lengths of time represent different reference meanings, we adopt a weighting method, assigning weight to 1-day reference time `A`, weighting to 7-day reference time `B`, and weighting to 14-day reference time `1-A-B`.
+Since different time lengths give us different insights, we use a weighting method. We assign different weights to the results from 1-day, 7-day, and 14-day periods, using `A` for 1 day, `B` for 7 days, and `1-A-B` for 14 days.
 
-At the same time, we consider working about 8 hours out of 24 hours in a day, 40 hours out of 168 hours in seven days, and 80 hours out of 336 hours in 14 days. Therefore, if a sensor is judged as `indoor` or `emission` type, its weighted proportion should be greater than or equal to `MD_thresh`, and
+We also factor in that a sensor operates about 8 hours a day, 40 hours over 7 days, and 80 hours over 14 days. A sensor is definitively labeled as `indoor` or `emission` if its weighted score meets or exceeds a certain threshold (`MD_thresh`). This threshold is calculated based on the operation hours and the weights assigned to different time periods, i.e., 
 
 `MD_thresh` = (8.0/24.0)*A+(40.0/168.0)B+(80.0/336.0)(1-A-B)
 
-In our example, we assume `A=0.2` and `B=0.3`, and we can obtain the weighted `indoor` and `emission` sensor list through the following codes.
+For instance, if we set `A` as 0.2 and `B` as 0.3, we can then determine which sensors are consistently `indoor` or `emission` based on these weighted calculations.
 
 ```python
 A=0.2
@@ -398,7 +411,7 @@ for iD in listId:
         listEmissionDevice.append( (iD, rate2) )
 ```
 
-We then print out the contents of `listIndoorDevice` and `listEmissionDevice`, respectively, and observe the results of the weighted judgment.
+Finally, we review the results in `listIndoorDevice` and `listEmissionDevice` to see our weighted judgment outcomes.
 
 ```python
 listIndoorDevice
@@ -432,7 +445,7 @@ listEmissionDevice
 
 ### Implementation of the Real-time Emission Detection module
 
-For real-time emission detection (RED), we assume that if the latest sensing value of a tiny sensor is 1/5 more than the previous sensing value, the surrounding environment has undergone drastic changes, which is very likely due to the emission of air pollution around. Since the change of 1/5 is still very slight in the actual concentration change of PM2.5 when the sensing value is small, we exclude the situation that the sensing value is less than 20 to avoid the error caused by the sensor, leading to misjudgment of real-time pollution detection.
+To detect air pollution as it happens, we use a method where we focus on the readings from small sensors. If the most recent measurement from a sensor is at least 20% higher than the one before it, we consider this a sign that there might be a significant increase in air pollution nearby. This approach is particularly effective for tracking changes in PM2.5 levels, a common air pollutant. However, we only apply this method when the sensor's readings are above 20. We do this because when the readings are very low, even a 20% increase might not indicate actual pollution – it could just be a normal fluctuation or a minor error in the sensor's measurement. This way, we avoid mistakenly identifying a situation as pollution when it isn't.
 
 ```python
 dfMean['red'] = False
@@ -458,12 +471,12 @@ dfMean
 
 ### Implementation of the Device Ranking module
 
-Finally, we summarize the judgment results of the RED and MD modules and conduct a reliability evaluation (Device Ranking, DR) for the microsensor. The main concepts are:
+To better understand the effectiveness of microsensors, we evaluate their reliability through a process we call Device Ranking (DR). This involves two key ideas:
 
-- If it is often judged that the sensing data of the sensor is abnormal in time or space, it indicates that there may be potential problems in the hardware or environment of the sensor, which needs to be further clarified.
-- If the sensing data of the sensor is seldom judged to be abnormal, it means that the sensing value of the sensor is highly consistent with the values of the surrounding sensors, so the reliability is high.
+1. If a sensor frequently reports data that seems unusual, either in terms of time or location, this could signal potential issues with the sensor's hardware or its environment. Such cases warrant further investigation.
+2. Conversely, if a sensor rarely shows abnormal data, it suggests that its readings are in good agreement with those of nearby sensors, indicating high reliability.
 
-We calculate the total number of time (`red=True`) or space (`indoor=True` or `emission=True`) anomalies for each sensor per day based on all the sensor data per day. Then we calculate its proportion of all data items in a day as sensor information Basis for reliability assessment.
+To assess this, we look at each sensor's daily data and count how many times it records anomalies in time (marked as `red=True`) or space (marked as `indoor=True` or `emission=True`). We then compare these counts to the total data entries for that day. This comparison forms the basis for evaluating the sensor's reliability.
 
 ```python
 device_rank = pd.DataFrame()
