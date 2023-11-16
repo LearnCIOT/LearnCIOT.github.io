@@ -11,8 +11,8 @@
       <link>https://LearnCIOT.github.io/en/ch5/ch5.1/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://LearnCIOT.github.io/en/ch5/ch5.1/</guid>
-      <description>Table Of Contents Intersect Buffer Multi-ring buffer Distance matrix Brief Summary In the past, if we’re curious about geospatial phenomena such as air quality, earthquakes or floods, we rely on information provided by public sectors or experts to grasp the spatial domain and intensity of phenomena.
-Suppose that we want to see the air quality in neighborhoods of our house, one important information source would be the Taiwan Air Quality Monitoring Network run by Environmental Protection Administration Executive Yuan.</description>
+      <description>Table Of Contents Intersect Buffer Multi-ring buffer Distance matrix Brief Summary In the past, if we wanted to learn about things like air quality, earthquakes, or floods, we usually depended on information from public sources or experts to understand how widespread and intense these events were.
+Imagine you want to check the air quality around your home. The Taiwan Air Quality Monitoring Network, managed by the Environmental Protection Administration Executive Yuan, is a key source of this info.</description>
     </item>
     <item>
       <title>7.1. QGIS Application</title>
