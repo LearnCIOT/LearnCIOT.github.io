@@ -13,15 +13,15 @@ authors: ["Ming-Kuang Chung", "Tze-Yu Sheng"]
 
 {{< toc >}}
 
-In the past, if we’re curious about geospatial phenomena such as air quality, earthquakes or floods, we rely on information provided by public sectors or experts to grasp the spatial domain and intensity of phenomena.
+In the past, if we wanted to learn about things like air quality, earthquakes, or floods, we usually depended on information from public sources or experts to understand how widespread and intense these events were.
 
-Suppose that we want to see the air quality in neighborhoods of our house, one important information source would be the Taiwan Air Quality Monitoring Network run by Environmental Protection Administration Executive Yuan. However, due to the high cost of implementation and small quantity of advanced meteorological stations, the nearest may actually be 10 kilometer far from where we are, which makes us doubt: is the air quality homogeneous within 10 kilometer? On the other hand, since it’s not so costly to implement microsensors, so data provided by microsensors of IoT could be closer to our living spaces, allowing us to understand how air quality may be influenced by schools, intersections and temples near our houses, or even our mothers’ cooking. So, for the first step, how can we find out the sensor stations that meet our needs and further use the data?
+Imagine you want to check the air quality around your home. The Taiwan Air Quality Monitoring Network, managed by the Environmental Protection Administration Executive Yuan, is a key source of this info. But these high-tech weather stations are expensive and not very numerous, so the closest one might be 10 kilometers away. This distance leads to a question: does the air quality stay the same over such a distance? On the other hand, smaller, less expensive sensors used in the Internet of Things (IoT) can be placed closer to where we live. These sensors can give us a clearer picture of how air quality is affected by local elements like schools, busy streets, temples, or even home cooking. So, how do we find and use data from the right sensor stations?
 
-Each station of IoT has a corresponding spatial placement. For stations that are more adjacent than others, their sensing values may share common trends because of the similar environmental factors surrounding them—this is the first law of geography: “All things are related, but nearby things are more related than distant things.” (Waldo R. Tobler)
+Every IoT station has a specific location. Stations closer to each other often record similar data because they are in similar environments. This idea is summarized in the first law of geography by Waldo R. Tobler: “All things are related, but nearby things are more related than distant things.”
 
-Besides, interfering factors surrounding individual stations may affect sensing values and lead to bigger fluctuations. Therefore, to ensure the data reliability, we need to set  individual stations as centers, selecting ID of nearby stations and their sensing values according to administrative regions to which the center station belongs or specific distance (radius), and finally represent the data in forms of sheets or maps.
+However, different factors around each station can cause variations in the data. To ensure we get reliable data, we need to look at each station as a central point, choose nearby stations based on their administrative area or a specific distance (like a radius), and then display this information in charts or maps.
 
-In this chapter, we’ll practice selections of spatial information with data from the  air quality monitoring stations (Environmental Protection Administration, EPA), weather stations (Central Weather Bureau, CWB) and flood sensors (Water Resources Agency, WRA).
+In this chapter, we’ll learn how to select and use spatial data from air quality monitoring stations (Environmental Protection Administration, EPA), weather stations (Central Weather Bureau, CWB), and flood sensors (Water Resources Agency, WRA).
 
 ```python
 import matplotlib.pyplot as plt
@@ -96,7 +96,7 @@ gdf_weather = gpd.GeoDataFrame(
 
 ## Intersect
 
-Generally speaking, we can take administrative boundaries such as villages or towns as scopes, obtaining station IDs within one administrative region with the intersection of data, and we can use API to attain instantaneous values, hourly averages, daily averages and weekly averages of these stations. Also, we’re able to inspect if stations in the same administrative region share similar value trends, or to see if specific stations provide values significantly different from others.
+In simple terms, we can focus on areas like villages or towns as our main points of interest. By crossing different sets of data, we can identify the specific station IDs located within one of these areas. With the help of an API, we're able to access real-time data, as well as averages calculated over an hour, a day, or even a week, from these stations. Additionally, this process allows us to compare stations within the same area to see if their data trends are similar. We can also spot any stations that are reporting data that stands out or is very different from the rest.
 
 ```python
 import matplotlib.pyplot as plt
@@ -131,9 +131,9 @@ plt.tight_layout();
 
 ## Buffer
 
-Additionally, since parts of stations may be located in boundaries between two regions, the result may be biased if we take administrative boundaries as selection criteria. In this case, with the concept of buffering, we set the coordinates of stations as the center, assigning a distance radius to draw a virtual circle, in which we locate the stations that have buffers.
+Additionally, some monitoring stations might be right on the edge of different areas. If we just use the official area borders to choose stations, our results might not be very accurate. To solve this, we use a method called 'buffering'. This means we pick a station, then draw an imaginary circle around it using a set distance. This circle helps us include stations that are close by, even if they're just outside the area's official border.
 
-Once we have the concept of buffering, we can also set certain landmarks (such as schools, parks or factories, etc) as centers to find nearby stations. Furthermore, with a line (roads or rivers, for example) or a polygon (parks or industrial districts, for example) as the center, we can build up a searching scope to find out the station we want more specifically.
+With this 'buffering' idea, we can also pick important places like schools, parks, or factories as the center points and then look for stations near them. Also, if we use things like roads, rivers, or even larger areas like parks or industrial zones as our starting points, we can create a search area. This helps us find the exact monitoring station we need, in a much more precise way.
 
 ![圖1：不同緩衝區的概念示意圖](figures/5-1-2-1.png)
 
@@ -152,7 +152,7 @@ plt.tight_layout();
 
 ## Multi-ring buffer
 
-We can surely set different distances as radius to create buffers of concentric circles, with which we can group nearby stations according to different distances/classes, seeing if nearby stations share value trends that are more similar.
+We can create circles with different sizes around a central point, like targets with multiple rings. This helps us group stations that are close to each other based on how far away they are. We can then see if stations that are closer together have more similar readings or trends.
 
 ![圖2：多重緩衝區的概念圖](figures/5-1-3-1.png)
 
@@ -183,7 +183,7 @@ plt.tight_layout();
 
 ## Distance matrix
 
-Since each observation station is assigned specific position coordinates, we can thus acquire the absolute distance between two stations by combining trigonometric functions with coordination values. Therefore, we can construct the distance matrix between all stations, which helps us quickly examine the distance relation between two stations and ensure if geographic proximity exists within (graph 3). In this example, we can transform the locations of flooding sensors in Taipei to distance matrices, which allows us to ensure if proximity exists in flood events.
+Each observation station has its own set of precise location coordinates. By using these coordinates along with trigonometric functions, we can calculate the exact distance between any two stations. This calculation lets us create what's known as a distance matrix for all the stations. A distance matrix is simply a way to see at a glance how far apart different stations are from each other. This is especially useful for quickly checking if two stations are geographically close to one another (as shown in graph 3). For instance, in Taipei, we can apply this method to the locations of flood sensors. By converting their locations into a distance matrix, we can easily determine if these sensors are located near each other during flood events.
 
 ![圖3：距離矩陣的概念圖](figures/5-1-4-1.png)
 
@@ -208,7 +208,7 @@ pd.DataFrame(distance_matrix(df.values, df.values),
 
 ## Brief Summary
 
-With methods explained above, we can create a station selection mechanism with concepts of administrative regions or topology, and examine the correlations between sensing values by analyzing geospatial features of stations.
+Using the methods described earlier, we can develop a station selection mechanism based on administrative regions or topological concepts. Additionally, we can explore the relationships between sensor values by analyzing the geospatial features of these stations.
 
 # References
 
