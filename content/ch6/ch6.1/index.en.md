@@ -14,27 +14,29 @@ authors: ["Jen-Wei Huang","Hung-Ying Chen"]
 
 ## Preamble
 
-In the previous chapters, we have introduced the rich open data content of Civil IoT Taiwan. At the same time, we have presented various data analyses and processing from the perspective of time and space dimensions. In this chapter, we will further explore applications of machine learning and introduces two classic machine learning problems, namely the classification problem and the clustering problem.
+In the earlier sections, we've explored the extensive open data available through Civil IoT Taiwan. We've also looked at how this data can be analyzed and processed, focusing on different aspects of time and space. In this section, we're going to delve deeper into how machine learning can be applied to this data. We'll introduce two fundamental machine learning concepts: classification and clustering.
 
 ### Classification
 
-Classification problems are classic problems in machine learning theory. If we describe this problem more mathematically, we can assume that a set of data `X` has been classified, and the label set `Y` is obtained after each data is classified. The classification problem is constructing an effective classifier through this set of classified data and labels, which can find the corresponding label `Y'` for each piece of data from the unclassified data `X'`.
+In machine learning, a common task is called a classification problem. Think of it like sorting things into different categories. Imagine we have a bunch of data points, let's call this group `X`, and we've sorted each one into specific categories, which we'll call `Y`. The challenge in classification is to create a smart tool, known as a classifier, that can look at new, unsorted data (`X'`) and correctly predict which category (`Y'`) they belong to, based on what it has learned from our sorted data.
 
-Therefore, the focus of classification problems is to construct an efficient classifier. We will first build a model and use the labeled data for training to achieve this goal. Our goal is to make the model as close as possible to fit the distribution of these data and then use the final product model as a classifier to infer labels for unknown data.
+So, the main goal here is to build a really good classifier. To do this, we start by creating a model. This model is trained using our categorized data, which teaches it to recognize patterns and make good predictions. We want our model to be good at understanding how our data is spread out and then use it to guess the categories of new, unseen data.
 
-This process of building a classifier is called supervised learning in machine learning. Standard classifier models include the *[Nearest Neighbors](https://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm)*, *[SVM Classifier](https://en.wikipedia.org/wiki/Support-vector_machine)*, *[Decision Tree](https://en.wikipedia.org/wiki/Decision_tree)*, *[Random Forest](https://en.wikipedia.org/wiki/Random_forest)*, etc. In our later articles, we will not explain each model in depth but will only use these models directly as tools. Readers interested in these models can refer to relevant resources and do more in-depth exploration.
+This whole process is what's called supervised learning in the field of machine learning. Some popular types of classifiers are *[Nearest Neighbors](https://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm)*, *[SVM Classifier](https://en.wikipedia.org/wiki/Support-vector_machine)*, *[Decision Tree](https://en.wikipedia.org/wiki/Decision_tree)*, and *[Random Forest](https://en.wikipedia.org/wiki/Random_forest)*. We won't go into the details of how each model works in future articles but will use them as tools. For those interested in learning more about these models, plenty of resources are out there for a deeper dive.
 
 ### Clustering
 
-Clustering problems are very similar to classification problems. The main difference is that the classification problem uses labeled known data to infer unknown data, while clustering problems are entirely "out of thin air," forming data into different groupings.
+Clustering issues are a lot like classification issues, with a key difference. In classification, we use data with known labels to understand data with unknown labels. Clustering, on the other hand, is like starting from scratch. It involves organizing data into different groups without any prior labels.
 
-If we describe this problem more mathematically, we can assume that there is a set of entirely unlabeled data `X`. The clustering problem is to divide the data of `X` into `k` groups through a particular algorithm. The data in each data group has High similarity, while data within different groups are highly diverse.
+To put it in a more mathematical way, imagine we have a bunch of data, `X`, with no labels at all. The challenge of clustering is to split this `X` data into `k` groups using a specific method. The goal is to make sure that data within each group are very similar to each other, but quite different from data in other groups.
 
-The clustering algorithms are mainly based on the characteristics of the data and constantly judge the similarity and dissimilarities between the data. Then, they let similar data gathered together and made the different data mutually exclusive in the distribution. Standard clustering algorithms include [K-Means](https://en.wikipedia.org/wiki/K-means_clustering), [DBSCAN](https://en.wikipedia.org/wiki/DBSCAN), [Hierarchical Clustering](https://en.wikipedia.org/wiki/Hierarchical_clustering), [BIRCH](https://en.wikipedia.org/wiki/BIRCH), etc. In our later articles, we will not explain each model in depth but will only use these models directly as tools. Readers interested in these models can refer to relevant resources and explore them more in-depth.
+The methods we use for clustering depend heavily on the nature of the data. These methods look at how similar or different the data points are from one another. They try to bring similar data points together, while keeping the different ones separate. Some well-known clustering techniques include [K-Means](https://en.wikipedia.org/wiki/K-means_clustering), [DBSCAN](https://en.wikipedia.org/wiki/DBSCAN), [Hierarchical Clustering](https://en.wikipedia.org/wiki/Hierarchical_clustering), and [BIRCH](https://en.wikipedia.org/wiki/BIRCH). In future articles, we won't go into the details of each method. Instead, we'll use them as tools. If you're curious about these methods, you can find more information in other resources to explore them further.
 
 ## Package Installation and Importing
 
-In this article, we will use the andas, numpy, matplotlib, json, os, glob, math, seaborn, tqdm, datetime,  geopy, scipy, and warnings packages, which are pre-installed on our development platform, Google Colab, and do not need to be installed manually. However, we will also use three additional packages that Colab does not have pre-installed: pyCIOT, fastdtw and sklearn, as well as the TaipeiSansTCBeta-Regular font, which need to be installed by :
+In this article, we're working with several software packages that are already set up and ready to use on Google Colab, our development platform. These include `andas`, `numpy`, `matplotlib`, `json`, `os`, `glob`, `math`, `seaborn`, `tqdm`, `datetime`, `geopy`, `scipy`, and `warnings`. You won't need to install these separately.
+
+However, there are a few additional tools we'll need which aren't included in Google Colab by default. These are the `pyCIOT`, `fastdtw`, and `sklearn` packages, along with the `TaipeiSansTCBeta-Regular` font. We'll need to install these ourselves.
 
 ```python
 !pip3 install fastdtw --quiet
@@ -43,7 +45,7 @@ In this article, we will use the andas, numpy, matplotlib, json, os, glob, math,
 !wget -q -O TaipeiSansTCBeta-Regular.ttf https://drive.google.com/uc?id=1eGAsTN1HBpJAkeVM57_C7ccp7hbgSz3_&export=download
 ```
 
-After the installation is complete, we can use the following syntax to import the relevant packages to complete the preparations in this article.
+Once the installation is finished, we can use the commands below to import the necessary packages, setting the stage for the tasks discussed in this article.
 
 ```python
 from pyCIOT.data import *
@@ -81,13 +83,13 @@ from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
 from sklearn.cluster import KMeans
 ```
 
-Next, we use the water level and air quality data of Civil IoT Taiwan to introduce data classification and clustering.
+Now, let's take a look at how we can organize and group data using the water level and air quality information from Civil IoT Taiwan.
 
 ## Case 1: Location Type Classification of Air Quality Sensors
 
-In this case, we use the data of the Environmental Protection Agency’s micro air quality sensors (‘`OBS:EPA_IoT`’) in Civil IoT Taiwan to demonstrate data classification.
+In this example, we're exploring how to use the data from the Environmental Protection Agency's tiny air quality sensors (known as '`OBS:EPA_IoT`') within the Civil IoT Taiwan framework to show how to categorize data.
 
-We first use the `Air().get_data()` method provided by pyCIOT to download the latest sensing data of all EPA micro air quality sensors. Note that this step may take a little longer due to a large amount of content.
+First, we utilize the `Air().get_data()` function from the pyCIOT library to fetch the most recent readings from all the EPA's micro air quality sensors. Keep in mind, this process might take a bit of time because there's a lot of data to gather.
 
 ```python
 Source = 'OBS:EPA_IoT'
@@ -141,7 +143,7 @@ print(json.dumps(Data[0], indent=4, ensure_ascii=False))
 }
 ```
 
-We can find that in the data of each sensor, there is information such as temperature, relative humidity, and PM2.5 concentration. At the same time, the basic knowledge of the sensor is also recorded, such as city, town, machine number, location number, area type, etc. In our example, we will use "location type" as label data and train a classifier using sensory data (temperature, relative humidity, and PM2.5 concentration). We first observe the content state of the current "AreaType.”
+In the data collected from each sensor, you'll find details like temperature, relative humidity, and PM2.5 levels (a measure of air pollution). Additionally, each sensor's basic information is included, such as the city, town, sensor ID, location ID, and the type of area it's in, etc. For our purpose, we're going to focus on the "location type" as a label for our data and create a classifier using the sensor data (temperature, relative humidity, and PM2.5 levels). First, let's take a look at what the current "AreaType" data looks like.
 
 ```python
 Label = list(dict.fromkeys([datapoint['properties']['areaType'] for datapoint in Data if datapoint['properties']['areaType']]))
@@ -179,7 +181,7 @@ Before data cleaning, There are 8620 records.
 
 ### Data Cleansing
 
-Since there are currently 8,620 records scattered in 19 types of places, we first merge similar types of area types to conform to the meaning of the data. Then, for simplicity, we only focus on four major area types: general communities, transportation areas, industrial areas, and industrial-adjacent communities. We rearrange the data using the following code:
+We started with 8,620 records from 19 different types of places. To make things clearer, we combined similar place types and narrowed our focus to four main categories: general communities, transportation areas, industrial areas, and communities near industrial zones. We organized the data using a specific code:
 
 ```python
 for datapoint in Data:
@@ -216,7 +218,7 @@ After data cleaning, There are 7709 records.
 }
 ```
 
-After data cleansing, 7,709 records were left, distributed in four major areas. For these records, we consider each data's temperature, relative humidity, and PM2.5 concentration and use different colors in the three-dimensional data distribution map to represent the data of different types of areas.
+After cleaning up the data, we were left with 7,709 records across these four main areas. We looked at each record's temperature, relative humidity, and PM2.5 levels. In our three-dimensional map, we used different colors to show the data for each type of area.
 
 ```python
 DataX, DataY = [], []
@@ -250,11 +252,11 @@ plt.show()
 
 ![Python output](figures/6-1-3-1.png)
 
-The data distribution diagram shows that most of the data are gathered in a specific space, but a few are scattered in a very peripheral place. These data that are far from the group are called outliers. For data classification or clustering, outliers can easily lead our model or algorithm to extremes, thus losing its versatility, so we need to remove these data first.
+The map revealed that most data points were clustered in certain areas, but some were spread out, far from the main group. These isolated data points are known as outliers. When we're classifying or grouping data, outliers can skew our model or algorithm, making it less effective. Therefore, we removed these outliers to improve our analysis.
 
 ### Outlier removal
 
-The method of removing outliers is nothing more than using the statistical characteristics of the data, which can be defined according to the needs of different application scenarios. In our example, we define one of the sensor data as an outlier if its value deviates from the mean by more than two standard deviations. After removing the data of these outliers, we redraw the three-dimensional distribution map to observe its distribution.
+We use a specific method to identify and remove unusual data points, or outliers, from our dataset. This method is based on standard statistical techniques and can be adjusted based on the unique requirements of different projects. In our case, we consider any sensor data from the Civil IoT Taiwan Data Platform an outlier if it's more than two standard deviations away from the average. By removing these outliers, we then create a new three-dimensional map to better understand the data's pattern.
 
 ```python
 def Outlier_Filter(arr, k):
@@ -285,7 +287,7 @@ After removing Outliers, there are 7161 records left.
 
 ![Python output](figures/6-1-3-2.png)
 
-Judging from the final results, we have removed 7,709 - 7,161 = 548 outlier records in total. The distribution of the remaining data in the three-dimensional space is relatively concentrated without deviations in the periphery. For ease of observation, we plot the distribution of the three data in different dimensions by selecting two dimensions at a time.
+After this cleanup process, we found that we removed a total of 548 outliers (7,709 originally minus 7,161 remaining). The data that's left shows a more consistent pattern in the three-dimensional space, with fewer extreme values on the edges. To make it easier to see these patterns, we create graphs showing the relationships between data points in two dimensions at a time.
 
 ```python
 plt.rc('legend',fontsize="large")
@@ -303,11 +305,11 @@ plt.tight_layout()
 ![Python output](figures/6-1-3-3.png)
 
 
-From these three graphs, we can see a special relationship between the data of different colors (area types). Although it is challenging to describe directly, we will introduce a classification model to build a dedicated classifier.
+These graphs reveal interesting relationships between data points of different colors, which represent different types of areas in Civil IoT. Although it's hard to explain these relationships in simple terms, we plan to use a classification model to develop a specific classifier to make sense of them.
 
 ### Train data and test data
 
-Before entering the model training of the classifier, we have another step to deal with: splitting the existing data set into training and test data. As the name suggests, the training data will be used to tune the classifier's model, while the test data will be used to test how well the built classifier works on new data. We use the following sample program to split the dataset into training and testing data at a ratio of 4:1.
+Before we start training our classifier model, we need to do one important thing: divide our existing data into two parts – training data and test data. Basically, we'll use the training data to teach the classifier how to do its job. The test data, on the other hand, is there to check how well our classifier can handle new, unseen data. To split our dataset into training and test data, we follow this example program, which divides them in a 4:1 ratio.
 
 ```python
 indices = np.random.permutation(DataX_Numpy.shape[0])
@@ -318,7 +320,7 @@ TrainY, TestY = DataY_Numpy[Train_idx], DataY_Numpy[Test_idx]
 
 ### Using the pre-built Sklearn models
 
-We use the classifier model provided by the Python package Scikit Learn (sklearn) for training and testing. We use nine models in a series of examples, including nearest neighbor, linear SVM, RBF SVM, decision tree, random forest, neural network, Adaboost, Naive Bayes, and QDA. We sequentially introduce training data for adjustment and then test data for prediction. We compare the test data with the label content in the predicted results and use a [confusion matrix](https://en.wikipedia.org/wiki/Confusion_matrix) to present the classification results for different label combinations.
+We apply a variety of classification techniques using the Python package Scikit Learn (sklearn) for both training and testing purposes. Our approach encompasses nine distinct models: nearest neighbor, linear SVM, RBF SVM, decision tree, random forest, neural network, Adaboost, Naive Bayes, and QDA. The process involves initially feeding training data to refine these models, followed by using test data to evaluate their predictive capabilities. The effectiveness of these models is assessed by comparing the predicted outcomes against actual labels, using a tool known as a [confusion matrix](https://en.wikipedia.org/wiki/Confusion_matrix). This matrix helps us visualize the accuracy of each model in predicting various combinations of labels.
 
 ```python
 classifier_names = [
@@ -360,15 +362,15 @@ plt.tight_layout()
 
 ![Python output](figures/6-1-3-4.png)
 
-Among the classification results of these nine classification models, we found that RBF SVM can achieve a classification success rate of nearly 70%. This is only the result of using the original data without further processing and analysis. If readers are interested in the classifier, you can refer to relevant resources for more in-depth exploration, further improving the classifier's ability to classify different data types.
+In our exploration of these nine models, we observed that the RBF SVM model stands out by achieving a classification accuracy of nearly 70%. It's noteworthy that this result was attained using unprocessed data. For those interested in delving deeper into the classifier's potential, further investigation and data analysis can enhance its proficiency in categorizing diverse data types.
 
 ## Case 2: Clustering of Air Quality Sensors
 
-In this case, we use the sensing data of the Taiwan EPA air quality monitoring station in Civil IoT Taiwan and analyze its historical data. The relationship is grouped so that each group's stations have similar sensory data trends.
+In this case, we're working with the air quality data from Taiwan's EPA monitoring stations, which is part of the Civil IoT Taiwan initiative. Our focus is on examining the historical data to see how similar the data trends are among different groups of stations.
 
 ### Data download and preprocessing
 
-We use the following codes to download all the sensing data of the Taiwan EPA air quality monitoring stations in 2021 from the historical database of the Civil IoT Taiwan Data Service Platform and decompress the downloaded file into `/content` directory.
+To gather all the air quality data from Taiwan's EPA monitoring stations for 2021, we downloaded it from the Civil IoT Taiwan Data Service Platform's historical database. After downloading, we unpacked the files into the `/content` directory.
 
 ```python
 !wget -O 'EPA_OD_2021.zip' -q "https://history.colife.org.tw/?r=/download&path=L%2Bepuuawo%2BWTgeizqi%2FnkrDkv53nvbJf5ZyL5a6256m65ZOB5ris56uZL0VQQV9PRF8yMDIxLnppcA%3D%3D"
@@ -377,7 +379,7 @@ We use the following codes to download all the sensing data of the Taiwan EPA ai
 !rm -rf '/content/EPA_OD_2021'
 ```
 
-We first select the data of December 2021 and delete the unnecessary fields `Pollutant`, `SiteId`, `Status`, `SO2_AVG`. Then we change the data type of the sensing data to a floating point number to facilitate subsequent processing.
+Our first step was to focus on December 2021 data. We removed fields we didn't need: `Pollutant`, `SiteId`, `Status`, `SO2_AVG`. Next, we converted the data type of the sensor readings to floating-point numbers, making it easier to work with them later.
 
 ```python
 Dataframe = pd.read_csv("/content/EPA_OD_202112.csv", parse_dates=['PublishTime'])
@@ -393,7 +395,7 @@ Dataframe.head()
 
 ![Python output](figures/6-1-4-1.png)
 
-Due to the massive amount of data in one month, to shorten the execution time of the sample program, we extract the data of the five days from 2021-12-13 to 2021-12-17 as `FiveDay_Dataframe`, as in the example below, and use the `Country` and `SiteName` fields to merge the data. We then sort the data by when it was published.
+Considering the huge volume of data for the entire month, we aimed to speed up our sample program. To do this, we took a subset of data, specifically from December 13 to 17, 2021, and labeled this `FiveDay_Dataframe`. In the example below, you'll see how we combined this data using the `Country` and `SiteName` fields. Finally, we arranged the data in order of their publication times.
 
 ```python
 FiveDay_Dataframe = Dataframe.loc[(Dataframe['PublishTime'] <= '2021-12-17 23:00:00') & (Dataframe['PublishTime'] >= '2021-12-13 00:00:00')]
@@ -408,7 +410,7 @@ FiveDay_Dataframe
 
 ### Dynamic Time Warping (DTW)
 
-Next, we judge the "similarity" between the two sites and quantify it into a number. The primary similarity measurement method is to directly align the data of two measuring stations according to the perception time and then calculate the gap between the two air quality measurements. However, since air pollution may occur in different orders between sites and the duration of its effects is not necessarily the same, more flexibility in estimating the similarity between two sites is needed. Therefore, we used the dynamic time wrapping (DTW) method to measure the similarity. The smaller the DTW distance between the two stations, the higher their similarity.
+Next, we assess how "similar" two sites are and turn this similarity into a numerical value. The main way we do this is by lining up the data from two monitoring stations based on the time they were recorded and then comparing the differences in their air quality readings. However, since air pollution can happen at different times and last for varying lengths at each site, we need a more adaptable approach to gauge their similarity. That's why we use the dynamic time warping (DTW) method. The closer the DTW distance is between two stations, the more similar they are.
 
 ```python
 Site_TimeSeriesData = dict()
@@ -430,7 +432,7 @@ Sites_DTW_keys = np.array(list(Sites_DTW.keys()))
 Site_DTW_Numpy = np.array([[value] for _, value in Sites_DTW.items()])
 ```
 
-We plot the DTW distance between all sites in the figure below, where the DTW distance is small to large. For further processing, we need to start analyzing with clustering algorithms.
+In the figure below, we've charted the DTW distances between all the sites, arranged from smallest to largest. To delve deeper, we'll next start analyzing this data using clustering algorithms.
 
 ```python
 fig = plt.figure(figsize=(4, 3), dpi=150)
@@ -445,7 +447,7 @@ fig.text(0.06, 0.5, 'Group number', ha='center', va='center', rotation='vertical
 
 ### K-Mean clustering
 
-We use the K-Means module in the sklearn package for data clustering. Since the clustering algorithm needs to set the number of clusters to be generated in advance, we first set it to 3. We clustered using the following code and plotted the results with the cluster number as Y-axis and the DTW similarity value to other data as X-axis.
+We applied a technique called "K-Means clustering," which is part of the sklearn software, to organize our data into groups. This method requires us to decide on the number of groups (or clusters) beforehand, so we chose to start with 3. To do this, we used a specific code, and then we visually represented our findings. In our chart, we displayed the group number on the vertical (Y) axis and the level of similarity to other data, calculated using a method called DTW, on the horizontal (X) axis.
 
 ```python
 from sklearn.cluster import KMeans
@@ -472,11 +474,13 @@ Number of Cluster2 : 542
 
 ![Python output](figures/6-1-4-4.png)
 
-The clustering results show that the K-Means algorithm divides the original data into three clusters, with 1,165, 994, and 542 data, respectively. To further understand the causes of these three groups, we continue to trace each possible reason for the formation of a group.
+Our results from using the K-Means algorithm revealed that our initial data was separated into three distinct groups, containing 1,165, 994, and 542 items of data each. To get a better understanding of why these particular groups were formed, we're now looking into each possible factor that might have influenced their creation.
 
 ### Correlation between data clusters and geographical locations
 
-We first assume that the change in air quality is regional, so we explore whether the results of data clustering are related to the geographical location of air quality stations. We first retrieve the GPS coordinates of the stations and compute the physical distances of the two geographical locations. Then, according to the results of data clustering, we conduct a simple statistical analysis of the physical distances of different clusters and draw them in the picture below.
+We started by considering that air quality changes might be specific to certain areas. To investigate this, we looked at whether the patterns we found in air quality data were connected to where the air quality monitoring stations are located. First, we got the GPS coordinates of these stations and calculated how far apart they are from each other. 
+
+Next, we grouped the data from these stations based on similarities and differences in their readings. Using this grouping, we then analyzed how the distances between stations in each group varied. We've illustrated these findings in the image below.
 
 ```python
 Dist_for_Clusters = [None]*len(np.unique(Result))
@@ -522,11 +526,11 @@ In Cluster2 there are 39.48% less than mean, and 60.52% greater than mean.
 
 ![Python output](figures/6-1-4-5.png)
 
-The analysis results show that the group with a higher DTW value (lower time series similarity) has a more considerable average distance between stations and vice versa. The similarity of the station data is related to the difference in geographical location, which should also support our hypothesis, confirming that the dispersion of air pollutants is indeed affected by geographical distance.
+Our analysis revealed that groups with higher DTW values (meaning the air quality data from these stations was less similar over time) tended to have stations that were further apart. Conversely, groups with more similar air quality data had stations that were closer together. This suggests that the spread of air pollutants is indeed influenced by how far apart these monitoring stations are, supporting our original idea.
 
 ### Correlation between data clusters and wind directions
 
-We then assume that the change in air quality is affected by the environmental wind field, so we explore whether the results of data clustering are related to the wind direction where the air quality station is located. We first retrieve the GPS coordinates of the station and convert the azimuth relationship between the two geographical locations. Then, according to the data clustering results, we calculated the correlation between the geographical location of azimuth and the wind direction on site. Finally, we conduct a simple statistical analysis of the obtained values and draw them in the figure below.
+First, we considered that changes in air quality might be influenced by the direction of the wind in the area. So, we looked into whether there's a link between the patterns we found in the air quality data and the wind direction at the air quality monitoring station. We started by getting the GPS coordinates of the station and then worked out the directional relationship between two places on the map. Next, we examined how the patterns in the data were connected to the wind direction at the station's location. After this, we did some basic statistical analysis and presented our findings in the figure below.
 
 ```python
 def get_bearing(lat1, long1, lat2, long2):
@@ -587,15 +591,15 @@ Relevance for Cluster2 : 22.69%
 
 ![Python output](figures/6-1-4-6.png)
 
-The analysis results show that the smaller the DTW value, the higher the correlation between the inter-station azimuth and the wind direction, and vice versa. It can be seen that the similarity of the site data is indeed related to the wind direction of the ambient wind field, which also confirms our hypothesis and confirms that the diffusion of air pollutants is certainly affected by the wind direction of the ambient wind field.
+Our analysis indicates that when the DTW (Dynamic Time Warping) value is lower, there's a stronger link between the direction from one station to another and the local wind direction — and the opposite is true when the DTW value is higher. This shows that the way air pollution spreads is indeed influenced by the wind direction around the area, supporting our initial theory.
 
 ## Case 3: Clustering and Classification Application of Water and Meteorological Data
 
-This case combines the application examples of data clustering and data classification. We use rain gauge data (Central Weather Bureau) and flood sensor data (Water Resource Agency) from Civil IoT Taiwan and use historical data analysis through data clustering to find the group of river water level stations most correlated with rainfall changes. We then use a data classification approach to predict whether a particular region will flood, given only rain gauge data.
+This example demonstrates how we use two types of data: rainfall data (from the Central Weather Bureau) and flood sensor data (from the Water Resource Agency), both sourced from Civil IoT Taiwan. We analyze past data using a method called data clustering. This method helps us identify which river water level stations are most affected by changes in rainfall. Then, we apply a technique known as data classification to predict if a certain area might experience flooding, based solely on rainfall data.
 
 ### Data download and preprocessing
 
-We use the following codes to download all the sensing data of the rain gauge (Central Weather Bureau) and flood sensors (Water Resource Agency) in 2021 from the [historical database](https://history.colife.org.tw/) of the Civil IoT Taiwan Data Service Platform and decompress the downloaded file into `/content` directory.
+To gather all the 2021 data from rain gauges (Central Weather Bureau) and flood sensors (Water Resource Agency), we use specific codes to download from the [historical database](https://history.colife.org.tw/) of the Civil IoT Taiwan Data Service Platform. After downloading, we unpack the files into the `/content` directory.
 
 ```python
 !wget -O 'Rain_2021.zip' -q "https://history.colife.org.tw/?r=/download&path=L%2Bawo%2BixoS%2FkuK3lpK7msKPosaHlsYBf6Zuo6YeP56uZLzIwMjEuemlw"
@@ -611,7 +615,7 @@ We use the following codes to download all the sensing data of the rain gauge (C
 !rm -rf '/content/2021'
 ```
 
-We first deal with the rain gauge data and delete the unnecessary fields `MIN_10`, `HOUR_6`, `HOUR_12`, and `NOW`. Then we remove the data after November and store the remaining records in `Rain_df`. We also import the information on rain gauges and keep it into `Rain_Station_df`. Since the amount of data processed in this step is huge, it will take a long time; please wait patiently.
+Starting with the rain gauge data, we first remove fields we don't need: `MIN_10`, `HOUR_6`, `HOUR_12`, and `NOW`. Next, we discard any data recorded after November, keeping the rest in the `Rain_df`. Additionally, we bring in details about the rain gauges and save this information in `Rain_Station_df`. Please note that this process involves a large amount of data and may take some time to complete.
 
 ```python
 csv_files = glob.glob(os.path.join("/content/Rain_2021_csv", "*.csv"))
@@ -638,7 +642,7 @@ Rain_df
 
 ![Python output](figures/6-1-5-1.png)
 
-We also deal with the flood sensor data and remove the records after November. Then, we delete the records with missing values and store the remaining records in `Flood_df`. We also import the information on flood sensors and keep it into `Flood_Station_df`. The amount of data processed in this step is huge, and it will take a long time; please wait patiently.
+Similarly, for the flood sensor data, we exclude any records after November. We also remove entries with missing information, storing the remaining data in `Flood_df`. Information about the flood sensors is also imported and saved in `Flood_Station_df`. Like before, this step involves processing a significant volume of data, so a considerable amount of time might be needed.
 
 ```python
 csv_files = glob.glob(os.path.join("/content/Flood_2021_csv", "*_QC.csv"))
@@ -661,7 +665,7 @@ Flood_df
 
 ### Correlation of flood sensors and rain gauges
 
-Due to the large amount of flood sensor data, we select the flood sensor number `43b2aec1-69b0-437b-b2a2-27c76a3949e8` located in Yunlin County and store its data in the `Flood_Site_df` object as an example of subsequent processing.
+We're dealing with a lot of data from flood sensors. To make it easier to understand, let's focus on one specific flood sensor, number `43b2aec1-69b0-437b-b2a2-27c76a3949e8`, which is located in Yunlin County. We'll store the data from this sensor in an object called `Flood_Site_df`. This will be our example for further analysis.
 
 ```python
 Flood_Site_df = Flood_df.loc[Flood_df['station_id'] == '43b2aec1-69b0-437b-b2a2-27c76a3949e8']
@@ -670,7 +674,7 @@ Flood_Site_df.head()
 
 ![Python output](figures/6-1-5-3.png)
 
-We then compute the similarity between the rain gauge data and the selected flood sensor. We use Dynamic Time Warping (DTW) for our measurements. The smaller the value of DTW, the greater the similarity. To express the similarity more intuitively, we define the similarity in this example as the reciprocal of the DTW value and calculate the similarity between the selected flood sensor and all rain gauge data.
+Next, we want to find out how closely this flood sensor's data matches with the data from rain gauges. To do this, we use a method called Dynamic Time Warping (DTW). DTW helps us measure how similar two sets of data are. The lower the DTW value, the more similar the data. To make this easier to understand, we'll define similarity as the opposite of the DTW value. This means a smaller DTW value indicates more similarity. We'll calculate this similarity between our chosen flood sensor and the data from all the rain gauges.
 
 ```python
 Flood_Sensor_np = np.array([[v,v,v] for v in Flood_Site_df['value'].to_numpy()])
@@ -728,7 +732,7 @@ print(json.dumps(Site_dtw_Dist, indent=4, ensure_ascii=False))
 
 ### Data clustering to find highly correlated rain gauges
 
-We divide the rain gauges into three groups according to the similarity relationship through the clustering algorithm, and find out the group with the highest similarity and the codes of the rain gauges in this group. In our example, we found three clusters with 9, 23, and 3 rain gauges, and the second cluster had the time series data most similar to the flood sensor data.
+We grouped the rain gauges into three categories using a technique known as clustering, which groups items based on how similar they are to each other. Our focus was to identify the group most closely matching the flood sensor data. In our case, we ended up with three groups containing 9, 23, and 3 rain gauges respectively. The second group, with 23 gauges, had rainfall patterns most closely resembling the data from the flood sensors.
 
 ```python
 cluster_model = KMeans(n_clusters=3).fit([[value] for _, value in Site_dtw_Dist.items()])
@@ -767,7 +771,7 @@ Mean Similarity of Cluster2 : 5.1629678408018994e-05
 
 ![Python output](figures/6-1-5-4.png)
 
-To better understand the correlation between the flood sensor and the 23 rain gauges, we plotted the sensing data of this selected flood sensor in chronological order.
+To delve deeper into the relationship between the flood sensor and these 23 rain gauges, we arranged the data from the chosen flood sensor in a time sequence.
 
 ```python
 tmp= Flood_Site_df['value'].to_numpy()
@@ -780,7 +784,7 @@ ax.set_ylabel('Water level')
 
 ![Python output](figures/6-1-5-5.png)
 
-We then plotted hourly rainfall data chronologically from the 23 rain gauges in the most similar group into 23 graphs. The figures also show that when the value of the flood sensor is high, the value of the rain gauge also increases. The changing trends of the two are indeed very similar, which is in line with our common sense expectations.
+Next, we created 23 separate charts, each showing the hourly rainfall recorded by one of the 23 rain gauges in the group we identified as most similar. These charts revealed a notable pattern: when the flood sensor readings were high, the rainfall measurements from the rain gauges also tended to increase. This trend between the two sets of data was strikingly similar, aligning well with what we would logically expect.
 
 ```python
 fig = plt.figure(figsize=(8, 2*(len(Best_Site)//4+1)), dpi=150)
@@ -794,9 +798,9 @@ for i, Site in enumerate(Best_Site):
 
 ### Data classification to predict flooding by rainfall data
 
-Next, we use the flood data recorded by the selected flood sensors as labels and use the best similarity group of rain gauges to build a simple classifier to predict whether flooding occurs at the location of the flood sensor. We divide the original data from January 2021 to October 2021 into the training data (the first seven months) and the test data (the next two months). Then we mark the data with a value greater than 0 in the flood sensor as a flood event, and data with a value of 0 is marked as having no flood events. We store the sorted data in the training data `Train_DataSet` object.
+To start, we're using data from flood sensors to determine if a flood happened at a certain location. This data is treated as our label. We also use information from closely related rain gauges to create a simple tool (classifier) to predict flooding. We've divided data from January 2021 to October 2021 into two parts: training data (first seven months) and testing data (next two months). In our system, if a flood sensor records a value above 0, we consider it a flood event; if it records 0, we mark it as no flood event. This sorted data is saved in an object called `Train_DataSet`.
 
-Note: In this example, based on the principle of ease of use, the most lenient standard is adopted, and events with a water level greater than 0 are identified as flood events. But in fact, there are stricter regulations for determining flood events. For proper use, it is recommended to carry out identification following relevant laws and regulations.
+Please note that, for simplicity, we're using a basic rule where any water level above 0 indicates a flood. However, real-world criteria for defining floods are more complex. For accurate applications, please refer to relevant laws and regulations.
 
 ```python
 Flooding = Flood_Site_df.loc[(Flood_Site_df['value'] > 0.0) & (Flood_Site_df['timestamp'] < "2021-08-01 00:00:00")][['timestamp', 'value']].values
@@ -831,7 +835,7 @@ for timestamp, _ in  tqdm(Not_Flooding):
         Train_DataSet['y'].append(0)
 ```
 
-In the same way, we mark the data with a value greater than 0 in the flood sensor from August 2021 to October 2021 as a flood event, and the data with a value equal to 0 as a non-flood event. We store the sorted data in the test data `Test_DataSet` object.
+Similarly, for data from August 2021 to October 2021, a value above 0 in a flood sensor is marked as a flood, and a value of 0 as no flood. This sorted data is stored in another object called `Test_DataSet`.
 
 ```python
 Flooding = Flood_Site_df.loc[(Flood_Site_df['value'] > 0.0) & (Flood_Site_df['timestamp'] > "2021-08-01 00:00:00")][['timestamp', 'value']].values
@@ -866,7 +870,7 @@ for timestamp, _ in  tqdm(Not_Flooding):
         Test_DataSet['y'].append(0)
 ```
 
-We use the classifier model provided by the Python package Scikit Learn (sklearn) for training and testing. We use nine models in a series of examples, including nearest neighbor, linear SVM, RBF SVM, decision tree, random forest, neural network, Adaboost, Naive Bayes, and QDA. We sequentially introduce training data for adjustment and then test data for prediction. We compare the test data with the label content in the predicted results and use a [confusion matrix](https://en.wikipedia.org/wiki/Confusion_matrix) to present the classification results for different label combinations.
+For training and testing, we're using a Python package called Scikit Learn (sklearn). We're trying out nine different methods, including nearest neighbor, linear SVM, RBF SVM, decision tree, random forest, neural network, Adaboost, Naive Bayes, and QDA. We feed in the training data for fine-tuning and then the test data for predictions. To evaluate how well our model works, we compare the test data with predicted results using a tool known as a [confusion matrix](https://en.wikipedia.org/wiki/Confusion_matrix).
 
 ```python
 names = [
@@ -908,7 +912,7 @@ plt.tight_layout()
 
 ![Python output](figures/6-1-5-7.png)
 
-In this case, we found that the nearest neighbor method can achieve a classification success rate of nearly 7.3%. This is just the result of using raw data without further processing and analysis. If we do more research on the data itself, we still have the potential to continue to improve the classification success rate. Readers interested in classifiers can refer to related resources for more in-depth exploration, which will further enhance the ability of classifiers to classify different types of data.
+In our experiment, the nearest neighbor method showed a success rate of about 7.3% in classifying floods. This is just a basic attempt, using unprocessed data. With more detailed analysis and research on the data, we can likely improve our success rate. For those interested in data classification, further study in this area can help enhance the effectiveness of these classifiers in dealing with various types of data.
 
 ## References
 
