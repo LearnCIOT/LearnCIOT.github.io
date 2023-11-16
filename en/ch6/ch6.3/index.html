@@ -16,18 +16,18 @@
     <meta name="author" content="Ling-Jyh Chen">
     <title>6.3. Joint Data Calibration :: Tutorial for CIoT Open Data Applications</title>
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="/css/fontawesome-all.min.css?1700093199" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1700093199" rel="stylesheet"></noscript>
-    <link href="/css/featherlight.min.css?1700093199" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1700093199" rel="stylesheet"></noscript>
-    <link href="/css/auto-complete.css?1700093199" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1700093199" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar.min.css?1700093199" rel="stylesheet">
-    <link href="/css/nucleus.css?1700093199" rel="stylesheet">
-    <link href="/css/fonts.css?1700093199" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1700093199" rel="stylesheet"></noscript>
-    <link href="/css/theme.css?1700093199" rel="stylesheet">
-    <link href="/css/theme-relearn-light.css?1700093199" rel="stylesheet" id="variant-style">
-    <link href="/css/ie.css?1700093199" rel="stylesheet">
-    <link href="/css/variant.css?1700093199" rel="stylesheet">
-    <link href="/css/print.css?1700093199" rel="stylesheet" media="print">
-    <script src="/js/variant.js?1700093199"></script>
+    <link href="/css/fontawesome-all.min.css?1700094930" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1700094930" rel="stylesheet"></noscript>
+    <link href="/css/featherlight.min.css?1700094930" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1700094930" rel="stylesheet"></noscript>
+    <link href="/css/auto-complete.css?1700094930" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1700094930" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar.min.css?1700094930" rel="stylesheet">
+    <link href="/css/nucleus.css?1700094930" rel="stylesheet">
+    <link href="/css/fonts.css?1700094930" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1700094930" rel="stylesheet"></noscript>
+    <link href="/css/theme.css?1700094930" rel="stylesheet">
+    <link href="/css/theme-relearn-light.css?1700094930" rel="stylesheet" id="variant-style">
+    <link href="/css/ie.css?1700094930" rel="stylesheet">
+    <link href="/css/variant.css?1700094930" rel="stylesheet">
+    <link href="/css/print.css?1700094930" rel="stylesheet" media="print">
+    <script src="/js/variant.js?1700094930"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -43,7 +43,7 @@
       var baseUriFull='https:\/\/LearnCIOT.github.io/';
       window.variants && variants.init( [ 'relearn-light' ] );
     </script>
-    <script src="/js/jquery.min.js?1700093199" defer></script>
+    <script src="/js/jquery.min.js?1700094930" defer></script>
 <meta property="fb:app_id" content="601826851395774" />
   </head>
   <body class="default-animation" data-url="/en/ch6/ch6.3/">
@@ -287,14 +287,23 @@ if (!doNotTrack) {
 </nav>
 </div>
 
-<p>In this article, we will take the air quality data in Civil IoT Taiwan as an example to introduce how to allow two levels of air quality sensing data to be systematically and dynamically calibrated through data science methods. At the same time, with the results of data fusion, different deployment projects can work together to create a more comprehensive air quality sensing result. We use the following two air quality sensing systems:</p>
+<p>In this article, we&rsquo;re going to look at how air quality data from Civil IoT Taiwan can be used. We&rsquo;ll explain how we can calibrate two types of air quality sensors using data science, so they work together better. This helps us get a more complete picture of air quality. We&rsquo;ll focus on two kinds of air quality sensors:</p>
 <ol>
-<li>Environmental Protection Agency Air Quality Monitoring Station: In traditional air quality monitoring, extremely professional, large-scale, and high-cost monitoring stations are mainly used. It cannot be deployed in every community due to high deployment and maintenance costs. Instead, local environmental agencies will select specific locations for deployment and maintenance. According to the announcement on the Taiwan Environmental Protection Agency website, as of July 2022, the number of official monitoring stations in Taiwan is 81.</li>
-<li>Micro Air Quality Sensor: Compared with the traditional professional station, the micro air quality sensor adopts low-cost sensors, transmits data through the network, and builds a denser air quality sensor in the way of the Internet of Things network. This technology has low erection costs and provides more flexible installation conditions and expanded coverage. At the same time, this technology has the characteristics of convenient installation and maintenance, which satisfies the needs of large-scale real-time air quality monitoring systems. It can achieve the frequency of uploading data once a minute and allows users to respond immediately to sudden pollution incidents, further reducing the loss.</li>
+<li><strong>Environmental Protection Agency (EPA) Air Quality Monitoring Stations:</strong> These are the traditional, professional stations that are big, expensive, and very accurate. They&rsquo;re not in every neighborhood because they&rsquo;re costly to set up and maintain. Instead, they&rsquo;re placed in specific spots by local environmental agencies. As of July 2022, Taiwan has 81 of these official monitoring stations.</li>
+<li><strong>Micro Air Quality Sensors:</strong> These are smaller, cheaper sensors that are part of the Internet of Things (IoT) network. They&rsquo;re easier to put up in lots of places because they&rsquo;re less expensive and simpler to install and look after. These sensors can quickly send data, even every minute, which is great for keeping an eye on air quality in real-time and reacting fast to sudden pollution. But they&rsquo;re not as accurate as the big EPA stations.</li>
 </ol>
-<p>Of course, we cannot expect low-cost micro air quality sensors to have the high accuracy of professional monitoring stations. How to improve its accuracy becomes another problem to be solved. Therefore, in the following content, we will demonstrate how to improve the accuracy of the sensing results of the micro air quality sensors to reach the level of the EPA air quality monitoring stations using data science approaches. The results can facilitate the integration of different sensing systems and further data applications in the future.</p>
+<p>The big question is, how can we make these small, affordable sensors as accurate as the professional ones? We&rsquo;re going to show you how we can do this with data science techniques. By improving the accuracy of these micro sensors, we can better integrate different types of sensors and make more use of the data they collect in the future.</p>
 <h2 id="package-installation-and-importing">Package Installation and Importing</h2>
-<p>In this article, we will use the pandas, numpy, datetime, sklearn, scipy, and joblib packages, which are pre-installed on our development platform, Google Colab, and do not need to be installed manually. Thus, we can directly use the following syntax to import the relevant packages to complete the preparations in this article.</p>
+<p>In this article, we&rsquo;re going to make use of several powerful Python packages that are already pre-installed on Google Colab, our development platform. This means we won&rsquo;t need to go through the hassle of manually installing them. We&rsquo;ll be using:</p>
+<ul>
+<li><code>pandas</code>: Great for data manipulation and analysis.</li>
+<li><code>numpy</code>: Essential for numerical operations.</li>
+<li><code>datetime</code>: Helpful for handling dates and times.</li>
+<li><code>sklearn</code>: A go-to library for machine learning.</li>
+<li><code>scipy</code>: Useful for scientific and technical computing.</li>
+<li><code>joblib</code>: Handy for saving and loading Python objects.</li>
+</ul>
+<p>Since these packages are ready to use on Google Colab, we can simply import them into our project. We&rsquo;ll do this with standard Python import statements, allowing us to quickly set up our working environment and dive into the exciting work we have planned in this article.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> pandas <span style="color:#66d9ef">as</span> pd
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> datetime <span style="color:#f92672">import</span> datetime, timedelta
@@ -307,8 +316,15 @@ if (!doNotTrack) {
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> scipy.stats <span style="color:#66d9ef">as</span> stats
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> joblib
 </span></span></code></pre></div><h2 id="initialization-and-data-access">Initialization and Data Access</h2>
-<p>In this example, we will use the Wanhua station of the EPA air quality station (<code>wanhua</code>), and two airboxes of Academia Sinica - Micro Air Quality Sensors in Civil IoT Taiwan, which are co-located with the EPA Wanhua station (the device IDs are <code>08BEAC028A52</code> and <code>08BEAC028690</code> respectively) as examples, and evaluate the use of three training models, i.e., Linear Regression, Random Forest Regression and Support Vector Regression (SVR). We will consider the PM2.5 concentration, temperature, relative humidity, and timestamp features of the data, combined with historical data for three different lengths of time (3 days, 5 days, 8 days), and conduct a series of explorations.</p>
-<p>For convenience, we first make the following initial program setup based on these assumptions.</p>
+<p>For this example, we&rsquo;ll focus on comparing air quality data from the Wanhua station of the EPA air quality monitoring network (<code>wanhua</code>) with data from two Micro Air Quality Sensors of Academia Sinica in the Civil IoT Taiwan network. These sensors, identified by their device IDs <code>08BEAC028A52</code> and <code>08BEAC028690</code>, are located at the same place as the EPA Wanhua station, giving us a unique opportunity to compare their readings directly.</p>
+<p>We&rsquo;ll evaluate the data using three different machine learning models:</p>
+<ul>
+<li>Linear Regression: A straightforward approach for predicting a quantitative response.</li>
+<li>Random Forest Regression: A more complex model that uses multiple decision trees to make predictions.</li>
+<li>Support Vector Regression (SVR): An advanced technique that can capture complex relationships in data.</li>
+</ul>
+<p>Our analysis will focus on several key features of the air quality data: PM2.5 concentration, temperature, relative humidity, and the timestamp of each reading. We&rsquo;ll also incorporate historical data over three different time spans - 3 days, 5 days, and 8 days - to see how the length of the historical data affects our models&rsquo; performance.</p>
+<p>To get started, let’s set up our initial programming environment with these specifics in mind. This will involve loading the necessary data and preparing our analysis tools to handle this unique set of data and models.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>SITE<span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;wanhua&#34;</span>
 </span></span><span style="display:flex;"><span>EPA<span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;EPA-Wanhua&#34;</span>
 </span></span><span style="display:flex;"><span>AIRBOXS<span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;08BEAC028A52&#39;</span>, <span style="color:#e6db74">&#39;08BEAC028690&#39;</span>]
@@ -329,17 +345,20 @@ if (!doNotTrack) {
 </span></span><span style="display:flex;"><span>                   <span style="color:#e6db74">&#39;PTR&#39;</span>:[<span style="color:#e6db74">&#34;PM25&#34;</span>, <span style="color:#e6db74">&#34;TEM&#34;</span>, <span style="color:#e6db74">&#34;HUM&#34;</span>], 
 </span></span><span style="display:flex;"><span>                   <span style="color:#e6db74">&#39;PHT&#39;</span>:[<span style="color:#e6db74">&#34;PM25&#34;</span>, <span style="color:#e6db74">&#34;HR&#34;</span>, <span style="color:#e6db74">&#34;TEM&#34;</span>]
 </span></span><span style="display:flex;"><span>                    }
-</span></span></code></pre></div><p>Next we consider how much data needs to be downloaded for system calibration and data fusion. As shown in the figure below, assuming that we want to obtain the calibration model of the Nth day, the data of (N-1)&rsquo;s day will be used as test data to evaluate the accuracy of the calibration model. So if we set the training data to be X days, then the historical data representing days N - 2 to N - (2+X) days will be used as training data. In our scenario, we set N to the current time (today) and the maximum possible X value is 8, so we need to prepare a total of ten days of historical data for the next operation.</p>
+</span></span></code></pre></div><p>To determine the appropriate amount of data needed for system calibration and data fusion, let&rsquo;s visualize the process. Imagine you want to create a calibration model for a specific day, which we&rsquo;ll call the Nth day. The data from the day before that, the (N-1)th day, will be used to test and evaluate the accuracy of this model.</p>
+<p>Now, if you decide to use X days&rsquo; worth of data for training the model, you will need historical data from the (N-2)nd day going back to the (N-2-X)th day. This range of days will serve as the training dataset.</p>
+<p>In our case, we&rsquo;re setting N to represent the current day (today), and we&rsquo;ve decided that the maximum length for X (our training data period) is 8 days. Therefore, to proceed with our calibration and data fusion, we need to prepare a total of 10 days of historical data. This timeframe includes 8 days for training and an additional day each for testing and the current day’s data.</p>
+<p>This approach ensures that we have a comprehensive dataset, allowing our models to learn effectively from recent historical data and be tested against the most immediate past data for validation of their accuracy.</p>
 <p><img src="figures/6-3-2-1.png" alt="Python output"></p>
-<p>For later use, we first specify the date to calibrate the model (Nth day: <code>TODAY</code>), the date of the test data (N-1 th day: <code>TESTDATE</code>), and the end date of the training data (N-2 th day: <code>ENDDATE</code>) with the following code .</p>
+<p>To set up our analysis, we need to define three key dates in our code: the date for calibrating the model (<code>TODAY</code>), the date for the test data (<code>TESTDATE</code>), and the end date of the training data (<code>ENDDATE</code>). These dates correspond to the Nth day, the N-1th day, and the N-2th day, respectively. Here&rsquo;s how you can do this in Python:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>TODAY <span style="color:#f92672">=</span> datetime<span style="color:#f92672">.</span>today()
 </span></span><span style="display:flex;"><span>TESTDATE <span style="color:#f92672">=</span> (TODAY <span style="color:#f92672">-</span> timedelta(days<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>))<span style="color:#f92672">.</span>date()
 </span></span><span style="display:flex;"><span>ENDDATE <span style="color:#f92672">=</span> (TODAY <span style="color:#f92672">-</span> timedelta(days<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>))<span style="color:#f92672">.</span>date()
-</span></span></code></pre></div><p>In this example, we use the data access API provided by Academia Sinica - Micro Air Quality Sensors. According to the specified date <!-- raw HTML omitted --> and device code <!-- raw HTML omitted -->, the sensing data of the corresponding date and device can be downloaded in CSV file format. Note that due to the limitations of the data access API, the specified date <!-- raw HTML omitted --> can only be a date within the past 30 days from the date of download.</p>
+</span></span></code></pre></div><p>In this case, we&rsquo;re utilizing the data access API from Academia Sinica&rsquo;s Micro Air Quality Sensors. This allows you to download sensing data in a CSV file format for a specific date (input as <!-- raw HTML omitted -->) and device (using the device code <!-- raw HTML omitted -->). However, it&rsquo;s important to remember that this API only lets you access data from the past 30 days from your current download date. So, the date you choose must be within this 30-day window.</p>
 <pre tabindex="0"><code>https://pm25.lass-net.org/data/history-date.php?device_id=&lt;ID&gt;&amp;date=&lt;YYY-MM-DD&gt;&amp;format=CSV
-</code></pre><p>For example, suppose we want to download the sensing data of EPA Wanhua Station on September 21, 2022, we can download it in the following ways:</p>
+</code></pre><p>If we&rsquo;re looking to get the sensor data from the EPA Wanhua Station for September 21, 2022, we can do so by following these steps:</p>
 <pre tabindex="0"><code>https://pm25.lass-net.org/data/history-date.php?device_id=EPA-Wanhua&amp;date=2022-09-21&amp;format=CSV
-</code></pre><p>Using this method, we write a Python function <code>getDF</code>, which can download the sensing data of the past 10 days for the given device code, and return the collected data in the form of a single DataFrame object.</p>
+</code></pre><p>We&rsquo;ve created a Python function named <code>getDF</code>. This function can retrieve the sensor data from the past 10 days for a specified device code. It then compiles this data and returns it as a single DataFrame object.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">getDF</span>(id):
 </span></span><span style="display:flex;"><span>  temp_list <span style="color:#f92672">=</span> []
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">11</span>):
@@ -353,7 +372,7 @@ if (!doNotTrack) {
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>  All_DF <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>concat( temp_list )
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> All_DF
-</span></span></code></pre></div><p>Next, we download the sensing data of the first airbox installed at the EPA Wanhua station and store it in the <code>AirBox1_DF</code> object:</p>
+</span></span></code></pre></div><p>Next, we&rsquo;ll download the data from the first air quality monitoring device, known as an airbox, located at the EPA Wanhua station. This data will be saved in an object we&rsquo;re calling <code>AirBox1_DF</code>:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># First AirBox device</span>
 </span></span><span style="display:flex;"><span>AirBox1_DF <span style="color:#f92672">=</span> getDF(AIRBOXS[<span style="color:#ae81ff">0</span>])
 </span></span><span style="display:flex;"><span>AirBox1_DF<span style="color:#f92672">.</span>head()
@@ -368,14 +387,14 @@ ID: 08BEAC028A52, Date: 2022-09-22, Shape: (220, 19)
 ID: 08BEAC028A52, Date: 2022-09-21, Shape: (222, 19)
 ID: 08BEAC028A52, Date: 2022-09-20, Shape: (215, 19)
 </code></pre><p><img src="figures/6-3-2-2.png" alt="Python output"></p>
-<p>Using the same method, we download the sensing data of the second airbox installed at the EPA Wanhua station and the sensing data of the EPA Wanhua station, and stored them in the <code>AirBox2_DF</code> and <code>EPA_DF</code> objects, respectively.</p>
+<p>To proceed in the same way, we obtained the sensor data from the second airbox at the EPA Wanhua station as well as the sensor data from the EPA Wanhua station itself. These sets of data were then saved in two different objects: <code>AirBox2_DF</code> for the airbox data and <code>EPA_DF</code> for the station&rsquo;s data.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Second AirBox device</span>
 </span></span><span style="display:flex;"><span>AirBox2_DF <span style="color:#f92672">=</span> getDF(AIRBOXS[<span style="color:#ae81ff">1</span>])
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># EPA station</span>
 </span></span><span style="display:flex;"><span>EPA_DF <span style="color:#f92672">=</span> getDF(EPA)
 </span></span></code></pre></div><h2 id="data-preprocessing">Data Preprocessing</h2>
-<p>Since our current data contains many unneeded fields, in order to avoid taking up too much memory space, we first simplify the data we use, leaving only what is needed.</p>
+<p>To ensure we don&rsquo;t use too much memory, we&rsquo;re streamlining our data by keeping only the essential information and removing any unnecessary details.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>Col_need <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;timestamp&#34;</span>, <span style="color:#e6db74">&#34;s_d0&#34;</span>, <span style="color:#e6db74">&#34;s_t0&#34;</span>, <span style="color:#e6db74">&#34;s_h0&#34;</span>]
 </span></span><span style="display:flex;"><span>AirBox1_DF_need <span style="color:#f92672">=</span> AirBox1_DF[Col_need]
 </span></span><span style="display:flex;"><span>print(AirBox1_DF_need<span style="color:#f92672">.</span>head())
@@ -410,7 +429,7 @@ index
 2      02:00:00  2022-09-30   16.0
 3      03:00:00  2022-09-30   19.0
 4      04:00:00  2022-09-30   20.0
-</code></pre><p>Next, in order to unify the data fields, we merge the original <code>date</code> and <code>time</code> fields of the EPA station data to generate a new <code>timestamp</code> field.</p>
+</code></pre><p>Next, we&rsquo;re combining the <code>date</code> and <code>time</code> information from the EPA station data into a new field called <code>timestamp</code>. This helps us have a unified way of looking at when the data was collected.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>EPA_DF_need[<span style="color:#e6db74">&#39;timestamp&#39;</span>] <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>to_datetime( EPA_DF_need[<span style="color:#e6db74">&#34;date&#34;</span>] <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;T&#34;</span> <span style="color:#f92672">+</span> EPA_DF_need[<span style="color:#e6db74">&#34;time&#34;</span>], utc<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span> )
 </span></span><span style="display:flex;"><span>print(EPA_DF_need<span style="color:#f92672">.</span>head())
 </span></span></code></pre></div><pre tabindex="0"><code>           time        date  pm2_5                 timestamp
@@ -420,7 +439,7 @@ index
 2      02:00:00  2022-09-30   16.0 2022-09-30 02:00:00+00:00
 3      03:00:00  2022-09-30   19.0 2022-09-30 03:00:00+00:00
 4      04:00:00  2022-09-30   20.0 2022-09-30 04:00:00+00:00
-</code></pre><p>Due to the different temporal resolutions of the airbox and EPA station data, to align the data on both sides, we resample the airbox data from the original every five minutes to every hour.</p>
+</code></pre><p>The airbox and EPA station data are collected at different times - the airbox data every five minutes and the EPA station data every hour. To make them match, we&rsquo;re adjusting the airbox data to also be on an hourly basis.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">getHourly</span>(DF):
 </span></span><span style="display:flex;"><span>  DF <span style="color:#f92672">=</span> DF<span style="color:#f92672">.</span>set_index( pd<span style="color:#f92672">.</span>DatetimeIndex(DF[<span style="color:#e6db74">&#34;timestamp&#34;</span>]) )
 </span></span><span style="display:flex;"><span>  DF_Hourly <span style="color:#f92672">=</span> DF<span style="color:#f92672">.</span>resample(<span style="color:#e6db74">&#39;H&#39;</span>)<span style="color:#f92672">.</span>mean()
@@ -450,7 +469,7 @@ index
 2 2022-09-21 02:00:00+00:00    NaN
 3 2022-09-21 03:00:00+00:00   11.0
 4 2022-09-21 04:00:00+00:00   10.0
-</code></pre><p>We also replace the data fields from both sources with easily identifiable field names for easy follow-up and identification.</p>
+</code></pre><p>We&rsquo;re renaming the data fields from both the airbox and EPA stations to names that are easier to understand and track.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>Col_rename <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#34;s_d0&#34;</span>:<span style="color:#e6db74">&#34;PM25&#34;</span>, <span style="color:#e6db74">&#34;s_h0&#34;</span>:<span style="color:#e6db74">&#34;HUM&#34;</span>, <span style="color:#e6db74">&#34;s_t0&#34;</span>:<span style="color:#e6db74">&#34;TEM&#34;</span>}
 </span></span><span style="display:flex;"><span>AirBox1_DF_need_Hourly<span style="color:#f92672">.</span>rename(columns<span style="color:#f92672">=</span>Col_rename, inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
 </span></span><span style="display:flex;"><span>AirBox2_DF_need_Hourly<span style="color:#f92672">.</span>rename(columns<span style="color:#f92672">=</span>Col_rename, inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
@@ -472,7 +491,7 @@ index
 2 2022-09-21 02:00:00+00:00       NaN
 3 2022-09-21 03:00:00+00:00      11.0
 4 2022-09-21 04:00:00+00:00      10.0
-</code></pre><p>Since the two airboxes have the same hardware and the same location, we treat them as the same data source and combine the data of the two airboxes to generate the <code>AirBoxs_DF</code> object. We then intersect the new data object with the EPA air quality station data according to the time field, producing a merged <code>ALL_DF</code> object.</p>
+</code></pre><p>Since we have two airboxes that are identical and in the same place, we&rsquo;re treating them as a single data source. We&rsquo;re combining their data into one object, which we&rsquo;re calling <code>AirBoxs_DF</code>. After that, we&rsquo;re merging this with the EPA station data based on the time they were recorded. This creates a new, combined data object named <code>ALL_DF</code>.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>AirBoxs_DF <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>concat([AirBox1_DF_need_Hourly, AirBox2_DF_need_Hourly])<span style="color:#f92672">.</span>reset_index(drop<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>All_DF <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>merge( AirBoxs_DF, EPA_DF_need_Hourly, on<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#34;timestamp&#34;</span>], how<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;inner&#34;</span> )
@@ -489,7 +508,7 @@ index
 7 2022-09-21 03:00:00+00:00   7.100000  29.408000 -64.400000      11.0
 8 2022-09-21 04:00:00+00:00   5.250000  31.308750  56.000000      10.0
 9 2022-09-21 04:00:00+00:00   4.777778  29.882222 -64.000000      10.0
-</code></pre><p>We first exclude the presence of null values (NaN) in the data.</p>
+</code></pre><p>We&rsquo;re making sure to remove any missing or incomplete data, marked as NaN (Not a Number), from our dataset.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>All_DF<span style="color:#f92672">.</span>dropna(how<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;any&#34;</span>, inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
 </span></span><span style="display:flex;"><span>All_DF<span style="color:#f92672">.</span>reset_index(inplace<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>, drop<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
 </span></span><span style="display:flex;"><span>print(All_DF<span style="color:#f92672">.</span>head(<span style="color:#ae81ff">10</span>))
@@ -504,7 +523,7 @@ index
 7 2022-09-21 04:00:00+00:00   4.777778  29.882222 -64.000000      10.0
 8 2022-09-21 05:00:00+00:00   5.000000  30.033333  60.333333       8.0
 9 2022-09-21 05:00:00+00:00   4.500000  28.777500 -66.875000       8.0
-</code></pre><p>Finally, since the daily hour value information will be used when building the model, we add an <code>HR</code> field to <code>All_DF</code> that contains the content of the hour value in the <code>timestamp</code>.</p>
+</code></pre><p>Lastly, we&rsquo;re adding a new field called <code>HR</code> to <code>ALL_DF</code>. This field will show the hour when the data was collected, which is taken from the <code>timestamp</code> field. This hour information is important for the model we&rsquo;re building.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">return_HR</span>(row):
 </span></span><span style="display:flex;"><span>    row[<span style="color:#e6db74">&#39;HR&#39;</span>] <span style="color:#f92672">=</span> int(row[ <span style="color:#e6db74">&#34;timestamp&#34;</span> ]<span style="color:#f92672">.</span>hour)
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> row
@@ -523,14 +542,14 @@ index
 8 2022-09-21 05:00:00+00:00   5.000000  30.033333  60.333333       8.0   5
 9 2022-09-21 05:00:00+00:00   4.500000  28.777500 -66.875000       8.0   5
 </code></pre><h2 id="calibration-model-establishment-and-validation">Calibration Model Establishment and Validation</h2>
-<p>After completing the data preparation, we next start building candidate calibration models. Since we discussed a total of 3 regression methods, 3 historical data lengths, and 8 feature combinations in this case, we will generate a total of 3 x 3 x 8 = 72 candidate models.</p>
-<p>First, we designed the <code>SlideDay</code> function to retrieve a specific length of historical data when building a calibration model. The function returns the input data <code>Hourly_DF</code> from <code>enddate</code> to the total <code>day</code> day data according to the input historical data length <code>day</code>.</p>
+<p>After we&rsquo;re done preparing the data, we move on to create potential calibration models. In this case, we&rsquo;re looking at 3 types of regression methods, 3 lengths of historical data, and 8 different combinations of features. This means we&rsquo;ll end up with a total of 72 (3 x 3 x 8) candidate models.</p>
+<p>First up, we use a tool called <code>SlideDay</code>. This function helps us gather a specific amount of historical data needed for building a calibration model. It works by taking the data from <code>Hourly_DF</code> and selecting data from the <code>enddate</code> going back for the number of days specified by <code>day</code>.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">SlideDay</span>( Hourly_DF, day, enddate ):
 </span></span><span style="display:flex;"><span>    startdate<span style="color:#f92672">=</span> enddate<span style="color:#f92672">-</span> timedelta( days<span style="color:#f92672">=</span> (day<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) )
 </span></span><span style="display:flex;"><span>    time_mask<span style="color:#f92672">=</span> Hourly_DF[<span style="color:#e6db74">&#34;timestamp&#34;</span>]<span style="color:#f92672">.</span>between( pd<span style="color:#f92672">.</span>Timestamp(startdate, tz<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;utc&#39;</span>), pd<span style="color:#f92672">.</span>Timestamp(enddate, tz<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;utc&#39;</span>) )
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">return</span> Hourly_DF[ time_mask ]
-</span></span></code></pre></div><p>Next, we organize the sensing data <code>Training_DF</code> of the <code>site</code> station from <code>enddate</code> to <code>day</code> days before, and organize it into training data according to the <code>feature</code> feature combination. Then we apply the <code>method</code> regression method, so that the predicted value produced by the generated calibration model can approximate the data value of the <code>EPA_PM25</code> field in the training data.</p>
-<p>We calculate both the Mean Absolute Error (MAE) and the Mean Squared Error (MSE) of the corrected model itself. Among them, the mean absolute error (MAE) is the sum of the absolute values of the difference between the target value and the predicted value, which may reflect the actual situation of the predicted value error. The smaller the value, the better the performance. The mean squared error (MSE) is the mean of the square of the difference between the predicted value and the actual observed value. The smaller the MSE value, the better the accuracy of the prediction model in describing the experimental data.</p>
+</span></span></code></pre></div><p>Then, we arrange the sensor data <code>Training_DF</code> for a particular monitoring station, referred to as <code>site</code>, covering the period from <code>enddate</code> to <code>day</code> days before. This data is organized based on the selected features (<code>feature</code> feature combination). After this, we apply one of the regression methods (<code>method</code>) to the data. Our goal here is to ensure that the predictions made by our calibration model are as close as possible to the <code>EPA_PM25</code> values in the training data.</p>
+<p>To evaluate the accuracy of our model, we use two methods: Mean Absolute Error (MAE) and Mean Squared Error (MSE). MAE measures how far off our predictions are on average, by calculating the average of the absolute differences between predicted and actual values. A lower MAE means better accuracy. MSE, on the other hand, calculates the average of the squares of these differences. Again, a lower MSE indicates better model performance.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">BuildModel</span>( site, enddate, feature, day, method, Training_DF ):
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    X_train <span style="color:#f92672">=</span> Training_DF[ FEATURES_METHOD[ feature ] ]
@@ -556,7 +575,7 @@ index
 </span></span><span style="display:flex;"><span>    model_result[<span style="color:#e6db74">&#39;Train_MAE&#39;</span>] <span style="color:#f92672">=</span> sk_metrics<span style="color:#f92672">.</span>mean_absolute_error( Y_train, Y_pred )
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> model_result, lm
-</span></span></code></pre></div><p>In addition to evaluating the MAE and MSE of the training data when building the calibrated model, we also consider the prediction performance of the calibrated model on non-training data. Therefore, for the model <code>lm</code>, according to the feature data <code>feature</code> that it needs to bring in, as well as the test data, we generate the predicted value, and compare it with the <code>EPA_PM25</code> field in the test data to calculate the MAE and MSE respectively. , as a reference for subsequent evaluation of the applicability of different calibration models.</p>
+</span></span></code></pre></div><p>Beyond just looking at the MAE and MSE for the training data, we also assess how well our model performs on data it hasn&rsquo;t been trained on. So, for the <code>lm</code> model, we generate predictions based on the required feature data (<code>feature</code>) and test data, and then compare these predictions to the <code>EPA_PM25</code> values in the test data to calculate both MAE and MSE. This helps us gauge the effectiveness of different calibration models.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">TestModel</span>( site, feature, modelname, Testing_DF, lm ):
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    X_test <span style="color:#f92672">=</span> Testing_DF[ FEATURES_METHOD[ feature ] ]
@@ -575,7 +594,7 @@ index
 </span></span><span style="display:flex;"><span>    test_result[<span style="color:#e6db74">&#34;test_MAE&#34;</span>] <span style="color:#f92672">=</span> round( sk_metrics<span style="color:#f92672">.</span>mean_absolute_error( Y_test, Y_pred ), <span style="color:#ae81ff">3</span>)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> test_result
-</span></span></code></pre></div><p>Finally, we integrate the just completed <code>SlideDay</code>, <code>BuildModel</code> and <code>TestModel</code>, and complete a total of 72 calibration models. For each calibrated model, we compute MAE and MSE for training and testing data separately, and store all results in an <code>AllResult_DF</code> object.</p>
+</span></span></code></pre></div><p>To wrap up, we bring together the <code>SlideDay</code>, <code>BuildModel</code>, and <code>TestModel</code> processes to complete all 72 calibration models. We calculate the MAE and MSE for both the training and testing data for each model and compile all these results into an <code>AllResult_DF</code> object for further analysis.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>AllResult_list <span style="color:#f92672">=</span> []
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> day <span style="color:#f92672">in</span> DAYS:
@@ -663,13 +682,13 @@ index
 [BuildR]-&#34;SVR&#34; with 3/PHT
 </code></pre><p><img src="figures/6-3-4-1.png" alt="Python output"></p>
 <h2 id="best-calibration-model-of-the-day">Best Calibration Model of the Day</h2>
-<p>When discussing the &ldquo;best calibrated model of the day&rdquo;, it must be admitted that the so-called &ldquo;best model&rdquo; is only available after the end of the day. That is to say, the MAE and MSE of different candidate models can only be obtained after collecting complete 24-hour data, and the best model can be obtained after comparative analysis. Therefore, it will not be possible to systematically generate a truly optimized calibration model before the end of today&rsquo;s 24 hours.</p>
-<p>However, based on practical needs, we often need to have a calibration model that can be applied in the data production process. So, in practice, we usually assume that &ldquo;yesterday&rsquo;s best model will also perform well today&rdquo; and use that as a way to correct that day&rsquo;s data. For example, assuming we use MSE as the criterion for deciding the best model, we can get information about the best model using the following syntax:</p>
+<p>When we talk about the &ldquo;best calibrated model of the day&rdquo; in data analysis, it&rsquo;s important to understand that we can only identify this &ldquo;best model&rdquo; after the day has ended. This is because we need to collect a full day&rsquo;s worth of data (24 hours) before we can accurately measure the performance of different models. We use two methods, Mean Absolute Error (MAE) and Mean Squared Error (MSE), to evaluate these models. Only after comparing these can we determine which model was the best for that day.</p>
+<p>However, in the real world, we often need a calibrated model during the day, not after it has ended. So, what we typically do is assume that the best model from yesterday will also work well for today. We use this model to correct and process today&rsquo;s data. For instance, if we&rsquo;re using MSE to judge our best model, we can identify yesterday&rsquo;s top performer using a specific method.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>FIELD<span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;test_MSE&#34;</span>
 </span></span><span style="display:flex;"><span>BEST<span style="color:#f92672">=</span> AllResult_DF[ AllResult_DF[FIELD]<span style="color:#f92672">==</span> AllResult_DF[FIELD]<span style="color:#f92672">.</span>min() ]
 </span></span><span style="display:flex;"><span>BEST
 </span></span></code></pre></div><p><img src="figures/6-3-5-1.png" alt="Python output"></p>
-<p>Next, to adapt to today&rsquo;s situation, we use yesterday&rsquo;s best calibrated model parameters (historical data length, regression method, feature data combination), recalculate training and test data from today&rsquo;s date range, and regenerate today&rsquo;s calibrated model .</p>
+<p>To make this model work for today, we take the best parameters from yesterday&rsquo;s model (things like how much historical data it looks at, the method of analysis it uses, and the types of data it considers) and apply them to today&rsquo;s data. This helps us create a new model for today.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>BEST_DC<span style="color:#f92672">=</span> BEST<span style="color:#f92672">.</span>to_dict(orient<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;index&#34;</span>)[<span style="color:#ae81ff">0</span>]
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>Training_DF<span style="color:#f92672">=</span> SlideDay(All_DF, BEST_DC[<span style="color:#e6db74">&#34;day&#34;</span>], TESTDATE)[ FEATURES_METHOD[BEST_DC[<span style="color:#e6db74">&#34;feature&#34;</span>]]<span style="color:#f92672">+</span> [<span style="color:#e6db74">&#34;EPA_PM25&#34;</span>] ]
@@ -687,7 +706,8 @@ index
  &#39;create_timestamp_utc&#39;: &#39;2022-09-30 11:19:48&#39;,
  &#39;Train_MSE&#39;: 3.91517342356589,
  &#39;Train_MAE&#39;: 1.42125724796098}
-</code></pre><p>From this example, we can see that the newly produced calibration model has a <code>Train_MSE</code> of 3.915, which is much higher than the original 2.179. However, since we have no way to know the real best model of the day before the end of the day, we can only apply yesterday&rsquo;s best model if there is no other better choice. Finally, we export the .joblib file with the following syntax and release the model for sharing (please refer to the reference materials for details).</p>
+</code></pre><p>For example, let&rsquo;s say that the new model we create for today has a <code>Train_MSE</code> of 3.915. This is higher than yesterday&rsquo;s 2.179, which means it&rsquo;s not as accurate. However, since we can&rsquo;t know today&rsquo;s best model until the day is over, we use yesterday&rsquo;s model as the next best thing.</p>
+<p>Finally, we save this model in a special file format (.joblib) and share it for others to use. You can find more details on how to do this in the reference materials provided.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>model_dumpname<span style="color:#f92672">=</span> result[<span style="color:#e6db74">&#34;modelname&#34;</span>]<span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;.joblib&#34;</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>MODEL_OUTPUT_PATH<span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>
@@ -699,7 +719,9 @@ index
 </span></span><span style="display:flex;"><span>    error_msg(e)
 </span></span></code></pre></div><pre tabindex="0"><code>[BuildR]-dump wanhua_3_SVR_PHT.joblib
 </code></pre><h2 id="calibration-results">Calibration Results</h2>
-<p>The joint calibration method described in this article has been officially applied to &ldquo;Academia Sinica - Micro Air Quality Sensors&rdquo; in Civil IoT Taiwan from 2020/5, and the daily output calibration model has been published on the <a href="https://pm25.lass-net.org/DCF/">Dynamic Calibration Model</a> website. In the implementation, a total of 31 EPA air quality monitoring stations were selected to install two airboxes, and we considered 3 historical data lengths, 8 data feature combinations, and 7 regression methods (i.e. a total of 3 x 8 x 7 = 168 combinations) to generate the best daily calibration model for each of these 31 sites. Then, for the sensing data of each airbox, the best calibration model of the station closest to its geographical location is used as the application model of its data calibration, and its sensing data is generated and published. From the observation of the actual operation after the mechanism is launched, the data difference between the micro air quality sensor device and the EPA air quality monitoring station can be effectively reduced (as shown in the figure below). This achievement also established a good cooperation model for cross-system data integration of air quality monitoring.</p>
+<p>Since May 2020, the method we discuss in this article has been put to use in the &ldquo;Academia Sinica - Micro Air Quality Sensors&rdquo; as part of the Civil IoT Taiwan initiative. We&rsquo;ve shared the daily calibration models developed through this method on the <a href="https://pm25.lass-net.org/DCF/">Dynamic Calibration Model</a> website.</p>
+<p>Here&rsquo;s what we did: We picked 31 air quality monitoring stations run by the Environmental Protection Agency (EPA) and set up two airboxes at each. To find the most effective daily calibration model for each location, we experimented with a variety of factors. This included using three different lengths of historical data, combining eight types of data features, and applying seven different regression techniques. Altogether, this meant testing 168 different combinations (3 historical data lengths x 8 data features x 7 regression methods).</p>
+<p>Once we determined the best calibration model for each station, we used it to calibrate the data from the nearest airbox. This means the air quality data from each airbox is adjusted using the most suitable model based on its location. After implementing this system, we observed a significant improvement: the discrepancy between the readings from our micro air quality sensors and those from the EPA&rsquo;s monitoring stations was greatly reduced. The success of this approach not only improved our air quality data accuracy but also set a strong example of how data from different systems can be effectively integrated for air quality monitoring. The figure below illustrates the reduced data discrepancy after implementing this method.</p>
 <p><img src="figures/6-3-6-1.png" alt="Open In Colab"></p>
 <h2 id="references">References</h2>
 <ul>
@@ -811,12 +833,12 @@ This work is licensed under a <a rel="license" href="http://creativecommons.org/
         <script>
           var contentLangs=['en'];
         </script>
-        <script src="/js/auto-complete.js?1700093199" defer></script>
-        <script src="/js/lunr.min.js?1700093199" defer></script>
-        <script src="/js/lunr.stemmer.support.min.js?1700093199" defer></script>
-        <script src="/js/lunr.multi.min.js?1700093199" defer></script>
-        <script src="/js/lunr.en.min.js?1700093199" defer></script>
-        <script src="/js/search.js?1700093199" defer></script>
+        <script src="/js/auto-complete.js?1700094930" defer></script>
+        <script src="/js/lunr.min.js?1700094930" defer></script>
+        <script src="/js/lunr.stemmer.support.min.js?1700094930" defer></script>
+        <script src="/js/lunr.multi.min.js?1700094930" defer></script>
+        <script src="/js/lunr.en.min.js?1700094930" defer></script>
+        <script src="/js/search.js?1700094930" defer></script>
       </div>
       <div id="content-wrapper" class="highlightable">
         <ul class="topics">
@@ -892,14 +914,14 @@ This work is licensed under a <a rel="license" href="http://creativecommons.org/
       </div>
     </aside>
 
-    <script src="/js/clipboard.min.js?1700093199" defer></script>
-    <script src="/js/perfect-scrollbar.min.js?1700093199" defer></script>
-    <script src="/js/featherlight.min.js?1700093199" defer></script>
-    <script src="/js/jquery.svg.pan.zoom.js?1700093199" defer></script>
-    <script src="/js/mermaid.min.js?1700093199" defer></script>
+    <script src="/js/clipboard.min.js?1700094930" defer></script>
+    <script src="/js/perfect-scrollbar.min.js?1700094930" defer></script>
+    <script src="/js/featherlight.min.js?1700094930" defer></script>
+    <script src="/js/jquery.svg.pan.zoom.js?1700094930" defer></script>
+    <script src="/js/mermaid.min.js?1700094930" defer></script>
     <script>
       window.themeUseMermaid = JSON.parse("{}");
     </script>
-    <script src="/js/theme.js?1700093199" defer></script>
+    <script src="/js/theme.js?1700094930" defer></script>
   </body>
 </html>
