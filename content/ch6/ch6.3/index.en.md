@@ -13,16 +13,26 @@ authors: ["Quen Luo"]
 
 {{< toc >}}
 
-In this article, we will take the air quality data in Civil IoT Taiwan as an example to introduce how to allow two levels of air quality sensing data to be systematically and dynamically calibrated through data science methods. At the same time, with the results of data fusion, different deployment projects can work together to create a more comprehensive air quality sensing result. We use the following two air quality sensing systems:
+In this article, we're going to look at how air quality data from Civil IoT Taiwan can be used. We'll explain how we can calibrate two types of air quality sensors using data science, so they work together better. This helps us get a more complete picture of air quality. We'll focus on two kinds of air quality sensors:
 
-1. Environmental Protection Agency Air Quality Monitoring Station: In traditional air quality monitoring, extremely professional, large-scale, and high-cost monitoring stations are mainly used. It cannot be deployed in every community due to high deployment and maintenance costs. Instead, local environmental agencies will select specific locations for deployment and maintenance. According to the announcement on the Taiwan Environmental Protection Agency website, as of July 2022, the number of official monitoring stations in Taiwan is 81.
-2. Micro Air Quality Sensor: Compared with the traditional professional station, the micro air quality sensor adopts low-cost sensors, transmits data through the network, and builds a denser air quality sensor in the way of the Internet of Things network. This technology has low erection costs and provides more flexible installation conditions and expanded coverage. At the same time, this technology has the characteristics of convenient installation and maintenance, which satisfies the needs of large-scale real-time air quality monitoring systems. It can achieve the frequency of uploading data once a minute and allows users to respond immediately to sudden pollution incidents, further reducing the loss.
+1. **Environmental Protection Agency (EPA) Air Quality Monitoring Stations:** These are the traditional, professional stations that are big, expensive, and very accurate. They're not in every neighborhood because they're costly to set up and maintain. Instead, they're placed in specific spots by local environmental agencies. As of July 2022, Taiwan has 81 of these official monitoring stations.
+2. **Micro Air Quality Sensors:** These are smaller, cheaper sensors that are part of the Internet of Things (IoT) network. They're easier to put up in lots of places because they're less expensive and simpler to install and look after. These sensors can quickly send data, even every minute, which is great for keeping an eye on air quality in real-time and reacting fast to sudden pollution. But they're not as accurate as the big EPA stations.
 
-Of course, we cannot expect low-cost micro air quality sensors to have the high accuracy of professional monitoring stations. How to improve its accuracy becomes another problem to be solved. Therefore, in the following content, we will demonstrate how to improve the accuracy of the sensing results of the micro air quality sensors to reach the level of the EPA air quality monitoring stations using data science approaches. The results can facilitate the integration of different sensing systems and further data applications in the future.
+The big question is, how can we make these small, affordable sensors as accurate as the professional ones? We're going to show you how we can do this with data science techniques. By improving the accuracy of these micro sensors, we can better integrate different types of sensors and make more use of the data they collect in the future.
 
 ## Package Installation and Importing
 
-In this article, we will use the pandas, numpy, datetime, sklearn, scipy, and joblib packages, which are pre-installed on our development platform, Google Colab, and do not need to be installed manually. Thus, we can directly use the following syntax to import the relevant packages to complete the preparations in this article.
+
+In this article, we're going to make use of several powerful Python packages that are already pre-installed on Google Colab, our development platform. This means we won't need to go through the hassle of manually installing them. We'll be using:
+
+- `pandas`: Great for data manipulation and analysis.
+- `numpy`: Essential for numerical operations.
+- `datetime`: Helpful for handling dates and times.
+- `sklearn`: A go-to library for machine learning.
+- `scipy`: Useful for scientific and technical computing.
+- `joblib`: Handy for saving and loading Python objects.
+
+Since these packages are ready to use on Google Colab, we can simply import them into our project. We'll do this with standard Python import statements, allowing us to quickly set up our working environment and dive into the exciting work we have planned in this article.
 
 ```python
 import pandas as pd
@@ -40,9 +50,17 @@ import joblib
 
 ## Initialization and Data Access
 
-In this example, we will use the Wanhua station of the EPA air quality station (`wanhua`), and two airboxes of Academia Sinica - Micro Air Quality Sensors in Civil IoT Taiwan, which are co-located with the EPA Wanhua station (the device IDs are `08BEAC028A52` and `08BEAC028690` respectively) as examples, and evaluate the use of three training models, i.e., Linear Regression, Random Forest Regression and Support Vector Regression (SVR). We will consider the PM2.5 concentration, temperature, relative humidity, and timestamp features of the data, combined with historical data for three different lengths of time (3 days, 5 days, 8 days), and conduct a series of explorations.
+For this example, we'll focus on comparing air quality data from the Wanhua station of the EPA air quality monitoring network (`wanhua`) with data from two Micro Air Quality Sensors of Academia Sinica in the Civil IoT Taiwan network. These sensors, identified by their device IDs `08BEAC028A52` and `08BEAC028690`, are located at the same place as the EPA Wanhua station, giving us a unique opportunity to compare their readings directly.
 
-For convenience, we first make the following initial program setup based on these assumptions.
+We'll evaluate the data using three different machine learning models:
+
+- Linear Regression: A straightforward approach for predicting a quantitative response.
+- Random Forest Regression: A more complex model that uses multiple decision trees to make predictions.
+- Support Vector Regression (SVR): An advanced technique that can capture complex relationships in data.
+
+Our analysis will focus on several key features of the air quality data: PM2.5 concentration, temperature, relative humidity, and the timestamp of each reading. We'll also incorporate historical data over three different time spans - 3 days, 5 days, and 8 days - to see how the length of the historical data affects our models' performance.
+
+To get started, let’s set up our initial programming environment with these specifics in mind. This will involve loading the necessary data and preparing our analysis tools to handle this unique set of data and models.
 
 ```python
 SITE= "wanhua"
@@ -67,11 +85,17 @@ FEATURES_METHOD= {'PHTR':["PM25", "HR", "TEM", "HUM"],
                     }
 ```
 
-Next we consider how much data needs to be downloaded for system calibration and data fusion. As shown in the figure below, assuming that we want to obtain the calibration model of the Nth day, the data of (N-1)'s day will be used as test data to evaluate the accuracy of the calibration model. So if we set the training data to be X days, then the historical data representing days N - 2 to N - (2+X) days will be used as training data. In our scenario, we set N to the current time (today) and the maximum possible X value is 8, so we need to prepare a total of ten days of historical data for the next operation.
+To determine the appropriate amount of data needed for system calibration and data fusion, let's visualize the process. Imagine you want to create a calibration model for a specific day, which we'll call the Nth day. The data from the day before that, the (N-1)th day, will be used to test and evaluate the accuracy of this model.
+
+Now, if you decide to use X days' worth of data for training the model, you will need historical data from the (N-2)nd day going back to the (N-2-X)th day. This range of days will serve as the training dataset.
+
+In our case, we're setting N to represent the current day (today), and we've decided that the maximum length for X (our training data period) is 8 days. Therefore, to proceed with our calibration and data fusion, we need to prepare a total of 10 days of historical data. This timeframe includes 8 days for training and an additional day each for testing and the current day’s data.
+
+This approach ensures that we have a comprehensive dataset, allowing our models to learn effectively from recent historical data and be tested against the most immediate past data for validation of their accuracy.
 
 ![Python output](figures/6-3-2-1.png)
 
-For later use, we first specify the date to calibrate the model (Nth day: `TODAY`), the date of the test data (N-1 th day: `TESTDATE`), and the end date of the training data (N-2 th day: `ENDDATE`) with the following code .
+To set up our analysis, we need to define three key dates in our code: the date for calibrating the model (`TODAY`), the date for the test data (`TESTDATE`), and the end date of the training data (`ENDDATE`). These dates correspond to the Nth day, the N-1th day, and the N-2th day, respectively. Here's how you can do this in Python:
 
 ```python
 TODAY = datetime.today()
@@ -79,19 +103,19 @@ TESTDATE = (TODAY - timedelta(days=1)).date()
 ENDDATE = (TODAY - timedelta(days=2)).date()
 ```
 
-In this example, we use the data access API provided by Academia Sinica - Micro Air Quality Sensors. According to the specified date <YYYY-MM-DD> and device code <ID>, the sensing data of the corresponding date and device can be downloaded in CSV file format. Note that due to the limitations of the data access API, the specified date <YYYY-MM-DD> can only be a date within the past 30 days from the date of download.
+In this case, we're utilizing the data access API from Academia Sinica's Micro Air Quality Sensors. This allows you to download sensing data in a CSV file format for a specific date (input as <YYYY-MM-DD>) and device (using the device code <ID>). However, it's important to remember that this API only lets you access data from the past 30 days from your current download date. So, the date you choose must be within this 30-day window.
 
 ```
 https://pm25.lass-net.org/data/history-date.php?device_id=<ID>&date=<YYY-MM-DD>&format=CSV
 ```
 
-For example, suppose we want to download the sensing data of EPA Wanhua Station on September 21, 2022, we can download it in the following ways:
+If we're looking to get the sensor data from the EPA Wanhua Station for September 21, 2022, we can do so by following these steps:
 
 ```
 https://pm25.lass-net.org/data/history-date.php?device_id=EPA-Wanhua&date=2022-09-21&format=CSV
 ```
 
-Using this method, we write a Python function `getDF`, which can download the sensing data of the past 10 days for the given device code, and return the collected data in the form of a single DataFrame object.
+We've created a Python function named `getDF`. This function can retrieve the sensor data from the past 10 days for a specified device code. It then compiles this data and returns it as a single DataFrame object.
 
 ```python
 def getDF(id):
@@ -109,7 +133,7 @@ def getDF(id):
   return All_DF
 ```
 
-Next, we download the sensing data of the first airbox installed at the EPA Wanhua station and store it in the `AirBox1_DF` object:
+Next, we'll download the data from the first air quality monitoring device, known as an airbox, located at the EPA Wanhua station. This data will be saved in an object we're calling `AirBox1_DF`:
 
 ```python
 # First AirBox device
@@ -132,7 +156,7 @@ ID: 08BEAC028A52, Date: 2022-09-20, Shape: (215, 19)
 
 ![Python output](figures/6-3-2-2.png)
 
-Using the same method, we download the sensing data of the second airbox installed at the EPA Wanhua station and the sensing data of the EPA Wanhua station, and stored them in the `AirBox2_DF` and `EPA_DF` objects, respectively.
+To proceed in the same way, we obtained the sensor data from the second airbox at the EPA Wanhua station as well as the sensor data from the EPA Wanhua station itself. These sets of data were then saved in two different objects: `AirBox2_DF` for the airbox data and `EPA_DF` for the station's data.
 
 ```python
 # Second AirBox device
@@ -144,7 +168,7 @@ EPA_DF = getDF(EPA)
 
 ## Data Preprocessing
 
-Since our current data contains many unneeded fields, in order to avoid taking up too much memory space, we first simplify the data we use, leaving only what is needed.
+To ensure we don't use too much memory, we're streamlining our data by keeping only the essential information and removing any unnecessary details.
 
 ```python
 Col_need = ["timestamp", "s_d0", "s_t0", "s_h0"]
@@ -186,7 +210,7 @@ index
 4      04:00:00  2022-09-30   20.0
 ```
 
-Next, in order to unify the data fields, we merge the original `date` and `time` fields of the EPA station data to generate a new `timestamp` field.
+Next, we're combining the `date` and `time` information from the EPA station data into a new field called `timestamp`. This helps us have a unified way of looking at when the data was collected.
 
 ```python
 EPA_DF_need['timestamp'] = pd.to_datetime( EPA_DF_need["date"] + "T" + EPA_DF_need["time"], utc=True )
@@ -203,7 +227,7 @@ index
 4      04:00:00  2022-09-30   20.0 2022-09-30 04:00:00+00:00
 ```
 
-Due to the different temporal resolutions of the airbox and EPA station data, to align the data on both sides, we resample the airbox data from the original every five minutes to every hour.
+The airbox and EPA station data are collected at different times - the airbox data every five minutes and the EPA station data every hour. To make them match, we're adjusting the airbox data to also be on an hourly basis.
 
 ```python
 def getHourly(DF):
@@ -240,7 +264,7 @@ print(EPA_DF_need_Hourly.head())
 4 2022-09-21 04:00:00+00:00   10.0
 ```
 
-We also replace the data fields from both sources with easily identifiable field names for easy follow-up and identification.
+We're renaming the data fields from both the airbox and EPA stations to names that are easier to understand and track.
 
 ```python
 Col_rename = {"s_d0":"PM25", "s_h0":"HUM", "s_t0":"TEM"}
@@ -269,7 +293,7 @@ print(EPA_DF_need_Hourly.head())
 4 2022-09-21 04:00:00+00:00      10.0
 ```
 
-Since the two airboxes have the same hardware and the same location, we treat them as the same data source and combine the data of the two airboxes to generate the `AirBoxs_DF` object. We then intersect the new data object with the EPA air quality station data according to the time field, producing a merged `ALL_DF` object.
+Since we have two airboxes that are identical and in the same place, we're treating them as a single data source. We're combining their data into one object, which we're calling `AirBoxs_DF`. After that, we're merging this with the EPA station data based on the time they were recorded. This creates a new, combined data object named `ALL_DF`.
 
 ```python
 AirBoxs_DF = pd.concat([AirBox1_DF_need_Hourly, AirBox2_DF_need_Hourly]).reset_index(drop=True)
@@ -293,7 +317,7 @@ print(All_DF.head(10))
 9 2022-09-21 04:00:00+00:00   4.777778  29.882222 -64.000000      10.0
 ```
 
-We first exclude the presence of null values (NaN) in the data.
+We're making sure to remove any missing or incomplete data, marked as NaN (Not a Number), from our dataset.
 
 ```python
 All_DF.dropna(how="any", inplace=True)
@@ -315,7 +339,7 @@ print(All_DF.head(10))
 9 2022-09-21 05:00:00+00:00   4.500000  28.777500 -66.875000       8.0
 ```
 
-Finally, since the daily hour value information will be used when building the model, we add an `HR` field to `All_DF` that contains the content of the hour value in the `timestamp`.
+Lastly, we're adding a new field called `HR` to `ALL_DF`. This field will show the hour when the data was collected, which is taken from the `timestamp` field. This hour information is important for the model we're building.
 
 ```python
 def return_HR(row):
@@ -342,9 +366,9 @@ print(All_DF.head(10))
 
 ## Calibration Model Establishment and Validation
 
-After completing the data preparation, we next start building candidate calibration models. Since we discussed a total of 3 regression methods, 3 historical data lengths, and 8 feature combinations in this case, we will generate a total of 3 x 3 x 8 = 72 candidate models.
+After we're done preparing the data, we move on to create potential calibration models. In this case, we're looking at 3 types of regression methods, 3 lengths of historical data, and 8 different combinations of features. This means we'll end up with a total of 72 (3 x 3 x 8) candidate models.
 
-First, we designed the `SlideDay` function to retrieve a specific length of historical data when building a calibration model. The function returns the input data `Hourly_DF` from `enddate` to the total `day` day data according to the input historical data length `day`.
+First up, we use a tool called `SlideDay`. This function helps us gather a specific amount of historical data needed for building a calibration model. It works by taking the data from `Hourly_DF` and selecting data from the `enddate` going back for the number of days specified by `day`.
 
 ```python
 def SlideDay( Hourly_DF, day, enddate ):
@@ -353,9 +377,9 @@ def SlideDay( Hourly_DF, day, enddate ):
 return Hourly_DF[ time_mask ]
 ```
 
-Next, we organize the sensing data `Training_DF` of the `site` station from `enddate` to `day` days before, and organize it into training data according to the `feature` feature combination. Then we apply the `method` regression method, so that the predicted value produced by the generated calibration model can approximate the data value of the `EPA_PM25` field in the training data. 
+Then, we arrange the sensor data `Training_DF` for a particular monitoring station, referred to as `site`, covering the period from `enddate` to `day` days before. This data is organized based on the selected features (`feature` feature combination). After this, we apply one of the regression methods (`method`) to the data. Our goal here is to ensure that the predictions made by our calibration model are as close as possible to the `EPA_PM25` values in the training data.
 
-We calculate both the Mean Absolute Error (MAE) and the Mean Squared Error (MSE) of the corrected model itself. Among them, the mean absolute error (MAE) is the sum of the absolute values of the difference between the target value and the predicted value, which may reflect the actual situation of the predicted value error. The smaller the value, the better the performance. The mean squared error (MSE) is the mean of the square of the difference between the predicted value and the actual observed value. The smaller the MSE value, the better the accuracy of the prediction model in describing the experimental data.
+To evaluate the accuracy of our model, we use two methods: Mean Absolute Error (MAE) and Mean Squared Error (MSE). MAE measures how far off our predictions are on average, by calculating the average of the absolute differences between predicted and actual values. A lower MAE means better accuracy. MSE, on the other hand, calculates the average of the squares of these differences. Again, a lower MSE indicates better model performance.
 
 ```python
 def BuildModel( site, enddate, feature, day, method, Training_DF ):
@@ -385,7 +409,7 @@ def BuildModel( site, enddate, feature, day, method, Training_DF ):
     return model_result, lm
 ```
 
-In addition to evaluating the MAE and MSE of the training data when building the calibrated model, we also consider the prediction performance of the calibrated model on non-training data. Therefore, for the model `lm`, according to the feature data `feature` that it needs to bring in, as well as the test data, we generate the predicted value, and compare it with the `EPA_PM25` field in the test data to calculate the MAE and MSE respectively. , as a reference for subsequent evaluation of the applicability of different calibration models.
+Beyond just looking at the MAE and MSE for the training data, we also assess how well our model performs on data it hasn't been trained on. So, for the `lm` model, we generate predictions based on the required feature data (`feature`) and test data, and then compare these predictions to the `EPA_PM25` values in the test data to calculate both MAE and MSE. This helps us gauge the effectiveness of different calibration models.
 
 ```python
 def TestModel( site, feature, modelname, Testing_DF, lm ):
@@ -408,7 +432,7 @@ def TestModel( site, feature, modelname, Testing_DF, lm ):
     return test_result
 ```
 
-Finally, we integrate the just completed `SlideDay`, `BuildModel` and `TestModel`, and complete a total of 72 calibration models. For each calibrated model, we compute MAE and MSE for training and testing data separately, and store all results in an `AllResult_DF` object.
+To wrap up, we bring together the `SlideDay`, `BuildModel`, and `TestModel` processes to complete all 72 calibration models. We calculate the MAE and MSE for both the training and testing data for each model and compile all these results into an `AllResult_DF` object for further analysis.
 
 ```python
 AllResult_list = []
@@ -505,9 +529,9 @@ AllResult_DF.head()
 
 ## Best Calibration Model of the Day
 
-When discussing the "best calibrated model of the day", it must be admitted that the so-called "best model" is only available after the end of the day. That is to say, the MAE and MSE of different candidate models can only be obtained after collecting complete 24-hour data, and the best model can be obtained after comparative analysis. Therefore, it will not be possible to systematically generate a truly optimized calibration model before the end of today's 24 hours.
+When we talk about the "best calibrated model of the day" in data analysis, it's important to understand that we can only identify this "best model" after the day has ended. This is because we need to collect a full day's worth of data (24 hours) before we can accurately measure the performance of different models. We use two methods, Mean Absolute Error (MAE) and Mean Squared Error (MSE), to evaluate these models. Only after comparing these can we determine which model was the best for that day.
 
-However, based on practical needs, we often need to have a calibration model that can be applied in the data production process. So, in practice, we usually assume that "yesterday's best model will also perform well today" and use that as a way to correct that day's data. For example, assuming we use MSE as the criterion for deciding the best model, we can get information about the best model using the following syntax:
+However, in the real world, we often need a calibrated model during the day, not after it has ended. So, what we typically do is assume that the best model from yesterday will also work well for today. We use this model to correct and process today's data. For instance, if we're using MSE to judge our best model, we can identify yesterday's top performer using a specific method.
 
 ```python
 FIELD= "test_MSE"
@@ -517,7 +541,7 @@ BEST
 
 ![Python output](figures/6-3-5-1.png)
 
-Next, to adapt to today's situation, we use yesterday's best calibrated model parameters (historical data length, regression method, feature data combination), recalculate training and test data from today's date range, and regenerate today's calibrated model .
+To make this model work for today, we take the best parameters from yesterday's model (things like how much historical data it looks at, the method of analysis it uses, and the types of data it considers) and apply them to today's data. This helps us create a new model for today.
 
 ```python
 BEST_DC= BEST.to_dict(orient="index")[0]
@@ -542,7 +566,9 @@ result
  'Train_MAE': 1.42125724796098}
 ```
 
-From this example, we can see that the newly produced calibration model has a `Train_MSE` of 3.915, which is much higher than the original 2.179. However, since we have no way to know the real best model of the day before the end of the day, we can only apply yesterday's best model if there is no other better choice. Finally, we export the .joblib file with the following syntax and release the model for sharing (please refer to the reference materials for details).
+For example, let's say that the new model we create for today has a `Train_MSE` of 3.915. This is higher than yesterday's 2.179, which means it's not as accurate. However, since we can't know today's best model until the day is over, we use yesterday's model as the next best thing.
+
+Finally, we save this model in a special file format (.joblib) and share it for others to use. You can find more details on how to do this in the reference materials provided.
 
 ```python
 model_dumpname= result["modelname"]+ ".joblib"
@@ -562,7 +588,11 @@ except Exceptionas e:
 
 ## Calibration Results
 
-The joint calibration method described in this article has been officially applied to "Academia Sinica - Micro Air Quality Sensors" in Civil IoT Taiwan from 2020/5, and the daily output calibration model has been published on the [Dynamic Calibration Model](https://pm25.lass-net.org/DCF/) website. In the implementation, a total of 31 EPA air quality monitoring stations were selected to install two airboxes, and we considered 3 historical data lengths, 8 data feature combinations, and 7 regression methods (i.e. a total of 3 x 8 x 7 = 168 combinations) to generate the best daily calibration model for each of these 31 sites. Then, for the sensing data of each airbox, the best calibration model of the station closest to its geographical location is used as the application model of its data calibration, and its sensing data is generated and published. From the observation of the actual operation after the mechanism is launched, the data difference between the micro air quality sensor device and the EPA air quality monitoring station can be effectively reduced (as shown in the figure below). This achievement also established a good cooperation model for cross-system data integration of air quality monitoring.
+Since May 2020, the method we discuss in this article has been put to use in the "Academia Sinica - Micro Air Quality Sensors" as part of the Civil IoT Taiwan initiative. We've shared the daily calibration models developed through this method on the [Dynamic Calibration Model](https://pm25.lass-net.org/DCF/) website.
+
+Here's what we did: We picked 31 air quality monitoring stations run by the Environmental Protection Agency (EPA) and set up two airboxes at each. To find the most effective daily calibration model for each location, we experimented with a variety of factors. This included using three different lengths of historical data, combining eight types of data features, and applying seven different regression techniques. Altogether, this meant testing 168 different combinations (3 historical data lengths x 8 data features x 7 regression methods).
+
+Once we determined the best calibration model for each station, we used it to calibrate the data from the nearest airbox. This means the air quality data from each airbox is adjusted using the most suitable model based on its location. After implementing this system, we observed a significant improvement: the discrepancy between the readings from our micro air quality sensors and those from the EPA's monitoring stations was greatly reduced. The success of this approach not only improved our air quality data accuracy but also set a strong example of how data from different systems can be effectively integrated for air quality monitoring. The figure below illustrates the reduced data discrepancy after implementing this method.
 
 ![Open In Colab](figures/6-3-6-1.png)
 
