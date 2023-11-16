@@ -12,11 +12,11 @@ authors: ["Ming-Kuang Chung", "Tze-Yu Sheng"]
 
 {{< toc >}}
 
-Microsensors that are widespread in the environment help us obtain environmental information, making decisions and taking actions accordingly. Therefore, it’s fundamental for us to clearly understand the spatial relationships between stations when analyzing data of stations. Apart from that the location of stations itself may form certain geometric structures or spatial clusters, we can also estimate the values where there’s no stations according to the location of stations and their value differences. Thus, we will have a picture of value distribution that’s more comprehensive, within which we may explore the correlations between values and environmental factors. In this section, with data of flooding sensors and groundwater table observation stations in different counties provided by the Water Resources Agency (MOEA), we can practice some simple spatial analyses.
+Environmental microsensors scattered throughout our surroundings play a crucial role in gathering information. This data aids us in making informed decisions and taking appropriate actions. A key aspect of this process involves understanding the spatial relationships between sensor stations when analyzing their data. These station locations can reveal geometric patterns or form spatial clusters. Moreover, by considering the location of these stations and the differences in their readings, we can estimate values for areas without stations. This approach allows us to develop a more comprehensive overview of value distribution. This detailed distribution helps us investigate how these values relate to various environmental factors. In this section, we'll utilize data from flooding sensors and groundwater table observation stations across different counties, provided by the Water Resources Agency (MOEA), to conduct some basic spatial analyses.
 
 ## Voronoi diagram
 
-First of all, we may need to clarify the service/defense area of individual stations, within which we further ask if data of certain stations can represent certain areas. In this case, Voronoi Diagram can help us look for the area. The principle of Voronoi Diagram is that by building vertical and equally divided lines between two nearby stations and integrating them, a polygon can be made. The center of each polygon is the station, of which the data represent values within this area. In this section, we can try to practice creating Voronoi Diagrams with data of flooding sensors in Chiayi City and Chiayi County. Thus, we can have a rough understanding about the sphere of influence of flooding sensors.
+Initially, we need to figure out the specific area each monitoring station covers and whether the data from these stations accurately reflect the conditions of their respective areas. To do this, we can use something called a Voronoi Diagram. Imagine drawing lines halfway between each pair of nearby stations and then extending these lines until they form a shape like a polygon. Each station sits at the center of one of these polygons, and the data it collects represents what's happening inside that polygon. We'll try this out by creating Voronoi Diagrams using data from flood sensors in Chiayi City and Chiayi County. This will give us a basic idea of how far the influence of each flood sensor reaches.
 
 ```python
 import matplotlib.pyplot as plt
@@ -102,9 +102,9 @@ plt.show()
 
 ![Python output](figures/5-2-1-1.png)
 
-Besides, we can describe the service/defense areas of stations with Delaunay Triangulation, with which we choose one station as the center and search for two nearest dots to create a triangular service area. If we consider the triangular service area as a homogeneous sphere, in which data of sensors can be replaced with the average values obtained from the three nodal stations.
+In addition, we can map out the areas covered by each station using a technique called Delaunay Triangulation. This involves picking one station as a central point and then connecting it to the two nearest stations, forming a triangular area. If we treat this triangular area as if it has uniform conditions, we can estimate conditions in this area using the average data from its three corner stations.
 
-Overall, the two algorithms can help us understand the spatial distribution of sensors and the spatial structure it constructs as graphics.
+In summary, these two methods – Voronoi Diagrams and Delaunay Triangulation – help us visualize the layout of these sensors and the geographical patterns they create.
 
 ```python
 from scipy.spatial import Delaunay, delaunay_plot_2d
@@ -122,7 +122,7 @@ plt.show()
 
 ## Convex hull
 
-The algorithm of Convex Hull aims at selecting stations located at marginal areas from a group of stations, and form a polygon with smallest side lengths while containing all points. Therefore, we can locate the clustering range among many stations, with which more calculation can be done. To compute the algorithm of Convex Hull, we basically have to arrange the order of stations according to their x coordinates; if the x coordinates are identical, we can use y coordinates for arrangement to find out the peripheral endpoints to form polygons. (Of course, there are many other methods applying similar concepts.) With such an algorithm, we can evaluate the effective inspection areas of stations. Accordingly, we can examine the covering area of flooding sensors with data of their distribution in Chiayi City and Chiayi County.
+The Convex Hull algorithm is designed to pick out stations that are on the outer edges of a group of stations. It creates the smallest possible polygon that includes all the points. This way, we can identify the main area where these stations are clustered and perform further calculations. To use the Convex Hull algorithm, we first sort the stations by their x coordinates. If two stations have the same x coordinate, then we sort them by their y coordinates. This sorting helps us find the outermost points that will form the edges of our polygon. (There are also other methods that use similar ideas.) This algorithm is useful for determining the effective monitoring areas of stations. For instance, it allows us to analyze the coverage area of flooding sensors by looking at their placement in Chiayi City and Chiayi County.
 
 ```python
 from scipy.spatial import ConvexHull, convex_hull_plot_2d
@@ -137,9 +137,11 @@ plt.tight_layout()
 
 ## Clustering
 
-As explained above, the nearer the stations are, the more similar the interfering factors in surrounding environments are. So, with K-means algorithm serving as a partitioning method, we can partition stations into clusters to explore the relationship between sensor data and environmental factors.
+The closer the monitoring stations are to each other, the more they share similar environmental influences. By using the K-means algorithm, we can group these stations into clusters. This helps us understand how sensor data from the Civil IoT Taiwan Data Platform is related to the environment around them.
 
-After we decide to partition our observations into n clusters, K-means clustering will randomly select n points as centers to search for their nearby neighbors; by measuring the linear distance between observation points and their centers, K-means clustering partitions the observation points and calculates the average of each cluster. Repeating the procedure above, K-means clustering aims to minimize average distances between all observation points and their centers, and the partitioning will be finished once the distance becomes shortest.
+When we use K-means clustering, we first decide on the number of groups, or 'clusters', we want to create (let's call this number 'n'). The algorithm then picks 'n' starting points at random, which act as the centers of these clusters. It looks for stations nearest to each center, considering the straight-line distance from the stations to these central points.
+
+K-means clustering groups the stations based on these distances and calculates an average for each cluster. It repeatedly adjusts the positions of the centers and regroups the stations to ensure that each station is as close as possible to the center of its cluster. The process ends when the stations can't get any closer to the centers, indicating that the best grouping has been achieved.
 
 ```python
 # get the groundwater station data through pyCIOT
@@ -381,12 +383,11 @@ m.save('River_clustering.html')
 
 ## Kernel density
 
-The concept of density allows us to describe the intensity of clustering, and it’s traditionally defined by the formula d = N/A, where d is density, N is number of observations, and A is area. However, the formula above is easily influenced by the area, which makes it possible that the same station/case numbers in towns that have different area sizes result in different densities. Therefore, we might have difficulty calculating the intensity of clustering events correctly.
+The idea of **density** is like measuring how crowded things are in a specific space. We usually calculate it using the formula `d = N/A`, where `d` stands for density, `N` is the number of things we're looking at (like events or objects), and `A` is the size of the area we're considering. But there's a catch: this formula can be tricky because the size of the area can skew our results. For example, the same number of things in a small town versus a big city will give us different densities, making it hard to accurately measure how clustered or spread out these things are.
 
-In order to avoid calculation differences of areas, we describe the clustering intensity with the concept of kernel density, which takes observation points as centers and a fixed radius to select neighbors, and finally replaces the original observation values with the total values obtained from all neighbors. Such method standardizes the “area” in the density formula and thus obtains a more comprehensive density distribution, which helps us understand the distribution intensity of events.
+To get around this problem, we use something called **kernel density**. Imagine each thing we're observing as the center of a circle, and we then look at everything within a certain distance (radius) of that center. Instead of just counting each thing once, we add up the values of everything within that radius. This approach lets us standardize the "area" part in our density formula, leading to a more uniform way of measuring how things are distributed. This helps us get a better picture of how tightly or loosely clustered things are in an area.
 
-![圖1：核密度推估法的概念圖](figures/5-2-4-1.png)
-
+![Figure 1：The illustration of the kernel density concept](figures/5-2-4-1.png)
 
 ```python
 basemap = county.loc[county['COUNTYNAME'].isin(["嘉義縣","嘉義市"])]
@@ -408,13 +409,15 @@ fig.show()
 
 ## Spatial interpolation
 
-The implementation of microsensors is similar to our spatial samplings, with which we can estimate the population distribution with statistical analyses. Since it’s impossible to spread observation stations all over earth's surface, we are faced with conditions in which some places are rich in data while others aren’t. In such a scenario, spatial interpolation is a statistical method that helps us estimate regions without data, and to further obtain a whole picture of our study area.
+Using microsensors in our environment is a bit like doing a detailed survey of an area. This helps us guess how things like population are spread out. However, we can't cover every inch of the Earth with these sensors, so we end up with some places having lots of data and others with very little. This is where spatial interpolation comes in. It's a fancy way of using statistics to fill in the gaps in areas where we don't have data, giving us a better overall picture.
 
-Before conducting spatial interpolation, we need to clarify two concepts: deterministic model and stochastic model. In a deterministic model, if we know the distribution rule of certain spatial phenomena, we can estimate the value of unknown areas with correlation parameters. Take the house number in Taiwan for example. House numbers in Taiwan are arranged by odd and even numbers respectively. So, suppose we wonder the number of certain house, and we know the previous one is 6 while  the next one is 10, we can therefore presume the house in the middle (which is the one we’re interested in) is 8. As for a stochastic model, it assumes that the reality is rather complicated, and we can only construct suitable estimation models with probability and variety of variances while accepting the uncertainty.
+Before we dive into spatial interpolation, we need to understand two types of models: deterministic and stochastic. In a deterministic model, we use known patterns to guess missing information. For example, in Taiwan, house numbers are organized with odd and even numbers on opposite sides of the street. So, if you know the numbers of the houses before and after a certain house, you can figure out that missing number. If house 6 is before and house 10 is after, then the missing house is likely number 8.
+
+On the other hand, a stochastic model acknowledges that the world is complex and full of uncertainty. Instead of relying on set patterns, it uses probability and various factors to make educated guesses, accepting that these predictions might not always be spot on.
 
 ### Inverse Distance Weighting
 
-With Inverse Distance Weighting, we construct an estimation model with value deviations and intervals of known observation points. Generally speaking, if the deviation of two points is 10 and the interval is 100 meter, then the deviation per 10 meter should be 1 theoretically. But, since there may not be a linear relationship in the deviation distributions, the principle of IDW emphasizes on the first law of geography: nearby things are closer than others, and estimates value deviations of two points. By obtaining the reciprocal of the cube of the product of deviation and distance, IDW allows us to estimate values of certain positions. So, the shorter the distance is, the larger the weighting is, and vice versa.
+To simplify, **Inverse Distance Weighting (IDW)** is like making an educated guess about a certain area based on the information we have from nearby locations. Imagine you know how much it rained in several nearby towns. If two towns are 100 meters apart and the difference in rainfall is 10 units, you'd guess that for every 10 meters closer you get to one town, the rainfall changes by 1 unit. IDW takes this idea but adjusts it because things in nature don't always change evenly (like rain might not decrease in a straight line as you move away from a cloud). So, IDW uses a special calculation that gives more importance to what's happening closer to the point we're interested in.
 
 ```python
 import numpy as np
@@ -485,7 +488,7 @@ plt.show()
 
 ### Kriging
 
-The principle of Kriging is to build a semi-variogram with the value and position of known observed points, and we can partition the observations based on the semi-variogram to obtain several regionalized variables for value estimation. Similar to IDW, Kriging also utilizes values and distances of known points to estimate nearby unknown points. Notice that in Kriging, we divide observations into groups by distances, and the estimation formulas will be adjusted according to distances.
+**Kriging** is another method, somewhat like IDW, but it's more sophisticated. It starts by creating a semi-variogram, which is a fancy way of mapping how values (like temperature, for example) change over distance. Kriging then divides the area into zones based on this map. When estimating an unknown point, Kriging considers the specific characteristics of each zone, making its guesses more tailored to local variations.
 
 ```python
 # set the data extend and resolution
@@ -551,7 +554,7 @@ fig.update_traces(marker_line_width=0)
 
 ### Nearest neighbor Interpolation
 
-Nearest Neighbor Interpolation is actually quite simple. If we want to know the value of a certain position, we only need to find the nearest station with data, thus taking it in replacement. The design of this method basically follows the principle of “nearby things are more similar,” and it’s often applied in image processing and cases of enlargement.
+**Nearest Neighbor Interpolation** is much simpler. To find out something about a specific place, like how much rain fell there, you just look at the nearest weather station and use its data. This method works on the idea that places close to each other are likely to be more similar. It's commonly used in things like enlarging photos, where you want to fill in new pixels based on the ones nearby.
 
 ```python
 from scipy.interpolate import NearestNDInterpolator
@@ -586,7 +589,7 @@ plt.show()
 
 ## Contour
 
-Generally speaking, after conducting spatial interpolation to the position and values of stations, we will obtain comprehensive grid data. How can we analyze the grid data? First, the easiest method is to draw a line connecting nearby points by the values and positions of the grid, which is similar to drawing contours on changing landforms, so that we can consider values on the same line as equivalent.
+Once we have interpolated data (like rainfall or temperature) across a region, we can visualize it using **contours**. Think of it like drawing elevation lines on a map, but instead of showing height, they show things like temperature or pollution levels. Lines closer together mean rapid changes, just like steep hills on a topographic map.
 
 ```python
 from osgeo import gdal
@@ -594,7 +597,6 @@ import numpy as np
 import matplotlib 
 import matplotlib.pyplot as plt
 import elevation 
-# 利用 Matplotlib 中的 'contourf' 函式來畫
 fig, ax = plt.subplots(figsize=(6, 10))
 
 X = np.linspace(xmin, xmax)
@@ -614,20 +616,17 @@ plt.show()
 
 ### Profile
 
-Contours help us attain value distribution and ranges, and geographical profiling is another method for understanding value distribution. By drawing a straight line between two points, geographical profiling helps us to retrieve corresponding values according to positions of lines for estimation. This method allows us to inspect value variation between two points. In some studies of air quality, scientists evaluate changes of PM2.5 on both sides of roads with geographical profiling.
+Lastly, there's **geographical profiling**, which is another way to analyze this kind of data. Imagine drawing a straight line between two points and then looking at how values change along that line. It's useful for understanding how things like air pollution (like PM2.5 particles) might change from one side of a road to the other.
 
 ```python
 def export_kde_raster(Z, XX, YY, min_x, max_x, min_y, max_y, proj, filename):
     '''Export and save a kernel density raster.'''
 
-    # 取得解析度
     xres = (max_x - min_x) / len(XX)
     yres = (max_y - min_y) / len(YY)
 
-    # 取得 bound 等資訊
     transform = Affine.translation(min_x - xres / 2, min_y - yres / 2) * Affine.scale(xres, yres)
 
-    # 輸出為 raster
     with rasterio.open(
             filename,
             mode = "w",
@@ -663,7 +662,6 @@ zd = zd.astype("float64")
 krig = OrdinaryKriging(x=xd, y=yd, z=zd, variogram_model="spherical")
 zr, ss = krig.execute("grid", X, Y)
 
-# 輸出 raster
 export_kde_raster(Z = zr, XX = X, YY = Y,
                   min_x = xmin, max_x = xmax, min_y = ymin, max_y = ymax,
                   proj = 4326, filename = "kriging_result.tif")
