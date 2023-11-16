@@ -16,18 +16,18 @@
     <meta name="author" content="Ling-Jyh Chen">
     <title>5.2. Geospatial Analysis :: Tutorial for CIoT Open Data Applications</title>
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="/css/fontawesome-all.min.css?1700106223" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1700106223" rel="stylesheet"></noscript>
-    <link href="/css/featherlight.min.css?1700106223" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1700106223" rel="stylesheet"></noscript>
-    <link href="/css/auto-complete.css?1700106223" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1700106223" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar.min.css?1700106223" rel="stylesheet">
-    <link href="/css/nucleus.css?1700106223" rel="stylesheet">
-    <link href="/css/fonts.css?1700106223" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1700106223" rel="stylesheet"></noscript>
-    <link href="/css/theme.css?1700106223" rel="stylesheet">
-    <link href="/css/theme-relearn-light.css?1700106223" rel="stylesheet" id="variant-style">
-    <link href="/css/ie.css?1700106223" rel="stylesheet">
-    <link href="/css/variant.css?1700106223" rel="stylesheet">
-    <link href="/css/print.css?1700106223" rel="stylesheet" media="print">
-    <script src="/js/variant.js?1700106223"></script>
+    <link href="/css/fontawesome-all.min.css?1700107091" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1700107091" rel="stylesheet"></noscript>
+    <link href="/css/featherlight.min.css?1700107091" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1700107091" rel="stylesheet"></noscript>
+    <link href="/css/auto-complete.css?1700107091" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1700107091" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar.min.css?1700107091" rel="stylesheet">
+    <link href="/css/nucleus.css?1700107091" rel="stylesheet">
+    <link href="/css/fonts.css?1700107091" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1700107091" rel="stylesheet"></noscript>
+    <link href="/css/theme.css?1700107091" rel="stylesheet">
+    <link href="/css/theme-relearn-light.css?1700107091" rel="stylesheet" id="variant-style">
+    <link href="/css/ie.css?1700107091" rel="stylesheet">
+    <link href="/css/variant.css?1700107091" rel="stylesheet">
+    <link href="/css/print.css?1700107091" rel="stylesheet" media="print">
+    <script src="/js/variant.js?1700107091"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -43,7 +43,7 @@
       var baseUriFull='https:\/\/LearnCIOT.github.io/';
       window.variants && variants.init( [ 'relearn-light' ] );
     </script>
-    <script src="/js/jquery.min.js?1700106223" defer></script>
+    <script src="/js/jquery.min.js?1700107091" defer></script>
 <meta property="fb:app_id" content="601826851395774" />
   </head>
   <body class="default-animation" data-url="/en/ch5/ch5.2/">
@@ -309,9 +309,9 @@ if (!doNotTrack) {
 </nav>
 </div>
 
-<p>Microsensors that are widespread in the environment help us obtain environmental information, making decisions and taking actions accordingly. Therefore, it’s fundamental for us to clearly understand the spatial relationships between stations when analyzing data of stations. Apart from that the location of stations itself may form certain geometric structures or spatial clusters, we can also estimate the values where there’s no stations according to the location of stations and their value differences. Thus, we will have a picture of value distribution that’s more comprehensive, within which we may explore the correlations between values and environmental factors. In this section, with data of flooding sensors and groundwater table observation stations in different counties provided by the Water Resources Agency (MOEA), we can practice some simple spatial analyses.</p>
+<p>Environmental microsensors scattered throughout our surroundings play a crucial role in gathering information. This data aids us in making informed decisions and taking appropriate actions. A key aspect of this process involves understanding the spatial relationships between sensor stations when analyzing their data. These station locations can reveal geometric patterns or form spatial clusters. Moreover, by considering the location of these stations and the differences in their readings, we can estimate values for areas without stations. This approach allows us to develop a more comprehensive overview of value distribution. This detailed distribution helps us investigate how these values relate to various environmental factors. In this section, we&rsquo;ll utilize data from flooding sensors and groundwater table observation stations across different counties, provided by the Water Resources Agency (MOEA), to conduct some basic spatial analyses.</p>
 <h2 id="voronoi-diagram">Voronoi diagram</h2>
-<p>First of all, we may need to clarify the service/defense area of individual stations, within which we further ask if data of certain stations can represent certain areas. In this case, Voronoi Diagram can help us look for the area. The principle of Voronoi Diagram is that by building vertical and equally divided lines between two nearby stations and integrating them, a polygon can be made. The center of each polygon is the station, of which the data represent values within this area. In this section, we can try to practice creating Voronoi Diagrams with data of flooding sensors in Chiayi City and Chiayi County. Thus, we can have a rough understanding about the sphere of influence of flooding sensors.</p>
+<p>Initially, we need to figure out the specific area each monitoring station covers and whether the data from these stations accurately reflect the conditions of their respective areas. To do this, we can use something called a Voronoi Diagram. Imagine drawing lines halfway between each pair of nearby stations and then extending these lines until they form a shape like a polygon. Each station sits at the center of one of these polygons, and the data it collects represents what&rsquo;s happening inside that polygon. We&rsquo;ll try this out by creating Voronoi Diagrams using data from flood sensors in Chiayi City and Chiayi County. This will give us a basic idea of how far the influence of each flood sensor reaches.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> seaborn <span style="color:#66d9ef">as</span> sns
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> pandas <span style="color:#66d9ef">as</span> pd
@@ -382,8 +382,8 @@ if (!doNotTrack) {
 </span></span><span style="display:flex;"><span>voronoi_plot_2d(vor,ax <span style="color:#f92672">=</span> ax,show_vertices<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>,)
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>show()
 </span></span></code></pre></div><p><img src="figures/5-2-1-1.png" alt="Python output"></p>
-<p>Besides, we can describe the service/defense areas of stations with Delaunay Triangulation, with which we choose one station as the center and search for two nearest dots to create a triangular service area. If we consider the triangular service area as a homogeneous sphere, in which data of sensors can be replaced with the average values obtained from the three nodal stations.</p>
-<p>Overall, the two algorithms can help us understand the spatial distribution of sensors and the spatial structure it constructs as graphics.</p>
+<p>In addition, we can map out the areas covered by each station using a technique called Delaunay Triangulation. This involves picking one station as a central point and then connecting it to the two nearest stations, forming a triangular area. If we treat this triangular area as if it has uniform conditions, we can estimate conditions in this area using the average data from its three corner stations.</p>
+<p>In summary, these two methods – Voronoi Diagrams and Delaunay Triangulation – help us visualize the layout of these sensors and the geographical patterns they create.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> scipy.spatial <span style="color:#f92672">import</span> Delaunay, delaunay_plot_2d
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
 </span></span><span style="display:flex;"><span>fig, ax <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplots(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">10</span>))
@@ -395,7 +395,7 @@ if (!doNotTrack) {
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>show()
 </span></span></code></pre></div><p><img src="figures/5-2-1-2.png" alt="Python output"></p>
 <h2 id="convex-hull">Convex hull</h2>
-<p>The algorithm of Convex Hull aims at selecting stations located at marginal areas from a group of stations, and form a polygon with smallest side lengths while containing all points. Therefore, we can locate the clustering range among many stations, with which more calculation can be done. To compute the algorithm of Convex Hull, we basically have to arrange the order of stations according to their x coordinates; if the x coordinates are identical, we can use y coordinates for arrangement to find out the peripheral endpoints to form polygons. (Of course, there are many other methods applying similar concepts.) With such an algorithm, we can evaluate the effective inspection areas of stations. Accordingly, we can examine the covering area of flooding sensors with data of their distribution in Chiayi City and Chiayi County.</p>
+<p>The Convex Hull algorithm is designed to pick out stations that are on the outer edges of a group of stations. It creates the smallest possible polygon that includes all the points. This way, we can identify the main area where these stations are clustered and perform further calculations. To use the Convex Hull algorithm, we first sort the stations by their x coordinates. If two stations have the same x coordinate, then we sort them by their y coordinates. This sorting helps us find the outermost points that will form the edges of our polygon. (There are also other methods that use similar ideas.) This algorithm is useful for determining the effective monitoring areas of stations. For instance, it allows us to analyze the coverage area of flooding sensors by looking at their placement in Chiayi City and Chiayi County.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> scipy.spatial <span style="color:#f92672">import</span> ConvexHull, convex_hull_plot_2d
 </span></span><span style="display:flex;"><span>fig, ax <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplots(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">10</span>))
 </span></span><span style="display:flex;"><span>hull <span style="color:#f92672">=</span> ConvexHull(inputp)
@@ -404,8 +404,9 @@ if (!doNotTrack) {
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>tight_layout()
 </span></span></code></pre></div><p><img src="figures/5-2-2-1.png" alt="Python output"></p>
 <h2 id="clustering">Clustering</h2>
-<p>As explained above, the nearer the stations are, the more similar the interfering factors in surrounding environments are. So, with K-means algorithm serving as a partitioning method, we can partition stations into clusters to explore the relationship between sensor data and environmental factors.</p>
-<p>After we decide to partition our observations into n clusters, K-means clustering will randomly select n points as centers to search for their nearby neighbors; by measuring the linear distance between observation points and their centers, K-means clustering partitions the observation points and calculates the average of each cluster. Repeating the procedure above, K-means clustering aims to minimize average distances between all observation points and their centers, and the partitioning will be finished once the distance becomes shortest.</p>
+<p>The closer the monitoring stations are to each other, the more they share similar environmental influences. By using the K-means algorithm, we can group these stations into clusters. This helps us understand how sensor data from the Civil IoT Taiwan Data Platform is related to the environment around them.</p>
+<p>When we use K-means clustering, we first decide on the number of groups, or &lsquo;clusters&rsquo;, we want to create (let&rsquo;s call this number &rsquo;n&rsquo;). The algorithm then picks &rsquo;n&rsquo; starting points at random, which act as the centers of these clusters. It looks for stations nearest to each center, considering the straight-line distance from the stations to these central points.</p>
+<p>K-means clustering groups the stations based on these distances and calculates an average for each cluster. It repeatedly adjusts the positions of the centers and regroups the stations to ensure that each station is as close as possible to the center of its cluster. The process ends when the stations can&rsquo;t get any closer to the centers, indicating that the best grouping has been achieved.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># get the groundwater station data through pyCIOT</span>
 </span></span><span style="display:flex;"><span>count <span style="color:#f92672">=</span> <span style="color:#ae81ff">733</span>
 </span></span><span style="display:flex;"><span>num <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
@@ -625,9 +626,9 @@ if (!doNotTrack) {
 </span></span><span style="display:flex;"><span>m<span style="color:#f92672">.</span>save(<span style="color:#e6db74">&#39;River_clustering.html&#39;</span>)
 </span></span></code></pre></div><p><img src="figures/5-2-3-2.png" alt="Python output"></p>
 <h2 id="kernel-density">Kernel density</h2>
-<p>The concept of density allows us to describe the intensity of clustering, and it’s traditionally defined by the formula d = N/A, where d is density, N is number of observations, and A is area. However, the formula above is easily influenced by the area, which makes it possible that the same station/case numbers in towns that have different area sizes result in different densities. Therefore, we might have difficulty calculating the intensity of clustering events correctly.</p>
-<p>In order to avoid calculation differences of areas, we describe the clustering intensity with the concept of kernel density, which takes observation points as centers and a fixed radius to select neighbors, and finally replaces the original observation values with the total values obtained from all neighbors. Such method standardizes the “area” in the density formula and thus obtains a more comprehensive density distribution, which helps us understand the distribution intensity of events.</p>
-<p><img src="figures/5-2-4-1.png" alt="圖1：核密度推估法的概念圖"></p>
+<p>The idea of <strong>density</strong> is like measuring how crowded things are in a specific space. We usually calculate it using the formula <code>d = N/A</code>, where <code>d</code> stands for density, <code>N</code> is the number of things we&rsquo;re looking at (like events or objects), and <code>A</code> is the size of the area we&rsquo;re considering. But there&rsquo;s a catch: this formula can be tricky because the size of the area can skew our results. For example, the same number of things in a small town versus a big city will give us different densities, making it hard to accurately measure how clustered or spread out these things are.</p>
+<p>To get around this problem, we use something called <strong>kernel density</strong>. Imagine each thing we&rsquo;re observing as the center of a circle, and we then look at everything within a certain distance (radius) of that center. Instead of just counting each thing once, we add up the values of everything within that radius. This approach lets us standardize the &ldquo;area&rdquo; part in our density formula, leading to a more uniform way of measuring how things are distributed. This helps us get a better picture of how tightly or loosely clustered things are in an area.</p>
+<p><img src="figures/5-2-4-1.png" alt="Figure 1：The illustration of the kernel density concept"></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>basemap <span style="color:#f92672">=</span> county<span style="color:#f92672">.</span>loc[county[<span style="color:#e6db74">&#39;COUNTYNAME&#39;</span>]<span style="color:#f92672">.</span>isin([<span style="color:#e6db74">&#34;嘉義縣&#34;</span>,<span style="color:#e6db74">&#34;嘉義市&#34;</span>])]
 </span></span><span style="display:flex;"><span>basemap <span style="color:#f92672">=</span> basemap<span style="color:#f92672">.</span>set_crs(<span style="color:#ae81ff">4326</span>,allow_override<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
 </span></span><span style="display:flex;"><span>gdf <span style="color:#f92672">=</span> gpd<span style="color:#f92672">.</span>overlay(gdf_level, basemap, how<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;intersection&#39;</span>) 
@@ -640,10 +641,11 @@ if (!doNotTrack) {
 </span></span><span style="display:flex;"><span>fig<span style="color:#f92672">.</span>show()
 </span></span></code></pre></div><p><img src="figures/5-2-4-2.png" alt="Python output"></p>
 <h2 id="spatial-interpolation">Spatial interpolation</h2>
-<p>The implementation of microsensors is similar to our spatial samplings, with which we can estimate the population distribution with statistical analyses. Since it’s impossible to spread observation stations all over earth&rsquo;s surface, we are faced with conditions in which some places are rich in data while others aren’t. In such a scenario, spatial interpolation is a statistical method that helps us estimate regions without data, and to further obtain a whole picture of our study area.</p>
-<p>Before conducting spatial interpolation, we need to clarify two concepts: deterministic model and stochastic model. In a deterministic model, if we know the distribution rule of certain spatial phenomena, we can estimate the value of unknown areas with correlation parameters. Take the house number in Taiwan for example. House numbers in Taiwan are arranged by odd and even numbers respectively. So, suppose we wonder the number of certain house, and we know the previous one is 6 while  the next one is 10, we can therefore presume the house in the middle (which is the one we’re interested in) is 8. As for a stochastic model, it assumes that the reality is rather complicated, and we can only construct suitable estimation models with probability and variety of variances while accepting the uncertainty.</p>
+<p>Using microsensors in our environment is a bit like doing a detailed survey of an area. This helps us guess how things like population are spread out. However, we can&rsquo;t cover every inch of the Earth with these sensors, so we end up with some places having lots of data and others with very little. This is where spatial interpolation comes in. It&rsquo;s a fancy way of using statistics to fill in the gaps in areas where we don&rsquo;t have data, giving us a better overall picture.</p>
+<p>Before we dive into spatial interpolation, we need to understand two types of models: deterministic and stochastic. In a deterministic model, we use known patterns to guess missing information. For example, in Taiwan, house numbers are organized with odd and even numbers on opposite sides of the street. So, if you know the numbers of the houses before and after a certain house, you can figure out that missing number. If house 6 is before and house 10 is after, then the missing house is likely number 8.</p>
+<p>On the other hand, a stochastic model acknowledges that the world is complex and full of uncertainty. Instead of relying on set patterns, it uses probability and various factors to make educated guesses, accepting that these predictions might not always be spot on.</p>
 <h3 id="inverse-distance-weighting">Inverse Distance Weighting</h3>
-<p>With Inverse Distance Weighting, we construct an estimation model with value deviations and intervals of known observation points. Generally speaking, if the deviation of two points is 10 and the interval is 100 meter, then the deviation per 10 meter should be 1 theoretically. But, since there may not be a linear relationship in the deviation distributions, the principle of IDW emphasizes on the first law of geography: nearby things are closer than others, and estimates value deviations of two points. By obtaining the reciprocal of the cube of the product of deviation and distance, IDW allows us to estimate values of certain positions. So, the shorter the distance is, the larger the weighting is, and vice versa.</p>
+<p>To simplify, <strong>Inverse Distance Weighting (IDW)</strong> is like making an educated guess about a certain area based on the information we have from nearby locations. Imagine you know how much it rained in several nearby towns. If two towns are 100 meters apart and the difference in rainfall is 10 units, you&rsquo;d guess that for every 10 meters closer you get to one town, the rainfall changes by 1 unit. IDW takes this idea but adjusts it because things in nature don&rsquo;t always change evenly (like rain might not decrease in a straight line as you move away from a cloud). So, IDW uses a special calculation that gives more importance to what&rsquo;s happening closer to the point we&rsquo;re interested in.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> scipy.interpolate <span style="color:#f92672">import</span> Rbf
@@ -708,7 +710,7 @@ if (!doNotTrack) {
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>show()
 </span></span></code></pre></div><p><img src="figures/5-2-5-1.png" alt="Python output"></p>
 <h3 id="kriging">Kriging</h3>
-<p>The principle of Kriging is to build a semi-variogram with the value and position of known observed points, and we can partition the observations based on the semi-variogram to obtain several regionalized variables for value estimation. Similar to IDW, Kriging also utilizes values and distances of known points to estimate nearby unknown points. Notice that in Kriging, we divide observations into groups by distances, and the estimation formulas will be adjusted according to distances.</p>
+<p><strong>Kriging</strong> is another method, somewhat like IDW, but it&rsquo;s more sophisticated. It starts by creating a semi-variogram, which is a fancy way of mapping how values (like temperature, for example) change over distance. Kriging then divides the area into zones based on this map. When estimating an unknown point, Kriging considers the specific characteristics of each zone, making its guesses more tailored to local variations.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># set the data extend and resolution</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
 </span></span><span style="display:flex;"><span>resolution <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.1</span>  <span style="color:#75715e"># cell size in meters</span>
@@ -758,7 +760,7 @@ if (!doNotTrack) {
 </span></span><span style="display:flex;"><span>fig<span style="color:#f92672">.</span>update_traces(marker_line_width<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)
 </span></span></code></pre></div><p><img src="figures/5-2-5-3.png" alt="Python output"></p>
 <h3 id="nearest-neighbor-interpolation">Nearest neighbor Interpolation</h3>
-<p>Nearest Neighbor Interpolation is actually quite simple. If we want to know the value of a certain position, we only need to find the nearest station with data, thus taking it in replacement. The design of this method basically follows the principle of “nearby things are more similar,” and it’s often applied in image processing and cases of enlargement.</p>
+<p><strong>Nearest Neighbor Interpolation</strong> is much simpler. To find out something about a specific place, like how much rain fell there, you just look at the nearest weather station and use its data. This method works on the idea that places close to each other are likely to be more similar. It&rsquo;s commonly used in things like enlarging photos, where you want to fill in new pixels based on the ones nearby.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> scipy.interpolate <span style="color:#f92672">import</span> NearestNDInterpolator
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
 </span></span><span style="display:flex;"><span>
@@ -787,13 +789,12 @@ if (!doNotTrack) {
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>show()
 </span></span></code></pre></div><p><img src="figures/5-2-5-4.png" alt="Python output"></p>
 <h2 id="contour">Contour</h2>
-<p>Generally speaking, after conducting spatial interpolation to the position and values of stations, we will obtain comprehensive grid data. How can we analyze the grid data? First, the easiest method is to draw a line connecting nearby points by the values and positions of the grid, which is similar to drawing contours on changing landforms, so that we can consider values on the same line as equivalent.</p>
+<p>Once we have interpolated data (like rainfall or temperature) across a region, we can visualize it using <strong>contours</strong>. Think of it like drawing elevation lines on a map, but instead of showing height, they show things like temperature or pollution levels. Lines closer together mean rapid changes, just like steep hills on a topographic map.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> osgeo <span style="color:#f92672">import</span> gdal
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib 
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> elevation 
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 利用 Matplotlib 中的 &#39;contourf&#39; 函式來畫</span>
 </span></span><span style="display:flex;"><span>fig, ax <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplots(figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">10</span>))
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>X <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>linspace(xmin, xmax)
@@ -809,18 +810,15 @@ if (!doNotTrack) {
 </span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>show()
 </span></span></code></pre></div><p><img src="figures/5-2-6-1.png" alt="Python output"></p>
 <h3 id="profile">Profile</h3>
-<p>Contours help us attain value distribution and ranges, and geographical profiling is another method for understanding value distribution. By drawing a straight line between two points, geographical profiling helps us to retrieve corresponding values according to positions of lines for estimation. This method allows us to inspect value variation between two points. In some studies of air quality, scientists evaluate changes of PM2.5 on both sides of roads with geographical profiling.</p>
+<p>Lastly, there&rsquo;s <strong>geographical profiling</strong>, which is another way to analyze this kind of data. Imagine drawing a straight line between two points and then looking at how values change along that line. It&rsquo;s useful for understanding how things like air pollution (like PM2.5 particles) might change from one side of a road to the other.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">export_kde_raster</span>(Z, XX, YY, min_x, max_x, min_y, max_y, proj, filename):
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;&#39;&#39;Export and save a kernel density raster.&#39;&#39;&#39;</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 取得解析度</span>
 </span></span><span style="display:flex;"><span>    xres <span style="color:#f92672">=</span> (max_x <span style="color:#f92672">-</span> min_x) <span style="color:#f92672">/</span> len(XX)
 </span></span><span style="display:flex;"><span>    yres <span style="color:#f92672">=</span> (max_y <span style="color:#f92672">-</span> min_y) <span style="color:#f92672">/</span> len(YY)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 取得 bound 等資訊</span>
 </span></span><span style="display:flex;"><span>    transform <span style="color:#f92672">=</span> Affine<span style="color:#f92672">.</span>translation(min_x <span style="color:#f92672">-</span> xres <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>, min_y <span style="color:#f92672">-</span> yres <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>) <span style="color:#f92672">*</span> Affine<span style="color:#f92672">.</span>scale(xres, yres)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 輸出為 raster</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">with</span> rasterio<span style="color:#f92672">.</span>open(
 </span></span><span style="display:flex;"><span>            filename,
 </span></span><span style="display:flex;"><span>            mode <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;w&#34;</span>,
@@ -853,7 +851,6 @@ if (!doNotTrack) {
 </span></span><span style="display:flex;"><span>krig <span style="color:#f92672">=</span> OrdinaryKriging(x<span style="color:#f92672">=</span>xd, y<span style="color:#f92672">=</span>yd, z<span style="color:#f92672">=</span>zd, variogram_model<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;spherical&#34;</span>)
 </span></span><span style="display:flex;"><span>zr, ss <span style="color:#f92672">=</span> krig<span style="color:#f92672">.</span>execute(<span style="color:#e6db74">&#34;grid&#34;</span>, X, Y)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 輸出 raster</span>
 </span></span><span style="display:flex;"><span>export_kde_raster(Z <span style="color:#f92672">=</span> zr, XX <span style="color:#f92672">=</span> X, YY <span style="color:#f92672">=</span> Y,
 </span></span><span style="display:flex;"><span>                  min_x <span style="color:#f92672">=</span> xmin, max_x <span style="color:#f92672">=</span> xmax, min_y <span style="color:#f92672">=</span> ymin, max_y <span style="color:#f92672">=</span> ymax,
 </span></span><span style="display:flex;"><span>                  proj <span style="color:#f92672">=</span> <span style="color:#ae81ff">4326</span>, filename <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;kriging_result.tif&#34;</span>)
@@ -990,12 +987,12 @@ This work is licensed under a <a rel="license" href="http://creativecommons.org/
         <script>
           var contentLangs=['en'];
         </script>
-        <script src="/js/auto-complete.js?1700106223" defer></script>
-        <script src="/js/lunr.min.js?1700106223" defer></script>
-        <script src="/js/lunr.stemmer.support.min.js?1700106223" defer></script>
-        <script src="/js/lunr.multi.min.js?1700106223" defer></script>
-        <script src="/js/lunr.en.min.js?1700106223" defer></script>
-        <script src="/js/search.js?1700106223" defer></script>
+        <script src="/js/auto-complete.js?1700107091" defer></script>
+        <script src="/js/lunr.min.js?1700107091" defer></script>
+        <script src="/js/lunr.stemmer.support.min.js?1700107091" defer></script>
+        <script src="/js/lunr.multi.min.js?1700107091" defer></script>
+        <script src="/js/lunr.en.min.js?1700107091" defer></script>
+        <script src="/js/search.js?1700107091" defer></script>
       </div>
       <div id="content-wrapper" class="highlightable">
         <ul class="topics">
@@ -1071,14 +1068,14 @@ This work is licensed under a <a rel="license" href="http://creativecommons.org/
       </div>
     </aside>
 
-    <script src="/js/clipboard.min.js?1700106223" defer></script>
-    <script src="/js/perfect-scrollbar.min.js?1700106223" defer></script>
-    <script src="/js/featherlight.min.js?1700106223" defer></script>
-    <script src="/js/jquery.svg.pan.zoom.js?1700106223" defer></script>
-    <script src="/js/mermaid.min.js?1700106223" defer></script>
+    <script src="/js/clipboard.min.js?1700107091" defer></script>
+    <script src="/js/perfect-scrollbar.min.js?1700107091" defer></script>
+    <script src="/js/featherlight.min.js?1700107091" defer></script>
+    <script src="/js/jquery.svg.pan.zoom.js?1700107091" defer></script>
+    <script src="/js/mermaid.min.js?1700107091" defer></script>
     <script>
       window.themeUseMermaid = JSON.parse("{}");
     </script>
-    <script src="/js/theme.js?1700106223" defer></script>
+    <script src="/js/theme.js?1700107091" defer></script>
   </body>
 </html>
