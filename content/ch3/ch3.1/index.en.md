@@ -13,68 +13,74 @@ authors: ["Sky Hung"]
 {{< toc >}}
 
 
-This article describes how to use the pyCIOT package and basic access to air, water, earthquake, weather, CCTV, and disaster warning data of the Civil IoT Taiwan Data Service Platform. For different types of data, we describe how to get the latest sensing data for a single site, get a list of all sites, and get the latest current sensing data for all sites.
+This guide provides step-by-step instructions on how to use the pyCIOT package to access various data types such as air, water, earthquake, weather, CCTV, and disaster warnings from the Civil IoT Taiwan Data Service Platform. It covers methods to obtain the most recent sensor data from an individual location, a comprehensive list of all available locations, and the latest sensor data from every location.
 
-This article requires the reader to have basic terminal operation ability and have been exposed to the basic syntax of Python programming.
+Please note that this article is designed for individuals who have basic knowledge of operating a terminal and are familiar with the fundamental syntax of Python programming.
 
 ## What is pyCIOT?
 
-The Civil IoT Taiwan project provides a wide variety of data, and different data often have different data formats and access methods. Even if the data is under an open license, organizing the data can be cumbersome due to the different ways in which it is downloaded and processed. To solve this problem, we developed the pyCIOT suite to collect all public data on people's livelihood publicly released by the government, and strive to lower the threshold for obtaining public data and reduce the cost of data processing.
+The Civil IoT Taiwan project offers a diverse range of data, each type having unique formats and access protocols. Despite being openly licensed, managing and processing this data can be challenging due to the varied methods required for downloading and handling it. To address these challenges, the pyCIOT suite was developed. This suite central
 
 ## pyCIOT Basics
 
 ### Installation
 
-We first download and install the pyCIOT suite using pip. pip is a package management system written in Python for installing and managing Python packages. The pyCIOT suite used this time is managed by the Python package index (pypi). We can use this command in the terminal to download the pyCIOT library locally, or download other required packages together:
+Firstly, we download and install the pyCIOT suite using pip. Pip is a package management system designed for Python, facilitating the installation and management of Python packages. The pyCIOT suite for this tutorial is hosted on the Python Package Index (PyPI). You can execute the following command in the terminal to install the pyCIOT library on your local machine, or to install other necessary packages alongside it:
 
 ```powershell
+# Install the pyCIOT package using pip.
 !pip install pyCIOT
 ```
 
 ### Import Package
 
-To use this package, just enter the import syntax and import `pyCIOT.data`:
+To start using the package, simply input the import syntax and include `pyCIOT.data` in your Python script:
 
 ```python
-# Import pyCIOT.data
+# Import all functions and classes from the data module of pyCIOT.
 from pyCIOT.data import *
 ```
 
-Depending on how the package is imported, the method is called differently. If you use the `from ... import ...` syntax, you don't need to add the prefix when calling a method; but if you use `import ...` , you need to add it every time you call a method in its package. If you use `import ... as ...` , you can call a method based on the custom prefix after `as` .
+The way you call a method from the package varies depending on how you import it. When using the `from ... import ...` syntax, there's no need to include a prefix while calling a method. However, if you use the `import ...` approach, you must prefix the method name each time you use it. Alternatively, using `import ... as ...` allows you to call a method with a custom prefix specified after `as`.
 
 ```python
 
+# Import the whole module and use it with the module name as a prefix.
 import pyCIOT.data 
 a = pyCIOT.data.Air().get_source()
 
+# Import the module with an alias to shorten the module name.
 import pyCIOT.data as CIoT
 a = CIoT.Air().get_source()
 
+# Import all functions/classes from the module directly. Beware of name collisions in large projects.
 from pyCIOT.data import *
 a = Air().get_source()
 ```
 
 ## Data Access
 
-The data of the Civil IoT Taiwan project can be obtained through the following methods, including air, water, earthquake, weather, CCTV, etc.:
+You can access data from the Civil IoT Taiwan project, including air, water, earthquake, weather, CCTV, and more, using the following methods:
 
-- `.get_source()` : Return all project codes in Civil IoT Taiwan Data Service Platform in array format according to the data type.
-- `.get_station(src='')` : Return basic information of all station data in array format. The `src` parameter is optional to specify the project code to be queried.
-- `.get_data(src='', stationID='')` : Return basic information of all stations and their latest measurement result in array format. The `src` parameter is optional to specify the project code to be queried, and the `stationID` parameter is optional to specify the device ID to be queried.
+- `.get_source()`: This function retrieves all project codes available on the Civil IoT Taiwan Data Service Platform, presented in an array format based on the type of data.
+- `.get_station(src='')`: This method returns basic details of all stations in an array format. The `src` parameter is optional and can be used to specify a particular project code.
+- `.get_data(src='', stationID='')`: This function provides basic information about all stations along with their most recent measurement results, also in an array format. Here, `src` is an optional parameter for specifying the project code, and `stationID` is also optional for specifying the device ID.
 
-The following applies to disaster notification data.
+For accessing disaster notification data, the following methods are used:
 
-- `.get_alert()` : Return the alert data, along with the information of the event, in JSON format.
-- `.get_notice()` : Return the notification data, along with the informaiton of the event, in JSON format.
+- `.get_alert()`: This retrieves alert data including details about the event, formatted in JSON.
+- `.get_notice()`: This method returns notification data along with event information, also in JSON format.
 
-Note that since this package is still under revision, if it is inconsistent with the content of the [pyCIOT Package Document](https://hackmd.io/JdFywArGS9uxcSRTyYDtBg), it shall prevail.
+Please be aware that the pyCIOT package is continuously being updated. In cases where there is a discrepancy between this guide and the [pyCIOT Package Document](https://hackmd.io/JdFywArGS9uxcSRTyYDtBg), the information in the package document should be considered as the most accurate and up-to-date.
 
 ## Air Quality Data
 
 ### Get all project codes: `Air().get_source()`
 
 ```python
+# Use the get_source function of the Air class to retrieve all air-related project codes.
 a = Air().get_source()
+# Display the retrieved project codes.
 print(a)
 ```
 
@@ -82,18 +88,19 @@ print(a)
 ['OBS:EPA', 'OBS:EPA_IoT', 'OBS:AS_IoT', 'OBS:MOST_IoT', 'OBS:NCNU_IoT']
 ```
 
-The followings are valid project codes for air quality data:
+Here are the valid project codes for accessing air quality data:
 
-- `OBS:EPA`: national level monitoring stations by EPA
-- `OBS:EPA_IoT`: low-cost air quality stations by EPA
-- `OBS:AS_IoT`: micro air quality stations by Academia Sinica
-- `OBS:MOST_IoT`: low-cost air quality stations by MOST
-- `OBS:NCNU_IoT`: low-cost air quality stations by National Chi Nan University
+- `OBS:EPA`: This code refers to national-level monitoring stations operated by the Environmental Protection Agency (EPA).
+- `OBS:EPA_IoT`: This is used for low-cost air quality stations also managed by the EPA.
+- `OBS:AS_IoT`: These are micro air quality stations run by Academia Sinica.
+- `OBS:MOST_IoT`: This code pertains to low-cost air quality
 
 ### Get all stations: `Air().get_station()`
 
 ```python
+# Use the get_station function from the Air class, specifying the data source as EPA's Smart Urban Air Quality Micro-sensing, to retrieve the station list.
 b = Air().get_station(src="OBS:EPA_IoT")
+# Retrieve and view the first five station items from the list
 b[0:5]
 ```
 
@@ -126,7 +133,9 @@ b[0:5]
 ### Get data of a station: `Air().get_data()`
 
 ```python
+# Use the get_data function from the Air class, specifying the data source and station ID, to retrieve air quality data for the specified station.
 f = Air().get_data(src="OBS:EPA_IoT", stationID="11613429495")
+# View the retrieved air quality data.
 f
 ```
 
@@ -159,8 +168,10 @@ f
 ```
 
 ```python
+# Print the description of the air quality dataset
 print(f[0]['description'])
 for f_data in f[0]['data']:
+  # If data described as "temperature" is found, print the corresponding value and timestamp.
   if f_data['description'] == '溫度':
     print(f_data['description'], ': ', f_data['values'][0]['value'], ' (', f_data['values'][0]['timestamp'], ')', sep='')
 ```
@@ -174,16 +185,18 @@ for f_data in f[0]['data']:
 
 ### Get all project codes: `Water().get_source()`
 
-Return the project names based on the input parameter:
+The function will return project names based on the specified input parameter:
 
-- `water_level_station`: Return the names of water level related projects (currently valid codes are `WRA`, `WRA2` and `IA`)
-- `gate`: Return the names of water gate related projects (currently valid codes are `WRA`, `WRA2` and `IA`)
-- `pumping_station`: Return the names of pumping station related projects (currently valid codes are `WRA2` and `TPE`)
-- `sensor`: Return the names of water sensor related projects (currently valid codes are `WRA`, `WRA2`, `IA` and `CPAMI`)
-- `` (none): Return the names of all water related projects
+- `water_level_station`: Retrieves the names of projects related to water level monitoring. The current valid codes are `WRA`, `WRA2`, and `IA`.
+- `gate`: Returns the names of projects associated with water gates. Valid codes for this category include `WRA`, `WRA2`, and `IA`.
+- `pumping_station`: This parameter provides names of projects related to pumping stations, with valid codes being `WRA2` and `TPE`.
+- `sensor`: Lists the names of water sensor-related projects. The relevant codes here are `WRA`, `WRA2`, `IA`, and `CPAMI`.
+- ``(none): When no parameter is specified, it returns the names of all water-related projects.
 
 ```python
+# Use the get_source function of the Water class to retrieve all water-related project codes.
 wa = Water().get_source()
+# View the retrieved project codes.
 wa
 ```
 
@@ -202,18 +215,20 @@ wa
  'FLOODING:WRA2']
 ```
 
-The followings are valid project codes for water resource data:
+Here are the valid project codes for accessing water resource data:
 
-- `WRA`: Water Resource Agency
-- `WRA2`: Water Resource Agency（co-constructed with county and city governments）
-- `IA`: Irrigation Agency
-- `CPAMI`: Construction and Planning Agency
-- `TPE`: Taipei City
+- `WRA`: Represents the Water Resource Agency.
+- `WRA2`: Refers to the Water Resource Agency, in collaboration with county and city governments.
+- `IA`: Stands for the Irrigation Agency.
+- `CPAMI`: Denotes the Construction and Planning Agency.
+- `TPE`: Indicates projects specific to Taipei City.
 
 ### Get all stations: `Water().get_station()`
 
 ```python
+# Use the get_station function from the Water class, specifying the data source "WATER_LEVEL:WRA_RIVER", to retrieve the water level station list.
 wa = Water().get_station(src="WATER_LEVEL:WRA_RIVER")
+# View the first item from the station list.
 wa[0]
 ```
 
@@ -235,7 +250,9 @@ wa[0]
 ### Get data of a station: `Water().get_data()`
 
 ```python
+# Use the get_data function from the Water class, specifying the data source and station ID, to retrieve water level data for the specified station.
 wa = Water().get_data(src="WATER_LEVEL:WRA_RIVER", stationID="01790145-cd7e-4498-9240-f0fcd9061df2")
+# View the retrieved water level data.
 wa
 ```
 
@@ -260,7 +277,9 @@ wa
 ### Get all project codes: `Quake().get_source()`
 
 ```python
+# Use the get_source function of the Quake class to retrieve all quake-related project codes.
 q = Quake().get_source()
+# View the retrieved project codes.
 q
 ```
 
@@ -268,14 +287,16 @@ q
 ['EARTHQUAKE:CWB+NCREE']
 ```
 
-The followings are valid project codes for earthquake data:
+The valid project code for accessing earthquake data is:
 
-- `EARTHQUAKE:CWB+NCREE`: seismic monitoring stations by Central Weather Bureau and National Center for Research on Earthquake Engineering
+- `EARTHQUAKE:CWB+NCREE`: This code is used for seismic monitoring stations jointly operated by the Central Weather Bureau and the National Center for Research on Earthquake Engineering.
 
 ### Get all stations: `Quake().get_station()`
 
 ```python
+# Use the get_station function from the Quake class, specifying the data source "EARTHQUAKE:CWB+NCREE", to retrieve the earthquake station list.
 q = Quake().get_station(src="EARTHQUAKE:CWB+NCREE")
+# View the first two items from the station list.
 q[0:2]
 ```
 
@@ -299,7 +320,9 @@ q[0:2]
 ### Get data of a station: `Quake().get_data()`
 
 ```python
+# Use the get_data function from the Quake class, specifying the data source "EARTHQUAKE:CWB+NCREE", to retrieve earthquake data.
 q = Quake().get_data(src="EARTHQUAKE:CWB+NCREE")
+# View the last record from the data.
 q[-1]
 ```
 
@@ -327,7 +350,9 @@ q[-1]
 ### Get data of an earthquake event`Quake().get_data()`
 
 ```python
+# Use the get_data function from the Quake class, specifying the data source and event ID, to retrieve earthquake data for the specified event.
 q = Quake().get_data(src="EARTHQUAKE:CWB+NCREE", eventID="2022083")
+# View the retrieved earthquake data.
 q
 ```
 
@@ -336,7 +361,9 @@ q
 ### Get all project codes: `Weather().get_source()`
 
 ```python
+# Use the get_source function of the Weather class to retrieve all weather-related project codes.
 w = Weather().get_source()
+# View the retrieved project codes.
 w
 ```
 
@@ -350,27 +377,29 @@ w
  'IMAGE:CWB']
 ```
 
-Return the project names based on the input parameter:
+The function returns project names based on the given input parameter:
 
-- `GENERAL`: Return the names of weather station related projects
-- `RAINFALL`: Return the names of rainfall monitoring station related projects
-- `IMAGE`: Return the names of radar integrated echo map related projects
-- (none): Return the names of all weather related projects
+- `GENERAL`: Retrieves names of projects related to weather stations.
+- `RAINFALL`: Lists names of projects associated with rainfall monitoring stations.
+- `IMAGE`: Provides names of projects involving radar integrated echo maps.
+- (none): When no parameter is specified, it returns the names of all weather-related projects.
 
-The followings are valid project codes for weather data:
+Valid project codes for weather data include:
 
-- `GENERAL:CWB`: standard weather stations by Central Weather Bureau
-- `GENERAL:CWB_IoT`: automatic weather monitoring stations by Central Weather Bureau
-- `RAINFALL:CWB`: rainfall monitoring stations by Central Weather Bureau
-- `RAINFALL:WRA`: rainfall monitoring stations by Water Resource Agency
-- `RAINFALL:WRA2`: rainfall monitoring stations by Water Resource Agency（co-constructed with county and city governments）
-- `RAINFALL:IA`: rainfall monitoring stations by Irrigation Agency
-- `IMAGE:CWB`: radar integrated echo map by Central Weather Bureau
+- `GENERAL:CWB`: For standard weather stations operated by the Central Weather Bureau.
+- `GENERAL:CWB_IoT`: Refers to automatic weather monitoring stations by the Central Weather Bureau.
+- `RAINFALL:CWB`: Codes for rainfall monitoring stations managed by the Central Weather Bureau.
+- `RAINFALL:WRA`: Represents rainfall monitoring stations run by the Water Resource Agency.
+- `RAINFALL:WRA2`: For rainfall monitoring stations by the Water Resource Agency, in collaboration with county and city governments.
+- `RAINFALL:IA`: Indicates rainfall monitoring stations managed by the Irrigation Agency.
+- `IMAGE:CWB`: Used for radar integrated echo maps created by the Central Weather Bureau.
 
 ### Get all stations: `Weather().get_station()`
 
 ```python
+# Use the get_station function from the Weather class, specifying the data source "RAINFALL:CWB", to retrieve the rainfall station list.
 w = Weather().get_station(src="RAINFALL:CWB")
+# View the retrieved station list.
 w
 ```
 
@@ -391,7 +420,9 @@ w
 ### Get data of a station: `Weather().get_data()`
 
 ```python
+# Use the get_data function from the Weather class, specifying the data source and station ID, to retrieve rainfall data for the specified station.
 w = Weather().get_data(src="RAINFALL:CWB", stationID="U2HA40")
+# View the retrieved rainfall data.
 w
 ```
 
@@ -436,7 +467,9 @@ w
 ### Get all project codes: `CCTV().get_source()`
 
 ```python
+# Use the get_source function of the CCTV class to retrieve all CCTV-related project codes.
 cctv = CCTV().get_source()
+# View the retrieved project codes.
 cctv
 ```
 
@@ -444,16 +477,18 @@ cctv
 ['IMAGE:EPA', 'IMAGE:WRA', 'IMAGE:COA']
 ```
 
-The followings are valid project codes for CCTV data:
+The valid project codes for accessing CCTV data are:
 
-- IMAGE:EPA: realtime images by EPA air quality monitoring stations
-- IMAGE:WRA: images for water conservancy and disaster prevention by Water Resource Agency
-- IMAGE:COA: realtime images of landslide observation stations by Council of Agriculture
+- `IMAGE:EPA`: This code is used for real-time images from air quality monitoring stations managed by the Environmental Protection Agency (EPA).
+- `IMAGE:WRA`: Refers to images related to water conservancy and disaster prevention provided by the Water Resource Agency.
+- `IMAGE:COA`: Represents real-time images from landslide observation stations operated by the Council of Agriculture.
 
 ### Get data of a station: `CCTV().get_data()`
 
 ```python
+# Use the get_data function from the CCTV class, specifying the data source "IMAGE:EPA", to retrieve CCTV image data from the EPA.
 cEPA = CCTV().get_data("IMAGE:EPA")
+# View the third record from the data.
 cEPA[2]
 ```
 
@@ -484,7 +519,9 @@ cEPA[2]
 ```
 
 ```python
+# Use the get_data function from the CCTV class, specifying the data source "IMAGE:COA", to retrieve CCTV image data from the COA.
 cCOA = CCTV().get_data("IMAGE:COA")
+# View the first record from the data.
 cCOA[0]
 ```
 
@@ -508,14 +545,16 @@ cCOA[0]
 
 ## Disaster Alert and Notification Data
 
-The Civil IoT Taiwan Data Service Platform provides more than 58 disaster alerts, with a total of more than 41 disaster notifications. Different units are responsible for different disaster alerts, and the central disaster response center is responsible for disaster notification.
+The Civil IoT Taiwan Data Service Platform offers an extensive array of disaster-related information, featuring over 58 different disaster alerts and more than 41 distinct disaster notifications. Various units handle specific types of disaster alerts, while the central disaster response center is tasked with issuing disaster notifications.
 
-The complete list of project codes is available in the [pyCIOT Package Document](https://hackmd.io/@cclljj/pyCIOT_doc)。
+For a comprehensive list of project codes related to these services, you can refer to the [pyCIOT Package Document](https://hackmd.io/@cclljj/pyCIOT_doc).
 
 ### Get disaster alerts: `Disaster().get_alert()`
 
 ```python
+# Use the get_alert function from the Disaster class, specifying the parameter as "5", to retrieve disaster alert information.
 d = Disaster().get_alert("5")
+# View the retrieved disaster alert information.
 d
 ```
 
@@ -548,7 +587,9 @@ d
 ### Get historical data of disaster notifications: `Disaster().get_notice()`
 
 ```python
+# Use the get_notice function from the Disaster class, specifying the parameter as "ERA2_F1", to retrieve the transportation disaster report (road and bridge section).
 d = Disaster().get_notice("ERA2_F1") # 交通災情通報表（道路、橋梁部分）
+# View the retrieved transportation disaster report information.
 d
 ```
 
