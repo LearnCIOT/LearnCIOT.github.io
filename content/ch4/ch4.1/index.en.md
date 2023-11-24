@@ -117,12 +117,11 @@ for subfolder in os.listdir(folder):
             os.rename(path2, f'CSV_Air/{item}')
 ```
 
+Now that we've decompressed the daily sensor data, the `CSV_Air` folder contains all of this data in CSV (Comma-Separated Values) format. CSV files are like simple spreadsheets where each line of text is a row of data, and each value in the row is separated by a comma.
 
-Now that we've decompressed the daily sensor data, the CSV_Air folder contains all of this data in CSV (Comma-Separated Values) format. CSV files are like simple spreadsheets where each line of text is a row of data, and each value in the row is separated by a comma.
+Our next step is to focus on data from a specific monitoring station. Let's say we're interested in the station with the code `74DA38C7D2AC`. To extract data for this station, we will read each CSV file and select only the data from this station. This selected data will be gathered into a new dataframe, which we'll call `air`.
 
-Our next step is to focus on data from a specific monitoring station. Let's say we're interested in the station with the code 74DA38C7D2AC. To extract data for this station, we will read each CSV file and select only the data from this station. This selected data will be gathered into a new dataframe, which we'll call air.
-
-Once we've collected all the necessary data in the air dataframe, our final step is to delete all the downloaded and decompressed data. This is an important step to save storage space in the cloud, where we're working. This way, we keep only the essential data we need for analysis, making our work more efficient and organized.
+Once we've collected all the necessary data in the `air` dataframe, our final step is to delete all the downloaded and decompressed data. This is an important step to save storage space in the cloud, where we're working. This way, we keep only the essential data we need for analysis, making our work more efficient and organized.
 
 ```python
 folder = 'CSV_Air'
@@ -150,13 +149,14 @@ air.set_index('timestamp', inplace=True)
 
 The last step in our data preparation process involves organizing the data we've collected for the specific monitoring station. Here's what we'll do:
 
-Rearrange the Data: We'll adjust the layout of the data to make it easier to analyze. This might involve moving columns around or changing how the data is displayed in the dataframe.
+1. **Rearrange the Data:** We'll adjust the layout of the data to make it easier to analyze. This might involve moving columns around or changing how the data is displayed in the dataframe.
 
-Delete Unnecessary Fields: Our dataset might contain information that isn't relevant to our analysis. To simplify our work and focus on the essential data, we'll remove these unnecessary fields. This process is about streamlining the data to what's important for our specific study.
+2. **Delete Unnecessary Fields:** Our dataset might contain information that isn't relevant to our analysis. To simplify our work and focus on the essential data, we'll remove these unnecessary fields. This process is about streamlining the data to what's important for our specific study.
 
-Sort by Time: Since we're dealing with time series data, it's crucial to have the data in chronological order. We'll sort the data based on the timestamp, ensuring that it's arranged from the earliest to the latest entry. This makes it easier to observe trends and patterns over time.
+3. **Sort by Time:** Since we're dealing with time series data, it's crucial to have the data in chronological order. We'll sort the data based on the timestamp, ensuring that it's arranged from the earliest to the latest entry. This makes it easier to observe trends and patterns over time.
 
 By completing these steps, we'll have a clean, well-organized dataset that's ready for detailed analysis. This organized approach not only makes our analysis more straightforward but also ensures accuracy in our findings.
+
 ```python
 air.drop(columns=['device_id', 'SiteName'], inplace=True)
 air.sort_values(by='timestamp', inplace=True)
@@ -186,15 +186,15 @@ timestamp
 
 Just like with the air quality data, we're going to focus on using long-term historical data for our water level analysis. Instead of using the pyCIOT suite's built-in methods for accessing data, we'll take a different approach:
 
-Download the Data Archive: We'll directly download the data set titled "Water Resources Agency - Groundwater Level Station" from the historical database of the Civil IoT Taiwan Data Service Platform. This dataset contains extensive historical data on groundwater levels.
+1. **Download the Data Archive:** We'll directly download the data set titled "Water Resources Agency - Groundwater Level Station" from the historical database of the Civil IoT Taiwan Data Service Platform. This dataset contains extensive historical data on groundwater levels.
 
-Save the Data: After downloading, we'll store this data in a folder named Water. This step helps us keep our data organized and easily accessible.
+2. **Save the Data:** After downloading, we'll store this data in a folder named `Water`. This step helps us keep our data organized and easily accessible.
 
-Decompress the Data: The data we've downloaded will be in a zip compressed file. Our first task is to unzip this file. Unzipping will reveal a number of daily files, which are also in a compressed format.
+3. **Decompress the Data:** The data we've downloaded will be in a zip compressed file. Our first task is to unzip this file. Unzipping will reveal a number of daily files, which are also in a compressed format.
 
-Decompress Daily Files: We'll then decompress each of these daily files. This step is crucial as it converts the compressed files into a format that we can work with for our analysis.
+4. **Decompress Daily Files:** We'll then decompress each of these daily files. This step is crucial as it converts the compressed files into a format that we can work with for our analysis.
 
-Store Decompressed Data: Finally, we'll store the decompressed daily files in another folder, named CSV_Water. This folder will now contain all the daily groundwater level data in an accessible format, ready for us to process and analyze.
+5. **Store Decompressed Data:** Finally, we'll store the decompressed daily files in another folder, named `CSV_Water`. This folder will now contain all the daily groundwater level data in an accessible format, ready for us to process and analyze.
 
 By following these steps, we ensure that we have a comprehensive and organized dataset of groundwater levels, which is crucial for accurate and effective analysis.
 
@@ -242,14 +242,13 @@ for subfolder in os.listdir(folder):
             os.rename(path2, f'CSV_Water/{item}')
 ```
 
+Now that we've decompressed the water level data, the `CSV_Water` folder is filled with daily sensor data in CSV format. Next, we'll focus on extracting and organizing data from a specific station. Here's how we'll do it:
 
-Now that we've decompressed the water level data, the CSV_Water folder is filled with daily sensor data in CSV format. Next, we'll focus on extracting and organizing data from a specific station. Here's how we'll do it:
+1. **Filter Data for a Specific Station:** We'll target data from a particular station, for example, the one with the code `338c9c1c-57d8-41d7-9af2-731fb86e632c`. To do this, we need to read each CSV file and filter out only the data that corresponds to this station.
 
-Filter Data for a Specific Station: We'll target data from a particular station, for example, the one with the code 338c9c1c-57d8-41d7-9af2-731fb86e632c. To do this, we need to read each CSV file and filter out only the data that corresponds to this station.
+2. **Create a Dataframe:** We'll gather all the data for our chosen station and put it into a dataframe. A dataframe is a table-like structure in programming that makes data manipulation easier. We'll name this dataframe `water`.
 
-Create a Dataframe: We'll gather all the data for our chosen station and put it into a dataframe. A dataframe is a table-like structure in programming that makes data manipulation easier. We'll name this dataframe water.
-
-Delete Unnecessary Data: After successfully extracting the necessary data and storing it in the water dataframe, we'll delete all the originally downloaded data and the data generated after decompression. This step is crucial for saving storage space in the cloud, ensuring that we keep only the data that is essential for our analysis.
+3. **Delete Unnecessary Data:** After successfully extracting the necessary data and storing it in the `water` dataframe, we'll delete all the originally downloaded data and the data generated after decompression. This step is crucial for saving storage space in the cloud, ensuring that we keep only the data that is essential for our analysis.
 
 By following these steps, we'll have a streamlined, specific dataset ready for in-depth analysis of water levels at the chosen station. This approach helps in maintaining an organized and efficient workflow, especially when dealing with large amounts of data.
 
@@ -279,11 +278,11 @@ water.set_index('timestamp', inplace=True)
 
 As the final step in preparing our water level data for analysis, we'll undertake three key actions to organize and streamline the dataset:
 
-Rearrange the Data: We'll adjust the layout of the data within the dataframe to make it more intuitive and easier to analyze. This could involve reordering columns, grouping similar data together, or any other structural changes that enhance clarity and accessibility.
+1. **Rearrange the Data:** We'll adjust the layout of the data within the dataframe to make it more intuitive and easier to analyze. This could involve reordering columns, grouping similar data together, or any other structural changes that enhance clarity and accessibility.
 
-Delete Unnecessary Fields: Our dataset may contain some fields (columns of data) that aren't relevant to our specific analysis objectives. To keep our focus sharp and the dataset lean, we'll identify and remove these unnecessary fields. This step is all about trimming the data down to what's most useful for our study.
+2. **Delete Unnecessary Fields:** Our dataset may contain some fields (columns of data) that aren't relevant to our specific analysis objectives. To keep our focus sharp and the dataset lean, we'll identify and remove these unnecessary fields. This step is all about trimming the data down to what's most useful for our study.
 
-Sort by Time: Since we're dealing with time series data, sorting it chronologically is crucial. We'll organize the data so that it's in order from the earliest to the most recent records. This chronological arrangement is vital for any analysis that tracks changes over time, as it helps in identifying trends, patterns, and anomalies.
+3. **Sort by Time:** Since we're dealing with time series data, sorting it chronologically is crucial. We'll organize the data so that it's in order from the earliest to the most recent records. This chronological arrangement is vital for any analysis that tracks changes over time, as it helps in identifying trends, patterns, and anomalies.
 
 By carrying out these steps, we ensure that our water level dataset is not only tailored to our specific research needs but also organized in a way that facilitates efficient and accurate analysis. This organized approach is particularly important in data science, as it lays the groundwork for insightful and reliable results.
 
@@ -316,15 +315,15 @@ timestamp
 
 For our weather data analysis, we will follow a similar process to what we did with the air quality and water level data:
 
-Download the Data Archive: We'll start by downloading the "Central Weather Bureau - Automatic Weather Station" data from the historical database of the Civil IoT Taiwan Data Service Platform. This dataset provides comprehensive historical weather data.
+1. **Download the Data Archive:** We'll start by downloading the "Central Weather Bureau - Automatic Weather Station" data from the historical database of the Civil IoT Taiwan Data Service Platform. This dataset provides comprehensive historical weather data.
 
-Store the Data: After downloading, we'll save this data in a folder named Weather. Organizing data into specific folders helps keep our workspace tidy and makes it easier to locate the data we need for our analysis.
+2. **Store the Data:** After downloading, we'll save this data in a folder named `Weather`. Organizing data into specific folders helps keep our workspace tidy and makes it easier to locate the data we need for our analysis.
 
-Decompress the Data: The downloaded data will be in a zip compressed file format. Our first task is to decompress this file, which will reveal a number of daily files. These daily files will also be in a compressed format.
+3. **Decompress the Data:** The downloaded data will be in a zip compressed file format. Our first task is to decompress this file, which will reveal a number of daily files. These daily files will also be in a compressed format.
 
-Decompress Daily Files: Next, we'll decompress each of these daily files. This step is essential as it makes the data accessible and ready for analysis.
+4. **Decompress Daily Files:** Next, we'll decompress each of these daily files. This step is essential as it makes the data accessible and ready for analysis.
 
-Store Decompressed Data: Finally, we'll store the decompressed daily files in a separate folder, named CSV_Weather. This folder will now contain all the daily weather data in a format that's ready for processing and analysis.
+5. **Store Decompressed Data:** Finally, we'll store the decompressed daily files in a separate folder, named `CSV_Weather`. This folder will now contain all the daily weather data in a format that's ready for processing and analysis.
 
 By completing these steps, we ensure that our weather data is well-organized and prepared for detailed analysis. This process is crucial in data science for maintaining an efficient workflow and ensuring that the data is in a usable state for any analytical tasks that follow.
 
@@ -372,15 +371,15 @@ for subfolder in os.listdir(folder):
             os.rename(path2, f'CSV_Weather/{item}')
 ```
 
-Having successfully decompressed the weather data, the CSV_Weather folder now contains all the daily sensor data in CSV format. Our next steps focus on extracting specific data and organizing it effectively:
+Having successfully decompressed the weather data, the `CSV_Weather` folder now contains all the daily sensor data in CSV format. Our next steps focus on extracting specific data and organizing it effectively:
 
-Filter Data for a Specific Station: We'll concentrate on data from a particular weather station, for example, the one identified by the code C0U750. To do this, we need to sift through each CSV file, extracting only the data relevant to this station.
+1. **Filter Data for a Specific Station:** We'll concentrate on data from a particular weather station, for example, the one identified by the code `C0U750`. To do this, we need to sift through each CSV file, extracting only the data relevant to this station.
 
-Create a Dataframe: We'll compile all the selected data from the C0U750 station into a dataframe, a table-like structure used in programming for data analysis. This dataframe will be named weather, and it will contain all the relevant weather data from the chosen station.
+2. **Create a Dataframe:** We'll compile all the selected data from the `C0U750` station into a dataframe, a table-like structure used in programming for data analysis. This dataframe will be named `weather`, and it will contain all the relevant weather data from the chosen station.
 
-Delete Unnecessary Data: After we've gathered all the needed data in the weather dataframe, we'll remove all the original downloaded data and the data generated after decompression. This step is important to conserve storage space in the cloud. Keeping only the essential data ensures a more streamlined and efficient dataset for analysis.
+3. **Delete Unnecessary Data:** After we've gathered all the needed data in the `weather` dataframe, we'll remove all the original downloaded data and the data generated after decompression. This step is important to conserve storage space in the cloud. Keeping only the essential data ensures a more streamlined and efficient dataset for analysis.
 
-By completing these steps, we ensure that our weather dataset is focused, well-organized, and ready for in-depth analysis, specifically tailored to the C0U750 weather station. This approach is key in data science, helping maintain an organized workflow and ensuring the integrity and relevance of the data being analyzed.
+By completing these steps, we ensure that our weather dataset is focused, well-organized, and ready for in-depth analysis, specifically tailored to the `C0U750` weather station. This approach is key in data science, helping maintain an organized workflow and ensuring the integrity and relevance of the data being analyzed.
 
 ```python
 folder = 'CSV_Weather'
@@ -409,11 +408,11 @@ weather.set_index('timestamp', inplace=True)
 
 To finalize our preparation of the weather data for analysis, we'll perform three crucial steps to ensure the dataset is well-organized and tailored to our needs:
 
-Rearrange the Data: We'll reorganize the data within the weather dataframe to make it more user-friendly and conducive to analysis. This may involve changing the order of columns, grouping similar types of data together, or altering the layout to improve readability and ease of use.
+1. **Rearrange the Data:** We'll reorganize the data within the `weather` dataframe to make it more user-friendly and conducive to analysis. This may involve changing the order of columns, grouping similar types of data together, or altering the layout to improve readability and ease of use.
 
-Delete Unnecessary Fields: In our dataset, there may be some fields (columns) that are not relevant to our specific analysis goals. To streamline our dataset, we'll identify and remove these unnecessary fields. This step helps focus our dataset on only the most pertinent information, making our analysis more efficient and effective.
+2. **Delete Unnecessary Fields:** In our dataset, there may be some fields (columns) that are not relevant to our specific analysis goals. To streamline our dataset, we'll identify and remove these unnecessary fields. This step helps focus our dataset on only the most pertinent information, making our analysis more efficient and effective.
 
-Sort by Time: Since the essence of our dataset is time series data, arranging it chronologically is essential. We'll sort the data in the weather dataframe so that it's in order from the earliest data entry to the most recent. This chronological sorting is crucial for analyses that track changes over time, as it aids in identifying trends, patterns, and anomalies more clearly.
+3. **Sort by Time:** Since the essence of our dataset is time series data, arranging it chronologically is essential. We'll sort the data in the `weather` dataframe so that it's in order from the earliest data entry to the most recent. This chronological sorting is crucial for analyses that track changes over time, as it aids in identifying trends, patterns, and anomalies more clearly.
 
 By executing these steps, we ensure that our weather data is not only precisely tailored for our research but also organized in a way that facilitates effective and accurate analysis. Proper data organization is a fundamental aspect of data science, as it sets the foundation for insightful and reliable analytical outcomes.
 
@@ -464,15 +463,15 @@ timestamp
 2019-01-01 04:00:00  39.0   NaN  14.1   NaN  13.5   NaN
 ```
 
-In our tutorial so far, we've successfully walked through the process of accessing and organizing three types of data: air quality (air), water level (water), and meteorological (weather) data. Each dataset was prepared by downloading, decompressing, filtering, and arranging the data for specific monitoring stations. This process sets a strong foundation for our next steps.
+In our tutorial so far, we've successfully walked through the process of accessing and organizing three types of data: air quality (`air`), water level (`water`), and meteorological (`weather`) data. Each dataset was prepared by downloading, decompressing, filtering, and arranging the data for specific monitoring stations. This process sets a strong foundation for our next steps.
 
 Now, we're going to delve into basic time series data processing using the air quality data as our example. Time series data processing is a method used to analyze and interpret data that is collected over time. Here's what we'll cover:
 
-Basic Time Series Data Processing: We'll explore techniques to analyze the air quality data, looking at trends, patterns, and changes over time. This will involve techniques like plotting the data over time, calculating averages, and possibly identifying any anomalies or significant changes.
+1. **Basic Time Series Data Processing:** We'll explore techniques to analyze the air quality data, looking at trends, patterns, and changes over time. This will involve techniques like plotting the data over time, calculating averages, and possibly identifying any anomalies or significant changes.
 
-Application to Other Data Types: The methods we use for the air quality data can be similarly applied to both water level and meteorological data. The principles of time series analysis remain the same, even though the specific data points and their implications may differ.
+2. **Application to Other Data Types:** The methods we use for the air quality data can be similarly applied to both water level and meteorological data. The principles of time series analysis remain the same, even though the specific data points and their implications may differ.
 
-Encouragement to Experiment: You're encouraged to try these methods on your own. Whether you choose to work with the water level or meteorological data, applying these time series data processing techniques will enhance your understanding and skills. Experimenting with different datasets is a great way to deepen your grasp of these concepts and discover insights specific to each type of data.
+3. **Encouragement to Experiment:** You're encouraged to try these methods on your own. Whether you choose to work with the water level or meteorological data, applying these time series data processing techniques will enhance your understanding and skills. Experimenting with different datasets is a great way to deepen your grasp of these concepts and discover insights specific to each type of data.
 
 By engaging in this hands-on process, you'll gain practical experience in handling and analyzing time series data, a valuable skill in many areas of research and data science.
 
@@ -480,9 +479,16 @@ By engaging in this hands-on process, you'll gain practical experience in handli
 
 Data visualization plays a crucial role in the analysis of time series data. It transforms raw data into a visual context, such as charts or graphs, making it easier to understand, interpret, and derive insights. Let's explore how we can use data visualization, specifically focusing on air quality data:
 
-Chronological Presentation: The first step in visualizing time series data is to present it in chronological order. This means arranging the data so that it shows changes over time. By doing this, users can quickly see overall trends, patterns, and anomalies within the dataset, which can spark new ideas and approaches for further analysis.
+1. **Chronological Presentation:** The first step in visualizing time series data is to present it in chronological order. This means arranging the data so that it shows changes over time. By doing this, users can quickly see overall trends, patterns, and anomalies within the dataset, which can spark new ideas and approaches for further analysis.
 
-Using Line Charts: One of the most common methods for visualizing time series data is through line charts. Line charts are particularly effective because they show how data points change over time, with the passage of time usually represented on the x-axis (horizontal) and the data points on the y-axis (vertical).
+2. **Using Line Charts:** One of the most common methods for visualizing time series data is through line charts. Line charts are particularly effective because they show how data points change over time, with the passage of time usually represented on the x-axis (horizontal) and the data points on the y-axis (vertical).
+
+3. **Example with Air Quality Data:**
+   - **Plotting the Data:** To visualize air quality data, we can plot various air quality metrics (like PM2.5, CO2 levels, etc.) on a line chart. Each line on the chart would represent a different metric.
+   - **Identifying Trends:** Line charts allow us to easily identify trends, such as periods of high pollution or sudden changes in air quality. 
+   - **Comparisons Over Time:** We can also compare different time periods, such as different months or years, to see how air quality has changed over longer periods.
+
+By using data visualization techniques like line charts, we make complex data more accessible and understandable. This is a powerful way to communicate data-driven insights and can be a stepping stone to more advanced analyses, such as identifying the causes of trends or predicting future air quality conditions.
 
 ```python
 plt.figure(figsize=(15, 10), dpi=60)
@@ -503,13 +509,13 @@ plt.show()
 
 Data resampling is an important technique in time series analysis, especially when dealing with dense datasets like air quality measurements. Let's break down the concept and its application:
 
-Understanding Data Density and Variability: In our air quality dataset, data is collected roughly every five minutes, resulting in a high density of data points. Additionally, the values can change rapidly due to environmental factors, leading to high variability. This level of detail can sometimes obscure broader trends in the data.
+1. **Understanding Data Density and Variability:** In our air quality dataset, data is collected roughly every five minutes, resulting in a high density of data points. Additionally, the values can change rapidly due to environmental factors, leading to high variability. This level of detail can sometimes obscure broader trends in the data.
 
-The Challenge with High-Frequency Data: With data recorded every five minutes, it can be difficult to discern the overall trends in ambient air pollution. The frequent sampling captures a lot of detail, but this can also lead to a cluttered and overwhelming dataset.
+2. **The Challenge with High-Frequency Data:** With data recorded every five minutes, it can be difficult to discern the overall trends in ambient air pollution. The frequent sampling captures a lot of detail, but this can also lead to a cluttered and overwhelming dataset.
 
-Resampling for Clarity: To address this, we use a technique called resampling. Resampling involves recalculating the data values over a larger, fixed time interval. This process simplifies the dataset, making it easier to see long-term trends and patterns.
+3. **Resampling for Clarity:** To address this, we use a technique called resampling. Resampling involves recalculating the data values over a larger, fixed time interval. This process simplifies the dataset, making it easier to see long-term trends and patterns.
 
-Resampling Syntax and Scales: To resample the data, we use specific programming commands. These commands allow us to change the sampling rate from every five minutes to a larger scale, such as hourly, daily, or monthly. By resampling, we can adjust the granularity of our data analysis to suit our needs.
+4. **Resampling Syntax and Scales:** To resample the data, we use specific programming commands. These commands allow us to change the sampling rate from every five minutes to a larger scale, such as hourly, daily, or monthly. By resampling, we can adjust the granularity of our data analysis to suit our needs.
 
 For example, if we're interested in daily trends in air quality, we can resample the data to calculate the average air quality for each day. This would give us a clearer view of how air quality changes day-to-day, rather than getting lost in the minute-to-minute fluctuations.
 
@@ -655,7 +661,7 @@ plt.show()
 
 ![Python output](figures/4-1-3-4.png)
 
-The observations you've made from the multi-line chart of air quality data across different years provide valuable insights into both the data quality and the seasonal trends in air quality:
+The observations we've made from the multi-line chart of air quality data across different years provide valuable insights into both the data quality and the seasonal trends in air quality:
 
 1. **Missing Values in 2019 Data:** The significant portion of missing values in the 2019 data highlights an issue with data completeness. This can occur due to various reasons such as sensor malfunctions, data recording issues, or gaps in data collection. It's important to note these missing values, as they can affect the reliability and accuracy of any analysis conducted for that year.
 
@@ -665,11 +671,25 @@ The observations you've made from the multi-line chart of air quality data acros
 
 4. **Implications for Analysis and Policy:** Understanding these seasonal trends is crucial for air quality management and policy-making. For instance, measures to improve air quality might need to be intensified in autumn and winter months. Additionally, this insight can guide further research to investigate the specific causes of these seasonal fluctuations.
 
-By analyzing these multi-year trends and noting both data completeness and seasonal patterns, you can gain a deeper understanding of the dynamics affecting air quality. This kind of analysis is vital for informed decision-making in environmental management and public health policy.
+By analyzing these multi-year trends and noting both data completeness and seasonal patterns, we can gain a deeper understanding of the dynamics affecting air quality. This kind of analysis is vital for informed decision-making in environmental management and public health policy.
 
 ### Calendar Heatmap
 
-The calendar heat map is a data visualization method that combines the calendar map and the heat map, which can more intuitively browse the distribution of the data and find the regularity of different time scales. We use calplot, a calendar heatmap suite for Python, and input the daily PM2.5 averages. Then we select the specified color (the parameter name is `cmap`, and we set it to `GnBu` in the following example. for detailed color options, please refer to the reference materials), and we can get the effect of the following figure, in which blue represents the greater value, green or white means lower values, if not colored or a value of 0 means there is no data for the day. From the resulting plot, we can see that the months in the middle part (summer) are lighter and the months in the left part (winter) are darker, just in line with our previous observations using the multi-line chart.
+The calendar heatmap is an innovative way to visualize time series data, particularly effective for showing how values change over time and identifying patterns related to specific dates or time periods. Here's a breakdown of how it works using air quality data, specifically PM2.5 averages:
+
+1. **Combining Calendar and Heatmap:** A calendar heatmap combines elements of a traditional calendar with a heatmap. Each day is represented as a cell in the calendar, and the color intensity in each cell indicates the value of the data for that day. This format makes it easy to see trends and patterns at a glance.
+
+2. **Using Calplot in Python:** Calplot is a Python library specifically designed for creating calendar heatmaps. It's an effective tool for this type of visualization because it's tailored to represent time series data in a calendar format.
+
+3. **Color Coding with `cmap`:** The `cmap` parameter in Calplot allows you to select the color scheme for the heatmap. In our case, we're using `GnBu`, which typically ranges from green (representing lower values) to blue (indicating higher values). The choice of color scheme is important as it visually communicates the data's range and intensity.
+
+4. **Interpreting the Heatmap:** In the resulting heatmap, days with higher PM2.5 averages will appear in darker blue, while days with lower averages will be in lighter green or white. Days without data or with a value of zero will be uncolored or differently marked, indicating missing data.
+
+5. **Correlation with Seasonal Trends:** The calendar heatmap for PM2.5 levels complements our earlier observations with the multi-line chart. For example, we might observe that the summer months are represented with lighter colors (lower PM2.5 values), while the winter months are darker (higher PM2.5 values), aligning with the seasonal trends identified earlier.
+
+6. **Analytical Insights:** This visualization method is particularly useful for identifying specific days or periods with unusually high or low air quality. It can also help in correlating air quality with specific events or environmental factors.
+
+In summary, the calendar heatmap is a powerful tool for visualizing and analyzing time series data, offering an intuitive and visually engaging way to understand complex patterns and trends over time.
 
 ```python
 # cmap: color map (https://matplotlib.org/stable/gallery/color/colormap_reference.html)
@@ -682,13 +702,43 @@ pl1 = calplot.calplot(data = air_day['PM25'], cmap = 'GnBu', textformat = '{:.0f
 
 ## Data Quality Inspection
 
-After the basic visualization of time series data, we will introduce the basic detection and processing methods of data quality. We will use kats, a Python language data processing and analysis suite, to perform outlier detection, change point detection, and handling missing values in sequence.
+Data quality inspection is a critical aspect of time series analysis, ensuring that the data you're working with is reliable and accurate. Here, we'll delve into some fundamental methods for assessing and improving data quality, using a Python library called kats.
+
+1. **Outlier Detection:**
+   - **Purpose:** Outliers are data points that significantly differ from other observations. They can arise due to measurement errors, data entry errors, or genuine but rare variations.
+   - **Method with kats:** Kats provides functions to identify these outliers. By detecting outliers, you can decide whether to investigate them further, adjust them, or exclude them from your analysis, depending on their nature and impact.
+
+2. **Change Point Detection:**
+   - **Purpose:** Change point detection involves identifying points in time where the statistical properties of the data series change significantly. These points can indicate important shifts in the underlying system that generates the data.
+   - **Method with kats:** Kats can detect these change points, helping you understand when and possibly why these shifts occur. This is particularly useful in time series data like air quality measurements, where changes could indicate environmental events or policy impacts.
+
+3. **Handling Missing Values:**
+   - **Challenge:** Missing values can skew analysis and lead to inaccurate conclusions. They can occur due to various reasons, such as data collection issues or sensor malfunctions.
+   - **Method with kats:** Kats offers tools to handle missing values effectively. This might involve imputing missing data based on surrounding data points, or excluding periods with missing data from certain types of analysis.
+
+By utilizing kats for data quality inspection, you can enhance the integrity of your data analysis. This process is crucial in ensuring that your findings and conclusions are based on robust and reliable data, which is especially important in fields where data-driven decisions can have significant impacts, such as environmental monitoring and public health.
 
 ### Outlier Detection
 
-Outliers are those values in the data that are significantly different from other values. These differences may affect our judgment and analysis of the data. Therefore, outliers need to be identified and then flagged, removed, or treated specially. .
+Dealing with outliers is an essential step in ensuring the accuracy of your time series analysis. Here's how you can identify and manage outliers in your air quality data using the kats package in Python:
 
-We first convert the data stored in the variable `air_hour` from its original dataframe format to the `TimeSeriesData` format used by the kats package and save the converted data into a variable named `air_ts`. Then we re-plot the line chart of the time series data.
+1. **Understanding Outliers:** Outliers are data points that are significantly different from the majority of the data. They can occur due to various reasons, such as measurement errors, data entry mistakes, or unusual but real variations. In the context of air quality data, outliers could represent unexpected pollution events or sensor malfunctions.
+
+2. **Conversion to `TimeSeriesData`:**
+   - **Initial Step:** Before you can use kats to analyze your data, you need to convert the data from its current DataFrame format into the `TimeSeriesData` format that kats uses.
+   - **Conversion Process:** This involves transforming the data stored in the `air_hour` variable (which is presumably an hourly aggregated DataFrame) into the `TimeSeriesData` format. This format is designed specifically for time series analysis in kats.
+   - **Saving the Converted Data:** Once converted, save this new time series data into a variable, let's call it `air_ts`.
+
+3. **Re-plotting the Data:**
+   - **Visual Inspection:** After conversion, re-plotting the data as a line chart can be a good starting point. This visual representation can sometimes make outliers immediately apparent, showing data points that deviate significantly from the overall trend.
+   - **Analysis with kats:** With the data in the correct format, you can now use kats to perform a more systematic outlier detection. Kats offer various methods to identify outliers, considering the unique characteristics of time series data.
+
+4. **Dealing with Outliers:**
+   - **Flagging:** Identify and mark outliers without removing them. This approach is useful if you want to study the outliers separately or if you suspect they might represent significant but rare events.
+   - **Removing:** Exclude outliers from the dataset. This approach is more suitable if the outliers are due to errors and are not representative of the underlying phenomenon you're studying.
+   - **Special Treatment:** Adjust outliers using statistical methods, such as imputation, to align them more closely with other data points. This method is used when you want to retain the information provided by the outliers but mitigate their impact on the analysis.
+
+By carefully managing outliers, you ensure that your analysis of air quality data is both accurate and representative, leading to more reliable conclusions and insights.
 
 ```python
 air_ts = TimeSeriesData(air_hour.reset_index(), time_col_name='timestamp')
@@ -697,7 +747,26 @@ air_ts.plot(cols=["PM25"])
 
 ![Python output](figures/4-1-4-1.png)
 
-We then used the `OutlierDetector` tool in the kats suite to detect outliers in the time series data, where outliers were less than 1.5 times the first quartile (Q1) minus the interquartile range (IQR) or greater than The third quartile (Q3) value plus 1.5 times the interquartile range.
+Using the `OutlierDetector` tool from the kats suite is a robust way to detect outliers in your time series data. This method relies on statistical measures to identify data points that are significantly different from the rest. Here's how it works:
+
+1. **Understanding Quartiles and IQR:**
+   - **Quartiles:** In statistics, quartiles divide a data set into four equal parts. The first quartile (Q1) is the median of the lower half of the dataset, while the third quartile (Q3) is the median of the upper half.
+   - **Interquartile Range (IQR):** The IQR is the range between the first and third quartiles (Q3 - Q1). It measures the spread of the middle 50% of the data.
+
+2. **Outlier Detection Criteria:**
+   - **Lower Bound:** A data point is considered an outlier if it is less than 1.5 times the IQR below the first quartile (Q1 - 1.5 * IQR).
+   - **Upper Bound:** Similarly, a data point is an outlier if it is more than 1.5 times the IQR above the third quartile (Q3 + 1.5 * IQR).
+   - **Rationale:** This method, based on the IQR, is effective because it defines outliers in the context of the data's overall distribution, accounting for its variability.
+
+3. **Using `OutlierDetector` in kats:**
+   - **Application:** You can apply the `OutlierDetector` tool to your `air_ts` data. This tool will automatically calculate Q1, Q3, and the IQR, and then use these to identify outliers based on the criteria mentioned above.
+   - **Configuration:** Ensure that the `OutlierDetector` is configured to use the IQR method for outlier detection. Kats may offer multiple methods, so selecting the right one for your specific analysis is important.
+
+4. **Results Interpretation:**
+   - **Identifying Outliers:** The `OutlierDetector` will flag the outliers in your dataset. These might be unusually high or low air quality readings.
+   - **Decision Making:** Once identified, you can decide how to handle these outliers – whether to remove them, adjust them, or analyze them separately to understand their cause.
+
+This approach to outlier detection is particularly useful in time series data like air quality measurements, where outliers can significantly impact the analysis. By identifying and appropriately handling these outliers, you can ensure that your analysis is more accurate and representative of the actual trends and patterns in the data.
 
 ```python
 outlierDetection = OutlierDetector(air_ts, 'additive')
@@ -982,8 +1051,25 @@ outlierDetection.outliers
   Timestamp('2021-11-29 10:00:00'),
   Timestamp('2021-12-21 11:00:00')]]
 ```
+Removing detected outliers and then comparing the revised dataset to the original is a key step in understanding the impact of outliers on your time series analysis. Here’s how we proceed with our air quality data:
 
-Finally, we delete the detected outliers from the original data, and re-plot the chart to compare it with the original one. We can clearly find some outliers (for example, there is an abnormal peak in 2022-07) have been removed.
+1. **Deleting Outliers:**
+   - Once the `OutlierDetector` from kats has identified the outliers in our `air_ts` data, we can proceed to remove these points. 
+   - This involves modifying the original dataset by either excluding the outlier data points or replacing them with null values, depending on our analysis needs.
+
+2. **Re-Plotting the Chart:**
+   - After removing the outliers, re-plot the time series data. This new plot will now represent the air quality data without the influence of the outliers.
+   - Ensure that this revised chart is plotted in the same format as the original for accurate comparison.
+
+3. **Comparing with the Original Dataset:**
+   - Place the original and revised charts side by side to visually compare the differences. This will help us understand how the outliers were affecting the overall data trends.
+   - Pay particular attention to areas where we previously noticed anomalies, such as the abnormal peak in July 2022. Observe how the removal of outliers has altered these sections.
+
+4. **Analyzing the Impact:**
+   - Removing outliers can often result in a smoother, more consistent trend line, which may reveal underlying patterns more clearly.
+   - However, it’s also important to consider the nature of these outliers – whether they were due to errors or genuine unusual occurrences – as this can affect the interpretation of our data.
+
+By completing this process, we not only clean our dataset but also gain a deeper understanding of how certain data points were influencing the overall analysis. This step is crucial in ensuring that our time series analysis is both accurate and reflective of the true trends in the data.
 
 ```
 outliers_removed = outlierDetection.remover(interpolate=False)
@@ -996,9 +1082,28 @@ outliers_removed.plot(cols=['y_0'])
 
 ### Change Point Detection)
 
-A change point is a point in time at which the data suddenly changes significantly, representing the occurrence of an event, a change in the state of the data, or a change in the distribution of the data. Therefore, change point detection is often regarded as an important preprocessing step for data analysis and data prediction.
+Change point detection is a valuable technique in time series analysis, used to identify significant shifts in data trends. These shifts could be indicative of important events or changes in the underlying system. Here’s how we can apply change point detection to our air quality data using kats:
 
-In the following example, we use daily averages of air quality data for change point detection. We use the `TimeSeriesData` data format of the kats package to store the data and use the `CUSUMDetector` detector provided by kats for detection. We use red dots to represent detected change points in the plot. Unfortunately, in this example, no obvious point of change was observed. Readers are advised to refer to this example and bring in other data for more exercise and testing.
+1. **Understanding Change Points:**
+   - A change point represents a significant shift in the pattern or distribution of the data. In the context of air quality, this could indicate a major environmental event, a change in pollution sources, or other significant factors affecting air quality.
+
+2. **Preparing Data for Detection:**
+   - Use daily averages of air quality data for this analysis. This helps in smoothing out short-term fluctuations and focusing on broader trends.
+   - Convert this data into the `TimeSeriesData` format required by kats.
+
+3. **Using `CUSUMDetector` for Detection:**
+   - Kats provides various detectors for change point analysis. The `CUSUMDetector` (Cumulative Sum Control Chart) is one of them, designed to identify shifts in the mean level of a time series.
+   - Apply `CUSUMDetector` to our `TimeSeriesData` formatted air quality data. Configure it as per our analysis needs, focusing on detecting significant shifts in air quality trends.
+
+4. **Plotting and Identifying Change Points:**
+   - After running the `CUSUMDetector`, plot the results. Mark detected change points with red dots on the plot for clear visibility.
+   - In cases where no obvious change points are detected, as in your example, it suggests that the air quality data did not experience significant abrupt changes during the period analyzed.
+
+5. **Encouraging Further Exploration:**
+   - While our data may not have shown clear change points, this method is still valuable for exploring other datasets.
+   - Readers are encouraged to apply this technique to different datasets or vary the parameters of the detection process to gain more insights and practice.
+
+Change point detection can offer critical insights into when and possibly why significant changes occur in time series data. This understanding is essential for accurate data analysis and prediction, particularly in fields like environmental monitoring where understanding the timing and cause of changes can have significant implications.
 
 ```python
 air_ts = TimeSeriesData(air_day.reset_index(), time_col_name='timestamp')
@@ -1017,10 +1122,23 @@ plt.show()
 
 ### Missing Data Handling
 
-Missing data is a common problem when conducting big data analysis. Some of these missing values are already missing at the time of data collection (such as sensor failure, network disconnection, etc.), and some are eliminated during data preprocessing (outliers or abnormality). However, for subsequent data processing and analysis, we often need the data to maintain a fixed sampling rate to facilitate the application of various methods and tools. Therefore, various methods for imputing missing data have been derived. Below we introduce three commonly used methods:
+Handling missing data is a crucial aspect of preparing datasets for analysis, especially in large-scale datasets where gaps can significantly impact the results. We've already mentioned two common methods for addressing missing data. Let's delve deeper into these and introduce a third method:
 
-1. Mark missing data as Nan (Not a number): Nan stands for not a number and is used to represent undefined or unrepresentable values. If it is known that subsequent data analysis will additionally deal with these special cases of Nan, this method can be adopted to maintain the authenticity of the information.
-2. Forward filling method: If Nan has difficulty in subsequent data analysis, missing values must be filled with appropriate numerical data. The easiest way to do this is forward fill, which uses the previous value to fill in the current missing value.
+1. **Marking Missing Data as NaN (Not a Number):**
+   - **Usage:** NaN is a standard marker used in data analysis and programming to denote missing or undefined values. It's especially useful in datasets where maintaining the integrity and authenticity of the data is important.
+   - **Considerations:** When using NaN to mark missing values, it's essential to ensure that the subsequent data analysis techniques can handle NaN values appropriately. Some methods might ignore NaN values, while others might require them to be handled or replaced.
+
+2. **Forward Filling Method:**
+   - **Description:** Forward filling is a straightforward method to handle missing data. It involves filling a missing value with the most recent non-missing value that precedes it.
+   - **Applicability:** This method is particularly useful in time series data where the previous value is often a reasonable estimate for the missing value. However, it assumes that the data does not change dramatically between successive points, which might not always be the case.
+
+3. **Mean or Median Imputation:**
+   - **Mean Imputation:** This involves replacing missing values with the mean (average) of the available data. It's a good option when the data distribution is not skewed.
+   - **Median Imputation:** Alternatively, using the median (the middle value when the data is sorted) can be more robust, especially in datasets where outliers might skew the mean.
+   - **Considerations:** Both mean and median imputation methods are simple and effective but assume that the missing values are roughly around the central tendency of the data. They can be less effective if this assumption does not hold.
+
+Each of these methods has its strengths and is suitable for different scenarios. The choice of method depends on the nature of the data and the specific requirements of the analysis. In time series data like air quality measurements, the chosen method should ideally preserve the temporal integrity of the data while adequately dealing with gaps caused by missing values.
+
 ```python
 # forward fill
 df_ffill = air.ffill(inplace=False)
@@ -1051,9 +1169,32 @@ df_knn.plot()
 
 ## Data Decomposition
 
-In the previous example of basic data processing, we have been able to roughly observe the changing trend of data values and discover potential regular changes. In order to further explore the regularity of time series data changes, we introduce the data decomposition method. In this way, the original time series data can be disassembled into trend waves (trend), periodic waves (seasonal) and residual waves (residual).
+Data decomposition is a powerful technique in time series analysis that allows us to break down a dataset into its constituent components. This can provide deeper insights into the underlying patterns and trends. Let's apply this to our air quality data:
 
-We first replicated the daily average data of air quality data as `air_process` and processed the missing data using forward filling. Then, we first presented the raw data directly in the form of a line chart.
+1. **Understanding Data Decomposition:**
+   - **Trend Component:** This represents the long-term progression of the series, showing how the data evolves over time, irrespective of seasonal or irregular patterns.
+   - **Seasonal Component:** This captures regular, periodic fluctuations in the data, like daily, weekly, or annual cycles.
+   - **Residual Component:** Also known as the irregular component, it encompasses random variation in the data after accounting for the trend and seasonal components.
+
+2. **Preparing the Data (`air_process`):**
+   - **Replicate Daily Averages:** Begin by creating a copy of the daily average air quality data, naming this new dataset `air_process`.
+   - **Handle Missing Data:** Use the forward-filling method to address any missing values in `air_process`. This will replace missing values with the last available non-missing value, ensuring continuity in the data.
+
+3. **Initial Visualization with a Line Chart:**
+   - **Plot Raw Data:** First, visualize the raw data in `air_process` as a line chart. This will provide a baseline view of the air quality data before decomposition.
+   - **Observing Patterns:** Look for any apparent trends, seasonal patterns, or irregularities in this initial plot.
+
+4. **Applying Data Decomposition:**
+   - **Decomposition Tools:** Use a statistical tool or library (like `statsmodels` in Python) that offers time series decomposition capabilities.
+   - **Breaking Down Components:** Apply the decomposition method to `air_process` to separate it into trend, seasonal, and residual components.
+   - **Visualization:** Plot each of these components separately to observe their characteristics and contributions to the overall data.
+
+5. **Analysis of Decomposed Data:**
+   - **Trend Analysis:** Examine the trend component for long-term changes or shifts in air quality.
+   - **Seasonal Analysis:** Look at the seasonal component to identify recurring patterns at specific times of the year or day.
+   - **Residuals Analysis:** Analyze the residual component to understand the unexplained variability in the data after removing the trend and seasonal effects.
+
+By decomposing the time series data into these components, we gain a more nuanced understanding of the factors influencing air quality. This can lead to more targeted analyses, such as investigating the causes of trends or predicting future air quality conditions based on identified patterns.
 
 ```python
 air_process = air_day.copy()
@@ -1064,7 +1205,26 @@ air_process.plot()
 
 ![Python output](figures/4-1-5-1.png)
 
-Then we use the `seasonal_decompose` method to decompose the `air_process` data, in which we need to set a period parameter, which refers to the period in which the data is decomposed. We first set it to 30 days, and then after execution, it will produce four pictures in sequence: raw data, trend chart, seasonal chart, and residual chart.
+The `seasonal_decompose` function is an excellent tool for breaking down a time series into its constituent components, providing a clearer picture of the underlying patterns and trends. Here's how to apply it to our `air_process` data:
+
+1. **Using `seasonal_decompose`:**
+   - **Function Overview:** The `seasonal_decompose` method from libraries like `statsmodels` in Python is designed to decompose a time series into trend, seasonal, and residual components.
+   - **Setting the Period Parameter:** The period parameter is crucial as it defines the cycle length for the seasonal decomposition. Setting it to 30 days implies that we're looking for patterns that repeat approximately every month.
+
+2. **Execution and Results:**
+   - **Applying to `air_process`:** Apply the `seasonal_decompose` method to the `air_process` data, with the period set to 30 days.
+   - **Output:** The function will output four distinct plots:
+     - **Raw Data Plot:** This is our original time series data, serving as a reference.
+     - **Trend Plot:** Shows the long-term trend in our air quality data, removing seasonal effects and irregular fluctuations.
+     - **Seasonal Plot:** Illustrates the repeating patterns or cycles in the data over the specified period (30 days).
+     - **Residual Plot:** Displays the residuals, which are what's left of the data after removing the trend and seasonal components. This plot can highlight irregularities or 'noise' in the data.
+
+3. **Interpreting the Decomposition:**
+   - **Trend Analysis:** The trend component will help us understand the overall direction and long-term movements in air quality.
+   - **Seasonal Analysis:** The seasonal component reveals any cyclical patterns, which could be related to environmental factors, human activities, or other periodic influences.
+   - **Residual Analysis:** Investigating the residuals can offer insights into anomalies and short-term fluctuations that are not explained by the trend or seasonal components.
+
+By completing this decomposition, we'll gain a comprehensive understanding of the various factors influencing the air quality data. This method can be particularly revealing in environmental data analysis, where multiple factors, both natural and anthropogenic, can impact the observed values.
 
 ```python
 decompose = seasonal_decompose(air_process['PM25'],model='additive', period=30)
@@ -1074,9 +1234,28 @@ plt.show()
 
 ![Python output](figures/4-1-5-2.png)
 
-In the trend graph (trend), we can also find that the graph of the original data has very similar characteristics, with higher values around January and lower values around July; while in the seasonal graph (seasonal), we can find that the data has a fixed periodic change in each cycle (30 days), which means that the air quality data has a one-month change.
+Our analysis of the decomposed air quality data provides valuable insights into the temporal dynamics of air quality, especially PM2.5 concentrations. Let's explore the implications of our findings:
 
-If we change the periodic variable to 365, i.e. decompose the data on a larger time scale (one year), we can see a trend of higher values around January and lower values around July from the seasonal plot, and this trend change occurs on a regular and regular basis. At the same time, it can be seen from the trend chart that the overall trend is slowing down, indicating that the concentration of PM2.5 is gradually decreasing under the overall trend. The results also confirmed our previous findings that no change points were detected, as the change trend of PM2.5 was a steady decline without abrupt changes.
+1. **Trend Analysis with a 30-Day Cycle:**
+   - The trend graph shows higher values around January and lower values around July, mirroring the characteristics observed in the original data. This indicates a strong seasonal component in air quality, with winter months typically showing higher PM2.5 levels.
+   - The similarity between the trend graph and the original data reinforces the significance of the seasonal influence on air quality.
+
+2. **Seasonal Analysis with a 30-Day Cycle:**
+   - The seasonal graph reveals a fixed periodic change every 30 days, suggesting a monthly cyclical pattern in air quality. This could be influenced by monthly variations in weather conditions, human activities, or environmental factors.
+
+3. **Changing the Period to 365 Days:**
+   - When the decomposition period is set to 365 days, representing an annual cycle, the seasonal plot still shows higher values in January and lower in July. This confirms that the seasonal trend is consistent on a yearly basis.
+   - The trend graph on this larger timescale suggests a gradual decrease in PM2.5 concentrations, indicating an overall improvement in air quality over time.
+
+4. **Interpreting the Trend Chart:**
+   - The slowing trend in the annual trend chart suggests a gradual reduction in PM2.5 levels, which is a positive sign from an environmental and public health perspective.
+   - This gradual decline aligns with the absence of change points in our earlier analysis, indicating a steady, rather than abrupt, improvement in air quality.
+
+5. **Confirmation of Earlier Findings:**
+   - The results from the decomposition corroborate our previous observations that there were no sudden change points in the PM2.5 data. 
+   - The consistent seasonal pattern and the overall declining trend in PM2.5 concentrations highlight the effectiveness of ongoing measures to improve air quality and the impact of seasonal factors.
+
+By analyzing the data through different decomposition periods (30 days and 365 days), you gain a nuanced understanding of both short-term cyclical patterns and long-term trends in air quality. This comprehensive approach is crucial for accurate environmental analysis and for formulating effective policies to further improve air quality.
 
 ```python
 decompose = seasonal_decompose(air_process['PM25'],model='additive', period=365)
