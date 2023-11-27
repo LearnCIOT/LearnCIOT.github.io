@@ -29,12 +29,19 @@ In this chapter, we'll explore how to use time series data analysis through thre
 In this article, we're going to work with several useful tools, including pandas, matplotlib, numpy, seaborn, statsmodels, and warnings. These are all ready to use on Google Colab, our chosen development platform, so you don't have to worry about installing them. However, we'll also be using two extra packages, kats and calplot, which aren't pre-installed on Colab. To use these, we'll need to install them first.
 
 ```python
+# Upgrading pip, the package installer for Python. 
+# This ensures we have the latest version with all the improvements and security patches.
 !pip install --upgrade pip
 
-# Kats
+# Installing specific versions of three libraries:
+# 'kats' is a toolkit for time series analysis developed by Facebook Research.
+# 'ax-platform' is a platform for adaptive experimentation.
+# 'statsmodels' is a library for statistical modeling in Python.
+# By specifying the versions, we make sure our code is consistent and reliable.
 !pip install kats==0.1 ax-platform==0.2.3 statsmodels==0.12.2
 
-# calplot
+# Installing 'calplot', a library for creating calendar heatmaps.
+# It's great for visualizing time series data in a calendar format.
 !pip install calplot
 ```
 
