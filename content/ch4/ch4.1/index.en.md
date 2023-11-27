@@ -41,23 +41,24 @@ In this article, we're going to work with several useful tools, including pandas
 Once the installation of kats and calplot is finished, we can begin by importing all the necessary packages to set up our working environment for this article. Here's how we do it:
 
 ```python
-import warnings
-import calplot
-import pandas as pd
-import numpy as np
-import matplotlib as mpl
-import matplotlib.pyplot as plt
-import statsmodels.api as sm
-import os, zipfile
+import warnings  # Importing the warnings library to control warning messages.
+import calplot  # Calplot is used for plotting calendar heatmaps.
+import pandas as pd  # Pandas is a powerful data manipulation and analysis library.
+import numpy as np  # Numpy is used for numerical operations on arrays and matrices.
+import matplotlib as mpl  # Matplotlib is a plotting library.
+import matplotlib.pyplot as plt  # Pyplot is a module in Matplotlib for easy plotting.
+import statsmodels.api as sm  # Statsmodels is used for statistical modeling and testing.
+import os, zipfile  # OS and zipfile for handling file and directory operations.
 
-from datetime import datetime, timedelta
-from dateutil import parser as datetime_parser
-from statsmodels.tsa.stattools import adfuller, kpss
-from statsmodels.tsa.seasonal import seasonal_decompose
-from kats.detectors.outlier import OutlierDetector
-from kats.detectors.cusum_detection import CUSUMDetector
-from kats.consts import TimeSeriesData, TimeSeriesIterator
-from IPython.core.pylabtools import figsize
+from datetime import datetime, timedelta  # For handling date and time operations.
+from dateutil import parser as datetime_parser  # For parsing date and time from strings.
+from statsmodels.tsa.stattools import adfuller, kpss  # For statistical tests in time series analysis.
+from statsmodels.tsa.seasonal import seasonal_decompose  # For decomposing time series data.
+from kats.detectors.outlier import OutlierDetector  # Kats is a toolkit for time series analysis.
+from kats.detectors.cusum_detection import CUSUMDetector  # For change point detection in time series.
+from kats.consts import TimeSeriesData, TimeSeriesIterator  # Constants and iterators for time series operations.
+from IPython.core.pylabtools import figsize  # For setting the size of plots in Jupyter notebooks.
+
 ```
 
 ## Data Access
@@ -73,48 +74,54 @@ We're going to work with long-term historical data. Instead of using the standar
 Since the data we download comes in a zip file, which is a type of compressed file, our first step will be to unzip it. Unzipping will give us a series of daily files, also compressed. We'll then need to decompress each of these daily files. After decompressing, we'll store them in a separate folder named CSV_Air. This step-by-step process ensures that we have all the historical air quality data ready and organized for our analysis.
 
 ```python
-!mkdir Air CSV_Air
+# Creating directories for storing air quality data.
+!mkdir Air CSV_Air 
+
+# Downloading air quality datasets for the years 2018 to 2021 from a specified URL.
 !wget -O Air/2018.zip -q "https://history.colife.org.tw/?r=/download&path=L%2Bepuuawo%2BWTgeizqi%2FkuK3noJTpmaJf5qCh5ZyS56m65ZOB5b6u5Z6L5oSf5ris5ZmoLzIwMTguemlw"
 !wget -O Air/2019.zip -q "https://history.colife.org.tw/?r=/download&path=L%2Bepuuawo%2BWTgeizqi%2FkuK3noJTpmaJf5qCh5ZyS56m65ZOB5b6u5Z6L5oSf5ris5ZmoLzIwMTkuemlw"
 !wget -O Air/2020.zip -q "https://history.colife.org.tw/?r=/download&path=L%2Bepuuawo%2BWTgeizqi%2FkuK3noJTpmaJf5qCh5ZyS56m65ZOB5b6u5Z6L5oSf5ris5ZmoLzIwMjAuemlw"
 !wget -O Air/2021.zip -q "https://history.colife.org.tw/?r=/download&path=L%2Bepuuawo%2BWTgeizqi%2FkuK3noJTpmaJf5qCh5ZyS56m65ZOB5b6u5Z6L5oSf5ris5ZmoLzIwMjEuemlw"
 
-#開始進行解壓縮
+# Setting up the folder structure and file extensions for unzipping and organizing the data.
 folder = 'Air'
 extension_zip = '.zip'
 extension_csv = '.csv'
 
+# Unzipping the downloaded files and extracting their contents.
 for subfolder in os.listdir(folder):
     path = f'{folder}/{subfolder}'
     if path.endswith(extension_zip):
-      print(path)
-      zip_ref = zipfile.ZipFile(path)
-      zip_ref.extractall(folder)
-      zip_ref.close()
+      print(path) # Printing the path for tracking progress.
+      zip_ref = zipfile.ZipFile(path) # Opening the zip file.
+      zip_ref.extractall(folder) # Extracting the contents.
+      zip_ref.close() # Closing the zip file.
 
+# Further unzipping nested zip files and organizing their contents.
 for subfolder in os.listdir(folder):
     path = f'{folder}/{subfolder}'
     if os.path.isdir(path):
         for item in os.listdir(path):
             if item.endswith(extension_zip):
                 file_name = f'{path}/{item}'
-                print(file_name)
-                zip_ref = zipfile.ZipFile(file_name)
-                zip_ref.extractall(path)
-                zip_ref.close()
+                print(file_name) # Printing the file name.
+                zip_ref = zipfile.ZipFile(file_name) # Opening the zip file.
+                zip_ref.extractall(path) # Extracting contents.
+                zip_ref.close() # Closing the zip file.
 
+        # Moving CSV files to a specific folder for easy access.
         for item in os.listdir(path):
           path2 = f'{path}/{item}'
           if os.path.isdir(path2):
             for it in os.listdir(path2):
               if it.endswith(extension_zip):
                 file_name = f'{path2}/{it}'
-                print(file_name)
-                zip_ref = zipfile.ZipFile(file_name)
-                zip_ref.extractall('CSV_Air') # decide path
-                zip_ref.close()
+                print(file_name) # Printing the file name.
+                zip_ref = zipfile.ZipFile(file_name) # Opening the zip file.
+                zip_ref.extractall('CSV_Air') # Extracting contents to a specific folder.
+                zip_ref.close() # Closing the zip file.
           elif item.endswith(extension_csv):
-            os.rename(path2, f'CSV_Air/{item}')
+            os.rename(path2, f'CSV_Air/{item}') # Renaming and moving CSV files.
 ```
 
 Now that we've decompressed the daily sensor data, the `CSV_Air` folder contains all of this data in CSV (Comma-Separated Values) format. CSV files are like simple spreadsheets where each line of text is a row of data, and each value in the row is separated by a comma.
@@ -124,26 +131,42 @@ Our next step is to focus on data from a specific monitoring station. Let's say 
 Once we've collected all the necessary data in the `air` dataframe, our final step is to delete all the downloaded and decompressed data. This is an important step to save storage space in the cloud, where we're working. This way, we keep only the essential data we need for analysis, making our work more efficient and organized.
 
 ```python
+# Setting up the folder and file extension for processing the CSV air quality data.
 folder = 'CSV_Air'
 extension_csv = '.csv'
-id = '74DA38C7D2AC'
+id = '74DA38C7D2AC' # Specific device ID to filter the data.
 
+# Initializing an empty DataFrame to store the consolidated air quality data.
 air = pd.DataFrame()
+
+# Looping through each file in the CSV_Air folder.
 for item in os.listdir(folder):
-  file_name = f'{folder}/{item}'
-  df = pd.read_csv(file_name)
+  file_name = f'{folder}/{item}' # Constructing the file path.
+  df = pd.read_csv(file_name) # Reading the CSV file into a DataFrame.
+
+  # Renaming the 'pm25' column to 'PM25' for consistency, if it exists.
   if 'pm25' in list(df.columns):
     df.rename({'pm25':'PM25'}, axis=1, inplace=True)
+  
+  # Filtering the DataFrame for the specific device ID.
   filtered = df.query(f'device_id==@id')
+  
+  # Concatenating the filtered data into the main DataFrame.
   air = pd.concat([air, filtered], ignore_index=True)
+
+# Dropping rows where the 'timestamp' column is NaN.
 air.dropna(subset=['timestamp'], inplace=True)
 
+# Converting the 'timestamp' column to a datetime format, handling timezone awareness.
 for i, row in air.iterrows():
-  aware = datetime_parser.parse(str(row['timestamp']))
-  naive = aware.replace(tzinfo=None)
-  air.at[i, 'timestamp'] = naive
+  aware = datetime_parser.parse(str(row['timestamp'])) # Parsing the timestamp.
+  naive = aware.replace(tzinfo=None) # Removing timezone information.
+  air.at[i, 'timestamp'] = naive # Updating the DataFrame with the naive timestamp.
+
+# Setting the 'timestamp' column as the index of the DataFrame.
 air.set_index('timestamp', inplace=True)
 
+# Removing the directories and their contents used for data storage.
 !rm -rf Air CSV_Air
 ```
 
@@ -158,9 +181,16 @@ The last step in our data preparation process involves organizing the data we've
 By completing these steps, we'll have a clean, well-organized dataset that's ready for detailed analysis. This organized approach not only makes our analysis more straightforward but also ensures accuracy in our findings.
 
 ```python
+# Dropping unnecessary columns from the air DataFrame.
 air.drop(columns=['device_id', 'SiteName'], inplace=True)
+
+# Sorting the DataFrame based on the 'timestamp' column.
 air.sort_values(by='timestamp', inplace=True)
+
+# Displaying information about the DataFrame.
 air.info()
+
+# Printing the first few rows of the DataFrame.
 print(air.head())
 ```
 
@@ -199,47 +229,54 @@ Just like with the air quality data, we're going to focus on using long-term his
 By following these steps, we ensure that we have a comprehensive and organized dataset of groundwater levels, which is crucial for accurate and effective analysis.
 
 ```python
+# Creating directories for storing water quality data.
 !mkdir Water CSV_Water
+
+# Downloading water quality datasets for the years 2018 to 2021 from specified URLs.
 !wget -O Water/2018.zip "https://history.colife.org.tw/?r=/download&path=L%2BawtOizh%2Ba6kC%2FmsLTliKnnvbJf5rKz5bed5rC05L2N56uZLzIwMTguemlw"
 !wget -O Water/2019.zip "https://history.colife.org.tw/?r=/download&path=L%2BawtOizh%2Ba6kC%2FmsLTliKnnvbJf5rKz5bed5rC05L2N56uZLzIwMTkuemlw"
 !wget -O Water/2020.zip "https://history.colife.org.tw/?r=/download&path=L%2BawtOizh%2Ba6kC%2FmsLTliKnnvbJf5rKz5bed5rC05L2N56uZLzIwMjAuemlw"
 !wget -O Water/2021.zip "https://history.colife.org.tw/?r=/download&path=L%2BawtOizh%2Ba6kC%2FmsLTliKnnvbJf5rKz5bed5rC05L2N56uZLzIwMjEuemlw"
 
-#開始進行解壓縮
+# Setting up the folder structure and file extensions for unzipping and organizing the data.
 folder = 'Water'
 extension_zip = '.zip'
 extension_csv = '.csv'
 
+# Unzipping the downloaded files and extracting their contents.
 for subfolder in os.listdir(folder):
     path = f'{folder}/{subfolder}'
     if path.endswith(extension_zip):
-      print(path)
-      zip_ref = zipfile.ZipFile(path)
-      zip_ref.extractall(folder)
-      zip_ref.close()
+      print(path) # Printing the path for tracking progress.
+      zip_ref = zipfile.ZipFile(path) # Opening the zip file.
+      zip_ref.extractall(folder) # Extracting the contents.
+      zip_ref.close() # Closing the zip file.
+
+# Further unzipping nested zip files and organizing their contents, excluding 'QC.zip' files.
 for subfolder in os.listdir(folder):
     path = f'{folder}/{subfolder}'
     if os.path.isdir(path):
         for item in os.listdir(path):
             if item.endswith(extension_zip):
                 file_name = f'{path}/{item}'
-                print(file_name)
-                zip_ref = zipfile.ZipFile(file_name)
-                zip_ref.extractall(path)
-                zip_ref.close()
+                print(file_name) # Printing the file name.
+                zip_ref = zipfile.ZipFile(file_name) # Opening the zip file.
+                zip_ref.extractall(path) # Extracting contents.
+                zip_ref.close() # Closing the zip file.
 
+        # Moving CSV files to a specific folder for easy access.
         for item in os.listdir(path):
           path2 = f'{path}/{item}'
           if os.path.isdir(path2):
             for it in os.listdir(path2):
               if it.endswith(extension_zip) and not it.endswith('QC.zip'):
                 file_name = f'{path2}/{it}'
-                print(file_name)
-                zip_ref = zipfile.ZipFile(file_name)
-                zip_ref.extractall('CSV_Water') # decide path
-                zip_ref.close()
+                print(file_name) # Printing the file name.
+                zip_ref = zipfile.ZipFile(file_name) # Opening the zip file.
+                zip_ref.extractall('CSV_Water') # Extracting contents to a specific folder.
+                zip_ref.close() # Closing the zip file.
           elif item.endswith(extension_csv):
-            os.rename(path2, f'CSV_Water/{item}')
+            os.rename(path2, f'CSV_Water/{item}') # Renaming and moving CSV files.
 ```
 
 Now that we've decompressed the water level data, the `CSV_Water` folder is filled with daily sensor data in CSV format. Next, we'll focus on extracting and organizing data from a specific station. Here's how we'll do it:
@@ -253,26 +290,43 @@ Now that we've decompressed the water level data, the `CSV_Water` folder is fill
 By following these steps, we'll have a streamlined, specific dataset ready for in-depth analysis of water levels at the chosen station. This approach helps in maintaining an organized and efficient workflow, especially when dealing with large amounts of data.
 
 ```python
+# Setting up the folder and file extension for processing the CSV water quality data.
 folder = 'CSV_Water'
 extension_csv = '.csv'
-id = '338c9c1c-57d8-41d7-9af2-731fb86e632c'
+id = '338c9c1c-57d8-41d7-9af2-731fb86e632c' # Specific station ID for filtering the data.
 
+# Initializing an empty DataFrame to store the consolidated water quality data.
 water = pd.DataFrame()
+
+# Looping through each file in the CSV_Water folder.
 for item in os.listdir(folder):
-  file_name = f'{folder}/{item}'
-  df = pd.read_csv(file_name)
+  file_name = f'{folder}/{item}'  # Constructing the file path.
+  df = pd.read_csv(file_name) # Reading the CSV file into a DataFrame.
+
+  # Renaming the 'pm25' column to 'PM25' for consistency, if it exists.
+  # This may not be relevant for water data and can be removed if 'pm25' is not a column.
   if 'pm25' in list(df.columns):
     df.rename({'pm25':'PM25'}, axis=1, inplace=True)
+  
+  # Filtering the DataFrame for the specific station ID.
   filtered = df.query(f'station_id==@id')
+  
+  # Concatenating the filtered data into the main DataFrame.
   water = pd.concat([water, filtered], ignore_index=True)
+
+# Dropping rows where the 'timestamp' column is NaN.
 water.dropna(subset=['timestamp'], inplace=True)
 
+# Converting the 'timestamp' column to a datetime format, handling timezone awareness.
 for i, row in water.iterrows():
   aware = datetime_parser.parse(str(row['timestamp']))
   naive = aware.replace(tzinfo=None)
   water.at[i, 'timestamp'] = naive
+
+# Setting the 'timestamp' column as the index of the DataFrame.
 water.set_index('timestamp', inplace=True)
 
+# Removing the directories and their contents used for data storage.
 !rm -rf Water CSV_Water
 ```
 
@@ -287,9 +341,16 @@ As the final step in preparing our water level data for analysis, we'll undertak
 By carrying out these steps, we ensure that our water level dataset is not only tailored to our specific research needs but also organized in a way that facilitates efficient and accurate analysis. This organized approach is particularly important in data science, as it lays the groundwork for insightful and reliable results.
 
 ```python
+# Dropping unnecessary columns from the water DataFrame.
 water.drop(columns=['station_id', 'ciOrgname', 'ciCategory', 'Organize_Name', 'CategoryInfos_Name', 'PQ_name', 'PQ_fullname', 'PQ_description', 'PQ_unit', 'PQ_id'], inplace=True)
+
+# Sorting the DataFrame based on the 'timestamp' column.
 water.sort_values(by='timestamp', inplace=True)
+
+# Displaying information about the DataFrame.
 water.info()
+
+# Printing the first few rows of the DataFrame.
 print(water.head())
 ```
 
@@ -328,47 +389,53 @@ For our weather data analysis, we will follow a similar process to what we did w
 By completing these steps, we ensure that our weather data is well-organized and prepared for detailed analysis. This process is crucial in data science for maintaining an efficient workflow and ensuring that the data is in a usable state for any analytical tasks that follow.
 
 ```python
+# Creating directories for storing weather data.
 !mkdir Weather CSV_Weather
+
+# Downloading weather datasets for the years 2019 to 2021 from specified URLs.
 !wget -O Weather/2019.zip "https://history.colife.org.tw/?r=/download&path=L%2Bawo%2BixoS%2FkuK3lpK7msKPosaHlsYBf6Ieq5YuV5rCj6LGh56uZLzIwMTkuemlw"
 !wget -O Weather/2020.zip "https://history.colife.org.tw/?r=/download&path=L%2Bawo%2BixoS%2FkuK3lpK7msKPosaHlsYBf6Ieq5YuV5rCj6LGh56uZLzIwMjAuemlw"
 !wget -O Weather/2021.zip "https://history.colife.org.tw/?r=/download&path=L%2Bawo%2BixoS%2FkuK3lpK7msKPosaHlsYBf6Ieq5YuV5rCj6LGh56uZLzIwMjEuemlw"
 
-#開始進行解壓縮
+# Downloading weather datasets for the years 2019 to 2021 from specified URLs.
 folder = 'Weather'
 extension_zip = '.zip'
 extension_csv = '.csv'
 
+# Unzipping the downloaded files and extracting their contents.
 for subfolder in os.listdir(folder):
     path = f'{folder}/{subfolder}'
     if path.endswith(extension_zip):
-      print(path)
-      zip_ref = zipfile.ZipFile(path)
-      zip_ref.extractall(folder)
-      zip_ref.close()
+      print(path) # Printing the path for tracking progress.
+      zip_ref = zipfile.ZipFile(path) # Opening the zip file.
+      zip_ref.extractall(folder) # Extracting the contents.
+      zip_ref.close() # Closing the zip file.
 
+# Further unzipping nested zip files and organizing their contents.
 for subfolder in os.listdir(folder):
     path = f'{folder}/{subfolder}'
     if os.path.isdir(path):
         for item in os.listdir(path):
             if item.endswith(extension_zip):
                 file_name = f'{path}/{item}'
-                print(file_name)
-                zip_ref = zipfile.ZipFile(file_name)
-                zip_ref.extractall(path)
-                zip_ref.close()
+                print(file_name) # Printing the file name.
+                zip_ref = zipfile.ZipFile(file_name) # Opening the zip file.
+                zip_ref.extractall(path) # Extracting contents.
+                zip_ref.close() # Closing the zip file.
 
+        # Moving CSV files to a specific folder for easy access.
         for item in os.listdir(path):
           path2 = f'{path}/{item}'
           if os.path.isdir(path2):
             for it in os.listdir(path2):
               if it.endswith(extension_zip):
                 file_name = f'{path2}/{it}'
-                print(file_name)
-                zip_ref = zipfile.ZipFile(file_name)
-                zip_ref.extractall('CSV_Weather') # decide path
-                zip_ref.close()
+                print(file_name) # Printing the file name.
+                zip_ref = zipfile.ZipFile(file_name) # Opening the zip file.
+                zip_ref.extractall('CSV_Weather') # Extracting contents to a specific folder.
+                zip_ref.close() # Closing the zip file.
           elif item.endswith(extension_csv):
-            os.rename(path2, f'CSV_Weather/{item}')
+            os.rename(path2, f'CSV_Weather/{item}') # Renaming and moving CSV files.
 ```
 
 Having successfully decompressed the weather data, the `CSV_Weather` folder now contains all the daily sensor data in CSV format. Our next steps focus on extracting specific data and organizing it effectively:
@@ -382,27 +449,46 @@ Having successfully decompressed the weather data, the `CSV_Weather` folder now 
 By completing these steps, we ensure that our weather dataset is focused, well-organized, and ready for in-depth analysis, specifically tailored to the `C0U750` weather station. This approach is key in data science, helping maintain an organized workflow and ensuring the integrity and relevance of the data being analyzed.
 
 ```python
+# Setting up the folder and file extension for processing the CSV weather data.
 folder = 'CSV_Weather'
 extension_csv = '.csv'
-id = 'C0U750'
+id = 'C0U750' # Specific station ID to filter the weather data.
 
+# Initializing an empty DataFrame to store the consolidated weather data.
 weather = pd.DataFrame()
+
+# Looping through each file in the CSV_Weather folder.
 for item in os.listdir(folder):
-  file_name = f'{folder}/{item}'
-  df = pd.read_csv(file_name)
+  file_name = f'{folder}/{item}' # Constructing the file path.
+  df = pd.read_csv(file_name) # Reading the CSV file into a DataFrame.
+
+  # Renaming the 'pm25' column to 'PM25' for consistency, if it exists.
+  # This may not be relevant for weather data and can be removed if 'pm25' is not a column.
   if 'pm25' in list(df.columns):
     df.rename({'pm25':'PM25'}, axis=1, inplace=True)
+
+  # Filtering the DataFrame for the specific station ID.
   filtered = df.query(f'station_id==@id')
+
+  # Concatenating the filtered data into the main DataFrame.
   weather = pd.concat([weather, filtered], ignore_index=True)
+
+# Renaming the 'obsTime' column to 'timestamp' for consistency.
 weather.rename({'obsTime':'timestamp'}, axis=1, inplace=True)
+
+# Dropping rows where the 'timestamp' column is NaN.
 weather.dropna(subset=['timestamp'], inplace=True)
 
+# Converting the 'timestamp' column to a datetime format, handling timezone awareness.
 for i, row in weather.iterrows():
-  aware = datetime_parser.parse(str(row['timestamp']))
-  naive = aware.replace(tzinfo=None)
-  weather.at[i, 'timestamp'] = naive
+  aware = datetime_parser.parse(str(row['timestamp'])) # Parsing the timestamp.
+  naive = aware.replace(tzinfo=None) # Removing timezone information.
+  weather.at[i, 'timestamp'] = naive # Setting the 'timestamp' column as the index of the DataFrame.
+
+# Setting the 'timestamp' column as the index of the DataFrame.
 weather.set_index('timestamp', inplace=True)
 
+# Removing the directories and their contents used for data storage.
 !rm -rf Weather CSV_Weather
 ```
 
@@ -417,9 +503,16 @@ To finalize our preparation of the weather data for analysis, we'll perform thre
 By executing these steps, we ensure that our weather data is not only precisely tailored for our research but also organized in a way that facilitates effective and accurate analysis. Proper data organization is a fundamental aspect of data science, as it sets the foundation for insightful and reliable analytical outcomes.
 
 ```python
+# Dropping the 'station_id' column from the weather DataFrame.
 weather.drop(columns=['station_id'], inplace=True)
+
+# Sorting the DataFrame based on the 'timestamp' column.
 weather.sort_values(by='timestamp', inplace=True)
+
+# Displaying information about the DataFrame.
 weather.info()
+
+# Printing the first few rows of the DataFrame.
 print(weather.head())
 ```
 
@@ -491,15 +584,21 @@ Data visualization plays a crucial role in the analysis of time series data. It 
 By using data visualization techniques like line charts, we make complex data more accessible and understandable. This is a powerful way to communicate data-driven insights and can be a stepping stone to more advanced analyses, such as identifying the causes of trends or predicting future air quality conditions.
 
 ```python
+# Setting up the figure size and resolution for the plot.
 plt.figure(figsize=(15, 10), dpi=60)
-plt.plot(air[:]["PM25"])
 
+# Plotting the PM2.5 data from the air DataFrame.
+plt.plot(air[:]["PM25"]) # Simplified indexing.
+
+# Adding labels and title to the plot.
 plt.xlabel("Date")
 plt.ylabel("PM2.5")
 plt.title("PM2.5 Time Series Plot")
 
+# Adjusting the layout for better fit and readability.
 plt.tight_layout()
 
+# Displaying the plot.
 plt.show()
 ```
 
@@ -522,13 +621,13 @@ For example, if we're interested in daily trends in air quality, we can resample
 Resampling is a powerful tool in data analysis, as it allows us to tailor the dataset to our specific research questions and make more meaningful interpretations from the data.
 
 ```python
-air_hour = air.resample('H').mean() # hourly average
-air_day = air.resample('D').mean()  # daily average
-air_month = air.resample('M').mean()  # monthly average
+air_hour = air.resample('H').mean() # Resampling the air quality data to obtain hourly averages.
+air_day = air.resample('D').mean() # Resampling the air quality data to obtain daily averages.
+air_month = air.resample('M').mean() # Resampling the air quality data to obtain daily averages.
 
-print(air_hour.head())
-print(air_day.head())
-print(air_month.head())
+print(air_hour.head()) # Printing the first few rows of the hourly averaged data.
+print(air_day.head()) # Printing the first few rows of the daily averaged data.
+print(air_month.head()) # Printing the first few rows of the monthly averaged data.
 ```
 
 ```
@@ -558,7 +657,7 @@ When we apply resampling to our air quality data, specifically averaging it on a
 
 1. **Clearer Trends:** By plotting the hourly averaged data, the overall trends in air quality become more apparent. This is because averaging the data over each hour smooths out the minute-to-minute variations, highlighting broader patterns that might be occurring throughout the day.
 
-2. **Persistent Fluctuations:** Despite this averaging, you might still observe significant fluctuations in the data. This indicates that even on an hourly scale, air quality can vary considerably. These fluctuations could be due to a variety of environmental factors, such as changes in traffic patterns, industrial activities, or natural phenomena affecting air quality.
+2. **Persistent Fluctuations:** Despite this averaging, we might still observe significant fluctuations in the data. This indicates that even on an hourly scale, air quality can vary considerably. These fluctuations could be due to a variety of environmental factors, such as changes in traffic patterns, industrial activities, or natural phenomena affecting air quality.
 
 3. **Visualizing the Data:** In a line chart representing this resampled data, each point on the line now represents the average air quality for an hour. This visualization helps in identifying hours with particularly high or low air quality levels, which can be crucial for understanding air pollution trends and their potential impacts.
 
@@ -567,15 +666,21 @@ When we apply resampling to our air quality data, specifically averaging it on a
 Overall, resampling and re-plotting the data in this manner is an essential step in time series analysis. It allows us to view the data at different scales, revealing patterns that might not be evident in the original, more granular dataset.
 
 ```python
-plt.figure(figsize=(15, 10), dpi=60)
-plt.plot(air_hour[:]["PM25"])
+# Setting up the figure size and resolution for the plot.
+plt.figure(figsize=(15, 10), dpi=60) 
 
+# Plotting the PM2.5 hourly average data from the air_hour DataFrame.
+plt.plot(air_hour[:]["PM25"]) # Simplified indexing.
+
+# Adding labels and title to the plot.
 plt.xlabel("Date")
 plt.ylabel("PM2.5")
 plt.title("PM2.5 Time Series Plot")
 
+# Adjusting the layout for better fit and readability.
 plt.tight_layout()
 
+# Displaying the plot.
 plt.show()
 ```
 
@@ -584,7 +689,7 @@ plt.show()
 
 ### Moving Average
 
-The moving average is a useful technique for smoothing out time series data, particularly when you're interested in identifying broader trends rather than focusing on individual data points. Here's how it works in the context of our air quality dataset:
+The moving average is a useful technique for smoothing out time series data, particularly when we're interested in identifying broader trends rather than focusing on individual data points. Here's how it works in the context of our air quality dataset:
 
 1. **Concept of the Moving Average:** The moving average involves creating a 'sampling window' that slides across the time series data. At each position of this window, we calculate the average value of all the data points within it. This process effectively smooths out short-term fluctuations and highlights longer-term trends in the data.
 
@@ -599,17 +704,25 @@ The moving average is a useful technique for smoothing out time series data, par
 In summary, the moving average is a powerful tool for simplifying and clarifying time series data, making it an invaluable method for analyzing and understanding complex datasets like air quality measurements.
 
 ```python
-# plt.figure(figsize=(15, 10), dpi=60)
+# Creating a Moving Average (MA) DataFrame from the hourly averaged data.
 MA = air_hour
+
+# Calculating a 500-point moving average of the data.
 MA10 = MA.rolling(window=500, min_periods=1).mean()
 
-MA.join(MA10.add_suffix('_mean_500')).plot(figsize=(20, 15))
+# Joining the original hourly data with the 500-point moving average data.
+MA_combined = MA.join(MA10.add_suffix('_mean_500'))
+
+# Plotting both the original data and the moving average data.
+MA_combined.plot(figsize=(20, 15))
+
+# The commented line is not necessary as it was intended to plot only the moving average data.
 # MA10.plot(figsize(15, 10))
 ```
 
 ![Python output](figures/4-1-3-3.png)
 
-The comparison between the original data and the moving average in your visualization, represented by the blue and orange lines respectively, illustrates the effectiveness of the moving average method in time series analysis:
+The comparison between the original data and the moving average in our visualization, represented by the blue and orange lines respectively, illustrates the effectiveness of the moving average method in time series analysis:
 
 1. **Contrast in Trends:** The blue line, representing the original data, likely shows more variability and rapid fluctuations. This is typical of raw time series data, where every small change is recorded. The orange line, on the other hand, represents the data after applying the moving average. This line will appear smoother, with fewer peaks and troughs.
 
@@ -623,39 +736,53 @@ In summary, the moving average technique not only simplifies the data for easier
 
 ### Multi-line Charts
 
-Segmenting data into distinct time periods and then visualizing these segments together is an effective way to compare how data trends vary over different times. Here's how this approach can be applied to your air quality data:
+Segmenting data into distinct time periods and then visualizing these segments together is an effective way to compare how data trends vary over different times. Here's how this approach can be applied to our air quality data:
 
-1. **Segmentation by Time Periods:** First, we divide the air quality data into separate subsets based on specific time intervals, like years. In your case, you're considering four subsets: 2019, 2020, 2021, and 2022.
+1. **Segmentation by Time Periods:** First, we divide the air quality data into separate subsets based on specific time intervals, like years. In our case, we're considering four subsets: 2019, 2020, 2021, and 2022.
 
 2. **Creating Individual Line Charts:** For each subset, we create a line chart that represents the air quality trends during that particular time period. Each line chart will reflect the unique characteristics of its respective year.
 
 3. **Superimposing on a Multi-Line Chart:** Once we have individual line charts for each year, we overlay them onto a single chart. This multi-line chart allows us to directly compare the different time periods. Each year’s data can be represented by a line of a different color for clarity.
 
-4. **Analysis and Comparison:** With this visualization, it becomes easier to observe how air quality has changed year over year. You can identify patterns, such as specific times of the year where air quality tends to worsen or improve, and see how these patterns shift from one year to the next.
+4. **Analysis and Comparison:** With this visualization, it becomes easier to observe how air quality has changed year over year. We can identify patterns, such as specific times of the year where air quality tends to worsen or improve, and see how these patterns shift from one year to the next.
 
 5. **Insights and Implications:** This kind of comparison is particularly useful for understanding long-term trends and the impact of external factors (like policy changes, environmental events, or industrial activities) on air quality over time. It can also help in predicting future trends based on past patterns.
 
 Overall, this method of segmenting data and comparing it across different time periods in a multi-line chart is a powerful tool for data visualization. It helps in uncovering deeper insights and makes complex time series data more approachable and understandable.
 
 ```python
+# Resetting the index of the monthly averaged air data to access 'timestamp' column.
 air_month.reset_index(inplace=True)
+
+# Extracting the year and month from the 'timestamp' column.
 air_month['year'] = [d.year for d in air_month.timestamp]
 air_month['month'] = [d.strftime('%b') for d in air_month.timestamp]
+
+# Getting the unique years for plotting.
 years = air_month['year'].unique()
+
+# Displaying the air DataFrame for reference (this could be removed if not needed).
 print(air)
 
+# Setting a random seed for color consistency and generating random colors for each year.
 np.random.seed(100)
 mycolors = np.random.choice(list(mpl.colors.XKCD_COLORS.keys()), len(years), replace=False)
 
+# Setting up the figure size and resolution for the plot.
 plt.figure(figsize=(15, 10), dpi=60)
 for i, y in enumerate(years):
-  if i > 0:
+  if i > 0: # Starting from the second year to avoid plotting incomplete data for the first year.
     plt.plot('month', 'PM25', data=air_month.loc[air_month.year==y, :], color=mycolors[i], label=y)
+    
+    # Adding text annotations for each year's line.
     plt.text(air_month.loc[air_month.year==y, :].shape[0]-.9, air_month.loc[air_month.year==y, 'PM25'][-1:].values[0], y, fontsize=12, color=mycolors[i])
 
+# Uncomment the following lines to set the axis limits and labels, and to customize ticks and title.
 # plt.gca().set(xlim=(-0.3, 11), ylim=(2, 30), ylabel='PM25', xlabel='Month')
 # plt.yticks(fontsize=12, alpha=.7)
 # plt.title('Seasonal Plot of PM25 Time Series', fontsize=20)
+
+# Displaying the plot.
 plt.show()
 ```
 
@@ -681,7 +808,7 @@ The calendar heatmap is an innovative way to visualize time series data, particu
 
 2. **Using Calplot in Python:** Calplot is a Python library specifically designed for creating calendar heatmaps. It's an effective tool for this type of visualization because it's tailored to represent time series data in a calendar format.
 
-3. **Color Coding with `cmap`:** The `cmap` parameter in Calplot allows you to select the color scheme for the heatmap. In our case, we're using `GnBu`, which typically ranges from green (representing lower values) to blue (indicating higher values). The choice of color scheme is important as it visually communicates the data's range and intensity.
+3. **Color Coding with `cmap`:** The `cmap` parameter in Calplot allows us to select the color scheme for the heatmap. In our case, we're using `GnBu`, which typically ranges from green (representing lower values) to blue (indicating higher values). The choice of color scheme is important as it visually communicates the data's range and intensity.
 
 4. **Interpreting the Heatmap:** In the resulting heatmap, days with higher PM2.5 averages will appear in darker blue, while days with lower averages will be in lighter green or white. Days without data or with a value of zero will be uncolored or differently marked, indicating missing data.
 
@@ -693,7 +820,8 @@ In summary, the calendar heatmap is a powerful tool for visualizing and analyzin
 
 ```python
 # cmap: color map (https://matplotlib.org/stable/gallery/color/colormap_reference.html)
-# textformat: specify the format of the text
+
+# Using calplot to create a calendar heatmap of the daily averaged PM2.5 data.
 pl1 = calplot.calplot(data = air_day['PM25'], cmap = 'GnBu', textformat = '{:.0f}', 
 											figsize = (24, 12), suptitle = "PM25 by Month and Year")
 ```
@@ -702,52 +830,55 @@ pl1 = calplot.calplot(data = air_day['PM25'], cmap = 'GnBu', textformat = '{:.0f
 
 ## Data Quality Inspection
 
-Data quality inspection is a critical aspect of time series analysis, ensuring that the data you're working with is reliable and accurate. Here, we'll delve into some fundamental methods for assessing and improving data quality, using a Python library called kats.
+Data quality inspection is a critical aspect of time series analysis, ensuring that the data we're working with is reliable and accurate. Here, we'll delve into some fundamental methods for assessing and improving data quality, using a Python library called kats.
 
 1. **Outlier Detection:**
    - **Purpose:** Outliers are data points that significantly differ from other observations. They can arise due to measurement errors, data entry errors, or genuine but rare variations.
-   - **Method with kats:** Kats provides functions to identify these outliers. By detecting outliers, you can decide whether to investigate them further, adjust them, or exclude them from your analysis, depending on their nature and impact.
+   - **Method with kats:** Kats provides functions to identify these outliers. By detecting outliers, we can decide whether to investigate them further, adjust them, or exclude them from our analysis, depending on their nature and impact.
 
 2. **Change Point Detection:**
    - **Purpose:** Change point detection involves identifying points in time where the statistical properties of the data series change significantly. These points can indicate important shifts in the underlying system that generates the data.
-   - **Method with kats:** Kats can detect these change points, helping you understand when and possibly why these shifts occur. This is particularly useful in time series data like air quality measurements, where changes could indicate environmental events or policy impacts.
+   - **Method with kats:** Kats can detect these change points, helping us understand when and possibly why these shifts occur. This is particularly useful in time series data like air quality measurements, where changes could indicate environmental events or policy impacts.
 
 3. **Handling Missing Values:**
    - **Challenge:** Missing values can skew analysis and lead to inaccurate conclusions. They can occur due to various reasons, such as data collection issues or sensor malfunctions.
    - **Method with kats:** Kats offers tools to handle missing values effectively. This might involve imputing missing data based on surrounding data points, or excluding periods with missing data from certain types of analysis.
 
-By utilizing kats for data quality inspection, you can enhance the integrity of your data analysis. This process is crucial in ensuring that your findings and conclusions are based on robust and reliable data, which is especially important in fields where data-driven decisions can have significant impacts, such as environmental monitoring and public health.
+By utilizing kats for data quality inspection, we can enhance the integrity of our data analysis. This process is crucial in ensuring that our findings and conclusions are based on robust and reliable data, which is especially important in fields where data-driven decisions can have significant impacts, such as environmental monitoring and public health.
 
 ### Outlier Detection
 
-Dealing with outliers is an essential step in ensuring the accuracy of your time series analysis. Here's how you can identify and manage outliers in your air quality data using the kats package in Python:
+Dealing with outliers is an essential step in ensuring the accuracy of our time series analysis. Here's how we can identify and manage outliers in our air quality data using the kats package in Python:
 
 1. **Understanding Outliers:** Outliers are data points that are significantly different from the majority of the data. They can occur due to various reasons, such as measurement errors, data entry mistakes, or unusual but real variations. In the context of air quality data, outliers could represent unexpected pollution events or sensor malfunctions.
 
 2. **Conversion to `TimeSeriesData`:**
-   - **Initial Step:** Before you can use kats to analyze your data, you need to convert the data from its current DataFrame format into the `TimeSeriesData` format that kats uses.
+   - **Initial Step:** Before we can use kats to analyze our data, we need to convert the data from its current DataFrame format into the `TimeSeriesData` format that kats uses.
    - **Conversion Process:** This involves transforming the data stored in the `air_hour` variable (which is presumably an hourly aggregated DataFrame) into the `TimeSeriesData` format. This format is designed specifically for time series analysis in kats.
    - **Saving the Converted Data:** Once converted, save this new time series data into a variable, let's call it `air_ts`.
 
 3. **Re-plotting the Data:**
    - **Visual Inspection:** After conversion, re-plotting the data as a line chart can be a good starting point. This visual representation can sometimes make outliers immediately apparent, showing data points that deviate significantly from the overall trend.
-   - **Analysis with kats:** With the data in the correct format, you can now use kats to perform a more systematic outlier detection. Kats offer various methods to identify outliers, considering the unique characteristics of time series data.
+   - **Analysis with kats:** With the data in the correct format, we can now use kats to perform a more systematic outlier detection. Kats offer various methods to identify outliers, considering the unique characteristics of time series data.
 
 4. **Dealing with Outliers:**
-   - **Flagging:** Identify and mark outliers without removing them. This approach is useful if you want to study the outliers separately or if you suspect they might represent significant but rare events.
-   - **Removing:** Exclude outliers from the dataset. This approach is more suitable if the outliers are due to errors and are not representative of the underlying phenomenon you're studying.
-   - **Special Treatment:** Adjust outliers using statistical methods, such as imputation, to align them more closely with other data points. This method is used when you want to retain the information provided by the outliers but mitigate their impact on the analysis.
+   - **Flagging:** Identify and mark outliers without removing them. This approach is useful if we want to study the outliers separately or if we suspect they might represent significant but rare events.
+   - **Removing:** Exclude outliers from the dataset. This approach is more suitable if the outliers are due to errors and are not representative of the underlying phenomenon we're studying.
+   - **Special Treatment:** Adjust outliers using statistical methods, such as imputation, to align them more closely with other data points. This method is used when we want to retain the information provided by the outliers but mitigate their impact on the analysis.
 
-By carefully managing outliers, you ensure that your analysis of air quality data is both accurate and representative, leading to more reliable conclusions and insights.
+By carefully managing outliers, we ensure that our analysis of air quality data is both accurate and representative, leading to more reliable conclusions and insights.
 
 ```python
+# Creating a TimeSeriesData object from the air_hour DataFrame for time series analysis using Kats.
 air_ts = TimeSeriesData(air_hour.reset_index(), time_col_name='timestamp')
+
+# Plotting the PM2.5 data using Kats.
 air_ts.plot(cols=["PM25"])
 ```
 
 ![Python output](figures/4-1-4-1.png)
 
-Using the `OutlierDetector` tool from the kats suite is a robust way to detect outliers in your time series data. This method relies on statistical measures to identify data points that are significantly different from the rest. Here's how it works:
+Using the `OutlierDetector` tool from the kats suite is a robust way to detect outliers in our time series data. This method relies on statistical measures to identify data points that are significantly different from the rest. Here's how it works:
 
 1. **Understanding Quartiles and IQR:**
    - **Quartiles:** In statistics, quartiles divide a data set into four equal parts. The first quartile (Q1) is the median of the lower half of the dataset, while the third quartile (Q3) is the median of the upper half.
@@ -759,18 +890,23 @@ Using the `OutlierDetector` tool from the kats suite is a robust way to detect o
    - **Rationale:** This method, based on the IQR, is effective because it defines outliers in the context of the data's overall distribution, accounting for its variability.
 
 3. **Using `OutlierDetector` in kats:**
-   - **Application:** You can apply the `OutlierDetector` tool to your `air_ts` data. This tool will automatically calculate Q1, Q3, and the IQR, and then use these to identify outliers based on the criteria mentioned above.
-   - **Configuration:** Ensure that the `OutlierDetector` is configured to use the IQR method for outlier detection. Kats may offer multiple methods, so selecting the right one for your specific analysis is important.
+   - **Application:** You can apply the `OutlierDetector` tool to our `air_ts` data. This tool will automatically calculate Q1, Q3, and the IQR, and then use these to identify outliers based on the criteria mentioned above.
+   - **Configuration:** Ensure that the `OutlierDetector` is configured to use the IQR method for outlier detection. Kats may offer multiple methods, so selecting the right one for our specific analysis is important.
 
 4. **Results Interpretation:**
-   - **Identifying Outliers:** The `OutlierDetector` will flag the outliers in your dataset. These might be unusually high or low air quality readings.
-   - **Decision Making:** Once identified, you can decide how to handle these outliers – whether to remove them, adjust them, or analyze them separately to understand their cause.
+   - **Identifying Outliers:** The `OutlierDetector` will flag the outliers in our dataset. These might be unusually high or low air quality readings.
+   - **Decision Making:** Once identified, we can decide how to handle these outliers – whether to remove them, adjust them, or analyze them separately to understand their cause.
 
-This approach to outlier detection is particularly useful in time series data like air quality measurements, where outliers can significantly impact the analysis. By identifying and appropriately handling these outliers, you can ensure that your analysis is more accurate and representative of the actual trends and patterns in the data.
+This approach to outlier detection is particularly useful in time series data like air quality measurements, where outliers can significantly impact the analysis. By identifying and appropriately handling these outliers, we can ensure that our analysis is more accurate and representative of the actual trends and patterns in the data.
 
 ```python
+# Initializing the OutlierDetector from Kats for the air_ts time series data.
 outlierDetection = OutlierDetector(air_ts, 'additive')
+
+# Running the outlier detection algorithm.
 outlierDetection.detector()
+
+# Accessing and displaying the detected outliers.
 outlierDetection.outliers
 ```
 
@@ -1071,9 +1207,15 @@ Removing detected outliers and then comparing the revised dataset to the origina
 
 By completing this process, we not only clean our dataset but also gain a deeper understanding of how certain data points were influencing the overall analysis. This step is crucial in ensuring that our time series analysis is both accurate and reflective of the true trends in the data.
 
-```
+```python
+# Removing the detected outliers from the air_ts time series data.
+# Setting interpolate=False to simply remove the outliers without interpolation.
 outliers_removed = outlierDetection.remover(interpolate=False)
+
+# Displaying the DataFrame with outliers removed.
 outliers_removed
+
+# Plotting the time series data after outlier removal.
 outliers_removed.plot(cols=['y_0'])
 ```
 
@@ -1106,14 +1248,21 @@ Change point detection is a valuable technique in time series analysis, used to 
 Change point detection can offer critical insights into when and possibly why significant changes occur in time series data. This understanding is essential for accurate data analysis and prediction, particularly in fields like environmental monitoring where understanding the timing and cause of changes can have significant implications.
 
 ```python
+# Creating a TimeSeriesData object from the daily averaged air data for change point detection.
 air_ts = TimeSeriesData(air_day.reset_index(), time_col_name='timestamp')
+
+# Initializing the CUSUMDetector from Kats for the air_ts time series data.
 detector = CUSUMDetector(air_ts)
 
+# Running the change point detection algorithm for both increases and decreases.
+
 change_points = detector.detector(change_directions=["increase", "decrease"])
+
+# Uncomment to print the start time of the first detected change point.
 # print("The change point is on", change_points[0][0].start_time)
 
-# plot the results
-plt.xticks(rotation=45)
+# Plotting the results of the change point detection.
+plt.xticks(rotation=45) # Rotating x-axis labels for better readability.
 detector.plot(change_points)
 plt.show()
 ```
@@ -1140,28 +1289,41 @@ Handling missing data is a crucial aspect of preparing datasets for analysis, es
 Each of these methods has its strengths and is suitable for different scenarios. The choice of method depends on the nature of the data and the specific requirements of the analysis. In time series data like air quality measurements, the chosen method should ideally preserve the temporal integrity of the data while adequately dealing with gaps caused by missing values.
 
 ```python
-# forward fill
+# Applying forward fill imputation to the air DataFrame to handle missing values.
 df_ffill = air.ffill(inplace=False)
 
+# Plotting the time series data after forward fill imputation.
 df_ffill.plot()
 ```
 ![Python output](figures/4-1-4-4.png)
 3. K-Nearest Neighbor (KNN) method: As the name suggests, the KNN method finds the k values that are closest to the missing value, and then fills the missing value with the average of these k values.
 ```python
 def knn_mean(ts, n):
-    out = np.copy(ts)
+    """
+    Function to perform K-Nearest Neighbors (KNN) imputation for missing values in a time series.
+
+    Parameters:
+    ts (array-like): The time series data.
+    n (int): The number of neighbors to consider for imputing each missing value.
+
+    Returns:
+    array: The time series with missing values imputed using KNN mean.
+    """
+    out = np.copy(ts) # Creating a copy of the time series to avoid modifying the original data.
     for i, val in enumerate(ts):
-        if np.isnan(val):
-            n_by_2 = np.ceil(n/2)
-            lower = np.max([0, int(i-n_by_2)])
-            upper = np.min([len(ts)+1, int(i+n_by_2)])
-            ts_near = np.concatenate([ts[lower:i], ts[i:upper]])
-            out[i] = np.nanmean(ts_near)
+        if np.isnan(val): # Checking for NaN values to impute.
+            n_by_2 = np.ceil(n/2) # Defining the window size for neighbors.
+            lower = np.max([0, int(i-n_by_2)]) # Lower index for the window.
+            upper = np.min([len(ts)+1, int(i+n_by_2)]) # Upper index for the window.
+            ts_near = np.concatenate([ts[lower:i], ts[i:upper]]) # Extracting the neighbors.
+            out[i] = np.nanmean(ts_near) # Imputing using the mean of the neighbors.
     return out
 
-# KNN
-df_knn = air.copy()
-df_knn['PM25'] = knn_mean(air.PM25.to_numpy(), 5000)
+# Applying the KNN imputation function to the PM25 data in the air DataFrame.
+df_knn = air.copy() # Creating a copy of the DataFrame.
+df_knn['PM25'] = knn_mean(air.PM25.to_numpy(), 5000) # Imputing missing values using KNN.
+
+# Plotting the time series data after KNN imputation.
 df_knn.plot()
 ```
 ![Python output](figures/4-1-4-5.png)
@@ -1197,9 +1359,13 @@ Data decomposition is a powerful technique in time series analysis that allows u
 By decomposing the time series data into these components, we gain a more nuanced understanding of the factors influencing air quality. This can lead to more targeted analyses, such as investigating the causes of trends or predicting future air quality conditions based on identified patterns.
 
 ```python
+# Creating a copy of the daily averaged air data for processing.
 air_process = air_day.copy()
-# new.round(1).head(12)
+
+# Applying forward fill imputation to handle missing values in the copied DataFrame.
 air_process.ffill(inplace=True)
+
+# Plotting the time series data after applying forward fill imputation.
 air_process.plot()
 ```
 
@@ -1227,8 +1393,12 @@ The `seasonal_decompose` function is an excellent tool for breaking down a time 
 By completing this decomposition, we'll gain a comprehensive understanding of the various factors influencing the air quality data. This method can be particularly revealing in environmental data analysis, where multiple factors, both natural and anthropogenic, can impact the observed values.
 
 ```python
+# Performing seasonal decomposition on the PM2.5 data using an additive model.
 decompose = seasonal_decompose(air_process['PM25'],model='additive', period=30)
-decompose.plot().set_size_inches((15, 15))
+
+# Plotting the results of the decomposition.
+fig = decompose.plot()
+fig.set_size_inches((15, 15))  # Setting the size of the plot.
 plt.show()
 ```
 
@@ -1255,11 +1425,14 @@ Our analysis of the decomposed air quality data provides valuable insights into 
    - The results from the decomposition corroborate our previous observations that there were no sudden change points in the PM2.5 data. 
    - The consistent seasonal pattern and the overall declining trend in PM2.5 concentrations highlight the effectiveness of ongoing measures to improve air quality and the impact of seasonal factors.
 
-By analyzing the data through different decomposition periods (30 days and 365 days), you gain a nuanced understanding of both short-term cyclical patterns and long-term trends in air quality. This comprehensive approach is crucial for accurate environmental analysis and for formulating effective policies to further improve air quality.
+By analyzing the data through different decomposition periods (30 days and 365 days), we gain a nuanced understanding of both short-term cyclical patterns and long-term trends in air quality. This comprehensive approach is crucial for accurate environmental analysis and for formulating effective policies to further improve air quality.
 
 ```python
+# Performing seasonal decomposition on the PM2.5 data using an additive model with an annual period.
 decompose = seasonal_decompose(air_process['PM25'],model='additive', period=365)
-decompose.plot().set_size_inches((15, 15))
+
+# Plotting the results of the decomposition.
+decompose.plot().set_size_inches((15, 15)) # Setting the size of the plot.
 plt.show()
 ```
 

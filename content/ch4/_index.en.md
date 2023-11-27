@@ -8,6 +8,6 @@ levels: ["beginner" ]
 
 # 4. Time Series Data Analysis
 
-In this topic, we will introduce time series data analysis methods for IoT data. We will develop the following three units for a more in-depth exploration by using the Civil IoT Taiwan Data Service Platform.
+In this section, we'll explore methods for analyzing time series data from Internet of Things (IoT) devices. We're going to delve into three detailed units, utilizing the Civil IoT Taiwan Data Service Platform for a deeper understanding.
 
 {{% children description="true" %}}
