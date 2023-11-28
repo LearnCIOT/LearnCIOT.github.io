@@ -16,18 +16,18 @@
     <meta name="author" content="Ling-Jyh Chen">
     <title>3.1. Basic Data Access Methods :: Tutorial for CIoT Open Data Applications</title>
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="/css/fontawesome-all.min.css?1700110065" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1700110065" rel="stylesheet"></noscript>
-    <link href="/css/featherlight.min.css?1700110065" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1700110065" rel="stylesheet"></noscript>
-    <link href="/css/auto-complete.css?1700110065" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1700110065" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar.min.css?1700110065" rel="stylesheet">
-    <link href="/css/nucleus.css?1700110065" rel="stylesheet">
-    <link href="/css/fonts.css?1700110065" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1700110065" rel="stylesheet"></noscript>
-    <link href="/css/theme.css?1700110065" rel="stylesheet">
-    <link href="/css/theme-relearn-light.css?1700110065" rel="stylesheet" id="variant-style">
-    <link href="/css/ie.css?1700110065" rel="stylesheet">
-    <link href="/css/variant.css?1700110065" rel="stylesheet">
-    <link href="/css/print.css?1700110065" rel="stylesheet" media="print">
-    <script src="/js/variant.js?1700110065"></script>
+    <link href="/css/fontawesome-all.min.css?1701130498" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1701130498" rel="stylesheet"></noscript>
+    <link href="/css/featherlight.min.css?1701130498" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1701130498" rel="stylesheet"></noscript>
+    <link href="/css/auto-complete.css?1701130498" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1701130498" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar.min.css?1701130498" rel="stylesheet">
+    <link href="/css/nucleus.css?1701130498" rel="stylesheet">
+    <link href="/css/fonts.css?1701130498" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1701130498" rel="stylesheet"></noscript>
+    <link href="/css/theme.css?1701130498" rel="stylesheet">
+    <link href="/css/theme-relearn-light.css?1701130498" rel="stylesheet" id="variant-style">
+    <link href="/css/ie.css?1701130498" rel="stylesheet">
+    <link href="/css/variant.css?1701130498" rel="stylesheet">
+    <link href="/css/print.css?1701130498" rel="stylesheet" media="print">
+    <script src="/js/variant.js?1701130498"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -43,7 +43,7 @@
       var baseUriFull='https:\/\/LearnCIOT.github.io/';
       window.variants && variants.init( [ 'relearn-light' ] );
     </script>
-    <script src="/js/jquery.min.js?1700110065" defer></script>
+    <script src="/js/jquery.min.js?1701130498" defer></script>
 <meta property="fb:app_id" content="601826851395774" />
   </head>
   <body class="default-animation" data-url="/en/ch3/ch3.1/">
@@ -378,56 +378,63 @@ if (!doNotTrack) {
 </nav>
 </div>
 
-<p>This article describes how to use the pyCIOT package and basic access to air, water, earthquake, weather, CCTV, and disaster warning data of the Civil IoT Taiwan Data Service Platform. For different types of data, we describe how to get the latest sensing data for a single site, get a list of all sites, and get the latest current sensing data for all sites.</p>
-<p>This article requires the reader to have basic terminal operation ability and have been exposed to the basic syntax of Python programming.</p>
+<p>This guide provides step-by-step instructions on how to use the pyCIOT package to access various data types such as air, water, earthquake, weather, CCTV, and disaster warnings from the Civil IoT Taiwan Data Service Platform. It covers methods to obtain the most recent sensor data from an individual location, a comprehensive list of all available locations, and the latest sensor data from every location.</p>
+<p>Please note that this article is designed for individuals who have basic knowledge of operating a terminal and are familiar with the fundamental syntax of Python programming.</p>
 <h2 id="what-is-pyciot">What is pyCIOT?</h2>
-<p>The Civil IoT Taiwan project provides a wide variety of data, and different data often have different data formats and access methods. Even if the data is under an open license, organizing the data can be cumbersome due to the different ways in which it is downloaded and processed. To solve this problem, we developed the pyCIOT suite to collect all public data on people&rsquo;s livelihood publicly released by the government, and strive to lower the threshold for obtaining public data and reduce the cost of data processing.</p>
+<p>The Civil IoT Taiwan project offers a diverse range of data, each type having unique formats and access protocols. Despite being openly licensed, managing and processing this data can be challenging due to the varied methods required for downloading and handling it. To address these challenges, the pyCIOT suite was developed. This suite central</p>
 <h2 id="pyciot-basics">pyCIOT Basics</h2>
 <h3 id="installation">Installation</h3>
-<p>We first download and install the pyCIOT suite using pip. pip is a package management system written in Python for installing and managing Python packages. The pyCIOT suite used this time is managed by the Python package index (pypi). We can use this command in the terminal to download the pyCIOT library locally, or download other required packages together:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>!pip install pyCIOT
+<p>Firstly, we download and install the pyCIOT suite using pip. Pip is a package management system designed for Python, facilitating the installation and management of Python packages. The pyCIOT suite for this tutorial is hosted on the Python Package Index (PyPI). You can execute the following command in the terminal to install the pyCIOT library on your local machine, or to install other necessary packages alongside it:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># Install the pyCIOT package using pip.</span>
+</span></span><span style="display:flex;"><span>!pip install pyCIOT
 </span></span></code></pre></div><h3 id="import-package">Import Package</h3>
-<p>To use this package, just enter the import syntax and import <code>pyCIOT.data</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Import pyCIOT.data</span>
+<p>To start using the package, simply input the import syntax and include <code>pyCIOT.data</code> in your Python script:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Import all functions and classes from the data module of pyCIOT.</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pyCIOT.data <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
-</span></span></code></pre></div><p>Depending on how the package is imported, the method is called differently. If you use the <code>from ... import ...</code> syntax, you don&rsquo;t need to add the prefix when calling a method; but if you use <code>import ...</code> , you need to add it every time you call a method in its package. If you use <code>import ... as ...</code> , you can call a method based on the custom prefix after <code>as</code> .</p>
+</span></span></code></pre></div><p>The way you call a method from the package varies depending on how you import it. When using the <code>from ... import ...</code> syntax, there&rsquo;s no need to include a prefix while calling a method. However, if you use the <code>import ...</code> approach, you must prefix the method name each time you use it. Alternatively, using <code>import ... as ...</code> allows you to call a method with a custom prefix specified after <code>as</code>.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Import the whole module and use it with the module name as a prefix.</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> pyCIOT.data 
 </span></span><span style="display:flex;"><span>a <span style="color:#f92672">=</span> pyCIOT<span style="color:#f92672">.</span>data<span style="color:#f92672">.</span>Air()<span style="color:#f92672">.</span>get_source()
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Import the module with an alias to shorten the module name.</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> pyCIOT.data <span style="color:#66d9ef">as</span> CIoT
 </span></span><span style="display:flex;"><span>a <span style="color:#f92672">=</span> CIoT<span style="color:#f92672">.</span>Air()<span style="color:#f92672">.</span>get_source()
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Import all functions/classes from the module directly. Beware of name collisions in large projects.</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pyCIOT.data <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
 </span></span><span style="display:flex;"><span>a <span style="color:#f92672">=</span> Air()<span style="color:#f92672">.</span>get_source()
 </span></span></code></pre></div><h2 id="data-access">Data Access</h2>
-<p>The data of the Civil IoT Taiwan project can be obtained through the following methods, including air, water, earthquake, weather, CCTV, etc.:</p>
+<p>You can access data from the Civil IoT Taiwan project, including air, water, earthquake, weather, CCTV, and more, using the following methods:</p>
 <ul>
-<li><code>.get_source()</code> : Return all project codes in Civil IoT Taiwan Data Service Platform in array format according to the data type.</li>
-<li><code>.get_station(src='')</code> : Return basic information of all station data in array format. The <code>src</code> parameter is optional to specify the project code to be queried.</li>
-<li><code>.get_data(src='', stationID='')</code> : Return basic information of all stations and their latest measurement result in array format. The <code>src</code> parameter is optional to specify the project code to be queried, and the <code>stationID</code> parameter is optional to specify the device ID to be queried.</li>
+<li><code>.get_source()</code>: This function retrieves all project codes available on the Civil IoT Taiwan Data Service Platform, presented in an array format based on the type of data.</li>
+<li><code>.get_station(src='')</code>: This method returns basic details of all stations in an array format. The <code>src</code> parameter is optional and can be used to specify a particular project code.</li>
+<li><code>.get_data(src='', stationID='')</code>: This function provides basic information about all stations along with their most recent measurement results, also in an array format. Here, <code>src</code> is an optional parameter for specifying the project code, and <code>stationID</code> is also optional for specifying the device ID.</li>
 </ul>
-<p>The following applies to disaster notification data.</p>
+<p>For accessing disaster notification data, the following methods are used:</p>
 <ul>
-<li><code>.get_alert()</code> : Return the alert data, along with the information of the event, in JSON format.</li>
-<li><code>.get_notice()</code> : Return the notification data, along with the informaiton of the event, in JSON format.</li>
+<li><code>.get_alert()</code>: This retrieves alert data including details about the event, formatted in JSON.</li>
+<li><code>.get_notice()</code>: This method returns notification data along with event information, also in JSON format.</li>
 </ul>
-<p>Note that since this package is still under revision, if it is inconsistent with the content of the <a href="https://hackmd.io/JdFywArGS9uxcSRTyYDtBg">pyCIOT Package Document</a>, it shall prevail.</p>
+<p>Please be aware that the pyCIOT package is continuously being updated. In cases where there is a discrepancy between this guide and the <a href="https://hackmd.io/JdFywArGS9uxcSRTyYDtBg">pyCIOT Package Document</a>, the information in the package document should be considered as the most accurate and up-to-date.</p>
 <h2 id="air-quality-data">Air Quality Data</h2>
 <h3 id="get-all-project-codesairget_source">Get all project codes: <code>Air().get_source()</code></h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>a <span style="color:#f92672">=</span> Air()<span style="color:#f92672">.</span>get_source()
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Use the get_source function of the Air class to retrieve all air-related project codes.</span>
+</span></span><span style="display:flex;"><span>a <span style="color:#f92672">=</span> Air()<span style="color:#f92672">.</span>get_source()
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Display the retrieved project codes.</span>
 </span></span><span style="display:flex;"><span>print(a)
 </span></span></code></pre></div><pre tabindex="0"><code>[&#39;OBS:EPA&#39;, &#39;OBS:EPA_IoT&#39;, &#39;OBS:AS_IoT&#39;, &#39;OBS:MOST_IoT&#39;, &#39;OBS:NCNU_IoT&#39;]
-</code></pre><p>The followings are valid project codes for air quality data:</p>
+</code></pre><p>Here are the valid project codes for accessing air quality data:</p>
 <ul>
-<li><code>OBS:EPA</code>: national level monitoring stations by EPA</li>
-<li><code>OBS:EPA_IoT</code>: low-cost air quality stations by EPA</li>
-<li><code>OBS:AS_IoT</code>: micro air quality stations by Academia Sinica</li>
-<li><code>OBS:MOST_IoT</code>: low-cost air quality stations by MOST</li>
-<li><code>OBS:NCNU_IoT</code>: low-cost air quality stations by National Chi Nan University</li>
+<li><code>OBS:EPA</code>: This code refers to national-level monitoring stations operated by the Environmental Protection Agency (EPA).</li>
+<li><code>OBS:EPA_IoT</code>: This is used for low-cost air quality stations also managed by the EPA.</li>
+<li><code>OBS:AS_IoT</code>: These are micro air quality stations run by Academia Sinica.</li>
+<li><code>OBS:MOST_IoT</code>: This code pertains to low-cost air quality</li>
 </ul>
 <h3 id="get-all-stationsairget_station">Get all stations: <code>Air().get_station()</code></h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>b <span style="color:#f92672">=</span> Air()<span style="color:#f92672">.</span>get_station(src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;OBS:EPA_IoT&#34;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Use the get_station function from the Air class, specifying the data source as EPA&#39;s Smart Urban Air Quality Micro-sensing, to retrieve the station list.</span>
+</span></span><span style="display:flex;"><span>b <span style="color:#f92672">=</span> Air()<span style="color:#f92672">.</span>get_station(src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;OBS:EPA_IoT&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Retrieve and view the first five station items from the list</span>
 </span></span><span style="display:flex;"><span>b[<span style="color:#ae81ff">0</span>:<span style="color:#ae81ff">5</span>]
 </span></span></code></pre></div><pre tabindex="0"><code>[
     {
@@ -453,7 +460,9 @@ if (!doNotTrack) {
     ...
 ]
 </code></pre><h3 id="get-data-of-a-stationairget_data">Get data of a station: <code>Air().get_data()</code></h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>f <span style="color:#f92672">=</span> Air()<span style="color:#f92672">.</span>get_data(src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;OBS:EPA_IoT&#34;</span>, stationID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;11613429495&#34;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Use the get_data function from the Air class, specifying the data source and station ID, to retrieve air quality data for the specified station.</span>
+</span></span><span style="display:flex;"><span>f <span style="color:#f92672">=</span> Air()<span style="color:#f92672">.</span>get_data(src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;OBS:EPA_IoT&#34;</span>, stationID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;11613429495&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># View the retrieved air quality data.</span>
 </span></span><span style="display:flex;"><span>f
 </span></span></code></pre></div><pre tabindex="0"><code>[
 {&#39;name&#39;: &#39;智慧城鄉空品微型感測器-11613429495&#39;,
@@ -480,23 +489,27 @@ if (!doNotTrack) {
     &#39;values&#39;: [{&#39;timestamp&#39;: &#39;2022-08-28T06:22:08.000Z&#39;, &#39;value&#39;: 9.8}]}],
   &#39;location&#39;: {&#39;latitude&#39;: 24.81796, &#39;longitude&#39;: 120.92664, &#39;address&#39;: None}}
 ]
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>print(f[<span style="color:#ae81ff">0</span>][<span style="color:#e6db74">&#39;description&#39;</span>])
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Print the description of the air quality dataset</span>
+</span></span><span style="display:flex;"><span>print(f[<span style="color:#ae81ff">0</span>][<span style="color:#e6db74">&#39;description&#39;</span>])
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> f_data <span style="color:#f92672">in</span> f[<span style="color:#ae81ff">0</span>][<span style="color:#e6db74">&#39;data&#39;</span>]:
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># If data described as &#34;temperature&#34; is found, print the corresponding value and timestamp.</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> f_data[<span style="color:#e6db74">&#39;description&#39;</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;溫度&#39;</span>:
 </span></span><span style="display:flex;"><span>    print(f_data[<span style="color:#e6db74">&#39;description&#39;</span>], <span style="color:#e6db74">&#39;: &#39;</span>, f_data[<span style="color:#e6db74">&#39;values&#39;</span>][<span style="color:#ae81ff">0</span>][<span style="color:#e6db74">&#39;value&#39;</span>], <span style="color:#e6db74">&#39; (&#39;</span>, f_data[<span style="color:#e6db74">&#39;values&#39;</span>][<span style="color:#ae81ff">0</span>][<span style="color:#e6db74">&#39;timestamp&#39;</span>], <span style="color:#e6db74">&#39;)&#39;</span>, sep<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;&#39;</span>)
 </span></span></code></pre></div><pre tabindex="0"><code>智慧城鄉空品微型感測器-11613429495
 溫度: 30.6 (2022-08-28T06:22:08.000Z)
 </code></pre><h2 id="water-resource-data">Water Resource Data</h2>
 <h3 id="get-all-project-codes-waterget_source">Get all project codes: <code>Water().get_source()</code></h3>
-<p>Return the project names based on the input parameter:</p>
+<p>The function will return project names based on the specified input parameter:</p>
 <ul>
-<li><code>water_level_station</code>: Return the names of water level related projects (currently valid codes are <code>WRA</code>, <code>WRA2</code> and <code>IA</code>)</li>
-<li><code>gate</code>: Return the names of water gate related projects (currently valid codes are <code>WRA</code>, <code>WRA2</code> and <code>IA</code>)</li>
-<li><code>pumping_station</code>: Return the names of pumping station related projects (currently valid codes are <code>WRA2</code> and <code>TPE</code>)</li>
-<li><code>sensor</code>: Return the names of water sensor related projects (currently valid codes are <code>WRA</code>, <code>WRA2</code>, <code>IA</code> and <code>CPAMI</code>)</li>
-<li>`` (none): Return the names of all water related projects</li>
+<li><code>water_level_station</code>: Retrieves the names of projects related to water level monitoring. The current valid codes are <code>WRA</code>, <code>WRA2</code>, and <code>IA</code>.</li>
+<li><code>gate</code>: Returns the names of projects associated with water gates. Valid codes for this category include <code>WRA</code>, <code>WRA2</code>, and <code>IA</code>.</li>
+<li><code>pumping_station</code>: This parameter provides names of projects related to pumping stations, with valid codes being <code>WRA2</code> and <code>TPE</code>.</li>
+<li><code>sensor</code>: Lists the names of water sensor-related projects. The relevant codes here are <code>WRA</code>, <code>WRA2</code>, <code>IA</code>, and <code>CPAMI</code>.</li>
+<li>``(none): When no parameter is specified, it returns the names of all water-related projects.</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>wa <span style="color:#f92672">=</span> Water()<span style="color:#f92672">.</span>get_source()
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Use the get_source function of the Water class to retrieve all water-related project codes.</span>
+</span></span><span style="display:flex;"><span>wa <span style="color:#f92672">=</span> Water()<span style="color:#f92672">.</span>get_source()
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># View the retrieved project codes.</span>
 </span></span><span style="display:flex;"><span>wa
 </span></span></code></pre></div><pre tabindex="0"><code>[&#39;WATER_LEVEL:WRA_RIVER&#39;,
  &#39;WATER_LEVEL:WRA_GROUNDWATER&#39;,
@@ -510,16 +523,18 @@ if (!doNotTrack) {
  &#39;PUMPING:TPE&#39;,
  &#39;FLOODING:WRA&#39;,
  &#39;FLOODING:WRA2&#39;]
-</code></pre><p>The followings are valid project codes for water resource data:</p>
+</code></pre><p>Here are the valid project codes for accessing water resource data:</p>
 <ul>
-<li><code>WRA</code>: Water Resource Agency</li>
-<li><code>WRA2</code>: Water Resource Agency（co-constructed with county and city governments）</li>
-<li><code>IA</code>: Irrigation Agency</li>
-<li><code>CPAMI</code>: Construction and Planning Agency</li>
-<li><code>TPE</code>: Taipei City</li>
+<li><code>WRA</code>: Represents the Water Resource Agency.</li>
+<li><code>WRA2</code>: Refers to the Water Resource Agency, in collaboration with county and city governments.</li>
+<li><code>IA</code>: Stands for the Irrigation Agency.</li>
+<li><code>CPAMI</code>: Denotes the Construction and Planning Agency.</li>
+<li><code>TPE</code>: Indicates projects specific to Taipei City.</li>
 </ul>
 <h3 id="get-all-stationswaterget_station">Get all stations: <code>Water().get_station()</code></h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>wa <span style="color:#f92672">=</span> Water()<span style="color:#f92672">.</span>get_station(src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;WATER_LEVEL:WRA_RIVER&#34;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Use the get_station function from the Water class, specifying the data source &#34;WATER_LEVEL:WRA_RIVER&#34;, to retrieve the water level station list.</span>
+</span></span><span style="display:flex;"><span>wa <span style="color:#f92672">=</span> Water()<span style="color:#f92672">.</span>get_station(src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;WATER_LEVEL:WRA_RIVER&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># View the first item from the station list.</span>
 </span></span><span style="display:flex;"><span>wa[<span style="color:#ae81ff">0</span>]
 </span></span></code></pre></div><pre tabindex="0"><code>{
   &#39;name&#39;: &#39;01790145-cd7e-4498-9240-f0fcd9061df2&#39;,
@@ -534,7 +549,9 @@ if (!doNotTrack) {
    &#39;address&#39;: None}
 }
 </code></pre><h3 id="get-data-of-a-stationwaterget_data">Get data of a station: <code>Water().get_data()</code></h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>wa <span style="color:#f92672">=</span> Water()<span style="color:#f92672">.</span>get_data(src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;WATER_LEVEL:WRA_RIVER&#34;</span>, stationID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;01790145-cd7e-4498-9240-f0fcd9061df2&#34;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Use the get_data function from the Water class, specifying the data source and station ID, to retrieve water level data for the specified station.</span>
+</span></span><span style="display:flex;"><span>wa <span style="color:#f92672">=</span> Water()<span style="color:#f92672">.</span>get_data(src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;WATER_LEVEL:WRA_RIVER&#34;</span>, stationID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;01790145-cd7e-4498-9240-f0fcd9061df2&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># View the retrieved water level data.</span>
 </span></span><span style="display:flex;"><span>wa
 </span></span></code></pre></div><pre tabindex="0"><code>[{&#39;name&#39;: &#39;01790145-cd7e-4498-9240-f0fcd9061df2&#39;,
   &#39;description&#39;: &#39;現場觀測&#39;,
@@ -551,15 +568,19 @@ if (!doNotTrack) {
    &#39;address&#39;: None}}]
 </code></pre><h2 id="earthquake-data">Earthquake Data</h2>
 <h3 id="get-all-project-codesquakeget_source">Get all project codes: <code>Quake().get_source()</code></h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>q <span style="color:#f92672">=</span> Quake()<span style="color:#f92672">.</span>get_source()
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Use the get_source function of the Quake class to retrieve all quake-related project codes.</span>
+</span></span><span style="display:flex;"><span>q <span style="color:#f92672">=</span> Quake()<span style="color:#f92672">.</span>get_source()
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># View the retrieved project codes.</span>
 </span></span><span style="display:flex;"><span>q
 </span></span></code></pre></div><pre tabindex="0"><code>[&#39;EARTHQUAKE:CWB+NCREE&#39;]
-</code></pre><p>The followings are valid project codes for earthquake data:</p>
+</code></pre><p>The valid project code for accessing earthquake data is:</p>
 <ul>
-<li><code>EARTHQUAKE:CWB+NCREE</code>: seismic monitoring stations by Central Weather Bureau and National Center for Research on Earthquake Engineering</li>
+<li><code>EARTHQUAKE:CWB+NCREE</code>: This code is used for seismic monitoring stations jointly operated by the Central Weather Bureau and the National Center for Research on Earthquake Engineering.</li>
 </ul>
 <h3 id="get-all-stationsquakeget_station">Get all stations: <code>Quake().get_station()</code></h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>q <span style="color:#f92672">=</span> Quake()<span style="color:#f92672">.</span>get_station(src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;EARTHQUAKE:CWB+NCREE&#34;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Use the get_station function from the Quake class, specifying the data source &#34;EARTHQUAKE:CWB+NCREE&#34;, to retrieve the earthquake station list.</span>
+</span></span><span style="display:flex;"><span>q <span style="color:#f92672">=</span> Quake()<span style="color:#f92672">.</span>get_station(src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;EARTHQUAKE:CWB+NCREE&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># View the first two items from the station list.</span>
 </span></span><span style="display:flex;"><span>q[<span style="color:#ae81ff">0</span>:<span style="color:#ae81ff">2</span>]
 </span></span></code></pre></div><pre tabindex="0"><code>[{&#39;name&#39;: &#39;地震監測站-Jiqi-EGC&#39;,
   &#39;description&#39;: &#39;地震監測站-Jiqi-EGC&#39;,
@@ -576,7 +597,9 @@ if (!doNotTrack) {
    &#39;stationName&#39;: &#39;Xilin&#39;},
   &#39;location&#39;: {&#39;latitude&#39;: 23.812, &#39;longitude&#39;: 121.442, &#39;address&#39;: None}}]
 </code></pre><h3 id="get-data-of-a-stationquakeget_data">Get data of a station: <code>Quake().get_data()</code></h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>q <span style="color:#f92672">=</span> Quake()<span style="color:#f92672">.</span>get_data(src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;EARTHQUAKE:CWB+NCREE&#34;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Use the get_data function from the Quake class, specifying the data source &#34;EARTHQUAKE:CWB+NCREE&#34;, to retrieve earthquake data.</span>
+</span></span><span style="display:flex;"><span>q <span style="color:#f92672">=</span> Quake()<span style="color:#f92672">.</span>get_data(src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;EARTHQUAKE:CWB+NCREE&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># View the last record from the data.</span>
 </span></span><span style="display:flex;"><span>q[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
 </span></span></code></pre></div><pre tabindex="0"><code>{&#39;name&#39;: &#39;第2022083號地震&#39;,
  &#39;description&#39;: &#39;第2022083號地震&#39;,
@@ -597,11 +620,15 @@ if (!doNotTrack) {
    ]
  &#39;location&#39;: {&#39;latitude&#39;: 22.98, &#39;longitude&#39;: 121.37, &#39;address&#39;: None}}
 </code></pre><h3 id="get-data-of-an-earthquake-eventquakeget_data">Get data of an earthquake event<code>Quake().get_data()</code></h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>q <span style="color:#f92672">=</span> Quake()<span style="color:#f92672">.</span>get_data(src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;EARTHQUAKE:CWB+NCREE&#34;</span>, eventID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;2022083&#34;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Use the get_data function from the Quake class, specifying the data source and event ID, to retrieve earthquake data for the specified event.</span>
+</span></span><span style="display:flex;"><span>q <span style="color:#f92672">=</span> Quake()<span style="color:#f92672">.</span>get_data(src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;EARTHQUAKE:CWB+NCREE&#34;</span>, eventID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;2022083&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># View the retrieved earthquake data.</span>
 </span></span><span style="display:flex;"><span>q
 </span></span></code></pre></div><h2 id="weather-data">Weather Data</h2>
 <h3 id="get-all-project-codesweatherget_source">Get all project codes: <code>Weather().get_source()</code></h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>w <span style="color:#f92672">=</span> Weather()<span style="color:#f92672">.</span>get_source()
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Use the get_source function of the Weather class to retrieve all weather-related project codes.</span>
+</span></span><span style="display:flex;"><span>w <span style="color:#f92672">=</span> Weather()<span style="color:#f92672">.</span>get_source()
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># View the retrieved project codes.</span>
 </span></span><span style="display:flex;"><span>w
 </span></span></code></pre></div><pre tabindex="0"><code>[&#39;GENERAL:CWB&#39;,
  &#39;GENERAL:CWB_IoT&#39;,
@@ -610,25 +637,27 @@ if (!doNotTrack) {
  &#39;RAINFALL:WRA2&#39;,
  &#39;RAINFALL:IA&#39;,
  &#39;IMAGE:CWB&#39;]
-</code></pre><p>Return the project names based on the input parameter:</p>
+</code></pre><p>The function returns project names based on the given input parameter:</p>
 <ul>
-<li><code>GENERAL</code>: Return the names of weather station related projects</li>
-<li><code>RAINFALL</code>: Return the names of rainfall monitoring station related projects</li>
-<li><code>IMAGE</code>: Return the names of radar integrated echo map related projects</li>
-<li>(none): Return the names of all weather related projects</li>
+<li><code>GENERAL</code>: Retrieves names of projects related to weather stations.</li>
+<li><code>RAINFALL</code>: Lists names of projects associated with rainfall monitoring stations.</li>
+<li><code>IMAGE</code>: Provides names of projects involving radar integrated echo maps.</li>
+<li>(none): When no parameter is specified, it returns the names of all weather-related projects.</li>
 </ul>
-<p>The followings are valid project codes for weather data:</p>
+<p>Valid project codes for weather data include:</p>
 <ul>
-<li><code>GENERAL:CWB</code>: standard weather stations by Central Weather Bureau</li>
-<li><code>GENERAL:CWB_IoT</code>: automatic weather monitoring stations by Central Weather Bureau</li>
-<li><code>RAINFALL:CWB</code>: rainfall monitoring stations by Central Weather Bureau</li>
-<li><code>RAINFALL:WRA</code>: rainfall monitoring stations by Water Resource Agency</li>
-<li><code>RAINFALL:WRA2</code>: rainfall monitoring stations by Water Resource Agency（co-constructed with county and city governments）</li>
-<li><code>RAINFALL:IA</code>: rainfall monitoring stations by Irrigation Agency</li>
-<li><code>IMAGE:CWB</code>: radar integrated echo map by Central Weather Bureau</li>
+<li><code>GENERAL:CWB</code>: For standard weather stations operated by the Central Weather Bureau.</li>
+<li><code>GENERAL:CWB_IoT</code>: Refers to automatic weather monitoring stations by the Central Weather Bureau.</li>
+<li><code>RAINFALL:CWB</code>: Codes for rainfall monitoring stations managed by the Central Weather Bureau.</li>
+<li><code>RAINFALL:WRA</code>: Represents rainfall monitoring stations run by the Water Resource Agency.</li>
+<li><code>RAINFALL:WRA2</code>: For rainfall monitoring stations by the Water Resource Agency, in collaboration with county and city governments.</li>
+<li><code>RAINFALL:IA</code>: Indicates rainfall monitoring stations managed by the Irrigation Agency.</li>
+<li><code>IMAGE:CWB</code>: Used for radar integrated echo maps created by the Central Weather Bureau.</li>
 </ul>
 <h3 id="get-all-stationsweatherget_station">Get all stations: <code>Weather().get_station()</code></h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>w <span style="color:#f92672">=</span> Weather()<span style="color:#f92672">.</span>get_station(src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;RAINFALL:CWB&#34;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Use the get_station function from the Weather class, specifying the data source &#34;RAINFALL:CWB&#34;, to retrieve the rainfall station list.</span>
+</span></span><span style="display:flex;"><span>w <span style="color:#f92672">=</span> Weather()<span style="color:#f92672">.</span>get_station(src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;RAINFALL:CWB&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># View the retrieved station list.</span>
 </span></span><span style="display:flex;"><span>w
 </span></span></code></pre></div><pre tabindex="0"><code>[{&#39;name&#39;: &#39;雨量站-C1R120-上德文&#39;,
   &#39;description&#39;: &#39;雨量站-C1R120-上德文&#39;,
@@ -642,7 +671,9 @@ if (!doNotTrack) {
   ...
 ]
 </code></pre><h3 id="get-data-of-a-stationweatherget_data">Get data of a station: <code>Weather().get_data()</code></h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>w <span style="color:#f92672">=</span> Weather()<span style="color:#f92672">.</span>get_data(src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;RAINFALL:CWB&#34;</span>, stationID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;U2HA40&#34;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Use the get_data function from the Weather class, specifying the data source and station ID, to retrieve rainfall data for the specified station.</span>
+</span></span><span style="display:flex;"><span>w <span style="color:#f92672">=</span> Weather()<span style="color:#f92672">.</span>get_data(src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;RAINFALL:CWB&#34;</span>, stationID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;U2HA40&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># View the retrieved rainfall data.</span>
 </span></span><span style="display:flex;"><span>w
 </span></span></code></pre></div><pre tabindex="0"><code>[{&#39;name&#39;: &#39;雨量站-U2HA40-臺大內茅埔&#39;,
   &#39;description&#39;: &#39;雨量站-U2HA40-臺大內茅埔&#39;,
@@ -679,17 +710,21 @@ if (!doNotTrack) {
   &#39;location&#39;: {&#39;latitude&#39;: 23.6915, &#39;longitude&#39;: 120.843, &#39;address&#39;: None}}]
 </code></pre><h2 id="cctv-data">CCTV Data</h2>
 <h3 id="get-all-project-codes-cctvget_source">Get all project codes: <code>CCTV().get_source()</code></h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>cctv <span style="color:#f92672">=</span> CCTV()<span style="color:#f92672">.</span>get_source()
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Use the get_source function of the CCTV class to retrieve all CCTV-related project codes.</span>
+</span></span><span style="display:flex;"><span>cctv <span style="color:#f92672">=</span> CCTV()<span style="color:#f92672">.</span>get_source()
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># View the retrieved project codes.</span>
 </span></span><span style="display:flex;"><span>cctv
 </span></span></code></pre></div><pre tabindex="0"><code>[&#39;IMAGE:EPA&#39;, &#39;IMAGE:WRA&#39;, &#39;IMAGE:COA&#39;]
-</code></pre><p>The followings are valid project codes for CCTV data:</p>
+</code></pre><p>The valid project codes for accessing CCTV data are:</p>
 <ul>
-<li>IMAGE:EPA: realtime images by EPA air quality monitoring stations</li>
-<li>IMAGE:WRA: images for water conservancy and disaster prevention by Water Resource Agency</li>
-<li>IMAGE:COA: realtime images of landslide observation stations by Council of Agriculture</li>
+<li><code>IMAGE:EPA</code>: This code is used for real-time images from air quality monitoring stations managed by the Environmental Protection Agency (EPA).</li>
+<li><code>IMAGE:WRA</code>: Refers to images related to water conservancy and disaster prevention provided by the Water Resource Agency.</li>
+<li><code>IMAGE:COA</code>: Represents real-time images from landslide observation stations operated by the Council of Agriculture.</li>
 </ul>
 <h3 id="get-data-of-a-station-cctvget_data">Get data of a station: <code>CCTV().get_data()</code></h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>cEPA <span style="color:#f92672">=</span> CCTV()<span style="color:#f92672">.</span>get_data(<span style="color:#e6db74">&#34;IMAGE:EPA&#34;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Use the get_data function from the CCTV class, specifying the data source &#34;IMAGE:EPA&#34;, to retrieve CCTV image data from the EPA.</span>
+</span></span><span style="display:flex;"><span>cEPA <span style="color:#f92672">=</span> CCTV()<span style="color:#f92672">.</span>get_data(<span style="color:#e6db74">&#34;IMAGE:EPA&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># View the third record from the data.</span>
 </span></span><span style="display:flex;"><span>cEPA[<span style="color:#ae81ff">2</span>]
 </span></span></code></pre></div><pre tabindex="0"><code>{
     &#39;name&#39;: &#39;環保署空品監測即時影像器-萬里&#39;,
@@ -714,7 +749,9 @@ if (!doNotTrack) {
     ],
     &#39;location&#39;: {&#39;latitude&#39;: 25.179667, &#39;longitude&#39;: 121.689881, &#39;address&#39;: None}
 }
-</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>cCOA <span style="color:#f92672">=</span> CCTV()<span style="color:#f92672">.</span>get_data(<span style="color:#e6db74">&#34;IMAGE:COA&#34;</span>)
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Use the get_data function from the CCTV class, specifying the data source &#34;IMAGE:COA&#34;, to retrieve CCTV image data from the COA.</span>
+</span></span><span style="display:flex;"><span>cCOA <span style="color:#f92672">=</span> CCTV()<span style="color:#f92672">.</span>get_data(<span style="color:#e6db74">&#34;IMAGE:COA&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># View the first record from the data.</span>
 </span></span><span style="display:flex;"><span>cCOA[<span style="color:#ae81ff">0</span>]
 </span></span></code></pre></div><pre tabindex="0"><code>{&#39;name&#39;: &#39;行政院農委會土石流觀測站影像-大粗坑下游攝影機&#39;,
  &#39;description&#39;: &#39;行政院農委會-大粗坑下游攝影機-土石流觀測站影像&#39;,
@@ -732,10 +769,12 @@ if (!doNotTrack) {
   &#39;longitude&#39;: 121.837815,
   &#39;address&#39;: &#39;新北市瑞芳鎮弓橋里大粗坑&#39;}}
 </code></pre><h2 id="disaster-alert-and-notification-data">Disaster Alert and Notification Data</h2>
-<p>The Civil IoT Taiwan Data Service Platform provides more than 58 disaster alerts, with a total of more than 41 disaster notifications. Different units are responsible for different disaster alerts, and the central disaster response center is responsible for disaster notification.</p>
-<p>The complete list of project codes is available in the <a href="https://hackmd.io/@cclljj/pyCIOT_doc">pyCIOT Package Document</a>。</p>
+<p>The Civil IoT Taiwan Data Service Platform offers an extensive array of disaster-related information, featuring over 58 different disaster alerts and more than 41 distinct disaster notifications. Various units handle specific types of disaster alerts, while the central disaster response center is tasked with issuing disaster notifications.</p>
+<p>For a comprehensive list of project codes related to these services, you can refer to the <a href="https://hackmd.io/@cclljj/pyCIOT_doc">pyCIOT Package Document</a>.</p>
 <h3 id="get-disaster-alerts-disasterget_alert">Get disaster alerts: <code>Disaster().get_alert()</code></h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>d <span style="color:#f92672">=</span> Disaster()<span style="color:#f92672">.</span>get_alert(<span style="color:#e6db74">&#34;5&#34;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Use the get_alert function from the Disaster class, specifying the parameter as &#34;5&#34;, to retrieve disaster alert information.</span>
+</span></span><span style="display:flex;"><span>d <span style="color:#f92672">=</span> Disaster()<span style="color:#f92672">.</span>get_alert(<span style="color:#e6db74">&#34;5&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># View the retrieved disaster alert information.</span>
 </span></span><span style="display:flex;"><span>d
 </span></span></code></pre></div><pre tabindex="0"><code>{&#39;id&#39;: &#39;https://alerts.ncdr.nat.gov.tw/Json.aspx&#39;,
  &#39;title&#39;: &#39;NCDR_CAP-即時防災資訊(Json)&#39;,
@@ -761,7 +800,9 @@ if (!doNotTrack) {
    ]
 }
 </code></pre><h3 id="get-historical-data-of-disaster-notifications-disasterget_notice">Get historical data of disaster notifications: <code>Disaster().get_notice()</code></h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>d <span style="color:#f92672">=</span> Disaster()<span style="color:#f92672">.</span>get_notice(<span style="color:#e6db74">&#34;ERA2_F1&#34;</span>) <span style="color:#75715e"># 交通災情通報表（道路、橋梁部分）</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Use the get_notice function from the Disaster class, specifying the parameter as &#34;ERA2_F1&#34;, to retrieve the transportation disaster report (road and bridge section).</span>
+</span></span><span style="display:flex;"><span>d <span style="color:#f92672">=</span> Disaster()<span style="color:#f92672">.</span>get_notice(<span style="color:#e6db74">&#34;ERA2_F1&#34;</span>) <span style="color:#75715e"># 交通災情通報表（道路、橋梁部分）</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># View the retrieved transportation disaster report information.</span>
 </span></span><span style="display:flex;"><span>d
 </span></span></code></pre></div><pre tabindex="0"><code>&#34;maincmt&#34;:{
       &#34;prj_no&#34;:&#34;專案代號&#34;,
@@ -892,12 +933,12 @@ This work is licensed under a <a rel="license" href="http://creativecommons.org/
         <script>
           var contentLangs=['en'];
         </script>
-        <script src="/js/auto-complete.js?1700110065" defer></script>
-        <script src="/js/lunr.min.js?1700110065" defer></script>
-        <script src="/js/lunr.stemmer.support.min.js?1700110065" defer></script>
-        <script src="/js/lunr.multi.min.js?1700110065" defer></script>
-        <script src="/js/lunr.en.min.js?1700110065" defer></script>
-        <script src="/js/search.js?1700110065" defer></script>
+        <script src="/js/auto-complete.js?1701130498" defer></script>
+        <script src="/js/lunr.min.js?1701130498" defer></script>
+        <script src="/js/lunr.stemmer.support.min.js?1701130498" defer></script>
+        <script src="/js/lunr.multi.min.js?1701130498" defer></script>
+        <script src="/js/lunr.en.min.js?1701130498" defer></script>
+        <script src="/js/search.js?1701130498" defer></script>
       </div>
       <div id="content-wrapper" class="highlightable">
         <ul class="topics">
@@ -973,14 +1014,14 @@ This work is licensed under a <a rel="license" href="http://creativecommons.org/
       </div>
     </aside>
 
-    <script src="/js/clipboard.min.js?1700110065" defer></script>
-    <script src="/js/perfect-scrollbar.min.js?1700110065" defer></script>
-    <script src="/js/featherlight.min.js?1700110065" defer></script>
-    <script src="/js/jquery.svg.pan.zoom.js?1700110065" defer></script>
-    <script src="/js/mermaid.min.js?1700110065" defer></script>
+    <script src="/js/clipboard.min.js?1701130498" defer></script>
+    <script src="/js/perfect-scrollbar.min.js?1701130498" defer></script>
+    <script src="/js/featherlight.min.js?1701130498" defer></script>
+    <script src="/js/jquery.svg.pan.zoom.js?1701130498" defer></script>
+    <script src="/js/mermaid.min.js?1701130498" defer></script>
     <script>
       window.themeUseMermaid = JSON.parse("{}");
     </script>
-    <script src="/js/theme.js?1700110065" defer></script>
+    <script src="/js/theme.js?1701130498" defer></script>
   </body>
 </html>
