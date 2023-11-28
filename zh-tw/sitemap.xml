@@ -130,6 +130,16 @@
   </url>
   <url>
     <loc>https://LearnCIOT.github.io/ch4/ch4.1/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://LearnCIOT.github.io/en/ch4/ch4.1/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-tw"
+                href="https://LearnCIOT.github.io/ch4/ch4.1/"
+                />
   </url>
   <url>
     <loc>https://LearnCIOT.github.io/ch5/ch5.1/</loc>
@@ -211,6 +221,16 @@
   </url>
   <url>
     <loc>https://LearnCIOT.github.io/ch4/ch4.2/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://LearnCIOT.github.io/en/ch4/ch4.2/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-tw"
+                href="https://LearnCIOT.github.io/ch4/ch4.2/"
+                />
   </url>
   <url>
     <loc>https://LearnCIOT.github.io/ch5/ch5.2/</loc>

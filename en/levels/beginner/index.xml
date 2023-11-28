@@ -33,7 +33,7 @@
       <link>https://LearnCIOT.github.io/en/ch4/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://LearnCIOT.github.io/en/ch4/</guid>
-      <description>4. Time Series Data Analysis In this topic, we will introduce time series data analysis methods for IoT data. We will develop the following three units for a more in-depth exploration by using the Civil IoT Taiwan Data Service Platform.
+      <description>4. Time Series Data Analysis In this section, we&amp;rsquo;ll explore methods for analyzing time series data from Internet of Things (IoT) devices. We&amp;rsquo;re going to delve into three detailed units, utilizing the Civil IoT Taiwan Data Service Platform for a deeper understanding.
 4.1. Time Series Data ProcessingWe use the sensing data of Civil IoT Taiwan Data Service Platform to guide readers to understand the use of moving average, perform periodic analysis of time series data, and then disassemble the time series data into long-term trends, seasonal changes and residual fluctuations.</description>
     </item>
     <item>
@@ -80,7 +80,7 @@ Introduction: This section lays the foundation by introducing the Civil IoT Taiw
       <link>https://LearnCIOT.github.io/en/ch4/ch4.1/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://LearnCIOT.github.io/en/ch4/ch4.1/</guid>
-      <description>Table Of Contents Goal Package Installation and Importing Data Access Air Quality Data Water Level Data Meteorological Data Data Visualization Data Resample Moving Average Multi-line Charts Calendar Heatmap Data Quality Inspection Outlier Detection Change Point Detection) Missing Data Handling Data Decomposition References Time series data is data formed in the order of appearance in time. Usually, the time interval in the data will be the same (for example, one data every five minutes, or one data per hour), and the application fields are quite wide, such as financial information, space engineering, signal processing, etc.</description>
+      <description>Table Of Contents Goal Package Installation and Importing Data Access Air Quality Data Water Level Data Meteorological Data Data Visualization Data Resample Moving Average Multi-line Charts Calendar Heatmap Data Quality Inspection Outlier Detection Change Point Detection) Missing Data Handling Data Decomposition References Time series data refers to information that is organized based on when it occurred or was recorded. This data is often set at regular time intervals, like every five minutes or hourly.</description>
     </item>
     <item>
       <title>5.1. Geospatial Filtering</title>
