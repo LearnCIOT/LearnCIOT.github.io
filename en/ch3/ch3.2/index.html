@@ -16,18 +16,18 @@
     <meta name="author" content="Ling-Jyh Chen">
     <title>3.2. Data Access under Spatial or Temporal Conditions :: Tutorial for CIoT Open Data Applications</title>
     <!-- https://github.com/filamentgroup/loadCSS/blob/master/README.md#how-to-use -->
-    <link href="/css/fontawesome-all.min.css?1701130498" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1701130498" rel="stylesheet"></noscript>
-    <link href="/css/featherlight.min.css?1701130498" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1701130498" rel="stylesheet"></noscript>
-    <link href="/css/auto-complete.css?1701130498" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1701130498" rel="stylesheet"></noscript>
-    <link href="/css/perfect-scrollbar.min.css?1701130498" rel="stylesheet">
-    <link href="/css/nucleus.css?1701130498" rel="stylesheet">
-    <link href="/css/fonts.css?1701130498" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1701130498" rel="stylesheet"></noscript>
-    <link href="/css/theme.css?1701130498" rel="stylesheet">
-    <link href="/css/theme-relearn-light.css?1701130498" rel="stylesheet" id="variant-style">
-    <link href="/css/ie.css?1701130498" rel="stylesheet">
-    <link href="/css/variant.css?1701130498" rel="stylesheet">
-    <link href="/css/print.css?1701130498" rel="stylesheet" media="print">
-    <script src="/js/variant.js?1701130498"></script>
+    <link href="/css/fontawesome-all.min.css?1701130549" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fontawesome-all.min.css?1701130549" rel="stylesheet"></noscript>
+    <link href="/css/featherlight.min.css?1701130549" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/featherlight.min.css?1701130549" rel="stylesheet"></noscript>
+    <link href="/css/auto-complete.css?1701130549" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/auto-complete.css?1701130549" rel="stylesheet"></noscript>
+    <link href="/css/perfect-scrollbar.min.css?1701130549" rel="stylesheet">
+    <link href="/css/nucleus.css?1701130549" rel="stylesheet">
+    <link href="/css/fonts.css?1701130549" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;"><noscript><link href="/css/fonts.css?1701130549" rel="stylesheet"></noscript>
+    <link href="/css/theme.css?1701130549" rel="stylesheet">
+    <link href="/css/theme-relearn-light.css?1701130549" rel="stylesheet" id="variant-style">
+    <link href="/css/ie.css?1701130549" rel="stylesheet">
+    <link href="/css/variant.css?1701130549" rel="stylesheet">
+    <link href="/css/print.css?1701130549" rel="stylesheet" media="print">
+    <script src="/js/variant.js?1701130549"></script>
     <script>
       // hack to let hugo tell us how to get to the root when using relativeURLs, it needs to be called *url= for it to do its magic:
       // https://github.com/gohugoio/hugo/blob/145b3fcce35fbac25c7033c91c1b7ae6d1179da8/transform/urlreplacers/absurlreplacer.go#L72
@@ -43,7 +43,7 @@
       var baseUriFull='https:\/\/LearnCIOT.github.io/';
       window.variants && variants.init( [ 'relearn-light' ] );
     </script>
-    <script src="/js/jquery.min.js?1701130498" defer></script>
+    <script src="/js/jquery.min.js?1701130549" defer></script>
 <meta property="fb:app_id" content="601826851395774" />
   </head>
   <body class="default-animation" data-url="/en/ch3/ch3.2/">
@@ -299,32 +299,39 @@ if (!doNotTrack) {
 </nav>
 </div>
 
-<p>This article will access the data of the Civil IoT Taiwan project from the perspective of time and space, and carry out a simple implementation with the theme of air quality monitoring. It will covers the following topics:</p>
+<p>This article will explore the Civil IoT Taiwan project&rsquo;s data, focusing on how it changes over time and location. We&rsquo;ll provide a straightforward example with a focus on monitoring air quality. The topics covered will include:</p>
 <ul>
-<li>the usage of the datetime, math, numpy, and pandas packages</li>
-<li>the processing of JSON format data</li>
-<li>data processing using Pandas DataFrame</li>
+<li>How to use the datetime, math, numpy, and pandas packages in our analysis.</li>
+<li>Steps to handle data in JSON format.</li>
+<li>Using the Pandas DataFrame for effective data processing.</li>
 </ul>
 <h2 id="data-access-under-temporal-conditions">Data access under temporal conditions</h2>
-<p>When using <code>get_data()</code> in pyCIOT, data can be obtained according to the start time and end time. The format is passed in the <code>time_range</code> as a dictionary (Dict), which are <code>start</code>, <code>end</code> and <code>num_of_data</code> respectively.</p>
-<p><code>start</code> and <code>end</code> refer to the start and end time of data collection, in ISO8601 or Datetime format. <code>num_of_data</code> will control the number of data acquisitions not to exceed this number. If the data in the range exceeds num_of_data, it will be collected at intervals, so that the time interval between data and data tends to be the same.</p>
-<p>Taking air quality data as an example, the acquired data can go back one day at most, so when the <code>end</code> variable is set greater than one day, no data will be acquired. In addition, since the update frequency of each sensor in the Civil IoT Taiwan project is different, the number of data sets per day for different sensors will also be different. For details, please refer to: <a href="https://ci.taiwan.gov.tw/dsp/dataset_air.aspx">https://ci.taiwan.gov.tw/dsp/dataset_air.aspx</a></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> datetime <span style="color:#f92672">import</span> datetime, timedelta
+<p>When you use the get_data() function in pyCIOT, you can retrieve data by specifying the start and end times. You&rsquo;ll need to provide this information in the form of a dictionary (Dict), which includes three elements: &lsquo;start&rsquo;, &rsquo;end&rsquo;, and &rsquo;num_of_data&rsquo;.</p>
+<p>Within the dictionary used for the get_data() function in pyCIOT, &lsquo;start&rsquo; and &rsquo;end&rsquo; refer to the beginning and end of the data collection period. These should be provided in either ISO8601 or Datetime format. The &rsquo;num_of_data&rsquo; element sets a limit on the total number of data points collected. If the available data within your specified time range exceeds this limit, the system will collect the data at regular intervals to ensure an even distribution over time.</p>
+<p>For example, if we look at air quality data, the system allows us to retrieve data from up to one day in the past. Therefore, if you set the &rsquo;end&rsquo; time to more than a day ago, you won&rsquo;t get any data. Also, it&rsquo;s important to note that in the Civil IoT Taiwan project, different sensors update at different frequencies. This means the amount of data collected each day varies from sensor to sensor. For more detailed information, please refer to: <a href="https://ci.taiwan.gov.tw/dsp/dataset_air.aspx">https://ci.taiwan.gov.tw/dsp/dataset_air.aspx</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Import datetime and timedelta classes from the datetime module.</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> datetime <span style="color:#f92672">import</span> datetime, timedelta
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>end_date <span style="color:#f92672">=</span> datetime<span style="color:#f92672">.</span>now() <span style="color:#75715e"># current datetime</span>
-</span></span><span style="display:flex;"><span>isodate_end <span style="color:#f92672">=</span> end_date<span style="color:#f92672">.</span>isoformat()<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#34;.&#34;</span>)[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;Z&#34;</span> <span style="color:#75715e"># convert to ISO8601 format</span>
-</span></span><span style="display:flex;"><span>start_date <span style="color:#f92672">=</span> datetime<span style="color:#f92672">.</span>now() <span style="color:#f92672">+</span> timedelta(days <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) <span style="color:#75715e"># yesterday</span>
-</span></span><span style="display:flex;"><span>isodate_start <span style="color:#f92672">=</span> start_date<span style="color:#f92672">.</span>isoformat()<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#34;.&#34;</span>)[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;Z&#34;</span> <span style="color:#75715e"># convert to ISO8601 format</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Get the current time.</span>
+</span></span><span style="display:flex;"><span>end_date <span style="color:#f92672">=</span> datetime<span style="color:#f92672">.</span>now()
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Convert time to ISO8601 format, remove milliseconds and add &#34;Z&#34;.</span>
+</span></span><span style="display:flex;"><span>isodate_end <span style="color:#f92672">=</span> end_date<span style="color:#f92672">.</span>isoformat()<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#34;.&#34;</span>)[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;Z&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Get the time of the previous day.</span>
+</span></span><span style="display:flex;"><span>start_date <span style="color:#f92672">=</span> datetime<span style="color:#f92672">.</span>now() <span style="color:#f92672">+</span> timedelta(days <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Convert time to ISO8601 format, remove milliseconds and add &#34;Z&#34;.</span>
+</span></span><span style="display:flex;"><span>isodate_start <span style="color:#f92672">=</span> start_date<span style="color:#f92672">.</span>isoformat()<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#34;.&#34;</span>)[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;Z&#34;</span>
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Define time range and the number of data to be retrieved.</span>
 </span></span><span style="display:flex;"><span>time <span style="color:#f92672">=</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;start&#34;</span>: isodate_start, 
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;end&#34;</span>: isodate_end, 
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;num_of_data&#34;</span>: <span style="color:#ae81ff">15</span>
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Retrieve 15 pieces of data within a day from a specific sensor.</span>
 </span></span><span style="display:flex;"><span>data <span style="color:#f92672">=</span> Air()<span style="color:#f92672">.</span>get_data(<span style="color:#e6db74">&#34;OBS:EPA_IoT&#34;</span>, stationIds<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#34;11613429495&#34;</span>], time_range<span style="color:#f92672">=</span>time) 
 </span></span><span style="display:flex;"><span>data
-</span></span></code></pre></div><p>The data will be stored in <code>data</code> in List format, and stored separately according to different properties. The data of temperature, relative humidity and PM2.5 will be stored in the &lsquo;<code>values</code>&rsquo; list under the corresponding name respectively, and the time of each data record will be marked and displayed in ISO8601.</p>
+</span></span></code></pre></div><p>The data is organized and stored in a List format, with different types of data kept separately based on their characteristics. For instance, temperature, relative humidity, and PM2.5 (a measure of air pollution) data are each stored in a &lsquo;values&rsquo; list under their respective names. Additionally, the time for each piece of data is recorded and displayed in the ISO8601 format.</p>
 <pre tabindex="0"><code>[{&#39;name&#39;: &#39;智慧城鄉空品微型感測器-11613429495&#39;,
   &#39;description&#39;: &#39;智慧城鄉空品微型感測器-11613429495&#39;,
   &#39;properties&#39;: {&#39;city&#39;: &#39;新竹市&#39;,
@@ -391,14 +398,17 @@ if (!doNotTrack) {
      {&#39;timestamp&#39;: &#39;2022-08-27T12:39:10.000Z&#39;, &#39;value&#39;: 11.56}]}],
   &#39;location&#39;: {&#39;latitude&#39;: 24.81796, &#39;longitude&#39;: 120.92664, &#39;address&#39;: None}}]
 </code></pre><h2 id="data-access-under-spatial-conditions">Data access under spatial conditions</h2>
-<p>In pyCIOT, there are also methods to get specific data based on the region. If we take the latitude and longitude of a specific location as the center, we can use the radius distance to form a search range (circle) to get the station ID and sensing value of the specific space.</p>
-<p>The data format of a specific area is also passed in as a dictionary (Dict), where the latitude, longitude and radius are &ldquo;<code>latitude</code>&rdquo;, &ldquo;<code>longitude</code>&rdquo; and &ldquo;<code>distance</code>&rdquo; respectively. The filtering functions of a specific area and a specific time can be used at the same time. When searching for a specific area, the stations to be observed can also be put into the &ldquo;<code>stationIds</code>&rdquo;, and the stations outside the area can be removed by the way.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>loc <span style="color:#f92672">=</span> {
+<p>In pyCIOT, you can also find specific data based on a geographical area. By using the latitude and longitude of a certain location as a central point, you can set a radius distance to create a circular search area. This allows you to obtain the station ID and sensor readings from that specific area.</p>
+<p>To access data from a specific area in pyCIOT, you also use a dictionary (Dict) format. In this dictionary, you specify the &rsquo;latitude&rsquo;, &rsquo;longitude&rsquo;, and the search &lsquo;radius&rsquo; using the keys &rsquo;latitude&rsquo;, &rsquo;longitude&rsquo;, and &lsquo;distance&rsquo;, respectively. You have the flexibility to use both the area-specific and time-specific filtering functions simultaneously. When searching within a specific area, you can also list the station IDs you want to observe under &lsquo;stationIds&rsquo;. This way, any stations outside your specified area can be excluded from the search results.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Define a location information containing latitude, longitude, and search radius.</span>
+</span></span><span style="display:flex;"><span>loc <span style="color:#f92672">=</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;latitude&#34;</span>: <span style="color:#ae81ff">24.990550</span>, <span style="color:#75715e"># 緯度</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;longitude&#34;</span>: <span style="color:#ae81ff">121.507532</span>, <span style="color:#75715e"># 經度</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;distance&#34;</span>: <span style="color:#ae81ff">3.0</span> <span style="color:#75715e"># 半徑(km)</span>
 </span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Fetch air information related to the defined location from the specified data source</span>
 </span></span><span style="display:flex;"><span>c <span style="color:#f92672">=</span> Air()<span style="color:#f92672">.</span>get_data(src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;OBS:EPA_IoT&#34;</span>, location <span style="color:#f92672">=</span> loc)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Get the first piece of data from the search results.</span>
 </span></span><span style="display:flex;"><span>c[<span style="color:#ae81ff">0</span>]
 </span></span></code></pre></div><pre tabindex="0"><code>{
 &#39;name&#39;: &#39;智慧城鄉空品微型感測器-10382640142&#39;,
@@ -437,22 +447,26 @@ if (!doNotTrack) {
     }
 }
 </code></pre><hr>
-<p>The above are the basic methods commonly used to obtain pyCIOT station data, using time and space as the filtering criteria, and applicable to all data including <code>location</code> and <code>timestamp</code> types. To demonstrate, we give some simple examples and implement them using these pyCIOT packages.</p>
+<p>The methods we&rsquo;ve discussed are the basic ways to access station data in pyCIOT. These methods rely on time and location as the main filters and can be applied to all types of data, including those with location and timestamp information. To illustrate how this works, we&rsquo;ll provide some simple examples and show how to implement them using the pyCIOT packages.</p>
 <h2 id="case-study-is-the-air-quality-here-worse-than-there">Case study: Is the air quality here worse than there?</h2>
 <ul>
-<li>Project codes: OBS:EPA_IoT (low-cost air quality stations by EPA）</li>
-<li>Target location: Nanshijiao MRT Station Exit 1 (GPS coordinates: 24.990550, 121.507532)</li>
-<li>Region of interest: Zhonghe District, New Taipei City</li>
+<li>Project Reference: OBS:EPA_IoT (This refers to low-cost air quality stations operated by the Environmental Protection Agency).</li>
+<li>Specific Location for Study: Nanshijiao MRT Station Exit 1, with GPS coordinates at 24.990550, 121.507532.</li>
+<li>Area of Focus: Zhonghe District in New Taipei City.</li>
 </ul>
 <h3 id="import-data">Import data</h3>
-<p>First, we need to get all the information about the target location and the region of interest. We can use the method of &ldquo;data access under spatial conditions&rdquo; to set the latitude and longitude at Exit 1 of Nanshijiao MRT Station, and set the distance to three kilometers. Then, we simply use <code>Air().get_data()</code> to obtain the data:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>loc <span style="color:#f92672">=</span> {
+<p>To start, we need to collect all relevant information about our chosen location and the surrounding area. We&rsquo;ll apply the &lsquo;data access under spatial conditions&rsquo; approach. This involves setting the latitude and longitude coordinates to match Exit 1 of the Nanshijiao MRT Station and defining our search area to be within a three-kilometer radius. After setting these parameters, we can easily retrieve the data by using the Air().get_data() function.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Define a location information containing latitude, longitude, and search radius.</span>
+</span></span><span style="display:flex;"><span>loc <span style="color:#f92672">=</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;latitude&#34;</span>: <span style="color:#ae81ff">24.990550</span>, 
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;longitude&#34;</span>: <span style="color:#ae81ff">121.507532</span>, 
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;distance&#34;</span>: <span style="color:#ae81ff">3.0</span> <span style="color:#75715e"># (km)</span>
 </span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Fetch air data related to the defined location from the &#34;OBS:EPA_IoT&#34; data source.</span>
 </span></span><span style="display:flex;"><span>EPA_IoT_zhonghe_data_raw <span style="color:#f92672">=</span> Air()<span style="color:#f92672">.</span>get_data(src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;OBS:EPA_IoT&#34;</span>, location <span style="color:#f92672">=</span> loc)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Print the total number of obtained monitoring stations.</span>
 </span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;len:&#34;</span>, len(EPA_IoT_zhonghe_data_raw))
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Get and print the first piece of data from the search results.</span>
 </span></span><span style="display:flex;"><span>EPA_IoT_zhonghe_data_raw[<span style="color:#ae81ff">0</span>]
 </span></span></code></pre></div><pre tabindex="0"><code>len: 70
 {&#39;name&#39;: &#39;智慧城鄉空品微型感測器-10382640142&#39;,
@@ -479,14 +493,14 @@ if (!doNotTrack) {
    &#39;values&#39;: [{&#39;timestamp&#39;: &#39;2022-09-11T09:58:21.000Z&#39;, &#39;value&#39;: 25.72}]}],
  &#39;location&#39;: {&#39;latitude&#39;: 24.998769, &#39;longitude&#39;: 121.512717, &#39;address&#39;: None}}
 </code></pre><h3 id="remove-invalid-data">Remove invalid data</h3>
-<p>Of the in-scope sites, not every station is still running smoothly. In order to remove potentially problematic sites, we observe the data characteristics of invalid stations and find that all three data (temperature, humidity, PM2.5 concentration) are 0. So we just need to pick and delete this data before we can move on to the next step.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Data cleaning</span>
+<p>Among the stations we&rsquo;re considering, some may not be functioning properly. To identify and eliminate these problematic stations, we look at the data they provide. If a station&rsquo;s data shows zeros for all three measurements - temperature, humidity, and PM2.5 concentration - we consider this data invalid. By selecting and removing these zero-value data sets, we can ensure our analysis only includes reliable information before proceeding to the next step.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Data cleaning.</span>
 </span></span><span style="display:flex;"><span>EPA_IoT_zhonghe_data <span style="color:#f92672">=</span> []
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> datajson <span style="color:#f92672">in</span> EPA_IoT_zhonghe_data_raw:
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e"># 確認資料存在</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Check if the key &#34;data&#34; exists.</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> <span style="color:#e6db74">&#34;data&#34;</span> <span style="color:#f92672">not</span> <span style="color:#f92672">in</span> datajson:
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">continue</span>;
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e"># 將格式轉換為 Temperature, Relative_Humidity 和 PM2_5</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Convert raw data format to &#39;Temperature&#39;, &#39;Relative_Humidity&#39;, and &#39;PM2_5&#39;.</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">for</span> rawdata_array <span style="color:#f92672">in</span> datajson[<span style="color:#e6db74">&#39;data&#39;</span>]:
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(rawdata_array[<span style="color:#e6db74">&#39;name&#39;</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;Temperature&#39;</span>):
 </span></span><span style="display:flex;"><span>      datajson[<span style="color:#e6db74">&#39;Temperature&#39;</span>] <span style="color:#f92672">=</span> rawdata_array[<span style="color:#e6db74">&#39;values&#39;</span>][<span style="color:#ae81ff">0</span>][<span style="color:#e6db74">&#39;value&#39;</span>]
@@ -494,8 +508,9 @@ if (!doNotTrack) {
 </span></span><span style="display:flex;"><span>      datajson[<span style="color:#e6db74">&#39;Relative_Humidity&#39;</span>] <span style="color:#f92672">=</span> rawdata_array[<span style="color:#e6db74">&#39;values&#39;</span>][<span style="color:#ae81ff">0</span>][<span style="color:#e6db74">&#39;value&#39;</span>]
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(rawdata_array[<span style="color:#e6db74">&#39;name&#39;</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;PM2.5&#39;</span>):
 </span></span><span style="display:flex;"><span>      datajson[<span style="color:#e6db74">&#39;PM2_5&#39;</span>] <span style="color:#f92672">=</span> rawdata_array[<span style="color:#e6db74">&#39;values&#39;</span>][<span style="color:#ae81ff">0</span>][<span style="color:#e6db74">&#39;value&#39;</span>]
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Remove the key &#39;data&#39; as we have extracted the information we need.</span>
 </span></span><span style="display:flex;"><span>  datajson<span style="color:#f92672">.</span>pop(<span style="color:#e6db74">&#39;data&#39;</span>)
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e"># 確認所有資料皆為有效，同時去除無資料之檢測站</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># Ensure all required keys are in the data and remove stations with all values being 0.</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> <span style="color:#e6db74">&#34;Relative_Humidity&#34;</span> <span style="color:#f92672">not</span> <span style="color:#f92672">in</span> datajson<span style="color:#f92672">.</span>keys():
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">continue</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> <span style="color:#e6db74">&#34;PM2_5&#34;</span> <span style="color:#f92672">not</span> <span style="color:#f92672">in</span> datajson<span style="color:#f92672">.</span>keys():
@@ -506,6 +521,7 @@ if (!doNotTrack) {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">continue</span>
 </span></span><span style="display:flex;"><span>  EPA_IoT_zhonghe_data<span style="color:#f92672">.</span>append(datajson)
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Print the number of data entries after cleaning.</span>
 </span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#34;len:&#34;</span>, len(EPA_IoT_zhonghe_data))
 </span></span><span style="display:flex;"><span>EPA_IoT_zhonghe_data[<span style="color:#ae81ff">0</span>]
 </span></span></code></pre></div><pre tabindex="0"><code>len: 70
@@ -527,11 +543,13 @@ if (!doNotTrack) {
  &#39;Relative_Humidity&#39;: 94.27,
  &#39;Temperature&#39;: 26.24}
 </code></pre><h3 id="calculate-distance">Calculate distance</h3>
-<p>Assuming that there is no error in the data of each station, the data of the station closest to the target position is the data to be compared. To find the nearest station, we need to calculate the distance between each station and the target location.</p>
-<p>We can use the point-to-point distance formula to calculate and sort to find the closest station to the target location. But here we use the standard <a href="https://en.wikipedia.org/wiki/Haversine_formula">Haversine formula</a> to calculate the spherical distance between two points on Earth. The following is the implementation in the WGS84 coordinate system:</p>
+<p>Next, we assume that the data from all stations are accurate. To compare, we need the data from the station closest to our target location. To find this nearest station, we calculate the distance between each station and the target.</p>
+<p>We&rsquo;ll use the <a href="https://en.wikipedia.org/wiki/Haversine_formula">Haversine formula</a>, a standard method for determining the spherical distance between two points on Earth, to make these calculations. This method is particularly effective when working with the WGS84 coordinate system, which is commonly used for global positioning. Below is how we implement this calculation:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> math
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Define a function to compute the distance between two points given their latitudes and longitudes.</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">LLs2Dist</span>(lat1, lon1, lat2, lon2):
 </span></span><span style="display:flex;"><span>    R <span style="color:#f92672">=</span> <span style="color:#ae81ff">6371</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Radius of the Earth in kilometers.</span>
 </span></span><span style="display:flex;"><span>    dLat <span style="color:#f92672">=</span> (lat2 <span style="color:#f92672">-</span> lat1) <span style="color:#f92672">*</span> math<span style="color:#f92672">.</span>pi <span style="color:#f92672">/</span> <span style="color:#ae81ff">180.0</span>
 </span></span><span style="display:flex;"><span>    dLon <span style="color:#f92672">=</span> (lon2 <span style="color:#f92672">-</span> lon1) <span style="color:#f92672">*</span> math<span style="color:#f92672">.</span>pi <span style="color:#f92672">/</span> <span style="color:#ae81ff">180.0</span>
 </span></span><span style="display:flex;"><span>    a <span style="color:#f92672">=</span> math<span style="color:#f92672">.</span>sin(dLat <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>) <span style="color:#f92672">*</span> math<span style="color:#f92672">.</span>sin(dLat <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>) <span style="color:#f92672">+</span> math<span style="color:#f92672">.</span>cos(lat1 <span style="color:#f92672">*</span> math<span style="color:#f92672">.</span>pi <span style="color:#f92672">/</span> <span style="color:#ae81ff">180.0</span>) <span style="color:#f92672">*</span> math<span style="color:#f92672">.</span>cos(lat2 <span style="color:#f92672">*</span> math<span style="color:#f92672">.</span>pi <span style="color:#f92672">/</span> <span style="color:#ae81ff">180.0</span>) <span style="color:#f92672">*</span> math<span style="color:#f92672">.</span>sin(dLon <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>) <span style="color:#f92672">*</span> math<span style="color:#f92672">.</span>sin(dLon <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>)
@@ -539,6 +557,7 @@ if (!doNotTrack) {
 </span></span><span style="display:flex;"><span>    dist <span style="color:#f92672">=</span> R <span style="color:#f92672">*</span> c
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> dist
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Calculate the distance of each data point to the Nanshijiao Station and store the result in the &#39;distance&#39; column.</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> data <span style="color:#f92672">in</span> EPA_IoT_zhonghe_data:
 </span></span><span style="display:flex;"><span>  data[<span style="color:#e6db74">&#39;distance&#39;</span>] <span style="color:#f92672">=</span> LLs2Dist(data[<span style="color:#e6db74">&#39;location&#39;</span>][<span style="color:#e6db74">&#39;latitude&#39;</span>], data[<span style="color:#e6db74">&#39;location&#39;</span>][<span style="color:#e6db74">&#39;longitude&#39;</span>], <span style="color:#ae81ff">24.990550</span>, <span style="color:#ae81ff">121.507532</span>)<span style="color:#75715e"># (24.990550, 121.507532)</span>
 </span></span><span style="display:flex;"><span>EPA_IoT_zhonghe_data[<span style="color:#ae81ff">0</span>]
@@ -561,29 +580,37 @@ if (!doNotTrack) {
  &#39;Temperature&#39;: 26.24,
  &#39;distance&#39;: 1.052754763080127}
 </code></pre><h3 id="pandas-package">Pandas package</h3>
-<p>Pandas is a Python package of commonly used data manipulation and analysis. DataFrame format is used to store two-dimensional or multi-column data format, which is very suitable for data analysis. We convert the processed data into a DataFrame, pick out the required fields, and sort them according to the previously calculated distance from small to large.</p>
+<p>Pandas is a popular Python package for data manipulation and analysis. It&rsquo;s known for its DataFrame feature, which is ideal for handling two-dimensional or multi-column data — perfect for data analysis tasks. We&rsquo;ll take our processed data and convert it into a DataFrame format. This allows us to easily select the necessary fields and sort them based on the distance we calculated earlier, from the shortest to the longest.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> pandas <span style="color:#66d9ef">as</span> pd
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Use pandas&#39; json_normalize method to convert the JSON data into DataFrame.</span>
 </span></span><span style="display:flex;"><span>df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>json_normalize(EPA_IoT_zhonghe_data) 
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#Results contain the required data</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># This is the full data after conversion.</span>
 </span></span><span style="display:flex;"><span>df
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Select the columns we need from the full data.</span>
 </span></span><span style="display:flex;"><span>EPA_IoT_zhonghe_data_raw <span style="color:#f92672">=</span> df[[<span style="color:#e6db74">&#39;distance&#39;</span>, <span style="color:#e6db74">&#39;PM2_5&#39;</span>, <span style="color:#e6db74">&#39;Temperature&#39;</span>, <span style="color:#e6db74">&#39;Relative_Humidity&#39;</span>, <span style="color:#e6db74">&#39;properties.stationID&#39;</span>, <span style="color:#e6db74">&#39;location.latitude&#39;</span>, <span style="color:#e6db74">&#39;location.longitude&#39;</span>, <span style="color:#e6db74">&#39;properties.areaType&#39;</span>]]
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Sort the data based on the &#39;distance&#39; and &#39;PM2_5&#39; columns.</span>
 </span></span><span style="display:flex;"><span>EPA_IoT_zhonghe_data_raw <span style="color:#f92672">=</span> EPA_IoT_zhonghe_data_raw<span style="color:#f92672">.</span>sort_values(by<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;distance&#39;</span>, <span style="color:#e6db74">&#39;PM2_5&#39;</span>], ascending<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
 </span></span><span style="display:flex;"><span>EPA_IoT_zhonghe_data_raw
 </span></span></code></pre></div><p><img src="figures/3-2-1.png" alt="Python Output"></p>
 <h3 id="results">Results</h3>
-<p>To know if the air quality at the target location is better than the area of interest, we can roughly use the distribution of air quality across all stations. You can use tools such as the numpy package, a common data science processing library in Python, or directly calculate the mean and standard deviation to get the answer.</p>
+<p>To determine whether the air quality at our target location is better or worse than in the surrounding area, we can look at the air quality data from all the nearby stations. For this analysis, tools like the numpy package, which is widely used in Python for data science, can be very helpful. By calculating the average (mean) and the variation (standard deviation) of air quality data from these stations, we can get a clearer picture of the air quality at our specific location compared to the overall area.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Get the PM2.5 value of the nearest monitoring station from EPA_IoT_zhonghe_data_raw.</span>
 </span></span><span style="display:flex;"><span>zhonghe_target <span style="color:#f92672">=</span> EPA_IoT_zhonghe_data_raw<span style="color:#f92672">.</span>iloc[<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Calculate the average and standard deviation of PM2.5.</span>
 </span></span><span style="display:flex;"><span>zhonghe_ave <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>mean(EPA_IoT_zhonghe_data_raw<span style="color:#f92672">.</span>iloc[:,<span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>values)
 </span></span><span style="display:flex;"><span>zhonghe_std <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>std(EPA_IoT_zhonghe_data_raw<span style="color:#f92672">.</span>iloc[:,<span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>values)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Calculate the difference between the target PM2.5 value and the average, expressed in terms of standard deviations.</span>
 </span></span><span style="display:flex;"><span>result <span style="color:#f92672">=</span> (zhonghe_target<span style="color:#f92672">-</span>zhonghe_ave)<span style="color:#f92672">/</span>zhonghe_std
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Print out the computed results.</span>
 </span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#39;Mean:&#39;</span>, zhonghe_ave, <span style="color:#e6db74">&#39;std:&#39;</span>, zhonghe_std)
 </span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#39;PM2.5 of the neareat station:&#39;</span>, zhonghe_target)
 </span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#39;The target is &#39;</span>, result, <span style="color:#e6db74">&#39;standard deviations from the mean.</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#39;</span>)
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Print out the air quality assessment based on the result.</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span>(result<span style="color:#f92672">&gt;</span><span style="color:#ae81ff">0</span>):
 </span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#39;Result: The air quality at the target location is worse.&#39;</span>)
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>:
@@ -705,12 +732,12 @@ This work is licensed under a <a rel="license" href="http://creativecommons.org/
         <script>
           var contentLangs=['en'];
         </script>
-        <script src="/js/auto-complete.js?1701130498" defer></script>
-        <script src="/js/lunr.min.js?1701130498" defer></script>
-        <script src="/js/lunr.stemmer.support.min.js?1701130498" defer></script>
-        <script src="/js/lunr.multi.min.js?1701130498" defer></script>
-        <script src="/js/lunr.en.min.js?1701130498" defer></script>
-        <script src="/js/search.js?1701130498" defer></script>
+        <script src="/js/auto-complete.js?1701130549" defer></script>
+        <script src="/js/lunr.min.js?1701130549" defer></script>
+        <script src="/js/lunr.stemmer.support.min.js?1701130549" defer></script>
+        <script src="/js/lunr.multi.min.js?1701130549" defer></script>
+        <script src="/js/lunr.en.min.js?1701130549" defer></script>
+        <script src="/js/search.js?1701130549" defer></script>
       </div>
       <div id="content-wrapper" class="highlightable">
         <ul class="topics">
@@ -786,14 +813,14 @@ This work is licensed under a <a rel="license" href="http://creativecommons.org/
       </div>
     </aside>
 
-    <script src="/js/clipboard.min.js?1701130498" defer></script>
-    <script src="/js/perfect-scrollbar.min.js?1701130498" defer></script>
-    <script src="/js/featherlight.min.js?1701130498" defer></script>
-    <script src="/js/jquery.svg.pan.zoom.js?1701130498" defer></script>
-    <script src="/js/mermaid.min.js?1701130498" defer></script>
+    <script src="/js/clipboard.min.js?1701130549" defer></script>
+    <script src="/js/perfect-scrollbar.min.js?1701130549" defer></script>
+    <script src="/js/featherlight.min.js?1701130549" defer></script>
+    <script src="/js/jquery.svg.pan.zoom.js?1701130549" defer></script>
+    <script src="/js/mermaid.min.js?1701130549" defer></script>
     <script>
       window.themeUseMermaid = JSON.parse("{}");
     </script>
-    <script src="/js/theme.js?1701130498" defer></script>
+    <script src="/js/theme.js?1701130549" defer></script>
   </body>
 </html>
