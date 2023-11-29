@@ -14,76 +14,91 @@ authors: ["Yu-Chi Peng"]
 
 {{< toc >}}
 
-Cluster analysis is a commonly used data processing method in data science, and its primary purpose is to find similar clusters in the data. After cluster analysis, data with similar attributes are clustered together for ease of use, and researchers can perform deeper analysis and processing on data with similar characteristics. In Civil IoT Taiwan, since the data of each sensor is time series data, to properly group a large number of sensors for more in-depth data analysis, we introduce standard feature extraction methods and for clustering time series data.
+Cluster analysis is a popular technique in data science aimed at identifying groups, or 'clusters', of similar data points. This method helps organize data by grouping similar items together, making it easier for researchers to conduct more detailed analyses on these sets. In the context of Civil IoT Taiwan, where the data from sensors is in the form of time series (data points collected over time), this approach is especially useful. To effectively group numerous sensors for comprehensive data analysis, standard methods for extracting key features are used. These methods help in classifying time series data into clusters for more insightful analysis.
 
 ## Goal
 
-- Learn to use Fast Fourier Transform (FFT) and Wavelet Transform to extract features of time series data
-- Use unsupervised learning method to cluster time series data
+- Understand how to apply Fast Fourier Transform (FFT) and Wavelet Transform for feature extraction in time series data. These techniques help in breaking down complex data patterns into simpler components, making it easier to analyze and understand the data.
+- Employ unsupervised learning methods for clustering time series data. This approach doesn't rely on pre-labeled data; instead, it discovers natural groupings within the data based on the similarities and differences in the data points.
 
 ## Package Installation and Importing
 
-In this article, we will use the pandas, matplotlib, numpy, and pywt packages, which are pre-installed on our development platform, Google Colab, and do not need to be installed manually. However, we will also use one additional package that Colab does not have pre-installed, tslearn, which need to be installed by :
+In this guide, we'll be using several pre-installed packages on our development platform, Google Colab. These include pandas, matplotlib, numpy, and pywt, all of which are ready to use without any manual installation. However, there's an additional package, tslearn, that isn't pre-installed on Colab. We'll need to install this package separately. To do so, we'll follow a specific installation process which I'll describe next.
 
 ```python
-!pip install --upgrade pip
-!pip install tslearn
+!pip install --upgrade pip # This command upgrades 'pip' to the latest version. 'pip' is the package installer for Python, used to install and manage software packages.
+!pip install tslearn # This command installs the 'tslearn' package. 'tslearn' is a machine learning library for time series analysis in Python.
 ```
 
-After the installation is complete, we can use the following syntax to import the relevant packages to complete the preparations in this article.
+Once the installation is finished, we can start importing the necessary packages to set up our workspace for this tutorial. Here's how we'll do it: we'll use a specific syntax to import each of these packages into our coding environment. This step is crucial as it prepares our platform with all the tools we need for the tasks ahead in this guide.
 
 ```python
-import numpy as np
-import pandas as pd
-import pywt
-import os, zipfile
-import matplotlib.pyplot as plt
+import numpy as np # Imports NumPy, a library for numerical operations. 'np' is a common alias used for NumPy.
+import pandas as pd # Imports Pandas, a library for data manipulation and analysis. 'pd' is a standard alias for Pandas.
+import pywt # Imports PyWavelets, a library for wavelet transformation, often used for signal processing.
+import os, zipfile # Imports 'os' and 'zipfile' for operating system interactions and handling zip files, respectively.
+import matplotlib.pyplot as plt # Imports Matplotlib's 'pyplot', a plotting library. 'plt' is a conventional alias.
 
-from datetime import datetime, timedelta
-from numpy.fft import fft, ifft
-from pywt import cwt
-from tslearn.clustering import TimeSeriesKMeans
+from datetime import datetime, timedelta # Imports specific classes from the 'datetime' module for handling dates and times.
+from numpy.fft import fft, ifft # Imports 'fft' and 'ifft' from NumPy's Fast Fourier Transform (FFT) sub-module for frequency domain transformations.
+from pywt import cwt # Imports 'cwt' (Continuous Wavelet Transform) from PyWavelets for time-frequency analysis.
+from tslearn.clustering import TimeSeriesKMeans # Imports TimeSeriesKMeans for clustering time series data from the 'tslearn' library.
 ```
 
 ## Data Access and Preprocessing
 
-Since we want to use long-term historical data in this article, we do not directly use the data access methods of the pyCIOT package, but directly download the 2021 data archive of “Academia Sinica - Micro Air Quality Sensors” in 2021 from the historical database of the Civil IoT Taiwan Data Service Platform and store in the `Air` folder.
+In this tutorial, we're focusing on using long-term historical data. Instead of accessing data through the standard methods provided by the pyCIOT package, we'll take a different approach. We'll directly download the 2021 data archive of the "Academia Sinica - Micro Air Quality Sensors" from the historical database of the Civil IoT Taiwan Data Service Platform. Once downloaded, this data will be stored in a folder named `Air`. This method allows us to work with a comprehensive dataset, giving us a broader view of the historical trends and patterns.
 
 ```python
-!mkdir Air CSV_Air
+!mkdir Air CSV_Air # Creates two directories: 'Air' and 'CSV_Air'. These will be used to store downloaded and extracted data.
+
+# This command uses 'wget' to download a file from the provided URL. 
+# The '-O Air/2021.zip' option specifies that the downloaded file should be named '2021.zip' and saved in the 'Air' directory.
+# The '-q' option runs the command in quiet mode, suppressing most of the command output.
 !wget -O Air/2021.zip -q "https://history.colife.org.tw/?r=/download&path=L%2Bepuuawo%2BWTgeizqi%2FkuK3noJTpmaJf5qCh5ZyS56m65ZOB5b6u5Z6L5oSf5ris5ZmoLzIwMjEuemlw"
-!unzip Air/2021.zip -d Air
-```
 
-At the same time, since the downloaded data is in the format of a zip compressed file, we need to decompress it to generate a number of compressed daily file, and then decompress the compressed daily files in 2021/08 and store the content of the decompressed csv files in the `air_month` dataframe.
+!unzip Air/2021.zip -d Air # This command unzips the contents of '2021.zip' into the 'Air' directory.
+```
+As we proceed, it's important to note that the data we download will be in a zip file format. This means our first step is to unzip this file. Doing so will reveal a collection of daily files, each also compressed. Specifically, we'll focus on the data from August 2021. Our task is to decompress these daily files for this month and then store the contents from these unzipped CSV files into a dataframe, which we will refer to as `air_month`. This process enables us to organize and access the data efficiently for our analysis.
 
 ```python
-folder = 'Air/2021/202108'
-extension_zip = 'zip'
-extension_csv = 'csv'
+folder = 'Air/2021/202108' # Sets the folder path where the data is stored.
+extension_zip = 'zip' # Defines the extension for zip files.
+extension_csv = 'csv' # Defines the extension for CSV files.
 
-for item in os.listdir(folder):
-  if item.endswith(extension_zip):
-    file_name = f'{folder}/{item}'
-    zip_ref = zipfile.ZipFile(file_name)
-    zip_ref.extractall(folder)
-    zip_ref.close()
+# Loop to extract files from zip archives in the specified folder
+for item in os.listdir(folder): 
+  if item.endswith(extension_zip): # Checks if the file is a zip file.
+    file_name = f'{folder}/{item}' # Creates the full path for the zip file.
+    zip_ref = zipfile.ZipFile(file_name) # Opens the zip file.
+    zip_ref.extractall(folder) # Extracts all contents to the folder.
+    zip_ref.close() # Closes the zip file.
 
-air_month = pd.DataFrame()
+air_month = pd.DataFrame() # Initializes an empty DataFrame to store the combined data.
+
+# Loop to read CSV files and append them to the DataFrame
 for item in os.listdir(folder):
-  if item.endswith(extension_csv):
-    file_name = f'{folder}/{item}'
-    df = pd.read_csv(file_name, parse_dates=['timestamp'])
-    air_month = air_month.append(df)
-air_month.set_index('timestamp', inplace=True)
-air_month.sort_values(by='timestamp', inplace=True)
+  if item.endswith(extension_csv): # Checks if the file is a CSV file.
+    file_name = f'{folder}/{item}' # Creates the full path for the CSV file.
+    df = pd.read_csv(file_name, parse_dates=['timestamp']) # Reads the CSV file into a DataFrame, parsing 'timestamp' as dates.
+    air_month = air_month.append(df) # Appends the DataFrame to 'air_month'.
+
+# Setting 'timestamp' as the index and sorting the DataFrame
+air_month.set_index('timestamp', inplace=True) # Sets 'timestamp' as the index of the DataFrame.
+air_month.sort_values(by='timestamp', inplace=True) # Sorts the DataFrame by 'timestamp'.
 ```
-
-At present, the format of `air_month` does not meet our needs. It needs to be sorted into a data format with site data as columns and time data as columns. Thus, we first find out the number of distinct sites in the data, and store the site information in a sequence.
+Currently, the `air_month` dataframe isn't structured in a way that suits our analysis needs. We need to rearrange it so that the data from different sites are in separate columns, and time data is organized in rows. To start this reformatting process, our first step is to identify all the unique sites represented in our data. We'll gather this information and store it in a sequence. This step is essential for understanding the range of locations our data covers, and it will help us in efficiently restructuring the `air_month` dataframe for more effective data analysis.
 
 ```python
+# Extract the 'device_id' column from the 'air_month' DataFrame and convert it to a NumPy array.
+# 'device_id' contains the IDs of the devices used for air quality measurement.
 id_list = air_month['device_id'].to_numpy()
+
+# Use NumPy's 'unique' function to find all the unique device IDs in the array.
+# This removes any duplicate IDs, giving us a list of distinct devices used in the data collection.
 id_uniques = np.unique(id_list)
+
+# The variable 'id_uniques' now holds the unique device IDs from your dataset.
 id_uniques
 ```
 
@@ -92,25 +107,43 @@ array(['08BEAC07D3E2', '08BEAC09FF12', '08BEAC09FF22', ...,
        '74DA38F7C648', '74DA38F7C64A', '74DA38F7C64C'], dtype=object)
 ```
 
-Then we save the data of each site as a column and put them all in the `air` dataframe. Finally, we delete all downloaded data and unpacked data to save cloud storage space.
+Next, we'll organize the data from each unique site into its own column, compiling all these columns into a new dataframe named `air`. This structure will make the data more accessible and easier to analyze, with each site's data clearly separated and organized chronologically.
+
+After completing this step, it's important to clean up our workspace. We'll do this by deleting all the originally downloaded and unpacked data files. This cleanup is crucial for conserving cloud storage space, ensuring our workspace remains efficient and uncluttered. This practice is not only good for organization but also essential in a cloud computing environment where storage space and neatness are key.
 
 ```python
+# Initialize an empty DataFrame 'air' to store aggregated data.
 air = pd.DataFrame()
+
+# Iterate over each unique device ID.
 for i in range(len(id_uniques)):
-    # print('device_id=="' + id_uniques[i] + '"')
+    # Construct a query string to filter data for the current device ID.
+    # This step is essential for processing data device-wise.
     query = air_month.query('device_id=="' + id_uniques[i] + '"')
+
+    # Sort the filtered data by 'timestamp' to ensure chronological order.
     query.sort_values(by='timestamp', inplace=True)
+
+    # Resample the data to an hourly frequency and compute the mean for each hour.
+    # This step aggregates the data, making it more manageable and easier to analyze.
     query_mean = query.resample('H').mean()
+
+    # Rename the 'PM25' column to the current device ID for clarity.
     query_mean.rename(columns={'PM25': id_uniques[i]}, inplace=True)
+
+    # Concatenate the processed data for the current device to the 'air' DataFrame.
+    # The 'axis=1' parameter indicates a horizontal concatenation (column-wise).
     air = pd.concat([air, query_mean], axis=1)
 
 !rm -rf Air
 ```
-
-We can quickly view the contents of `air` using the following syntax.
+To quickly inspect the contents of our newly organized `air` dataframe, we can use a specific syntax. This command will display a snapshot of the dataframe, allowing us to verify its structure and the data it contains. This step is important for ensuring that our data reorganization was successful and that the dataframe is ready for further analysis.
 
 ```python
+# Displaying the structure and summary information of the 'air' DataFrame.
 air.info()
+
+# Printing the first five rows of the 'air' DataFrame to get a quick overview of the data.
 print(air.head())
 ```
 
@@ -170,20 +203,30 @@ timestamp
 2021-08-01 04:00:00      5.000000  
 ```
 
-Next, we delete the part of the data that has missing values (the value is Nan) and draw the data into a graph to observe the data distribution.
+Moving forward, our next step involves cleaning the data in the `air` dataframe. We'll specifically focus on removing any parts of the data that contain missing values, often represented as 'NaN' (Not a Number). This step is crucial for ensuring the accuracy and reliability of our analysis.
+
+Once we've cleaned the data by removing these missing values, the next step is to visualize the data. We'll do this by plotting the data in a graph. This visualization will help us to observe and understand the distribution and patterns within the data more clearly. Graphical representation is a powerful tool for gaining insights and making data more accessible and interpretable.
 
 ```python
+# Removing the last row from the 'air' DataFrame.
 air = air[:-1]
+
+# Creating a new DataFrame 'air_clean' by dropping columns with any missing values.
 air_clean = air.dropna(1, how='any')
+
+# Plotting the data in 'air_clean' with a specified figure size and without displaying the legend.
 air_clean.plot(figsize=(20, 15), legend=None)
 ```
 
 ![Python output](figures/4-3-3-1.png)
 
-Since the instantaneous value of the sensor in the original data is prone to sudden and dramatic changes due to environmental changes, we use a moving average method to average the sensing values every ten times so that the processed data can be smoother and more stable. It can also better reflect the overall trend around the sensor and facilitate the following cluster analysis.
+The original data from the sensor can show sudden and dramatic changes because of changes in the environment. To make this data more consistent and reliable, we apply a technique called the moving average method. This approach averages the sensor readings every ten instances. By doing this, the resulting data becomes smoother and more stable. It also more accurately shows the general trends in the area around the sensor, which is helpful for the next step of our analysis, known as cluster analysis.
 
 ```python
+# Applying a rolling mean with a window of 10 and a minimum of 1 period to the 'air_clean' DataFrame.
 air_clean = air_clean.rolling(window=10, min_periods=1).mean()
+
+# Plotting the modified 'air_clean' data with a specified figure size and without a legend.
 air_clean.plot(figsize=(20, 15), legend=None)
 ```
 
@@ -191,23 +234,31 @@ air_clean.plot(figsize=(20, 15), legend=None)
 
 ## Data Clustering
 
-Since the current data representation in the dataframe is to put each station's data in a separate column, and each row stores the sensor values of all stations at a specific time point, this format is more suitable for time-series data processing and analysis. Still, it is not ideal for data grouping. Therefore, we need to exchange the columns and columns of the data first; that is, we need to transpose the existing data before proceeding to the data grouping.
+In our current data setup, each weather station's data is placed in a separate column in a dataframe, with each row showing the sensor readings from all stations at a specific moment. This layout is good for analyzing data over time, but not as useful for grouping data. To prepare for data grouping, we first need to rearrange the data by transposing it, essentially switching the rows and columns.
 
-Data clustering is a prevalent method in data science. Among many data clustering methods, we choose the KMeans method (`TimeSeriesKMeans`) provided by the tslearn package. In machine learning, this type of method is classified as an "unsupervised learning" method because, in the process of clustering, there is no specific standard to organize the data into a particular cluster, but only the similarity between the data is used to determine the clustering. Thus, it is beneficial for finding outliers or performing predictions.
+Data clustering is a popular technique in data science, and we're using a specific method called KMeans clustering, provided by the `tslearn` package. This method falls under 'unsupervised learning' in machine learning. Unlike other methods where data is sorted into groups based on predefined criteria, KMeans clustering groups data based on how similar the data points are to each other. This makes it great for identifying unusual data points or for making predictions.
 
-The operation of the KMeans clustering method is roughly divided into the following steps:
+Here's how the KMeans clustering process works:
 
-1. Determine the value of *k*, that is, the final number of clusters;
-2. Randomly select *k* records as the center points of the initial k clusters (also called "cluster heads");
-3. Calculate the distance from each record to each cluster head according to the distance formula, and select the nearest cluster head to attribute the record to this group;
-4. Recalculate its new cluster head for each cluster, and repeat the above steps until the cluster heads of *k* clusters no longer change.
+1. Choose the number of clusters, *k*. We decide how many groups we want to create.
+2. Randomly pick *k* data points as the starting points for these clusters, known as 'cluster heads.'
+3. Measure how close each data point is to these cluster heads, and assign each point to the nearest cluster.
+4. Update the center of each cluster based on the points assigned to it, and repeat the process until the cluster heads don't change anymore.
 
-We first set *k=10*, and use `TimeSeriesKMeans` to divide the data into 10 clusters (0~9) as follows:
+We'll start by setting *k=10*, meaning we want to create 10 clusters. Using `TimeSeriesKMeans`, we'll divide the data into these 10 groups, labeled from 0 to 9.
 
 ```python
+# Transposing the 'air_clean' DataFrame for time series clustering.
 air_transpose = air_clean.transpose()
+
+# Initializing the Time Series K-Means model with 10 clusters, using the DTW (Dynamic Time Warping) metric, and setting a maximum of 5 iterations.
+# 'n_clusters' specifies the number of clusters, 'max_iter' sets the maximum number of iterations for the clustering process.
 model = TimeSeriesKMeans(n_clusters=10, metric="dtw", max_iter=5) # n_cluster:分群數量, max_iter: 分群的步驟最多重複幾次
+
+# Fitting the model to the transposed 'air_clean' DataFrame.
 pre = model.fit(air_transpose)
+
+# Retrieving the cluster labels for each time series in the dataset.
 pre.labels_
 ```
 
@@ -232,20 +283,19 @@ array([3, 3, 6, 3, 3, 3, 3, 6, 9, 6, 3, 6, 3, 3, 3, 3, 3, 1, 3, 3, 6, 3,
 9, 9, 9, 9, 5, 5, 5, 5, 5, 5, 9, 5, 5, 5, 5, 5, 5, 5, 5, 5, 9, 5,
 5, 5])
 ```
-
-The result of clustering is that a small number of sensors may form a cluster by themselves due to the particularity of the data. These sensors can be regarded as deviated stations with no value for further analysis. Therefore, our next step is first to count whether each separated cluster has only one internal sensor and discard the cluster. For example, in this example, we will discard clusters with only one sensor in them, as follows:
+After we apply the clustering method, sometimes we find that certain sensors form their own cluster because their data is unique. These sensors are outliers and generally don't provide useful information for further analysis. So, our next step is to check if any cluster contains only a single sensor. If it does, we consider this cluster irrelevant and remove it from our analysis. For instance, in our current case, we will eliminate any cluster that is made up of just one sensor, as shown below:
 
 ```python
-# build helper df to map metrics to their cluster labels
+# Creating a DataFrame 'df_cluster' to map each metric in 'air_clean' to its corresponding cluster label.
 df_cluster = pd.DataFrame(list(zip(air_clean.columns, pre.labels_)), columns=['metric', 'cluster'])
 
-# make some helper dictionaries and lists
-cluster_metrics_dict = df_cluster.groupby(['cluster'])['metric'].apply(lambda x: [x for x in x]).to_dict()
-cluster_len_dict = df_cluster['cluster'].value_counts().to_dict()
-clusters_dropped = [cluster for cluster in cluster_len_dict if cluster_len_dict[cluster]==1]
-clusters_final = [cluster for cluster in cluster_len_dict if cluster_len_dict[cluster]>1]
+cluster_metrics_dict = df_cluster.groupby(['cluster'])['metric'].apply(lambda x: [x for x in x]).to_dict() # Creating a dictionary 'cluster_metrics_dict' that maps each cluster to the metrics it contains.
+cluster_len_dict = df_cluster['cluster'].value_counts().to_dict() # Creating a dictionary 'cluster_len_dict' to count the number of metrics in each cluster.
+clusters_dropped = [cluster for cluster in cluster_len_dict if cluster_len_dict[cluster]==1] # Creating a list 'clusters_dropped' containing clusters with only one metric.
+clusters_final = [cluster for cluster in cluster_len_dict if cluster_len_dict[cluster]>1] # Creating a sorted list 'clusters_final' containing clusters with more than one metric.
 clusters_final.sort()
 
+# Outputting the list of clusters that were dropped.
 clusters_dropped
 ```
 
@@ -253,56 +303,78 @@ clusters_dropped
 [7, 4, 8]
 ```
 
-Finally, we display the remaining clusters graphically, and it can be found that the data in each cluster show a very high degree of similarity. In contrast, the data in different clusters show apparent differences. To quantify data similarity in clusters, we define a new variable `quality`. The value of this variable is equal to the average value of the correlation between each internal data and other data, and the lower the `quality` value, the more similar the internal data of this cluster.
+In the final step, we visually present the clusters that remain after removing the irrelevant ones. When we look at these clusters, it's clear that the data within each cluster are very similar to each other, while the data across different clusters show noticeable differences. To measure how similar the data is within each cluster, we introduce a new metric called `quality`.
+
+The `quality` of a cluster is calculated by averaging the correlation between each piece of data within the cluster and all other data in that same cluster. The idea is that the lower the `quality` value, the more alike the data in that cluster is. In other words, a lower `quality` score indicates a high degree of similarity among the data points in a cluster.
 
 ```python
+# Creating a subplot for each cluster in 'clusters_final' with specific dimensions and resolution.
 fig, axes = plt.subplots(nrows=len(clusters_final), ncols=1, figsize=(20, 15), dpi=500)
-# legend = axes.legend(loc="upper left", bbox_to_anchor=(1.02, 0, 0.07, 1))
-for idx, cluster_number in enumerate(clusters_final):
-  x_corr = air_clean[cluster_metrics_dict[cluster_number]].corr().abs().values
-  x_corr_mean = round(x_corr[np.triu_indices(x_corr.shape[0],1)].mean(),2)
-  plot_title = f'cluster {cluster_number} (quality={x_corr_mean}, n={cluster_len_dict[cluster_number]})'
-  air_clean[cluster_metrics_dict[cluster_number]].plot(ax=axes[idx], title=plot_title)
-  axes[idx].get_legend().remove()
 
+# Iterating over each cluster to create individual plots.
+for idx, cluster_number in enumerate(clusters_final):
+  x_corr = air_clean[cluster_metrics_dict[cluster_number]].corr().abs().values # Calculating the absolute correlation matrix for the metrics in the current cluster.
+  x_corr_mean = round(x_corr[np.triu_indices(x_corr.shape[0],1)].mean(),2) # Calculating the mean of the upper triangle of the correlation matrix, rounding to two decimal places.
+  plot_title = f'cluster {cluster_number} (quality={x_corr_mean}, n={cluster_len_dict[cluster_number]})' # Creating a title for the plot with cluster number, quality (mean correlation), and number of metrics.
+  air_clean[cluster_metrics_dict[cluster_number]].plot(ax=axes[idx], title=plot_title) # Plotting the metrics in the current cluster on the respective subplot.
+  axes[idx].get_legend().remove() # Removing the legend from each subplot for clarity.
+
+# Adjusting the layout for better visibility and aesthetics.
 fig.tight_layout()
+
+# Displaying the plot.
 plt.show()
 ```
 
 ![Python output](figures/4-3-4-1.png)
 
-So far, we have demonstrated how to use air quality sensor data to cluster the data based on the characteristic information in the data. However, since the original data may contain noise interference, it will also affect the clustering results. To reduce noise interference in raw data, we introduce two commonly used advanced methods: Fourier transform, and wavelet transform. These two methods can extract advanced time series data features, so they can more effectively improve the effectiveness of clustering.
+In our analysis, we've shown how to cluster air quality sensor data based on specific characteristics in the data. However, it's important to note that the original data might have some noise - unwanted variations or disturbances. This noise can affect the accuracy of our clustering results. To minimize the impact of this noise, we use two advanced methods: the Fourier transform and the wavelet transform. These methods help us extract more refined features from the time series data, which in turn improves the quality of our clustering.
 
 ### Fast Fourier Transform
 
-Fourier transform is a commonly used signal analysis method, which can convert the original data from the time domain to the frequency domain, which is convenient for further feature extraction and data analysis. It is commonly used in engineering and mathematics and in studying sound and time series data. Since the standard Fourier transform involves complicated mathematical operations, it is complex and time-consuming to implement. Therefore, a fast Fourier transform method to discretize the original data was developed later, which can significantly reduce the computational complexity of the Fourier transform and is especially suitable for large amounts of data. Therefore, in our next topic, we will use the Fast Fourier Transform method to extract the data features required for data grouping.
+The Fourier transform is a widely used method in signal analysis. It transforms data from the time domain to the frequency domain, making it easier to extract features and analyze the data. This technique is essential in fields like engineering and mathematics and is particularly useful in analyzing sound and time series data.
 
-We first observe the temporal variation of a single station (''`08BEAC07D3E2`'') by plotting.
+However, the standard Fourier transform involves complex mathematical computations, making it impractical for large datasets due to its time-consuming nature. To address this, the Fast Fourier Transform (FFT) was developed. FFT is a quicker way to perform the Fourier transform, significantly reducing the complexity and computational time, especially when dealing with large amounts of data.
+
+In our next step, we'll use the Fast Fourier Transform method to extract relevant features for data grouping. To start, we'll examine the time variation of a single station's data (identified by the ID ''`08BEAC07D3E2`'') by creating a plot. This will give us a clearer understanding of how this method works and its effectiveness in our analysis.
 
 ```python
+# Plotting the time series data for the column '08BEAC07D3E2' in the 'air_clean' DataFrame.
 air_clean['08BEAC07D3E2'].plot()
 ```
 
 ![Python output](figures/4-3-4-2.png)
 
-Then we use the fast Fourier transform tool `fft` in the NumPy package to convert the station's data input and observe the data distribution after conversion to the frequency domain by drawing.
+Next, we'll use the Fast Fourier Transform (FFT) tool, specifically the `fft` function from the NumPy package, to transform the data from our chosen station. By applying FFT, we change the way we view the data, shifting from the time domain to the frequency domain. This shift is key in analyzing and understanding the underlying patterns and characteristics of the data.
+
+Once we've applied the FFT to the station's data, we'll visually represent the transformed data. This involves creating a graph to show how the data is distributed in the frequency domain after the transformation. This graphical representation will help us better understand the nature of the data and the impact of the FFT, illustrating the key features and patterns that emerge when we view the data through the lens of frequency rather than time.
 
 ```python
+# Performing Fast Fourier Transform (FFT) on the '08BEAC07D3E2' column of the 'air_clean' DataFrame.
 X = fft(air_clean['08BEAC07D3E2'])
 N = len(X)
 n = np.arange(N)
-# get the sampling rate
+
+# Determining the sampling rate, assuming each data point represents an hourly interval.
 sr = 1 / (60*60)
+
+# Calculating the total time duration of the dataset.
 T = N/sr
+
+# Computing the frequency array.
 freq = n/T 
 
-# Get the one-sided specturm
+# Limiting the spectrum to one-sided (since FFT output is symmetric for real-valued inputs).
+n_oneside = N // 2
+
+# Considering only the one-sided frequencies.
 n_oneside = N//2
 # get the one side frequency
 f_oneside = freq[:n_oneside]
 
+# Plotting the one-sided spectrum.
 plt.figure(figsize = (12, 6))
-plt.plot(f_oneside, np.abs(X[:n_oneside]), 'b')
+plt.plot(f_oneside, np.abs(X[:n_oneside]), 'b') # 'b' specifies the color blue for the plot.
 plt.xlabel('Freq (Hz)')
 plt.ylabel('FFT Amplitude |X(freq)|')
 plt.show()
@@ -310,25 +382,43 @@ plt.show()
 
 ![Python output](figures/4-3-4-3.png)
 
-Then we extend the same transform step to all sensors and store the fast Fourier transform results for all sensors in the `air_fft` variable.
+After successfully applying the Fast Fourier Transform (FFT) to the data from one station and analyzing its frequency domain representation, our next step is to extend this transformation to all the sensors in our dataset. We will apply the FFT tool from the NumPy package to each sensor's data, converting their time-domain data into the frequency domain.
+
+Once we've transformed the data from all sensors using FFT, we will collect and store these results in a variable named `air_fft`. This variable will hold the frequency domain data for each sensor, allowing us to analyze and compare the transformed data across all sensors. This comprehensive approach helps us gain a deeper understanding of the entire dataset, revealing patterns and insights that might not be evident when looking at individual sensors or the time-domain data alone.
 
 ```python
+# Initializing an empty DataFrame to store the FFT results.
 air_fft = pd.DataFrame()
+
+# Getting the column names from the 'air_clean' DataFrame.
 col_names = list(air_clean.columns)
+
+# Looping through each column in 'air_clean'.
 for name in col_names:
+  # Performing FFT on the column.
   X = fft(air_clean[name])
   N = len(X)
   n = np.arange(N)
-  # get the sampling rate
-  sr = 1 / (60*60)
+
+  # Determining the sampling rate (assuming hourly data).
+  sr = 1 / (60*60) # 1 hour in seconds
+
+  # Calculating the total time duration.
   T = N/sr
+
+  # Computing the frequency array.
   freq = n/T 
 
-  # Get the one-sided specturm
+  # Limiting the FFT output to one-sided.
   n_oneside = N//2
-  # get the one side frequency
+
+  # Getting the one-sided frequency array.
   f_oneside = freq[:n_oneside]
+
+  # Storing the amplitude of the one-sided FFT in the 'air_fft' DataFrame.
   air_fft[name] = np.abs(X[:n_oneside])
+
+# Printing the first five rows of the 'air_fft' DataFrame to verify the results.
 print(air_fft.head())
 ```
 
@@ -363,24 +453,32 @@ print(air_fft.head())
 
 [5 rows x 398 columns]
 ```
+After transforming all sensor data into the frequency domain using the Fast Fourier Transform (FFT), we proceed to the next step: clustering this transformed data. We use the same `TimeSeriesKMeans` method as before, but this time, we apply it to the frequency-domain data. Our goal is to divide this data into 10 distinct clusters.
 
-Then we use the same method to divide the sensor data transformed into the frequency domain into 10 clusters using `TimeSeriesKMeans`, and delete the clusters with only a single sensor after clustering. In this example, there will be 9 clusters left, and we print the cluster code to which each sensor belongs.
+Following the clustering, we'll review the composition of each cluster. Any cluster that contains only a single sensor will be considered irrelevant and removed from our analysis, just like we did earlier. This is because a cluster with only one sensor doesn't provide valuable comparative information.
+
+In this specific example, after removing the single-sensor clusters, we end up with 9 clusters. We then document and display the cluster each sensor belongs to by printing their cluster codes. This process helps us understand how the sensors group together based on their frequency-domain data, offering insights that differ from the time-domain analysis. By comparing these clusters, we can gain a more nuanced understanding of the similarities and differences among the sensors in our study.
 
 ```python
+# Transposing the 'air_fft' DataFrame for time series clustering.
 fft_transpose = air_fft.transpose()
-model = TimeSeriesKMeans(n_clusters=10, metric="dtw", max_iter=5)
-pre = model.fit(fft_transpose)
 
-# build helper df to map metrics to their cluster labels
+# Initializing the Time Series K-Means model with 10 clusters, using the DTW (Dynamic Time Warping) metric, and setting a maximum of 5 iterations.
+# 'n_clusters' specifies the number of clusters, 'max_iter' sets the maximum number of iterations for the clustering process.
+model = TimeSeriesKMeans(n_clusters=10, metric="dtw", max_iter=5)
+pre = model.fit(fft_transpose) # Fitting the model to the transposed FFT data.
+
+# Creating a DataFrame 'df_cluster' to map each metric in 'air_fft' to its corresponding cluster label.
 df_cluster = pd.DataFrame(list(zip(air_fft.columns, pre.labels_)), columns=['metric', 'cluster'])
 
-# make some helper dictionaries and lists
-cluster_metrics_dict = df_cluster.groupby(['cluster'])['metric'].apply(lambda x: [x for x in x]).to_dict()
-cluster_len_dict = df_cluster['cluster'].value_counts().to_dict()
-clusters_dropped = [cluster for cluster in cluster_len_dict if cluster_len_dict[cluster]==1]
-clusters_final = [cluster for cluster in cluster_len_dict if cluster_len_dict[cluster]>1]
+
+cluster_metrics_dict = df_cluster.groupby(['cluster'])['metric'].apply(lambda x: [x for x in x]).to_dict() # Creating a dictionary 'cluster_metrics_dict' mapping each cluster to the metrics it contains.
+cluster_len_dict = df_cluster['cluster'].value_counts().to_dict() # Creating a dictionary 'cluster_len_dict' to count the number of metrics in each cluster.
+clusters_dropped = [cluster for cluster in cluster_len_dict if cluster_len_dict[cluster]==1] # Creating a list 'clusters_dropped' containing clusters with only one metric.
+clusters_final = [cluster for cluster in cluster_len_dict if cluster_len_dict[cluster]>1] # Creating a sorted list 'clusters_final' containing clusters with more than one metric.
 clusters_final.sort()
 
+# Printing the first 10 rows of the 'df_cluster' DataFrame.
 print(df_cluster.head(10))
 ```
 
@@ -397,96 +495,148 @@ print(df_cluster.head(10))
 8  08BEAC09FF8C        2
 9  08BEAC09FF9C        8
 ```
+In the final stage of our analysis, we create individual plots for the sensor data of each of the nine remaining clusters. These plots will be based on the frequency-domain data we obtained after applying the Fast Fourier Transform (FFT).
 
-Finally, we plot the sensor data for the nine clusters individually. It can be found that the data of sensors in each cluster are very similar in the frequency domain, and the frequency domain difference of sensors in different clusters is also more significant than that of sensors in the same cluster.
+By visually representing the data in this way, we can observe and compare the characteristics of the sensors within each cluster. What we expect to find is that the sensors grouped into the same cluster will display very similar patterns in the frequency domain. This similarity indicates that these sensors are responding to environmental factors in a similar way.
+
+Conversely, when we compare the frequency-domain data of sensors from different clusters, we anticipate seeing more significant differences. This contrast highlights the distinct behaviors or responses of sensors in different environmental conditions or locations.
+
+These plots are crucial for a comprehensive understanding of our data. They not only validate the effectiveness of our clustering approach but also provide valuable insights into the similarities and differences among the sensors, based on how they react to various environmental factors as reflected in their frequency-domain data.
 
 ```python
+# Creating a figure with a subplot for each cluster in 'clusters_final', setting specific size and resolution.
 fig, axes = plt.subplots(nrows=len(clusters_final), ncols=1, figsize=(20, 15), dpi=500)
-for idx, cluster_number in enumerate(clusters_final):
-  x_corr = air_fft[cluster_metrics_dict[cluster_number]].corr().abs().values
-  x_corr_mean = round(x_corr[np.triu_indices(x_corr.shape[0],1)].mean(),2)
-  plot_title = f'cluster {cluster_number} (quality={x_corr_mean}, n={cluster_len_dict[cluster_number]})'
-  air_fft[cluster_metrics_dict[cluster_number]].plot(ax=axes[idx], title=plot_title)
-  axes[idx].get_legend().remove()
 
-fig.tight_layout()
-plt.show()
+# Iterating over each cluster in 'clusters_final'.
+for idx, cluster_number in enumerate(clusters_final):
+  x_corr = air_fft[cluster_metrics_dict[cluster_number]].corr().abs().values # Calculating the absolute correlation matrix for the metrics in the current cluster.
+  x_corr_mean = round(x_corr[np.triu_indices(x_corr.shape[0],1)].mean(),2) # Calculating the mean of the upper triangle of the correlation matrix, rounding to two decimal places.
+  plot_title = f'cluster {cluster_number} (quality={x_corr_mean}, n={cluster_len_dict[cluster_number]})' # Creating a title for the subplot with cluster number, quality (mean correlation), and number of metrics.
+  air_fft[cluster_metrics_dict[cluster_number]].plot(ax=axes[idx], title=plot_title) # Plotting the metrics in the current cluster on the respective subplot.
+  axes[idx].get_legend().remove() # Removing the legend from each subplot for clarity.
+
+fig.tight_layout() # Adjusting the layout for better visibility and aesthetics.
+plt.show() # Displaying the complete figure.
 ```
 
 ![Python output](figures/4-3-4-4.png)
 
-### Wavelet Transform
+The wavelet transform is another valuable method for analyzing data, complementing the Fourier transform. While the Fourier transform converts time-domain data to the frequency domain, the wavelet transform offers additional perspectives on this frequency-domain data. Its ability to provide more detailed insights makes the wavelet transform particularly useful for analyzing complex data types such as video, audio, and time series.
 
-Besides Fourier transform, wavelet transform is another commonly used method to convert raw data from the time domain to the frequency domain. The wavelet transform can provide more observation angles for frequency domain data than the Fourier transform. Therefore, recently, wavelet transform has been widely used in the analysis of video, audio, time series, and other related data and has achieved good results.
+For performing wavelet transforms, we utilize the `pywt` package, a Python library designed for this purpose. The key to wavelet transform is the use of a "mother wavelet" – a kind of base function that helps in extracting features from time series data.
 
-We use the pywt package for wavelet transform data processing. Since the wavelet transform will use the mother wavelet to extract the features in the time series data, we first use the following syntax to check the name of the mother wavelet that can be used.
-
+Before we proceed with the transformation, we need to identify which mother wavelet is most suitable for our data. In `pywt`, there are various mother wavelets available, each with unique characteristics that make them suited for different types of data. To find out which mother wavelets we can use, we'll start with the following syntax in Python, which lists the names of all available mother wavelets in the `pywt` package. This step is crucial as the choice of mother wavelet can significantly impact the quality and relevance of our analysis.
 ```python
+# Using PyWavelets to get a list of all available continuous wavelets.
 wavlist = pywt.wavelist(kind="continuous")
+
+# Printing the list of continuous wavelets.
 print(wavlist)
 ```
 
 ```
 ['cgau1', 'cgau2', 'cgau3', 'cgau4', 'cgau5', 'cgau6', 'cgau7', 'cgau8', 'cmor', 'fbsp', 'gaus1', 'gaus2', 'gaus3', 'gaus4', 'gaus5', 'gaus6', 'gaus7', 'gaus8', 'mexh', 'morl', 'shan']
 ```
+The wavelet transform offers a unique advantage over the Fourier transform. While the Fourier transform focuses solely on frequency changes, the wavelet transform can adjust, or 'scale,' a finite mother wavelet to extract specific features from segments of data. This scaling ability allows for a more nuanced analysis of the data, particularly when dealing with non-stationary signals where frequency components vary over time.
 
-Unlike the Fourier transform, which can only see changes in frequency, the wavelet transform can scale a finite mother wavelet to extract features from a data segment. When choosing the mother wavelet, you can draw it and observe it before deciding. If we take the *morl* mother wavelet as an example, we can use the following syntax to construct the graph.
+An important part of using the wavelet transform is selecting the right mother wavelet for your data. Each mother wavelet has its own shape and properties, making some better suited for certain types of data than others. To make an informed choice, it's often helpful to visually inspect the wavelet.
+
+For instance, if we consider using the 'morl' (Morlet) mother wavelet, we can first draw its shape to understand its characteristics. The Morlet wavelet, known for its good balance between time and frequency localization, is often used in signal processing. To visualize the Morlet wavelet, we would use specific syntax in Python to create a graph that represents it. This visual representation helps in deciding whether the 'morl' wavelet is the appropriate choice for our data analysis, allowing us to see how it might interact with the data's features.
 
 ```python
+# Initializing the Morlet wavelet object.
 wav = pywt.ContinuousWavelet("morl")
+
+# Setting the scale for the wavelet. In this case, it's set to 1, but can be adjusted as needed.
 scale = 1
 
+# Integrating the wavelet function with a specified precision.
 int_psi, x = pywt.integrate_wavelet(wav, precision=10)
+
+# Normalizing the integrated wavelet function so its absolute maximum value is 1.
 int_psi /= np.abs(int_psi).max()
+
+# Reversing the wavelet filter to match the convention for convolution operations.
 wav_filter = int_psi[::-1]
 
-nt = len(wav_filter)
-t = np.linspace(-nt // 2, nt // 2, nt)
-plt.plot(t, wav_filter.real)
-plt.ylim([-1, 1])
-plt.xlabel("time (samples)")
+nt = len(wav_filter) # Getting the number of time samples in the wavelet filter.
+t = np.linspace(-nt // 2, nt // 2, nt) # Creating a time array for plotting.
+plt.plot(t, wav_filter.real) # Plotting the real part of the wavelet filter against time.
+plt.ylim([-1, 1]) # Setting the y-axis limits to [-1, 1].
+plt.xlabel("time (samples)") # Labeling the x-axis.
 ```
 
 ![Python output](figures/4-3-4-5.png)
 
-We first set the parameters of the wavelet transform and the mother wavelet as *morl*. For the selected sensor, we set the zoom range of the morl wavelet to 1~31 times and carried out wavelet transformation and plotting.
+To proceed with the wavelet transform using the 'morl' (Morlet) mother wavelet, we start by setting up the necessary parameters. This includes specifying 'morl' as our mother wavelet of choice.
+
+For the sensor data we are focusing on, we need to determine the appropriate scale range for the Morlet wavelet. In this case, we decide to vary the scale from 1 to 31 times. This range allows us to observe how the wavelet, when scaled to different sizes, extracts features from the sensor data.
+
+Once the parameters are set, we perform the wavelet transform on the selected sensor's data. This process involves applying the Morlet wavelet at each scale within our specified range and analyzing how the wavelet interacts with the data.
+
+After the wavelet transformation is complete, we plot the results. These plots are crucial as they visually represent the outcome of the wavelet transform. They show us the different features the Morlet wavelet has extracted from the data at various scales. This kind of analysis is particularly useful for understanding complex time-series data, as it reveals both the frequency and time-related characteristics of the data, offering a more comprehensive view than what is possible with the Fourier transform alone.
 
 ```python
-F = 1  #Samples per hour
-hours = 744
-nos = np.int(F*hours)  #No of samples in 31 days
+# Setting the sampling frequency to 1 sample per hour.
+F = 1  # Samples per hour
+hours = 744 # Specifying the total number of hours (for a month with 31 days).
+nos = np.int(F*hours) # Calculating the number of samples in 31 days.
 
-x = air_clean['08BEAC09FF2A']
-scales = np.arange(1, 31, 1)
-coef, freqs = cwt(x, scales, 'morl')
+x = air_clean['08BEAC09FF2A'] # Selecting the time series data from the 'air_clean' DataFrame.
+scales = np.arange(1, 31, 1) # Setting the range of scales to use in the CWT.
+coef, freqs = cwt(x, scales, 'morl') # Performing the Continuous Wavelet Transform using the Morlet wavelet.
 
-# scalogram
+# Creating a figure for the scalogram.
 plt.figure(figsize=(15, 10))
+
+# Displaying the scalogram with specific settings for visualization.
 plt.imshow(abs(coef), extent=[0, 744, 30, 1], interpolation='bilinear', cmap='viridis',
            aspect='auto', vmax=abs(coef).max(), vmin=abs(coef).min())
+
+# Inverting the y-axis so that the scale increases upwards.
 plt.gca().invert_yaxis()
+
+# Setting the ticks for the y-axis (scales).
 plt.yticks(np.arange(1, 31, 1))
+
+# Setting the ticks for the x-axis (hours), dividing the month into 20 equal intervals.
 plt.xticks(np.arange(0, nos/F, nos/(20*F)))
+
+# Labeling the y-axis as 'scales' and the x-axis as 'hour'.
 plt.ylabel("scales")
 plt.xlabel("hour")
+
+# Adding a colorbar to indicate the magnitude of the wavelet coefficients.
 plt.colorbar()
+
+# Displaying the plot.
 plt.show()
 ```
 
 ![Python output](figures/4-3-4-6.png)
 
-In general, we can find that the larger the scale in the picture, the more yellow-green the color, indicating that the extracted features are closer to the mother wavelet and vice versa. The characteristics of these comparison results will be used for subsequent data grouping.
+When we analyze the results of the wavelet transform, particularly with the Morlet wavelet ('morl'), we observe a distinct pattern in the visualization. The scale of the wavelet, which we varied from 1 to 31 times, is reflected in the color intensity of the plot. Generally, the larger the scale, the more the color tends toward yellow-green. This color change indicates a closer resemblance between the extracted features and the mother wavelet. In contrast, smaller scales, where the features are less similar to the mother wavelet, exhibit different color intensities.
 
-However, after wavelet transform, each site's data are transformed into two-dimensional feature values. Before starting to group the data, we need to splice the fields of the original two-dimensional data into one dimension and store it in the `air_cwt` variable.
+This observation is key for understanding how different scales of the wavelet reveal different aspects of the data. The resemblance to the mother wavelet at various scales gives us insight into the frequency and time characteristics of the sensor data.
+
+However, the wavelet transform converts each site's data into two-dimensional feature values. To prepare this data for clustering, we need to reformat it from two dimensions into one dimension. This step is crucial for the upcoming data grouping process. We will consolidate the transformed data fields into a single-dimensional format and store them in a variable named `air_cwt`.
+
+By converting the two-dimensional wavelet transform results into a one-dimensional format, we make the data compatible with clustering algorithms like `TimeSeriesKMeans`. This process ensures that the rich, multi-scale information extracted by the wavelet transform is effectively utilized in our subsequent data grouping analysis.
 
 ```python
-air_cwt = pd.DataFrame()
-scales = np.arange(28, 31, 2)
-col_names = list(air_clean.columns)
+air_cwt = pd.DataFrame() # Initializing an empty DataFrame to store the CWT results.
+scales = np.arange(28, 31, 2) # Setting the range of scales for the CWT.
+col_names = list(air_clean.columns) # Extracting the column names from the 'air_clean' DataFrame.
+
+# Looping through each column in 'air_clean'.
 for name in col_names:
+  # Performing the Continuous Wavelet Transform using the Morlet wavelet.
   coef, freqs = cwt(air_clean[name], scales, 'morl')
+
+  # Reshaping the coefficients into a one-dimensional array and storing their absolute values in 'air_cwt'.
   air_cwt[name] = np.abs(coef.reshape(coef.shape[0]*coef.shape[1]))
 
+# Printing the first five rows of the 'air_cwt' DataFrame to verify the results.
 print(air_cwt.head())
 ```
 
@@ -522,27 +672,32 @@ print(air_cwt.head())
 [5 rows x 398 columns]
 ```
 
-Due to the process of converting two-dimensional data into one-dimensional data, the number of characteristic values in each data will increase, significantly increasing the complexity of subsequent data calculations. Therefore, we only take the top 100 characteristic values to represent each sensor and apply the KMeans method for data grouping.
+In transforming the two-dimensional wavelet transform results into a one-dimensional format, a significant increase occurs in the number of characteristic values (features) for each piece of data. This expansion adds complexity to the calculations we need to perform in the subsequent steps of our analysis. To manage this complexity and ensure efficient processing, we adopt a strategy of simplification: we select only the top 100 characteristic values to represent each sensor's data.
 
-Since wavelet transform can obtain more subtle data features, we preset 20 clusters in the data clustering process (readers can test different cluster number settings by themselves and observe what will happen to the results). In addition, we will also check whether there are small clusters with only a single sensor in the grouping results and remove them to prevent a few sensors with special conditions from affecting the overall data grouping results.
+This selection of the top 100 features is a balancing act. It reduces computational demands while still retaining the most critical information extracted by the wavelet transform. With this simplified dataset, we then apply the KMeans method for data clustering.
+
+Given that the wavelet transform can uncover more nuanced features in the data, we set an initial goal of forming 20 clusters in this data clustering phase. This number is a starting point, and we encourage readers to experiment with different numbers of clusters to see how it affects the results. Such experimentation can offer insights into the data's structure and the clustering algorithm's behavior.
+
+As we proceed with the clustering, it's also essential to monitor the composition of these clusters. Specifically, we look for and eliminate any small clusters that contain only a single sensor. This step is crucial because a few sensors with unusual conditions could skew the overall results of our data grouping. By removing these outlier clusters, we aim to achieve a more accurate and representative clustering outcome, focusing on broader trends and patterns in the data rather than exceptions.
 
 ```python
-air_cwt_less = air_cwt.iloc[:, 0:101]
+air_cwt_less = air_cwt.iloc[:, 0:101] # Selecting the first 101 columns from the 'air_cwt' DataFrame for clustering.
+cwt_transpose = air_cwt_less.transpose() # Transposing the reduced 'air_cwt' DataFrame for time series clustering.
 
-cwt_transpose = air_cwt_less.transpose()
+# Initializing the Time Series K-Means model with 20 clusters, using the DTW (Dynamic Time Warping) metric, 
+# setting a maximum of 10 iterations, enabling verbose output, and using all available CPU cores.
 model = TimeSeriesKMeans(n_clusters=20, metric="dtw", max_iter=10, verbose=1, n_jobs=-1)
-pre = model.fit(cwt_transpose)
 
-# build helper df to map metrics to their cluster labels
-df_cluster = pd.DataFrame(list(zip(air_cwt.columns, pre.labels_)), columns=['metric', 'cluster'])
+pre = model.fit(cwt_transpose) # Fitting the model to the transposed CWT data.
+df_cluster = pd.DataFrame(list(zip(air_cwt.columns, pre.labels_)), columns=['metric', 'cluster']) # Creating a DataFrame 'df_cluster' to map each metric in 'air_cwt' to its corresponding cluster label.
 
-# make some helper dictionaries and lists
-cluster_metrics_dict = df_cluster.groupby(['cluster'])['metric'].apply(lambda x: [x for x in x]).to_dict()
-cluster_len_dict = df_cluster['cluster'].value_counts().to_dict()
-clusters_dropped = [cluster for cluster in cluster_len_dict if cluster_len_dict[cluster]==1]
-clusters_final = [cluster for cluster in cluster_len_dict if cluster_len_dict[cluster]>1]
+cluster_metrics_dict = df_cluster.groupby(['cluster'])['metric'].apply(lambda x: [x for x in x]).to_dict() # Creating a dictionary 'cluster_metrics_dict' mapping each cluster to the metrics it contains.
+cluster_len_dict = df_cluster['cluster'].value_counts().to_dict() # Creating a dictionary 'cluster_len_dict' to count the number of metrics in each cluster.
+clusters_dropped = [cluster for cluster in cluster_len_dict if cluster_len_dict[cluster]==1] # Creating a list 'clusters_dropped' containing clusters with only one metric.
+clusters_final = [cluster for cluster in cluster_len_dict if cluster_len_dict[cluster]>1] # Creating a sorted list 'clusters_final' containing clusters with more than one metric.
 clusters_final.sort()
 
+# Printing the first 10 rows of the 'df_cluster' DataFrame.
 print(df_cluster.head(10))
 ```
 
@@ -560,19 +715,30 @@ metric  cluster
 9  08BEAC09FF9C       19
 ```
 
-In our example, after the above procedure, there are 14 clusters left at the end. We draw the sensor raw data in each cluster one by one, and we can find that the consistency of the sensor data in the same cluster is more obvious. At the same time , the differences between the different clusters are more detailed and clear than when using the raw data or the Fourier transform before.
+In our example, following the process of selecting the top 100 characteristic values and applying the KMeans method to the wavelet-transformed data, we end up with 14 distinct clusters. This is after we've removed any clusters that consisted of only a single sensor, as these are considered outliers and not representative of general trends.
+
+The next step is to visually represent the raw sensor data for each of these 14 clusters. This visualization is crucial as it allows us to observe the consistency within each cluster and the distinctions between different clusters. When we plot the raw data of the sensors in each cluster, we notice a clear pattern: the data within the same cluster show a high degree of similarity.
+
+Moreover, the differences between clusters are more pronounced and detailed compared to the results we obtained using either the raw data or the Fourier transform. This indicates that the wavelet transform, combined with our clustering approach, provides a more nuanced understanding of the data. It captures subtler features and patterns that might be missed with other methods.
+
+These findings underscore the effectiveness of the wavelet transform in extracting intricate features from time-series data. The resulting clusters reveal a more refined and detailed grouping of the sensors, offering deeper insights into the underlying dynamics and characteristics of the environmental data we are analyzing.
 
 ```python
+# Creating a figure with a subplot for each cluster in 'clusters_final', setting specific size and resolution.
 fig, axes = plt.subplots(nrows=len(clusters_final), ncols=1, figsize=(20, 15), dpi=500)
-# legend = axes.legend(loc="upper left", bbox_to_anchor=(1.02, 0, 0.07, 1))
-for idx, cluster_number in enumerate(clusters_final):
-  x_corr = air_cwt[cluster_metrics_dict[cluster_number]].corr().abs().values
-  x_corr_mean = round(x_corr[np.triu_indices(x_corr.shape[0],1)].mean(),2)
-  plot_title = f'cluster {cluster_number} (quality={x_corr_mean}, n={cluster_len_dict[cluster_number]})'
-  air_cwt[cluster_metrics_dict[cluster_number]].plot(ax=axes[idx], title=plot_title)
-  axes[idx].get_legend().remove()
 
+# Iterating over each cluster in 'clusters_final'.
+for idx, cluster_number in enumerate(clusters_final):
+  x_corr = air_cwt[cluster_metrics_dict[cluster_number]].corr().abs().values # Calculating the absolute correlation matrix for the metrics in the current cluster.
+  x_corr_mean = round(x_corr[np.triu_indices(x_corr.shape[0],1)].mean(),2) # Calculating the mean of the upper triangle of the correlation matrix, rounding to two decimal places.
+  plot_title = f'cluster {cluster_number} (quality={x_corr_mean}, n={cluster_len_dict[cluster_number]})' # Creating a title for the subplot with cluster number, quality (mean correlation), and number of metrics.
+  air_cwt[cluster_metrics_dict[cluster_number]].plot(ax=axes[idx], title=plot_title) # Plotting the metrics in the current cluster on the respective subplot.
+  axes[idx].get_legend().remove() # Removing the legend from each subplot for clarity.
+
+# Adjusting the layout for better visibility and aesthetics.
 fig.tight_layout()
+
+# Displaying the complete figure.
 plt.show()
 ```
 
