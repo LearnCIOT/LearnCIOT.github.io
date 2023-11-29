@@ -28,30 +28,66 @@ For this tutorial, we'll primarily use a set of Python packages: pandas, matplot
 
 However, we'll also need two additional packages that aren't included in Colab's default setup: **kats** and **pmdarima**. To get these up and running, we'll need to install them manually. This can be done with the following commands:
 ```python
+# Upgrade the pip package manager to the latest version.
 !pip install --upgrade pip
+
+# Install specific versions of the 'kats' and 'ax-platform' packages,
+# along with 'statsmodels' version 0.12.2.
 !pip install kats==0.1 ax-platform==0.2.3 statsmodels==0.12.2
+
+# Install the latest version of the 'pmdarima' package.
 !pip install pmdarima
 ```
 
 Once the installation of kats and pmdarima is complete, we're ready to import all the required packages into our working environment. This step is crucial for ensuring that we have access to the various functions and tools each package offers for our analysis.
 
 ```python
+# Suppress warnings for cleaner output.
 import warnings
+
+# Import the NumPy library for numerical operations.
 import numpy as np
+
+# Import the pandas library for data manipulation and analysis.
 import pandas as pd
+
+# Import the pmdarima library, a statistical library for ARIMA modeling.
 import pmdarima as pm
+
+# Import the statsmodels library for statistical modeling.
 import statsmodels.api as sm
+
+# Import the matplotlib library for creating static, interactive, and animated visualizations.
 import matplotlib.pyplot as plt
+
+# Import the os module for interacting with the operating system and zipfile for handling zip files.
 import os, zipfile
 
+# Import the parser from dateutil for parsing dates.
 from dateutil import parser as datetime_parser
+
+# Import ARIMA model from statsmodels for time series forecasting.
 from statsmodels.tsa.arima.model import ARIMA
+
+# Import SARIMAX for seasonal ARIMA modeling with eXogenous factors.
 from statsmodels.tsa.statespace.sarimax import SARIMAX
+
+# Import adfuller and kpss for stationarity tests on time series data.
 from statsmodels.tsa.stattools import adfuller, kpss
+
+# Import classes from kats for handling and iterating over time series data.
 from kats.consts import TimeSeriesData, TimeSeriesIterator
+
+# Import OutlierDetector from kats for detecting outliers in time series data.
 from kats.detectors.outlier import OutlierDetector
+
+# Import ProphetModel and ProphetParams from kats for forecasting with Facebook's Prophet model.
 from kats.models.prophet import ProphetModel, ProphetParams
+
+# Import LSTMModel and LSTMParams from kats for forecasting using LSTM neural networks.
 from kats.models.lstm import LSTMModel, LSTMParams
+
+# Import HoltWintersModel and HoltWintersParams from kats for forecasting with the Holt-Winters method.
 from kats.models.holtwinters import HoltWintersParams, HoltWintersModel
 ```
 
@@ -68,24 +104,36 @@ For this project, we're focusing on long-term historical data. Instead of using 
 The data we download will be in a zip-compressed file format. To work with this data, our first step is to extract or decompress it. This process will produce a series of daily files, which are also compressed. We'll then need to decompress each of these daily files and save them in another folder, which we'll call CSV_Air.
 
 ```python
+# Create two new directories named 'Air' and 'CSV_Air'.
 !mkdir Air CSV_Air
+
+# Download the 2018 air quality data zip file to the 'Air' directory.
 !wget -O Air/2018.zip -q "https://history.colife.org.tw/?r=/download&path=L%2Bepuuawo%2BWTgeizqi%2FkuK3noJTpmaJf5qCh5ZyS56m65ZOB5b6u5Z6L5oSf5ris5ZmoLzIwMTguemlw"
+
+# Download the 2019 air quality data zip file to the 'Air' directory.
 !wget -O Air/2019.zip -q "https://history.colife.org.tw/?r=/download&path=L%2Bepuuawo%2BWTgeizqi%2FkuK3noJTpmaJf5qCh5ZyS56m65ZOB5b6u5Z6L5oSf5ris5ZmoLzIwMTkuemlw"
+
+# Download the 2020 air quality data zip file to the 'Air' directory.
 !wget -O Air/2020.zip -q "https://history.colife.org.tw/?r=/download&path=L%2Bepuuawo%2BWTgeizqi%2FkuK3noJTpmaJf5qCh5ZyS56m65ZOB5b6u5Z6L5oSf5ris5ZmoLzIwMjAuemlw"
+
+# Download the 2021 air quality data zip file to the 'Air' directory.
 !wget -O Air/2021.zip -q "https://history.colife.org.tw/?r=/download&path=L%2Bepuuawo%2BWTgeizqi%2FkuK3noJTpmaJf5qCh5ZyS56m65ZOB5b6u5Z6L5oSf5ris5ZmoLzIwMjEuemlw"
 
+# Define the folder to process and file extensions.
 folder = 'Air'
 extension_zip = '.zip'
 extension_csv = '.csv'
 
+# Extract the zip files in the 'Air' directory.
 for subfolder in os.listdir(folder):
     path = f'{folder}/{subfolder}'
     if path.endswith(extension_zip):
-      print(path)
-      zip_ref = zipfile.ZipFile(path)
-      zip_ref.extractall(folder)
-      zip_ref.close()
+        print(path)
+        zip_ref = zipfile.ZipFile(path)
+        zip_ref.extractall(folder)
+        zip_ref.close()
 
+# Extract nested zip files within the 'Air' directory.
 for subfolder in os.listdir(folder):
     path = f'{folder}/{subfolder}'
     if os.path.isdir(path):
@@ -97,18 +145,19 @@ for subfolder in os.listdir(folder):
                 zip_ref.extractall(path)
                 zip_ref.close()
 
+        # Move the extracted CSV files to the 'CSV_Air' directory.
         for item in os.listdir(path):
-          path2 = f'{path}/{item}'
-          if os.path.isdir(path2):
-            for it in os.listdir(path2):
-              if it.endswith(extension_zip):
-                file_name = f'{path2}/{it}'
-                print(file_name)
-                zip_ref = zipfile.ZipFile(file_name)
-                zip_ref.extractall('CSV_Air') # decide path
-                zip_ref.close()
-          elif item.endswith(extension_csv):
-            os.rename(path2, f'CSV_Air/{item}')
+            path2 = f'{path}/{item}'
+            if os.path.isdir(path2):
+                for it in os.listdir(path2):
+                    if it.endswith(extension_zip):
+                        file_name = f'{path2}/{it}'
+                        print(file_name)
+                        zip_ref = zipfile.ZipFile(file_name)
+                        zip_ref.extractall('CSV_Air') # decide path
+                        zip_ref.close()
+            elif item.endswith(extension_csv):
+                os.rename(path2, f'CSV_Air/{item}')
 ```
 
 Now that we have decompressed our data into the `CSV_Air` folder, it contains daily sensor data in CSV (Comma-Separated Values) format. Our next step is to focus on data from a specific monitoring station. Let's say we're interested in the station with the code `74DA38C7D2AC`.
@@ -126,26 +175,42 @@ Here's how we'll proceed:
 By following these steps, we ensure that we have a focused dataset that is relevant to our analysis, while also maintaining an efficient use of our storage resources.
 
 ```python
+# Define the folder containing CSV files and the CSV file extension.
 folder = 'CSV_Air'
 extension_csv = '.csv'
 id = '74DA38C7D2AC'
 
+# Initialize an empty DataFrame to store the air quality data.
 air = pd.DataFrame()
+
+# Iterate through the files in the 'CSV_Air' folder.
 for item in os.listdir(folder):
-  file_name = f'{folder}/{item}'
-  df = pd.read_csv(file_name)
-  if 'pm25' in list(df.columns):
-    df.rename({'pm25':'PM25'}, axis=1, inplace=True)
-  filtered = df.query(f'device_id==@id')
-  air = pd.concat([air, filtered], ignore_index=True)
+    file_name = f'{folder}/{item}'
+    df = pd.read_csv(file_name)  # Read each CSV file into a DataFrame.
+
+    # Rename the 'pm25' column to 'PM25', if it exists.
+    if 'pm25' in list(df.columns):
+        df.rename({'pm25':'PM25'}, axis=1, inplace=True)
+
+    # Filter the data for a specific device ID.
+    filtered = df.query(f'device_id==@id')
+
+    # Concatenate the filtered data with the main DataFrame.
+    air = pd.concat([air, filtered], ignore_index=True)
+
+# Remove rows with missing timestamps.
 air.dropna(subset=['timestamp'], inplace=True)
 
+# Convert the 'timestamp' column from aware to naive datetime objects.
 for i, row in air.iterrows():
-  aware = datetime_parser.parse(str(row['timestamp']))
-  naive = aware.replace(tzinfo=None)
-  air.at[i, 'timestamp'] = naive
+    aware = datetime_parser.parse(str(row['timestamp']))
+    naive = aware.replace(tzinfo=None)
+    air.at[i, 'timestamp'] = naive
+
+# Set the 'timestamp' column as the index of the DataFrame.
 air.set_index('timestamp', inplace=True)
 
+# Remove the 'Air' and 'CSV_Air' directories and their contents.
 !rm -rf Air CSV_Air
 ```
 
@@ -160,9 +225,16 @@ The last step in preparing our data for analysis involves reorganizing it to ens
 By completing these steps, our data is now well-organized, focused, and ready for in-depth time series analysis.
 
 ```python
+# Drop the 'device_id' and 'SiteName' columns from the 'air' DataFrame.
 air.drop(columns=['device_id', 'SiteName'], inplace=True)
+
+# Sort the DataFrame by the 'timestamp' column in ascending order.
 air.sort_values(by='timestamp', inplace=True)
+
+# Display concise summary of the DataFrame, including column types and non-null values.
 air.info()
+
+# Print the concise summary of the DataFrame. This is redundant as 'air.info()' already displays this information.
 print(air.info())
 ```
 
@@ -196,23 +268,36 @@ Similar to how we handled the air quality data, we will now focus on obtaining a
 By following these steps, we'll have all the necessary groundwater level data organized and ready for analysis, just like we did with the air quality data. The data in `CSV_Water` will then be primed for further processing and analysis as per our project's requirements.
 
 ```python
+# Create two new directories named 'Water' and 'CSV_Water'.
 !mkdir Water CSV_Water
+
+# Download the 2018 water quality data zip file to the 'Water' directory.
 !wget -O Water/2018.zip "https://history.colife.org.tw/?r=/download&path=L%2BawtOizh%2Ba6kC%2FmsLTliKnnvbJf5rKz5bed5rC05L2N56uZLzIwMTguemlw"
+
+# Download the 2019 water quality data zip file to the 'Water' directory.
 !wget -O Water/2019.zip "https://history.colife.org.tw/?r=/download&path=L%2BawtOizh%2Ba6kC%2FmsLTliKnnvbJf5rKz5bed5rC05L2N56uZLzIwMTkuemlw"
+
+# Download the 2020 water quality data zip file to the 'Water' directory.
 !wget -O Water/2020.zip "https://history.colife.org.tw/?r=/download&path=L%2BawtOizh%2Ba6kC%2FmsLTliKnnvbJf5rKz5bed5rC05L2N56uZLzIwMjAuemlw"
+
+# Download the 2021 water quality data zip file to the 'Water' directory.
 !wget -O Water/2021.zip "https://history.colife.org.tw/?r=/download&path=L%2BawtOizh%2Ba6kC%2FmsLTliKnnvbJf5rKz5bed5rC05L2N56uZLzIwMjEuemlw"
 
+# Define the folder to process and file extensions.
 folder = 'Water'
 extension_zip = '.zip'
 extension_csv = '.csv'
 
+# Extract the zip files in the 'Water' directory.
 for subfolder in os.listdir(folder):
     path = f'{folder}/{subfolder}'
     if path.endswith(extension_zip):
-      print(path)
-      zip_ref = zipfile.ZipFile(path)
-      zip_ref.extractall(folder)
-      zip_ref.close()
+        print(path)
+        zip_ref = zipfile.ZipFile(path)
+        zip_ref.extractall(folder)
+        zip_ref.close()
+
+# Extract nested zip files within the 'Water' directory, except those ending with 'QC.zip'.
 for subfolder in os.listdir(folder):
     path = f'{folder}/{subfolder}'
     if os.path.isdir(path):
@@ -225,17 +310,17 @@ for subfolder in os.listdir(folder):
                 zip_ref.close()
 
         for item in os.listdir(path):
-          path2 = f'{path}/{item}'
-          if os.path.isdir(path2):
-            for it in os.listdir(path2):
-              if it.endswith(extension_zip) and not it.endswith('QC.zip'):
-                file_name = f'{path2}/{it}'
-                print(file_name)
-                zip_ref = zipfile.ZipFile(file_name)
-                zip_ref.extractall('CSV_Water') # decide path
-                zip_ref.close()
-          elif item.endswith(extension_csv):
-            os.rename(path2, f'CSV_Water/{item}')
+            path2 = f'{path}/{item}'
+            if os.path.isdir(path2):
+                for it in os.listdir(path2):
+                    if it.endswith(extension_zip) and not it.endswith('QC.zip'):
+                        file_name = f'{path2}/{it}'
+                        print(file_name)
+                        zip_ref = zipfile.ZipFile(file_name)
+                        zip_ref.extractall('CSV_Water') # decide path
+                        zip_ref.close()
+            elif item.endswith(extension_csv):
+                os.rename(path2, f'CSV_Water/{item}')
 ```
 With the groundwater level data now available in the `CSV_Water` folder in CSV format, our next steps will mirror what we did with the air quality data:
 
@@ -250,26 +335,42 @@ With the groundwater level data now available in the `CSV_Water` folder in CSV f
 By completing these steps, we ensure a streamlined and focused dataset for our groundwater level analysis, maintaining an efficient and organized workflow.
 
 ```python
+# Define the folder containing water quality CSV files and the CSV file extension.
 folder = 'CSV_Water'
 extension_csv = '.csv'
 id = '338c9c1c-57d8-41d7-9af2-731fb86e632c'
 
+# Initialize an empty DataFrame to store the water quality data.
 water = pd.DataFrame()
+
+# Iterate through the files in the 'CSV_Water' folder.
 for item in os.listdir(folder):
-  file_name = f'{folder}/{item}'
-  df = pd.read_csv(file_name)
-  if 'pm25' in list(df.columns):
-    df.rename({'pm25':'PM25'}, axis=1, inplace=True)
-  filtered = df.query(f'station_id==@id')
-  water = pd.concat([water, filtered], ignore_index=True)
+    file_name = f'{folder}/{item}'
+    df = pd.read_csv(file_name)  # Read each CSV file into a DataFrame.
+
+    # Rename the 'pm25' column to 'PM25', if it exists.
+    if 'pm25' in list(df.columns):
+        df.rename({'pm25':'PM25'}, axis=1, inplace=True)
+
+    # Filter the data for a specific station ID.
+    filtered = df.query(f'station_id==@id')
+
+    # Concatenate the filtered data with the main DataFrame.
+    water = pd.concat([water, filtered], ignore_index=True)
+
+# Remove rows with missing timestamps.
 water.dropna(subset=['timestamp'], inplace=True)
 
+# Convert the 'timestamp' column from aware to naive datetime objects.
 for i, row in water.iterrows():
-  aware = datetime_parser.parse(str(row['timestamp']))
-  naive = aware.replace(tzinfo=None)
-  water.at[i, 'timestamp'] = naive
+    aware = datetime_parser.parse(str(row['timestamp']))
+    naive = aware.replace(tzinfo=None)
+    water.at[i, 'timestamp'] = naive
+
+# Set the 'timestamp' column as the index of the DataFrame.
 water.set_index('timestamp', inplace=True)
 
+# Remove the 'Water' and 'CSV_Water' directories and their contents.
 !rm -rf Water CSV_Water
 ```
 The last phase in preparing our groundwater level data for analysis involves a few key steps to ensure the data is both efficient and easy to work with:
@@ -281,9 +382,16 @@ Removing Unneeded Fields: To streamline our analysis, it's important to eliminat
 Sorting by Time: Given that we're dealing with time series data, sorting the data chronologically is essential. We'll arrange the data in the water DataFrame in ascending order based on the timestamp field. This step is crucial for maintaining a logical sequence of data, which is particularly important for identifying trends and patterns over time.
 
 ```python
+# Drop specific columns from the 'water' DataFrame.
 water.drop(columns=['station_id', 'ciOrgname', 'ciCategory', 'Organize_Name', 'CategoryInfos_Name', 'PQ_name', 'PQ_fullname', 'PQ_description', 'PQ_unit', 'PQ_id'], inplace=True)
+
+# Sort the DataFrame by the 'timestamp' column in ascending order.
 water.sort_values(by='timestamp', inplace=True)
+
+# Display concise summary of the DataFrame, including column types and non-null values.
 water.info()
+
+# Print the first five rows of the DataFrame for a quick overview of its contents.
 print(water.head())
 ```
 
@@ -318,23 +426,33 @@ For the meteorological data, we'll follow a similar process to what we did with 
 By following these steps, we'll have all the necessary meteorological data organized and ready for analysis. This data in `CSV_Weather` will be primed for further processing and analysis as required for our project.
 
 ```python
+# Create two new directories named 'Weather' and 'CSV_Weather'.
 !mkdir Weather CSV_Weather
+
+# Download the 2019 weather data zip file to the 'Weather' directory.
 !wget -O Weather/2019.zip "https://history.colife.org.tw/?r=/download&path=L%2Bawo%2BixoS%2FkuK3lpK7msKPosaHlsYBf6Ieq5YuV5rCj6LGh56uZLzIwMTkuemlw"
+
+# Download the 2020 weather data zip file to the 'Weather' directory.
 !wget -O Weather/2020.zip "https://history.colife.org.tw/?r=/download&path=L%2Bawo%2BixoS%2FkuK3lpK7msKPosaHlsYBf6Ieq5YuV5rCj6LGh56uZLzIwMjAuemlw"
+
+# Download the 2021 weather data zip file to the 'Weather' directory.
 !wget -O Weather/2021.zip "https://history.colife.org.tw/?r=/download&path=L%2Bawo%2BixoS%2FkuK3lpK7msKPosaHlsYBf6Ieq5YuV5rCj6LGh56uZLzIwMjEuemlw"
 
+# Define the folder to process and file extensions.
 folder = 'Weather'
 extension_zip = '.zip'
 extension_csv = '.csv'
 
+# Extract the zip files in the 'Weather' directory.
 for subfolder in os.listdir(folder):
     path = f'{folder}/{subfolder}'
     if path.endswith(extension_zip):
-      print(path)
-      zip_ref = zipfile.ZipFile(path)
-      zip_ref.extractall(folder)
-      zip_ref.close()
+        print(path)
+        zip_ref = zipfile.ZipFile(path)
+        zip_ref.extractall(folder)
+        zip_ref.close()
 
+# Extract nested zip files within the 'Weather' directory.
 for subfolder in os.listdir(folder):
     path = f'{folder}/{subfolder}'
     if os.path.isdir(path):
@@ -346,18 +464,19 @@ for subfolder in os.listdir(folder):
                 zip_ref.extractall(path)
                 zip_ref.close()
 
+        # Move the extracted CSV files to the 'CSV_Weather' directory.
         for item in os.listdir(path):
-          path2 = f'{path}/{item}'
-          if os.path.isdir(path2):
-            for it in os.listdir(path2):
-              if it.endswith(extension_zip):
-                file_name = f'{path2}/{it}'
-                print(file_name)
-                zip_ref = zipfile.ZipFile(file_name)
-                zip_ref.extractall('CSV_Weather') # decide path
-                zip_ref.close()
-          elif item.endswith(extension_csv):
-            os.rename(path2, f'CSV_Weather/{item}')
+            path2 = f'{path}/{item}'
+            if os.path.isdir(path2):
+                for it in os.listdir(path2):
+                    if it.endswith(extension_zip):
+                        file_name = f'{path2}/{it}'
+                        print(file_name)
+                        zip_ref = zipfile.ZipFile(file_name)
+                        zip_ref.extractall('CSV_Weather') # decide path
+                        zip_ref.close()
+            elif item.endswith(extension_csv):
+                os.rename(path2, f'CSV_Weather/{item}')
 ```
 
 With the meteorological data now available in the `CSV_Weather` folder, we'll process it similarly to the air quality and groundwater level data:
@@ -373,27 +492,45 @@ With the meteorological data now available in the `CSV_Weather` folder, we'll pr
 Following these steps, we ensure a focused and streamlined dataset for our meteorological analysis, maintaining an organized and efficient data processing workflow.
 
 ```python
+# Define the folder containing weather CSV files and the CSV file extension.
 folder = 'CSV_Weather'
 extension_csv = '.csv'
 id = 'C0U750'
 
+# Initialize an empty DataFrame to store the weather data.
 weather = pd.DataFrame()
+
+# Iterate through the files in the 'CSV_Weather' folder.
 for item in os.listdir(folder):
-  file_name = f'{folder}/{item}'
-  df = pd.read_csv(file_name)
-  if 'pm25' in list(df.columns):
-    df.rename({'pm25':'PM25'}, axis=1, inplace=True)
-  filtered = df.query(f'station_id==@id')
-  weather = pd.concat([weather, filtered], ignore_index=True)
+    file_name = f'{folder}/{item}'
+    df = pd.read_csv(file_name)  # Read each CSV file into a DataFrame.
+
+    # Rename the 'pm25' column to 'PM25', if it exists.
+    if 'pm25' in list(df.columns):
+        df.rename({'pm25':'PM25'}, axis=1, inplace=True)
+
+    # Filter the data for a specific station ID.
+    filtered = df.query(f'station_id==@id')
+
+    # Concatenate the filtered data with the main DataFrame.
+    weather = pd.concat([weather, filtered], ignore_index=True)
+
+# Rename the 'obsTime' column to 'timestamp'.
 weather.rename({'obsTime':'timestamp'}, axis=1, inplace=True)
+
+# Remove rows with missing timestamps.
 weather.dropna(subset=['timestamp'], inplace=True)
 
+# Convert the 'timestamp' column from aware to naive datetime objects.
 for i, row in weather.iterrows():
-  aware = datetime_parser.parse(str(row['timestamp']))
-  naive = aware.replace(tzinfo=None)
-  weather.at[i, 'timestamp'] = naive
+    aware = datetime_parser.parse(str(row['timestamp']))
+    naive = aware.replace(tzinfo=None)
+    weather.at[i, 'timestamp'] = naive
+
+# Set the 'timestamp' column as the index of the DataFrame.
 weather.set_index('timestamp', inplace=True)
 
+# Remove the 'Weather' and 'CSV_Weather' directories and their contents.
 !rm -rf Weather CSV_Weather
 ```
 
@@ -408,9 +545,16 @@ The last step in preparing our meteorological data for analysis is to ensure tha
 With these steps completed, our meteorological data is now in an optimal format for analysis. It's streamlined, focused, and arranged in a logical sequence, setting the stage for effective and meaningful time series analysis.
 
 ```python
+# Drop the 'station_id' column from the 'weather' DataFrame.
 weather.drop(columns=['station_id'], inplace=True)
+
+# Sort the DataFrame by the 'timestamp' column in ascending order.
 weather.sort_values(by='timestamp', inplace=True)
+
+# Display concise summary of the DataFrame, including column types and non-null values.
 weather.info()
+
+# Print the first five rows of the DataFrame for a quick overview of its contents.
 print(weather.head())
 ```
 
@@ -461,28 +605,45 @@ We have successfully illustrated how to access and prepare three different types
 Resampling is a crucial technique in time series analysis, especially when working with datasets like air quality measurements, which can have numerous readings over short intervals. By resampling, we can aggregate these readings into more manageable time frames like hourly, daily, or monthly averages. This process not only simplifies the data but also helps in identifying broader trends and patterns.
 
 ```python
+# Resample the 'air' DataFrame to hourly intervals and calculate the mean for each hour.
 air_hour = air.resample('H').mean()
+
+# Resample the 'air' DataFrame to daily intervals and calculate the mean for each day.
 air_day = air.resample('D').mean()
+
+# Resample the 'air' DataFrame to monthly intervals and calculate the mean for each month.
 air_month = air.resample('M').mean()
 ```
 
 To clean up the `air_hour` data, we first eliminate any unusual values, known as outliers, using the method we explained in Section 4.1. After that, we address any gaps in the data by applying the Forward Fill technique, which replaces missing values with the nearest preceding non-missing value.
 
 ```python
+# Convert the resampled hourly air quality DataFrame to a TimeSeriesData object.
 air_ts = TimeSeriesData(air_hour.reset_index(), time_col_name='timestamp')
 
-# remove the outliers
+# Initialize an outlier detection process with an additive model.
 outlierDetection = OutlierDetector(air_ts, 'additive')
+
+# Execute the outlier detection.
 outlierDetection.detector()
+
+# Remove detected outliers from the data.
 outliers_removed = outlierDetection.remover(interpolate=False)
 
+# Convert the TimeSeriesData object back to a DataFrame.
 air_hour_df = outliers_removed.to_dataframe()
+
+# Rename columns and set 'timestamp' as the index.
 air_hour_df.rename(columns={'time': 'timestamp', 'y_0': 'PM25'}, inplace=True)
 air_hour_df.set_index('timestamp', inplace=True)
+
+# Update the original 'air_hour' DataFrame with the processed data.
 air_hour = air_hour_df
+
+# Resample the DataFrame again to hourly intervals and calculate the mean.
 air_hour = air_hour.resample('H').mean()
 
-# fill in the missing data with the Forward fill method
+# Fill in missing data.
 air_hour.ffill(inplace=True)
 ```
 
@@ -491,27 +652,43 @@ air_hour.ffill(inplace=True)
 Before we start predicting the data, it's important to first verify its  [stationarity](https://www.itl.nist.gov/div898/handbook/pmc/section4/pmc442.htm) , which means checking if its statistical properties like mean and variance stay constant over time. To do this, we choose a specific time period (like June 10 to June 17, 2020) and then gather all the data from this interval into a variable we call `data`.
 
 ```python
+# Extract data from the 'air_hour' DataFrame for the specified date range: June 10th to June 17th, 2020.
 data = air_hour.loc['2020-06-10':'2020-06-17']
 ```
 Next, we calculate the mean (mean) and the variation (var) of these data points. After calculating these, we visually represent them by plotting them on a graph.
 
 ```python
+# Convert the PM25 column of the data DataFrame to a NumPy array.
 nmp = data.PM25.to_numpy()
+
+# Get the size of the NumPy array.
 size = np.size(nmp)
 
+# Initialize arrays to store the running mean and variance.
 nmp_mean = np.zeros(size)
 nmp_var = np.zeros(size)
-for i in range(size):
-  nmp_mean[i] = nmp[:i+1].mean()
-  nmp_var[i] = nmp[:i+1].var()
 
+# Calculate the running mean and variance for each point in the array.
+for i in range(size):
+    nmp_mean[i] = nmp[:i+1].mean()
+    nmp_var[i] = nmp[:i+1].var()
+
+# Prepare the y-values for plotting: mean, variance, and original data.
 y1 = nmp_mean[:]
 y2 = nmp_var[:]
 y3 = nmp
+
+# Create an array of x-values representing the indices of the data points.
 x = np.arange(size)
+
+# Plot the running mean and variance on a graph with labels.
 plt.plot(x, y1, label='mean')
 plt.plot(x, y2, label='var')
+
+# Add a legend to the plot.
 plt.legend()
+
+# Display the plot.
 plt.show()
 ```
 
@@ -526,18 +703,26 @@ There are two common methods to test for stationarity:
 2. **Kwiatkowski-Phillips-Schmidt-Shin (KPSS) Test**: This test works oppositely to the ADF test. In this case, if the *p-value* is less than 0.05, it suggests the data is not stationary.
 
 ```python
-# ADF Test
+# Perform the Augmented Dickey-Fuller test on the PM25 values to check for stationarity.
 result = adfuller(data.PM25.values, autolag='AIC')
+
+# Print the ADF statistic and p-value.
 print(f'ADF Statistic: {result[0]}')
 print(f'p-value: {result[1]}')
+
+# Print the critical values for different confidence levels from the ADF test results.
 for key, value in result[4].items():
     print('Critial Values:')
     print(f'   {key}, {value}')
 
-# KPSS Test
+# Perform the KPSS test on the PM25 values to check for stationarity.
 result = kpss(data.PM25.values, regression='c')
+
+# Print the KPSS statistic and p-value.
 print('\nKPSS Statistic: %f' % result[0])
 print('p-value: %f' % result[1])
+
+# Print the critical values for different confidence levels from the KPSS test results.
 for key, value in result[3].items():
     print('Critial Values:')
     print(f'   {key}, {value}')
@@ -569,7 +754,10 @@ In our example with the sample data, the Augmented Dickey Fuller (ADF) test yiel
 In terms of data handling, especially when working with a dataframe format, we can easily differentiate the data using the `data.diff()` function. The resulting differentiated data is then stored in a new variable named `data_diff`.
 
 ```python
+# Calculate the difference between consecutive values in the 'data' DataFrame.
 data_diff = data.diff()
+
+# Display the resulting DataFrame showing the differences.
 data_diff
 ```
 
@@ -949,7 +1137,7 @@ Prob(H) (two-sided):                  0.17   Kurtosis:                         4
 
 ![Python output](figures/4-2-3-4.png)
 
-Next, we make predictions using the test data and visualize the prediction results. Although the SARIMA model's prediction results still have room to improve, they are already much better than the ARIMA model.
+After predicting with the SARIMAX model using the test data, we visualize the outcomes. The predictions from the SARIMAX model show a marked improvement over the ARIMA model, reflecting its enhanced ability to capture the data's periodic characteristics.
 
 ```python
 data_sarimax['forecast'] = results.predict(start=24*5-48, end=24*5)
@@ -960,9 +1148,9 @@ data_sarimax[['PM25', 'forecast']].plot(figsize=(12, 8))
 
 ### auto_arima
 
-We use the [pmdarima](https://pypi.org/project/pmdarima/) Python package, which is similar to the `auto.arima` model in R. The package can automatically find the most suitable ARIMA model parameters, increasing users' convenience when using ARIMA models. The `pmdarima.ARIMA` object in the `pmdarima` package currently contains three models: ARMA, ARIMA, and SARIMAX. When using the `pmdarima.auto_arima` method, as long as the parameters `p`, `q,` `P`, and `Q` ranges are provided, the most suitable parameter combination is found within the specified range.
+We'll use the [pmdarima](https://pypi.org/project/pmdarima/) Python package, which functions similarly to the `auto.arima` model in R. This package simplifies the process of using ARIMA models by automatically determining the most suitable parameters. The `pmdarima.ARIMA` object in the package includes three models: ARMA, ARIMA, and SARIMAX. With the `pmdarima.auto_arima` method, providing ranges for parameters `p`, `q`, `P`, and `Q` allows the method to find the optimal parameter combination within these ranges.
 
-Next, we will implement how to use `pmdarima.auto_arima`, and first divide the data set into training data and test data:
+Our next step is to demonstrate how to utilize `pmdarima.auto_arima`. We'll begin by dividing our dataset into training and test data, setting the stage for model implementation and evaluation.
 
 ```python
 data_autoarima = air_hour.loc['2020-06-17':'2020-06-21']
@@ -971,7 +1159,7 @@ train = data_autoarima.iloc[:train_len]
 test = data_autoarima.iloc[train_len:]
 ```
 
-For the four parameters `p`, `q`, `P`, `Q`, we use `start` and `max` to specify the corresponding ranges. We also set the periodic parameter `seasonal` to True and the periodic variable `m` to 24 hours. Then we can directly get the best model parameter combination and model fitting results.
+To configure pmdarima.auto_arima, we set ranges for p, q, P, and Q using start and max. We also enable the seasonal parameter and set the seasonal period m to 24 hours, matching our data's daily cycle. This setup allows us to automatically find the best model parameters and fit the model effectively.
 
 ```python
 results = pm.auto_arima(train,start_p=0, d=0, start_q=0, max_p=5, max_d=5, max_q=5, start_P=0, D=1, start_Q=0, max_P=5, max_D=5, max_Q=5, m=24, seasonal=True, error_action='warn', trace = True, supress_warnings=True, stepwise = True, random_state=20, n_fits = 20)
@@ -1023,8 +1211,7 @@ Heteroskedasticity (H):               2.03   Skew:                             0
 Prob(H) (two-sided):                  0.17   Kurtosis:                         4.46
 ===================================================================================
 ```
-
-Finally, we use the best model found for data prediction, and plot the prediction results and test data on the same graph in the form of an overlay. Since the best model found this time is the SARIMAX model just introduced, the results of both predictors are roughly the same.
+In the final step, we use the optimal model identified by `pmdarima.auto_arima` for data prediction. We then plot the predicted results alongside the test data on the same graph, using an overlay format for easy comparison. Since the best model found through this process is the SARIMAX model, as previously introduced, we expect the prediction results to be similar to those we observed earlier with the SARIMAX model. This overlay visualization will allow us to clearly see how closely the model's predictions align with the actual data.
 
 ```python
 results.predict(n_periods=10)
@@ -1053,9 +1240,9 @@ data_autoarima[['PM25', 'forecast']].plot(figsize=(12, 8))
 
 ### Prophet
 
-Next, we use the [Prophet](https://facebook.github.io/prophet/) model provided in the kats suite for data prediction. This model is proposed by Facebook's data science team, and it is good at predicting periodic time series data and can tolerate missing data, data shift, and outliers.
+Now, we'll turn our attention to using the [Prophet](https://facebook.github.io/prophet/) model for data prediction. Developed by Facebook's data science team, Prophet is particularly adept at forecasting time series data that exhibits periodic patterns. It's also robust against common data issues such as missing values, shifts in the data, and outliers.
 
-We first divide the dataset into training and prediction data and observe the changes in the training data by drawing.
+The first step in employing the Prophet model is to divide our dataset into two parts: one for training and the other for prediction. After this division, we'll visually analyze the training data by plotting it. This helps us understand the underlying patterns and trends in the data, which is crucial for effective forecasting with Prophet.
 
 ```python
 data_prophet = air_hour.loc['2020-06-17':'2020-06-21']
@@ -1069,7 +1256,7 @@ trainData.plot(cols=["PM25"])
 
 ![Python output](figures/4-2-3-7.png)
 
-We then use `ProphetParams` to set the Prophet model's parameters and the training data and parameters to initialize the `ProphetModel`. Then we use the `fit` method to build the model and use the `predict` method to predict the data, and then we can get the final prediction result.
+To use the Prophet model, we set its parameters with `ProphetParams` and then initialize the `ProphetModel` with these parameters and our training data. We build the model using the `fit` method and make predictions with the `predict` method, ultimately obtaining the final prediction results.
 
 ```python
 # Specify parameters
@@ -1158,7 +1345,7 @@ data_prophet
 2020-06-21 23:00:00	8.100000	25.811943
 ```
 
-We use the built-in drawing method of `ProphetModel` to draw the training data (black curve) and prediction results (blue curve).
+To visualize our results, we employ the built-in drawing method of ProphetModel drawing the training data (black curve) and prediction results (blue curve). This visual representation will help us easily compare the model's predictions against the actual data, providing a clear view of the model's performance.
 
 ```python
 m.plot()
@@ -1166,7 +1353,7 @@ m.plot()
 
 ![Python output](figures/4-2-3-8.png)
 
-To evaluate the correctness of the prediction results, we also use another drawing method to draw the training data (black curve), test data (black curve), and prediction results (blue curve) at the same time. The figure shows that the blue and black curves are roughly consistent in the changing trend and value range, and overall the data prediction results are satisfactory.
+To evaluate our predictions, we plot the training data (black curve), test data (black curve), and prediction results (blue curve) together. This visualization shows that the prediction (blue curve) closely matches the actual data (black curves) in terms of trends and values, indicating that the prediction results are generally satisfactory.
 
 ```python
 fig, ax = plt.subplots(figsize=(12, 7))
@@ -1183,9 +1370,15 @@ ax.get_legend().remove()
 
 ### LSTM
 
-Next, we introduce the Long Short-Term Memory (LSTM) model for data prediction. The LSTM model is a predictive model suitable for continuous data because it will generate different long-term and short-term memories for data at different times and use it to predict the final result. Currently, the LSTM model is provided in the kats package, so we can directly use the syntax similar to using the Prophet model.
+Next, we explore the use of the Long Short-Term Memory (LSTM) model for data prediction. LSTM is a type of recurrent neural network that is particularly well-suited for continuous data. It is designed to capture both long-term and short-term dependencies in time series data, making it highly effective for forecasting tasks where these patterns are important.
 
-We first divide the dataset into training and prediction data and observe the changes in the training data by drawing.
+LSTM models excel in handling data with varying intervals and durations, as they can maintain information over longer periods and 'remember' past data points, which is crucial for making accurate predictions. This capability allows the LSTM model to differentiate between data that is relevant in the short term versus information that has long-term implications.
+
+Since the LSTM model is available in the kats package, we can use it in a similar manner to the Prophet model. This means we can easily integrate LSTM into our data prediction process, leveraging its advanced capabilities for time series analysis and forecasting. Using LSTM through kats simplifies the implementation process, allowing us to focus on model configuration and evaluation.
+
+Before applying the LSTM model, we start by dividing our dataset into two parts: one for training and the other for prediction. This segmentation is crucial for building an effective model, as the training data will be used to teach the LSTM model the underlying patterns and trends in the dataset.
+
+Once we have separated the training and prediction data, we then plot the training data. This step is important because it allows us to visually inspect and understand the characteristics of the data, such as trends, seasonality, and any irregular patterns. Such insights are valuable as they can guide us in configuring the LSTM model appropriately, ensuring it can capture and learn from these nuances in the data. This visual analysis forms the foundation for a successful application of the LSTM model to our time series data.
 
 ```python
 data_lstm = air_hour.loc['2020-06-17':'2020-06-21']
@@ -1199,7 +1392,15 @@ trainData.plot(cols=["PM25"])
 
 ![Python output](figures/4-2-3-10.png)
 
-Then we select the parameters of the LSTM model in order, namely the number of training times (`num_epochs`), the time length of data read in at one time (`time_window`), and the number of neural network layers related to long-term and short-term memory (`hidden_size`). Then you can directly perform model training and data prediction.
+For effective utilization of the LSTM model, we carefully select its parameters, which play a crucial role in how the model learns and predicts. The key parameters to configure are:
+
+1. **Number of Training Times (`num_epochs`)**: This parameter determines how many times the entire training dataset is passed forward and backward through the LSTM network. More epochs can lead to better learning but also increase the risk of overfitting.
+
+2. **Time Length of Data Read in at One Time (`time_window`)**: This specifies the length of the input sequences for the model. A suitable time window captures enough data points to discern underlying patterns but not so many as to overwhelm the model or ignore short-term trends.
+
+3. **Number of Neural Network Layers (`hidden_size`)**: This parameter defines the size of the LSTM's hidden layers, which are responsible for capturing long-term and short-term dependencies in the data. The right number of layers and their size can significantly impact the model's performance.
+
+With these parameters set, we can then proceed to train the LSTM model on our training data. This training process involves feeding the data through the LSTM layers, allowing the model to learn from both the recent and more distant past. After training, we use the model to make predictions, applying it to the prediction data to forecast future values. The effectiveness of these predictions will largely depend on how well the chosen parameters align with the specific characteristics of our data.
 
 ```python
 params = LSTMParams(
@@ -1267,7 +1468,7 @@ fcst
 47	2020-06-21 23:00:00	10.264495	9.751270	10.777719
 ```
 
-We also use the built-in drawing method of `LSTMModel` to draw the training data (black curve) and prediction results (blue curve).
+To visualize the performance of our LSTM model, we utilize the built-in drawing method of `LSTMModel`. This will create a graph where the training data is represented by a black curve and the prediction results by a blue curve. This graphical representation allows us to easily compare the model's predictions with the actual training data, providing a clear and intuitive understanding of how well the LSTM model is capturing the trends and patterns in the data. Such visual analysis is crucial for assessing the model's accuracy and for making any necessary adjustments to improve its forecasting capabilities.
 
 ```python
 m.plot()
@@ -1275,7 +1476,7 @@ m.plot()
 
 ![Python output](figures/4-2-3-11.png)
 
-To evaluate the correctness of the prediction results, we also use another drawing method to draw the training data (black curve), test data (black curve), and prediction results (blue curve) at the same time. The figure shows that the blue and black curves are roughly consistent in the changing trend and value range, but overall, the data prediction result (blue curve) is slightly lower than the test data (black curve).
+For a thorough evaluation of the LSTM model's predictions, we employ another drawing method to simultaneously plot the training data (black curve), test data (black curve), and prediction results (blue curve). This approach allows for a direct comparison of the model's predictions with both the training and test data. The resulting graph provides a visual representation of how well the LSTM model's predictions (blue curve) align with the actual data. While the trends and value ranges of the predicted and actual data are generally consistent, indicating that the model captures the overall pattern of the data, there is a noticeable discrepancy. Specifically, the prediction results (blue curve) tend to be slightly lower than the test data (black curve).
 
 ```python
 fig, ax = plt.subplots(figsize=(12, 7))
@@ -1291,8 +1492,7 @@ ax.get_legend().remove()
 ![Python output](figures/4-2-3-12.png)
 
 ### Holt-Winter
-
-We also use the Holt-Winter model provided by the kats package, a method that uses moving averages to assign weights to historical data for data forecasting. We first divide the dataset into training and prediction data and observe the changes in the training data by drawing.
+Next, we explore the Holt-Winters model available in the kats package. The Holt-Winters method is a well-established approach in time series forecasting, known for its use of moving averages and weighted parameters to handle data with trends and seasonality effectively. The first step in applying the Holt-Winters model is to split our dataset into two parts: one for training and the other for prediction. Then visualizing by plotting.
 
 ```python
 data_hw = air_hour.loc['2020-06-17':'2020-06-21']
@@ -1306,7 +1506,7 @@ trainData.plot(cols=["PM25"])
 
 ![Python output](figures/4-2-3-13.png)
 
-Then we need to set the parameters of the Holt-Winter model, which are to select whether to use addition or multiplication to decompose the time series data (the following example uses multiplication, `mul`), and the length of the period (the following example uses 24 hours). Then we can perform model training and data prediction.
+To effectively use the Holt-Winters model, we need to set its parameters. Specifically, we choose the method for decomposing time series data - in this case, we opt for multiplication (denoted as `mul`). Additionally, we set the length of the period, here chosen as 24 hours to reflect the data's periodic nature. Once these parameters are defined, we proceed with training the model and using it for data prediction. This setup aims to capture the cyclic patterns within our dataset for more accurate forecasting.
 
 ```python
 warnings.simplefilter(action='ignore')
@@ -1384,7 +1584,7 @@ fcst
 119	2020-06-21 23:00:00	11.594832
 ```
 
-We also use the built-in drawing method of `HoltWintersModel` to draw the training data (black curve) and prediction results (blue curve).
+To visually assess the performance of the Holt-Winters model, we utilize its built-in drawing method. This allows us to create a graph displaying the training data as a black curve and the prediction results as a blue curve. 
 
 ```python
 m.plot()
@@ -1392,7 +1592,9 @@ m.plot()
 
 ![Python output](figures/4-2-3-14.png)
 
-To evaluate the correctness of the prediction results, we also use another drawing method to draw the training data (black curve), test data (black curve), and prediction results (blue curve) at the same time. The figure shows that the blue and black curves are roughly consistent in the changing trend and value range. Still, overall, the data prediction result (blue curve) responds slightly slower to the rising slope than the test data (black curve).
+For a comprehensive evaluation of the Holt-Winters model's predictions, we employ another drawing method to simultaneously plot the training data (black curve), test data (also depicted as a black curve), and prediction results (blue curve). This allows for a direct comparison between the model's forecasts and the actual data.
+
+The graph reveals that the predicted (blue curve) and actual (black curves) data align closely in terms of overall trends and value ranges. However, a notable observation is that the prediction results (blue curve) tend to respond a bit more slowly to upward trends compared to the test data (black curve). This lag in response indicates a potential area for improvement in the model's sensitivity to rapid changes in the data. Understanding these nuances helps in fine-tuning the model for more accurate and responsive predictions.
 
 ```python
 fig, ax = plt.subplots(figsize=(12, 7))
@@ -1409,7 +1611,11 @@ ax.get_legend().remove()
 
 ### Comparison
 
-Finally, to facilitate observation and comparison, we will draw the prediction results of the six models introduced in the figure below simultaneously (Note: You must first run all the codes of the above prediction models to see the results of these six prediction models). We can observe and compare the prediction accuracy of the six models under different time intervals and curve change characteristics, which is convenient for users to decide on the final model selection and possible future applications.
+In the final step, to enable an effective comparison and observation of the performance of the six models we've explored, we plan to plot their prediction results simultaneously on the same graph. This comprehensive visualization will include the forecast outcomes of the ARIMA, SARIMAX, auto_arima, Prophet, LSTM, and Holt-Winters models.
+
+To view this comparative visualization, it's important to first ensure that all the code for the prediction models mentioned above has been executed. Once this is done, the graph can be generated, showcasing the prediction results of each model side by side.
+
+This graphical comparison allows us to observe and contrast the accuracy of each model under various time intervals and through different patterns of curve changes. Such a visual representation is incredibly useful for users to assess the strengths and weaknesses of each model in context. Based on this analysis, users can make more informed decisions regarding the most suitable model for their specific needs and potential future applications, especially considering the unique characteristics of their time series data.
 
 ```python
 fig, axes = plt.subplots(nrows=3, ncols=2, figsize=(12, 8))
