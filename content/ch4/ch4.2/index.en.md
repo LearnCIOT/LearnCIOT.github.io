@@ -871,7 +871,10 @@ Prob(H) (two-sided):                  0.05   Kurtosis:                         7
 Upon using the test data for predictions with the ARIMA model, the resulting graph shows that the predicted curve is too smooth and differs significantly from the actual values. While ARIMA captures the data's general trend, it falls short in accurately predicting the regular fluctuations, indicating a need for more sophisticated modeling to close this gap.
 
 ```python
+# Add a 'forecast' column to the 'data_arima' DataFrame with ARIMA model predictions.
 data_arima['forecast'] = results.predict(start=24*5-48, end=24*5)
+
+# Plot the 'PM25' values along with the forecasted values.
 data_arima[['PM25', 'forecast']].plot(figsize=(12, 8))
 ```
 
@@ -880,8 +883,13 @@ data_arima[['PM25', 'forecast']].plot(figsize=(12, 8))
 ### SARIMAX
 
 ```python
+# Extract a time range from the 'air_hour' DataFrame: June 17th to June 21st, 2020.
 data_sarimax = air_hour.loc['2020-06-17':'2020-06-21']
+
+# Define the length of the training data (excluding the last 48 hours).
 train_len = -48
+
+# Split the 'data_sarimax' DataFrame into training and testing sets.
 train = data_sarimax.iloc[:train_len]
 test = data_sarimax.iloc[train_len:]
 ```
@@ -952,7 +960,10 @@ Prob(H) (two-sided):                  0.17   Kurtosis:                         4
 Next, we make predictions using the test data and visualize the prediction results. Although the SARIMA model's prediction results still have room to improve, they are already much better than the ARIMA model.
 
 ```python
+# Add a 'forecast' column to the 'data_sarimax' DataFrame with SARIMA model predictions.
 data_sarimax['forecast'] = results.predict(start=24*5-48, end=24*5)
+
+# Plot the 'PM25' values along with the forecasted values.
 data_sarimax[['PM25', 'forecast']].plot(figsize=(12, 8))
 ```
 
@@ -965,8 +976,13 @@ We use the [pmdarima](https://pypi.org/project/pmdarima/) Python package, which 
 Next, we will implement how to use `pmdarima.auto_arima`, and first divide the data set into training data and test data:
 
 ```python
+# Extract a time range from the 'air_hour' DataFrame: June 17th to June 21st, 2020.
 data_autoarima = air_hour.loc['2020-06-17':'2020-06-21']
+
+# Define the length of the training data (excluding the last 48 hours).
 train_len = -48
+
+# Split the 'data_autoarima' DataFrame into training and testing sets.
 train = data_autoarima.iloc[:train_len]
 test = data_autoarima.iloc[train_len:]
 ```
@@ -974,7 +990,10 @@ test = data_autoarima.iloc[train_len:]
 For the four parameters `p`, `q`, `P`, `Q`, we use `start` and `max` to specify the corresponding ranges. We also set the periodic parameter `seasonal` to True and the periodic variable `m` to 24 hours. Then we can directly get the best model parameter combination and model fitting results.
 
 ```python
-results = pm.auto_arima(train,start_p=0, d=0, start_q=0, max_p=5, max_d=5, max_q=5, start_P=0, D=1, start_Q=0, max_P=5, max_D=5, max_Q=5, m=24, seasonal=True, error_action='warn', trace = True, supress_warnings=True, stepwise = True, random_state=20, n_fits = 20)
+# Fit an AutoARIMA model to the training data.
+results = pm.auto_arima(train, start_p=0, d=0, start_q=0, max_p=5, max_d=5, max_q=5, start_P=0, D=1, start_Q=0, max_P=5, max_D=5, max_Q=5, m=24, seasonal=True, error_action='warn', trace=True, suppress_warnings=True, stepwise=True, random_state=20, n_fits=20)
+
+# Print a summary of the model's results.
 print(results.summary())
 ```
 
@@ -1027,6 +1046,7 @@ Prob(H) (two-sided):                  0.17   Kurtosis:                         4
 Finally, we use the best model found for data prediction, and plot the prediction results and test data on the same graph in the form of an overlay. Since the best model found this time is the SARIMAX model just introduced, the results of both predictors are roughly the same.
 
 ```python
+# Generate forecasts for the next 10 periods using the fitted AutoARIMA model.
 results.predict(n_periods=10)
 ```
 
@@ -1045,8 +1065,12 @@ Freq: H, dtype: float64
 ```
 
 ```python
-data_autoarima['forecast']= pd.DataFrame(results.predict(n_periods=48), index=test.index)
+# Generate forecasts for the next 48 periods using the fitted AutoARIMA model.
+data_autoarima['forecast'] = pd.DataFrame(results.predict(n_periods=48), index=test.index)
+
+# Plot the 'PM25' values along with the forecasted values.
 data_autoarima[['PM25', 'forecast']].plot(figsize=(12, 8))
+
 ```
 
 ![Python output](figures/4-2-3-6.png)
@@ -1058,12 +1082,20 @@ Next, we use the [Prophet](https://facebook.github.io/prophet/) model provided i
 We first divide the dataset into training and prediction data and observe the changes in the training data by drawing.
 
 ```python
+# Extract a time range from the 'air_hour' DataFrame: June 17th to June 21st, 2020.
 data_prophet = air_hour.loc['2020-06-17':'2020-06-21']
+
+# Define the length of the training data (excluding the last 48 hours).
 train_len = -48
+
+# Split the 'data_prophet' DataFrame into training and testing sets.
 train = data_prophet.iloc[:train_len]
 test = data_prophet.iloc[train_len:]
 
+# Create a TimeSeriesData object for the training data with a 'timestamp' column.
 trainData = TimeSeriesData(train.reset_index(), time_col_name='timestamp')
+
+# Plot the 'PM25' values from the training data.
 trainData.plot(cols=["PM25"])
 ```
 
@@ -1072,18 +1104,22 @@ trainData.plot(cols=["PM25"])
 We then use `ProphetParams` to set the Prophet model's parameters and the training data and parameters to initialize the `ProphetModel`. Then we use the `fit` method to build the model and use the `predict` method to predict the data, and then we can get the final prediction result.
 
 ```python
-# Specify parameters
+# Specify Prophet model parameters with seasonality mode as "multiplicative."
 params = ProphetParams(seasonality_mode="multiplicative")
 
-# Create a model instance
+# Create a Prophet model instance with the training data and specified parameters.
 m = ProphetModel(trainData, params)
 
-# Fit mode
+# Fit the Prophet model to the training data.
 m.fit()
 
-# Forecast
+# Generate forecasts for the next 48 hours with an hourly frequency.
 fcst = m.predict(steps=48, freq="H")
-data_prophet['forecast'] = fcst[['time','fcst']].set_index('time')
+
+# Add the forecasted values to the 'data_prophet' DataFrame.
+data_prophet['forecast'] = fcst[['time', 'fcst']].set_index('time')
+
+# Display the forecasts.
 fcst
 ```
 
@@ -1140,6 +1176,7 @@ fcst
 ```
 
 ```python
+# Display the dataframe.
 data_prophet
 ```
 
@@ -1161,6 +1198,7 @@ data_prophet
 We use the built-in drawing method of `ProphetModel` to draw the training data (black curve) and prediction results (blue curve).
 
 ```python
+# Plot the result of Prophet model.
 m.plot()
 ```
 
@@ -1169,13 +1207,22 @@ m.plot()
 To evaluate the correctness of the prediction results, we also use another drawing method to draw the training data (black curve), test data (black curve), and prediction results (blue curve) at the same time. The figure shows that the blue and black curves are roughly consistent in the changing trend and value range, and overall the data prediction results are satisfactory.
 
 ```python
+# Create a figure and axis for the plot with a specified figsize.
 fig, ax = plt.subplots(figsize=(12, 7))
 
+# Plot the training data with a black color and label 'train'.
 train.plot(ax=ax, label='train', color='black')
+
+# Plot the testing data with a black color.
 test.plot(ax=ax, color='black')
+
+# Plot the Prophet model forecasts with a blue color.
 fcst.plot(x='time', y='fcst', ax=ax, color='blue')
 
+# Fill the area between the lower and upper forecast bounds with a slight transparency.
 ax.fill_between(test.index, fcst['fcst_lower'], fcst['fcst_upper'], alpha=0.1)
+
+# Remove the legend from the plot.
 ax.get_legend().remove()
 ```
 
@@ -1188,12 +1235,20 @@ Next, we introduce the Long Short-Term Memory (LSTM) model for data prediction. 
 We first divide the dataset into training and prediction data and observe the changes in the training data by drawing.
 
 ```python
+# Extract a time range from the 'air_hour' DataFrame: June 17th to June 21st, 2020.
 data_lstm = air_hour.loc['2020-06-17':'2020-06-21']
+
+# Define the length of the training data (excluding the last 48 hours).
 train_len = -48
+
+# Split the 'data_lstm' DataFrame into training and testing sets.
 train = data_lstm.iloc[:train_len]
 test = data_lstm.iloc[train_len:]
 
+# Create a TimeSeriesData object for the training data with a 'timestamp' column.
 trainData = TimeSeriesData(train.reset_index(), time_col_name='timestamp')
+
+# Plot the 'PM25' values from the training data.
 trainData.plot(cols=["PM25"])
 ```
 
@@ -1202,16 +1257,26 @@ trainData.plot(cols=["PM25"])
 Then we select the parameters of the LSTM model in order, namely the number of training times (`num_epochs`), the time length of data read in at one time (`time_window`), and the number of neural network layers related to long-term and short-term memory (`hidden_size`). Then you can directly perform model training and data prediction.
 
 ```python
+# Specify LSTM model parameters, including the number of hidden layers, time window, and number of epochs.
 params = LSTMParams(
-    hidden_size=10, # number of hidden layers
-    time_window=24,
-    num_epochs=30
+    hidden_size=10,  # Number of hidden layers
+    time_window=24,  # Time window for model input
+    num_epochs=30  # Number of training epochs
 )
+
+# Create an LSTM model instance with the training data and specified parameters.
 m = LSTMModel(trainData, params)
+
+# Fit the LSTM model to the training data.
 m.fit()
 
+# Generate forecasts for the next 48 hours with an hourly frequency.
 fcst = m.predict(steps=48, freq="H")
+
+# Add the forecasted values to the 'data_lstm' DataFrame.
 data_lstm['forecast'] = fcst[['time', 'fcst']].set_index('time')
+
+# Display the forecasts.
 fcst
 ```
 
@@ -1270,6 +1335,7 @@ fcst
 We also use the built-in drawing method of `LSTMModel` to draw the training data (black curve) and prediction results (blue curve).
 
 ```python
+# Plot the result of LSTMModel model.
 m.plot()
 ```
 
@@ -1278,13 +1344,22 @@ m.plot()
 To evaluate the correctness of the prediction results, we also use another drawing method to draw the training data (black curve), test data (black curve), and prediction results (blue curve) at the same time. The figure shows that the blue and black curves are roughly consistent in the changing trend and value range, but overall, the data prediction result (blue curve) is slightly lower than the test data (black curve).
 
 ```python
+# Create a figure and axis for the plot with a specified figsize.
 fig, ax = plt.subplots(figsize=(12, 7))
 
+# Plot the training data with a black color and label 'train'.
 train.plot(ax=ax, label='train', color='black')
+
+# Plot the testing data with a black color.
 test.plot(ax=ax, color='black')
+
+# Plot the LSTM model forecasts with a blue color.
 fcst.plot(x='time', y='fcst', ax=ax, color='blue')
 
+# Fill the area between the lower and upper forecast bounds with a slight transparency.
 ax.fill_between(test.index, fcst['fcst_lower'], fcst['fcst_upper'], alpha=0.1)
+
+# Remove the legend from the plot.
 ax.get_legend().remove()
 ```
 
@@ -1295,12 +1370,20 @@ ax.get_legend().remove()
 We also use the Holt-Winter model provided by the kats package, a method that uses moving averages to assign weights to historical data for data forecasting. We first divide the dataset into training and prediction data and observe the changes in the training data by drawing.
 
 ```python
+# Extract a time range from the 'air_hour' DataFrame: June 17th to June 21st, 2020.
 data_hw = air_hour.loc['2020-06-17':'2020-06-21']
+
+# Define the length of the training data (excluding the last 48 hours).
 train_len = -48
+
+# Split the 'data_hw' DataFrame into training and testing sets.
 train = data_hw.iloc[:train_len]
 test = data_hw.iloc[train_len:]
 
+# Create a TimeSeriesData object for the training data with a 'timestamp' column.
 trainData = TimeSeriesData(train.reset_index(), time_col_name='timestamp')
+
+# Plot the 'PM25' values from the training data.
 trainData.plot(cols=["PM25"])
 ```
 
@@ -1309,26 +1392,32 @@ trainData.plot(cols=["PM25"])
 Then we need to set the parameters of the Holt-Winter model, which are to select whether to use addition or multiplication to decompose the time series data (the following example uses multiplication, `mul`), and the length of the period (the following example uses 24 hours). Then we can perform model training and data prediction.
 
 ```python
+# Ignore warnings for cleaner output.
 warnings.simplefilter(action='ignore')
 
-# Specify parameters
+# Specify parameters for the Holt-Winters model.
 params = HoltWintersParams(
-            trend="mul",
-            seasonal="mul",
-            seasonal_periods=24,
-        )
+    trend="multiplicative",  # Multiplicative trend component.
+    seasonal="multiplicative",  # Multiplicative seasonal component.
+    seasonal_periods=24,  # Seasonal period of 24 hours.
+)
 
-# Create a model instance
+# Create an instance of the Holt-Winters model with the specified parameters.
 m = HoltWintersModel(
-    data=trainData, 
-    params=params)
+    data=trainData,  # Training data provided as a TimeSeriesData object.
+    params=params  # Use the defined parameters.
+)
 
-# Fit mode
+# Fit the Holt-Winters model to the training data.
 m.fit()
 
-# Forecast
+# Forecast future values for 48 time steps with a frequency of 'H' (hourly).
 fcst = m.predict(steps=48, freq='H')
+
+# Add the forecasted values to the 'data_hw' DataFrame with a 'timestamp' index.
 data_hw['forecast'] = fcst[['time', 'fcst']].set_index('time')
+
+# Display the forecast.
 fcst
 ```
 
@@ -1387,6 +1476,7 @@ fcst
 We also use the built-in drawing method of `HoltWintersModel` to draw the training data (black curve) and prediction results (blue curve).
 
 ```python
+# Plot the results of the Holt-Winters model.
 m.plot()
 ```
 
@@ -1395,13 +1485,19 @@ m.plot()
 To evaluate the correctness of the prediction results, we also use another drawing method to draw the training data (black curve), test data (black curve), and prediction results (blue curve) at the same time. The figure shows that the blue and black curves are roughly consistent in the changing trend and value range. Still, overall, the data prediction result (blue curve) responds slightly slower to the rising slope than the test data (black curve).
 
 ```python
+# Create a figure and axis for the plot with a specified figsize.
 fig, ax = plt.subplots(figsize=(12, 7))
 
+# Plot the training data with a label and black color.
 train.plot(ax=ax, label='train', color='black')
+
+# Plot the test data in black.
 test.plot(ax=ax, color='black')
+
+# Plot the forecasted data with 'time' as the x-axis and 'fcst' as the y-axis in blue.
 fcst.plot(x='time', y='fcst', ax=ax, color='blue')
 
-# ax.fill_between(test.index, fcst['fcst_lower'], fcst['fcst_upper'], alpha=0.1)
+# Remove the legend from the plot.
 ax.get_legend().remove()
 ```
 
@@ -1412,15 +1508,28 @@ ax.get_legend().remove()
 Finally, to facilitate observation and comparison, we will draw the prediction results of the six models introduced in the figure below simultaneously (Note: You must first run all the codes of the above prediction models to see the results of these six prediction models). We can observe and compare the prediction accuracy of the six models under different time intervals and curve change characteristics, which is convenient for users to decide on the final model selection and possible future applications.
 
 ```python
+# Create a figure with a 3x2 grid of subplots and a specified figsize.
 fig, axes = plt.subplots(nrows=3, ncols=2, figsize=(12, 8))
 
+# Plot the 'PM25' and 'forecast' data for ARIMA in the top-left subplot with the title 'ARIMA'.
 data_arima[['PM25', 'forecast']].plot(ax=axes[0, 0], title='ARIMA')
+
+# Plot the 'PM25' and 'forecast' data for SARIMAX in the middle-left subplot with the title 'SARIMAX'.
 data_sarimax[['PM25', 'forecast']].plot(ax=axes[1, 0], title='SARIMAX')
+
+# Plot the 'PM25' and 'forecast' data for auto_arima in the bottom-left subplot with the title 'auto_arima'.
 data_autoarima[['PM25', 'forecast']].plot(ax=axes[2, 0], title='auto_arima')
+
+# Plot the 'PM25' and 'forecast' data for Prophet in the top-right subplot with the title 'Prophet'.
 data_prophet[['PM25', 'forecast']].plot(ax=axes[0, 1], title='Prophet')
+
+# Plot the 'PM25' and 'forecast' data for LSTM in the middle-right subplot with the title 'LSTM'.
 data_lstm[['PM25', 'forecast']].plot(ax=axes[1, 1], title='LSTM')
+
+# Plot the 'PM25' and 'forecast' data for Holt-Winter in the bottom-right subplot with the title 'Holt-Winter'.
 data_hw[['PM25', 'forecast']].plot(ax=axes[2, 1], title='Holt-Winter')
 
+# Adjust the layout of subplots for better spacing.
 fig.tight_layout(pad=1, w_pad=2, h_pad=5)
 ```
 
