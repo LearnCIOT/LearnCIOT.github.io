@@ -25,7 +25,7 @@
       <link>https://LearnCIOT.github.io/en/ch4/ch4.2/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://LearnCIOT.github.io/en/ch4/ch4.2/</guid>
-      <description>Table Of Contents Goal Package Installation and Importing Data Access Air Quality Data Water Level Data Meteorological Data Data Preprocessing Stationary Evaluation Data Forecast ARIMA SARIMAX auto_arima Prophet LSTM Holt-Winter Comparison References The previous chapter has introduced various methods of processing time series data, including visual presentation of data, decomposition of time series data, etc. In this chapter, we will further extract the characteristics of these data and use various predictive models to find the law of the data and predict the future.</description>
+      <description>Table Of Contents Goal Setting Up the Environment Data Access Air Quality Data Water Level Data Meteorological Data Data Preprocessing Stationary Evaluation Data Forecast ARIMA SARIMAX auto_arima Prophet LSTM Holt-Winter Comparison References In the last chapter, we explored different ways to handle and understand data that changes over time, like creating visual representations and breaking down the data into smaller parts. This chapter will delve deeper into these data sets, focusing on identifying their unique features.</description>
     </item>
     <item>
       <title>5.2. Geospatial Analysis</title>

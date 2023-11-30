@@ -54,7 +54,7 @@ Imagine you want to check the air quality around your home. The Taiwan Air Quali
       <link>https://LearnCIOT.github.io/en/ch4/ch4.2/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://LearnCIOT.github.io/en/ch4/ch4.2/</guid>
-      <description>Table Of Contents Goal Package Installation and Importing Data Access Air Quality Data Water Level Data Meteorological Data Data Preprocessing Stationary Evaluation Data Forecast ARIMA SARIMAX auto_arima Prophet LSTM Holt-Winter Comparison References The previous chapter has introduced various methods of processing time series data, including visual presentation of data, decomposition of time series data, etc. In this chapter, we will further extract the characteristics of these data and use various predictive models to find the law of the data and predict the future.</description>
+      <description>Table Of Contents Goal Setting Up the Environment Data Access Air Quality Data Water Level Data Meteorological Data Data Preprocessing Stationary Evaluation Data Forecast ARIMA SARIMAX auto_arima Prophet LSTM Holt-Winter Comparison References In the last chapter, we explored different ways to handle and understand data that changes over time, like creating visual representations and breaking down the data into smaller parts. This chapter will delve deeper into these data sets, focusing on identifying their unique features.</description>
     </item>
     <item>
       <title>5.2. Geospatial Analysis</title>
@@ -82,7 +82,7 @@ Imagine you want to check the air quality around your home. The Taiwan Air Quali
       <link>https://LearnCIOT.github.io/en/ch4/ch4.3/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://LearnCIOT.github.io/en/ch4/ch4.3/</guid>
-      <description>Table Of Contents Goal Package Installation and Importing Data Access and Preprocessing Data Clustering Fast Fourier Transform Wavelet Transform References Cluster analysis is a commonly used data processing method in data science, and its primary purpose is to find similar clusters in the data. After cluster analysis, data with similar attributes are clustered together for ease of use, and researchers can perform deeper analysis and processing on data with similar characteristics.</description>
+      <description>Table Of Contents Goal Package Installation and Importing Data Access and Preprocessing Data Clustering Fast Fourier Transform References Cluster analysis is a popular technique in data science aimed at identifying groups, or &amp;lsquo;clusters&amp;rsquo;, of similar data points. This method helps organize data by grouping similar items together, making it easier for researchers to conduct more detailed analyses on these sets. In the context of Civil IoT Taiwan, where the data from sensors is in the form of time series (data points collected over time), this approach is especially useful.</description>
     </item>
     <item>
       <title>6.3. Joint Data Calibration</title>
