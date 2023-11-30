@@ -1509,26 +1509,656 @@ trainData.plot(cols=["PM25"])
 To effectively use the Holt-Winters model, we need to set its parameters. Specifically, we choose the method for decomposing time series data - in this case, we opt for multiplication (denoted as `mul`). Additionally, we set the length of the period, here chosen as 24 hours to reflect the data's periodic nature. Once these parameters are defined, we proceed with training the model and using it for data prediction. This setup aims to capture the cyclic patterns within our dataset for more accurate forecasting.
 
 ```python
-warnings.simplefilter(action='ignore')
+warnings.filterwarnings('ignore')
+order_aic_bic =[]
 
-# Specify parameters
-params = HoltWintersParams(
-            trend="mul",
-            seasonal="mul",
-            seasonal_periods=24,
-        )
+# Loop over p values from 0-2
+for p in range(3):
+    # Loop over q values from 0-2
+    for q in range(3):
+      
+        try:
+            # create and fit ARMA(p,q) model
+            model = sm.tsa.statespace.SARIMAX(train['PM25'], order=(p, 0, q))
+            results = model.fit()
+            
+            # Print order and results
+            order_aic_bic.append((p, q, results.aic, results.bic))            
+        except:
+            print(p, q, None, None)
+            
+# Make DataFrame of model order and AIC/BIC scores
+order_df = pd.DataFrame(order_aic_bic, columns=['p', 'q', 'aic','bic'])
 
-# Create a model instance
-m = HoltWintersModel(
-    data=trainData, 
-    params=params)
+# lets sort them by AIC and BIC
 
-# Fit mode
+# Sort by AIC
+print("Sorted by AIC ")
+# print("\n")
+print(order_df.sort_values('aic').reset_index(drop=True))
+
+# Sort by BIC
+print("Sorted by BIC ")
+# print("\n")
+print(order_df.sort_values('bic').reset_index(drop=True))
+```
+
+```
+Sorted by AIC 
+   p  q         aic         bic
+0  1  0  349.493661  354.046993
+1  1  1  351.245734  358.075732
+2  2  0  351.299268  358.129267
+3  1  2  352.357930  361.464594
+4  2  1  353.015921  362.122586
+5  2  2  353.063243  364.446574
+6  0  2  402.213407  409.043405
+7  0  1  427.433962  431.987294
+8  0  0  493.148188  495.424854
+Sorted by BIC 
+   p  q         aic         bic
+0  1  0  349.493661  354.046993
+1  1  1  351.245734  358.075732
+2  2  0  351.299268  358.129267
+3  1  2  352.357930  361.464594
+4  2  1  353.015921  362.122586
+5  2  2  353.063243  364.446574
+6  0  2  402.213407  409.043405
+7  0  1  427.433962  431.987294
+8  0  0  493.148188  495.424854
+```
+
+Having determined that the combination (p, q) = (1, 0) yields the smallest values for both the Akaike Information Criterion (AIC) and the Bayesian Information Criterion (BIC), we conclude that this is the best configuration for our model. This means that the autoregressive component (p) is significant, but the moving average component (q) is not needed for this particular data set.
+
+Therefore, we set up our ARIMA model with the parameters p, d, and q as 1, 0, and 0, respectively. The 'p' value of 1 indicates we are using one lag value in the autoregressive part of the model. The 'd' value of 0 shows that no differencing is needed as the data is already stationary. Finally, the 'q' value of 0 indicates that we are not using the moving average component in this model.
+
+```python
+# Instantiate model object
+model = ARIMA(train, order=(1,0,0))
+
+# Fit model
+results = model.fit()
+print(results.summary())
+results.plot_diagnostics(figsize=(10, 10))
+```
+
+```
+                               SARIMAX Results
+==============================================================================
+Dep. Variable:                   PM25   No. Observations:                   72
+Model:                 ARIMA(1, 0, 0)   Log Likelihood                -168.853
+Date:                Fri, 26 Aug 2022   AIC                            343.706
+Time:                        05:01:13   BIC                            350.536
+Sample:                    06-17-2020   HQIC                           346.425
+                         - 06-19-2020
+Covariance Type:                  opg
+==============================================================================
+                 coef    std err          z      P>|z|      [0.025      0.975]
+------------------------------------------------------------------------------
+const          6.3774      1.959      3.255      0.001       2.537      10.218
+ar.L1          0.7792      0.047     16.584      0.000       0.687       0.871
+sigma2         6.2934      0.746      8.438      0.000       4.832       7.755
+===================================================================================
+Ljung-Box (L1) (Q):                   0.08   Jarque-Bera (JB):                76.49
+Prob(Q):                              0.77   Prob(JB):                         0.00
+Heteroskedasticity (H):               2.30   Skew:                             1.44
+Prob(H) (two-sided):                  0.05   Kurtosis:                         7.15
+===================================================================================
+
+```
+
+![Python output](figures/4-2-3-2.png)
+
+Upon using the test data for predictions with the ARIMA model, the resulting graph shows that the predicted curve is too smooth and differs significantly from the actual values. While ARIMA captures the data's general trend, it falls short in accurately predicting the regular fluctuations, indicating a need for more sophisticated modeling to close this gap.
+
+```python
+# Add a 'forecast' column to the 'data_arima' DataFrame with ARIMA model predictions.
+data_arima['forecast'] = results.predict(start=24*5-48, end=24*5)
+
+# Plot the 'PM25' values along with the forecasted values.
+data_arima[['PM25', 'forecast']].plot(figsize=(12, 8))
+```
+
+![Python output](figures/4-2-3-3.png)
+
+### SARIMAX
+
+```python
+# Extract a time range from the 'air_hour' DataFrame: June 17th to June 21st, 2020.
+data_sarimax = air_hour.loc['2020-06-17':'2020-06-21']
+
+# Define the length of the training data (excluding the last 48 hours).
+train_len = -48
+
+# Split the 'data_sarimax' DataFrame into training and testing sets.
+train = data_sarimax.iloc[:train_len]
+test = data_sarimax.iloc[train_len:]
+```
+
+The SARIMAX model, an extension of the ARIMA model, includes seven parameters: `p`, `d`, `q`, `P`, `D`, `Q`, and `s`. These parameters are divided into two groups:
+
+1. **`order=(p, d, q)`**: These are the same as in the ARIMA model. 
+   - `p`: Number of lag observations in the model (autoregressive part).
+   - `d`: Degree of differencing required to make the series stationary.
+   - `q`: Size of the moving average window.
+
+2. **`seasonal_order=(P, D, Q, s)`**: These relate to the model's seasonal components.
+   - `P`: Number of seasonal autoregressive terms.
+   - `D`: Degree of seasonal differencing.
+   - `Q`: Number of seasonal moving average terms.
+   - `s`: Length of the seasonal cycle.
+
+The SARIMAX model thus not only captures the non-seasonal aspects of the time series (through `p`, `d`, `q`) but also accounts for seasonality and external factors (through `P`, `D`, `Q`, `s`), making it more versatile for complex datasets with seasonal patterns.
+
+| 參數 | 說明 |
+| --- | --- |
+| p | AR 模型參數 |
+| d | 達到平穩性所需要的差分次數 |
+| q | MA 模型參數 |
+| P | 週期性的 AR 模型參數 |
+| D | 週期上達到平穩性所需要的差分次數 |
+| Q | 週期性的 MA 模型參數 |
+| s | 週期長度 |
+
+Given our observation of a 24-hour periodic change in the data, we set `s=24` in the SARIMAX model. This aligns the model's seasonal component with the data's daily pattern, allowing us to build the model using this setting to better predict the observed trends.
+
+```python
+# Instantiate model object
+model = SARIMAX(train, order=(1,0,0), seasonal_order=(0, 1, 0, 24))
+
+# Fit model
+results = model.fit()
+print(results.summary())
+results.plot_diagnostics(figsize=(10, 10))
+```
+
+```
+                                     SARIMAX Results
+==========================================================================================
+Dep. Variable:                               PM25   No. Observations:                   72
+Model:             SARIMAX(1, 0, 0)x(0, 1, 0, 24)   Log Likelihood                -121.463
+Date:                            Fri, 26 Aug 2022   AIC                            246.926
+Time:                                    05:01:26   BIC                            250.669
+Sample:                                06-17-2020   HQIC                           248.341
+                                     - 06-19-2020
+Covariance Type:                              opg
+==============================================================================
+                 coef    std err          z      P>|z|      [0.025      0.975]
+------------------------------------------------------------------------------
+ar.L1          0.6683      0.069      9.698      0.000       0.533       0.803
+sigma2         9.1224      1.426      6.399      0.000       6.328      11.917
+===================================================================================
+Ljung-Box (L1) (Q):                   0.11   Jarque-Bera (JB):                 5.70
+Prob(Q):                              0.75   Prob(JB):                         0.06
+Heteroskedasticity (H):               2.03   Skew:                             0.42
+Prob(H) (two-sided):                  0.17   Kurtosis:                         4.46
+===================================================================================
+
+```
+
+![Python output](figures/4-2-3-4.png)
+
+Next, we make predictions using the test data and visualize the prediction results. Although the SARIMA model's prediction results still have room to improve, they are already much better than the ARIMA model.
+
+```python
+# Add a 'forecast' column to the 'data_sarimax' DataFrame with SARIMA model predictions.
+data_sarimax['forecast'] = results.predict(start=24*5-48, end=24*5)
+
+# Plot the 'PM25' values along with the forecasted values.
+data_sarimax[['PM25', 'forecast']].plot(figsize=(12, 8))
+```
+
+![Python output](figures/4-2-3-5.png)
+
+### auto_arima
+
+We use the [pmdarima](https://pypi.org/project/pmdarima/) Python package, which is similar to the `auto.arima` model in R. The package can automatically find the most suitable ARIMA model parameters, increasing users' convenience when using ARIMA models. The `pmdarima.ARIMA` object in the `pmdarima` package currently contains three models: ARMA, ARIMA, and SARIMAX. When using the `pmdarima.auto_arima` method, as long as the parameters `p`, `q,` `P`, and `Q` ranges are provided, the most suitable parameter combination is found within the specified range.
+
+Next, we will implement how to use `pmdarima.auto_arima`, and first divide the data set into training data and test data:
+
+```python
+# Extract a time range from the 'air_hour' DataFrame: June 17th to June 21st, 2020.
+data_autoarima = air_hour.loc['2020-06-17':'2020-06-21']
+
+# Define the length of the training data (excluding the last 48 hours).
+train_len = -48
+
+# Split the 'data_autoarima' DataFrame into training and testing sets.
+train = data_autoarima.iloc[:train_len]
+test = data_autoarima.iloc[train_len:]
+```
+
+For the four parameters `p`, `q`, `P`, `Q`, we use `start` and `max` to specify the corresponding ranges. We also set the periodic parameter `seasonal` to True and the periodic variable `m` to 24 hours. Then we can directly get the best model parameter combination and model fitting results.
+
+```python
+# Fit an AutoARIMA model to the training data.
+results = pm.auto_arima(train, start_p=0, d=0, start_q=0, max_p=5, max_d=5, max_q=5, start_P=0, D=1, start_Q=0, max_P=5, max_D=5, max_Q=5, m=24, seasonal=True, error_action='warn', trace=True, suppress_warnings=True, stepwise=True, random_state=20, n_fits=20)
+
+# Print a summary of the model's results.
+print(results.summary())
+```
+
+```
+Performing stepwise search to minimize aic
+ ARIMA(0,0,0)(0,1,0)[24] intercept   : AIC=268.023, Time=0.04 sec
+ ARIMA(1,0,0)(1,1,0)[24] intercept   : AIC=247.639, Time=0.85 sec
+ ARIMA(0,0,1)(0,1,1)[24] intercept   : AIC=250.711, Time=0.79 sec
+ ARIMA(0,0,0)(0,1,0)[24]             : AIC=271.305, Time=0.04 sec
+ ARIMA(1,0,0)(0,1,0)[24] intercept   : AIC=247.106, Time=0.09 sec
+ ARIMA(1,0,0)(0,1,1)[24] intercept   : AIC=247.668, Time=0.45 sec
+ ARIMA(1,0,0)(1,1,1)[24] intercept   : AIC=inf, Time=2.63 sec
+ ARIMA(2,0,0)(0,1,0)[24] intercept   : AIC=249.013, Time=0.15 sec
+ ARIMA(1,0,1)(0,1,0)[24] intercept   : AIC=248.924, Time=0.21 sec
+ ARIMA(0,0,1)(0,1,0)[24] intercept   : AIC=250.901, Time=0.11 sec
+ ARIMA(2,0,1)(0,1,0)[24] intercept   : AIC=250.579, Time=0.30 sec
+ ARIMA(1,0,0)(0,1,0)[24]             : AIC=246.926, Time=0.06 sec
+ ARIMA(1,0,0)(1,1,0)[24]             : AIC=247.866, Time=0.28 sec
+ ARIMA(1,0,0)(0,1,1)[24]             : AIC=247.933, Time=0.31 sec
+ ARIMA(1,0,0)(1,1,1)[24]             : AIC=inf, Time=2.35 sec
+ ARIMA(2,0,0)(0,1,0)[24]             : AIC=248.910, Time=0.08 sec
+ ARIMA(1,0,1)(0,1,0)[24]             : AIC=248.893, Time=0.09 sec
+ ARIMA(0,0,1)(0,1,0)[24]             : AIC=252.779, Time=0.08 sec
+ ARIMA(2,0,1)(0,1,0)[24]             : AIC=250.561, Time=0.17 sec
+
+Best model:  ARIMA(1,0,0)(0,1,0)[24]
+Total fit time: 9.122 seconds
+                                     SARIMAX Results
+==========================================================================================
+Dep. Variable:                                  y   No. Observations:                   72
+Model:             SARIMAX(1, 0, 0)x(0, 1, 0, 24)   Log Likelihood                -121.463
+Date:                            Fri, 26 Aug 2022   AIC                            246.926
+Time:                                    05:01:37   BIC                            250.669
+Sample:                                06-17-2020   HQIC                           248.341
+                                     - 06-19-2020
+Covariance Type:                              opg
+==============================================================================
+                 coef    std err          z      P>|z|      [0.025      0.975]
+------------------------------------------------------------------------------
+ar.L1          0.6683      0.069      9.698      0.000       0.533       0.803
+sigma2         9.1224      1.426      6.399      0.000       6.328      11.917
+===================================================================================
+Ljung-Box (L1) (Q):                   0.11   Jarque-Bera (JB):                 5.70
+Prob(Q):                              0.75   Prob(JB):                         0.06
+Heteroskedasticity (H):               2.03   Skew:                             0.42
+Prob(H) (two-sided):                  0.17   Kurtosis:                         4.46
+===================================================================================
+```
+
+Finally, we use the best model found for data prediction, and plot the prediction results and test data on the same graph in the form of an overlay. Since the best model found this time is the SARIMAX model just introduced, the results of both predictors are roughly the same.
+
+```python
+# Generate forecasts for the next 10 periods using the fitted AutoARIMA model.
+results.predict(n_periods=10)
+```
+
+```
+2020-06-20 00:00:00    10.371336
+2020-06-20 01:00:00    13.142043
+2020-06-20 02:00:00    13.505843
+2020-06-20 03:00:00     9.506395
+2020-06-20 04:00:00     7.450378
+2020-06-20 05:00:00     7.782850
+2020-06-20 06:00:00     7.633757
+2020-06-20 07:00:00     5.200781
+2020-06-20 08:00:00     3.634188
+2020-06-20 09:00:00     3.946824
+Freq: H, dtype: float64
+```
+
+```python
+# Generate forecasts for the next 48 periods using the fitted AutoARIMA model.
+data_autoarima['forecast'] = pd.DataFrame(results.predict(n_periods=48), index=test.index)
+
+# Plot the 'PM25' values along with the forecasted values.
+data_autoarima[['PM25', 'forecast']].plot(figsize=(12, 8))
+
+```
+
+![Python output](figures/4-2-3-6.png)
+
+### Prophet
+
+Next, we use the [Prophet](https://facebook.github.io/prophet/) model provided in the kats suite for data prediction. This model is proposed by Facebook's data science team, and it is good at predicting periodic time series data and can tolerate missing data, data shift, and outliers.
+
+We first divide the dataset into training and prediction data and observe the changes in the training data by drawing.
+
+```python
+# Extract a time range from the 'air_hour' DataFrame: June 17th to June 21st, 2020.
+data_prophet = air_hour.loc['2020-06-17':'2020-06-21']
+
+# Define the length of the training data (excluding the last 48 hours).
+train_len = -48
+
+# Split the 'data_prophet' DataFrame into training and testing sets.
+train = data_prophet.iloc[:train_len]
+test = data_prophet.iloc[train_len:]
+
+# Create a TimeSeriesData object for the training data with a 'timestamp' column.
+trainData = TimeSeriesData(train.reset_index(), time_col_name='timestamp')
+
+# Plot the 'PM25' values from the training data.
+trainData.plot(cols=["PM25"])
+```
+
+![Python output](figures/4-2-3-7.png)
+
+We then use `ProphetParams` to set the Prophet model's parameters and the training data and parameters to initialize the `ProphetModel`. Then we use the `fit` method to build the model and use the `predict` method to predict the data, and then we can get the final prediction result.
+
+```python
+# Specify Prophet model parameters with seasonality mode as "multiplicative."
+params = ProphetParams(seasonality_mode="multiplicative")
+
+# Create a Prophet model instance with the training data and specified parameters.
+m = ProphetModel(trainData, params)
+
+# Fit the Prophet model to the training data.
 m.fit()
 
-# Forecast
+# Generate forecasts for the next 48 hours with an hourly frequency.
+fcst = m.predict(steps=48, freq="H")
+
+# Add the forecasted values to the 'data_prophet' DataFrame.
+data_prophet['forecast'] = fcst[['time', 'fcst']].set_index('time')
+
+# Display the forecasts.
+fcst
+```
+
+```
+                 time	    fcst	fcst_lower fcst_upper
+0	2020-06-20 00:00:00	14.705192	12.268361	17.042476
+1	2020-06-20 01:00:00	15.089580	12.625568	17.573396
+2	2020-06-20 02:00:00	14.921077	12.459802	17.411335
+3	2020-06-20 03:00:00	13.846131	11.444988	16.200284
+4	2020-06-20 04:00:00	12.278140	9.863531	14.858334
+5	2020-06-20 05:00:00	10.934739	8.372450	13.501025
+6	2020-06-20 06:00:00	10.126712	7.654647	12.658054
+7	2020-06-20 07:00:00	9.535067	7.034313	11.762639
+8	2020-06-20 08:00:00	8.661877	6.255147	11.132732
+9	2020-06-20 09:00:00	7.424133	5.055052	9.770750
+10	2020-06-20 10:00:00	6.229786	3.640543	8.625856
+11	2020-06-20 11:00:00	5.464764	3.039011	7.939283
+12	2020-06-20 12:00:00	4.998005	2.692023	7.550191
+13	2020-06-20 13:00:00	4.334771	1.961382	6.506875
+14	2020-06-20 14:00:00	3.349172	1.059836	5.768178
+15	2020-06-20 15:00:00	2.819902	0.399350	5.226658
+16	2020-06-20 16:00:00	4.060070	1.556264	6.322976
+17	2020-06-20 17:00:00	7.792830	5.331987	10.237182
+18	2020-06-20 18:00:00	13.257767	10.873149	15.542380
+19	2020-06-20 19:00:00	18.466805	15.895210	20.874602
+20	2020-06-20 20:00:00	21.535994	19.150397	23.960260
+21	2020-06-20 21:00:00	22.005943	19.509141	24.691836
+22	2020-06-20 22:00:00	21.014449	18.610361	23.661906
+23	2020-06-20 23:00:00	20.191905	17.600568	22.868388
+24	2020-06-21 00:00:00	20.286952	17.734177	22.905280
+25	2020-06-21 01:00:00	20.728067	18.235829	23.235212
+26	2020-06-21 02:00:00	20.411124	17.755181	22.777073
+27	2020-06-21 03:00:00	18.863739	16.261775	21.315573
+28	2020-06-21 04:00:00	16.661351	13.905466	19.374726
+29	2020-06-21 05:00:00	14.781150	12.401465	17.499478
+30	2020-06-21 06:00:00	13.637436	11.206142	16.239831
+31	2020-06-21 07:00:00	12.793609	9.940829	15.319559
+32	2020-06-21 08:00:00	11.580455	9.059603	14.261605
+33	2020-06-21 09:00:00	9.891025	7.230943	12.471543
+34	2020-06-21 10:00:00	8.271552	5.840853	10.677227
+35	2020-06-21 11:00:00	7.231671	4.829449	9.733231
+36	2020-06-21 12:00:00	6.592515	4.108251	9.107216
+37	2020-06-21 13:00:00	5.699548	3.288052	8.019402
+38	2020-06-21 14:00:00	4.389985	1.848621	6.825121
+39	2020-06-21 15:00:00	3.685033	1.196467	6.150064
+40	2020-06-21 16:00:00	5.289956	2.907623	8.012851
+41	2020-06-21 17:00:00	10.124029	7.397842	12.676256
+42	2020-06-21 18:00:00	17.174959	14.670539	19.856592
+43	2020-06-21 19:00:00	23.856724	21.102924	26.712359
+44	2020-06-21 20:00:00	27.746195	24.636118	30.673178
+45	2020-06-21 21:00:00	28.276321	25.175013	31.543197
+46	2020-06-21 22:00:00	26.932054	23.690073	29.882014
+47	2020-06-21 23:00:00	25.811943	22.960132	28.912079
+```
+
+```python
+# Display the dataframe.
+data_prophet
+```
+
+```
+          timestamp		  PM25	forecast
+2020-06-17 00:00:00	6.300000	NaN
+2020-06-17 01:00:00	11.444444	NaN
+2020-06-17 02:00:00	6.777778	NaN
+2020-06-17 03:00:00	4.875000	NaN
+2020-06-17 04:00:00	5.444444	NaN
+...	...	...
+2020-06-21 19:00:00	18.777778	23.856724
+2020-06-21 20:00:00	21.400000	27.746195
+2020-06-21 21:00:00	11.222222	28.276321
+2020-06-21 22:00:00	9.800000	26.932054
+2020-06-21 23:00:00	8.100000	25.811943
+```
+
+We use the built-in drawing method of `ProphetModel` to draw the training data (black curve) and prediction results (blue curve).
+
+```python
+# Plot the result of Prophet model.
+m.plot()
+```
+
+![Python output](figures/4-2-3-8.png)
+
+To evaluate the correctness of the prediction results, we also use another drawing method to draw the training data (black curve), test data (black curve), and prediction results (blue curve) at the same time. The figure shows that the blue and black curves are roughly consistent in the changing trend and value range, and overall the data prediction results are satisfactory.
+
+```python
+# Create a figure and axis for the plot with a specified figsize.
+fig, ax = plt.subplots(figsize=(12, 7))
+
+# Plot the training data with a black color and label 'train'.
+train.plot(ax=ax, label='train', color='black')
+
+# Plot the testing data with a black color.
+test.plot(ax=ax, color='black')
+
+# Plot the Prophet model forecasts with a blue color.
+fcst.plot(x='time', y='fcst', ax=ax, color='blue')
+
+# Fill the area between the lower and upper forecast bounds with a slight transparency.
+ax.fill_between(test.index, fcst['fcst_lower'], fcst['fcst_upper'], alpha=0.1)
+
+# Remove the legend from the plot.
+ax.get_legend().remove()
+```
+
+![Python output](figures/4-2-3-9.png)
+
+### LSTM
+
+Next, we introduce the Long Short-Term Memory (LSTM) model for data prediction. The LSTM model is a predictive model suitable for continuous data because it will generate different long-term and short-term memories for data at different times and use it to predict the final result. Currently, the LSTM model is provided in the kats package, so we can directly use the syntax similar to using the Prophet model.
+
+We first divide the dataset into training and prediction data and observe the changes in the training data by drawing.
+
+```python
+# Extract a time range from the 'air_hour' DataFrame: June 17th to June 21st, 2020.
+data_lstm = air_hour.loc['2020-06-17':'2020-06-21']
+
+# Define the length of the training data (excluding the last 48 hours).
+train_len = -48
+
+# Split the 'data_lstm' DataFrame into training and testing sets.
+train = data_lstm.iloc[:train_len]
+test = data_lstm.iloc[train_len:]
+
+# Create a TimeSeriesData object for the training data with a 'timestamp' column.
+trainData = TimeSeriesData(train.reset_index(), time_col_name='timestamp')
+
+# Plot the 'PM25' values from the training data.
+trainData.plot(cols=["PM25"])
+```
+
+![Python output](figures/4-2-3-10.png)
+
+Then we select the parameters of the LSTM model in order, namely the number of training times (`num_epochs`), the time length of data read in at one time (`time_window`), and the number of neural network layers related to long-term and short-term memory (`hidden_size`). Then you can directly perform model training and data prediction.
+
+```python
+# Specify LSTM model parameters, including the number of hidden layers, time window, and number of epochs.
+params = LSTMParams(
+    hidden_size=10,  # Number of hidden layers
+    time_window=24,  # Time window for model input
+    num_epochs=30  # Number of training epochs
+)
+
+# Create an LSTM model instance with the training data and specified parameters.
+m = LSTMModel(trainData, params)
+
+# Fit the LSTM model to the training data.
+m.fit()
+
+# Generate forecasts for the next 48 hours with an hourly frequency.
+fcst = m.predict(steps=48, freq="H")
+
+# Add the forecasted values to the 'data_lstm' DataFrame.
+data_lstm['forecast'] = fcst[['time', 'fcst']].set_index('time')
+
+# Display the forecasts.
+fcst
+```
+
+```
+                 time	    fcst	fcst_lower	fcst_upper
+0	2020-06-20 00:00:00	11.905971	11.310672	12.501269
+1	2020-06-20 01:00:00	10.804338	10.264121	11.344554
+2	2020-06-20 02:00:00	9.740741	9.253704	10.227778
+3	2020-06-20 03:00:00	8.696406	8.261586	9.131226
+4	2020-06-20 04:00:00	7.656923	7.274077	8.039769
+5	2020-06-20 05:00:00	6.608442	6.278019	6.938864
+6	2020-06-20 06:00:00	5.543790	5.266600	5.820979
+7	2020-06-20 07:00:00	4.469023	4.245572	4.692474
+8	2020-06-20 08:00:00	3.408312	3.237897	3.578728
+9	2020-06-20 09:00:00	2.411980	2.291381	2.532578
+10	2020-06-20 10:00:00	1.564808	1.486567	1.643048
+11	2020-06-20 11:00:00	0.982147	0.933040	1.031255
+12	2020-06-20 12:00:00	0.792612	0.752981	0.832242
+13	2020-06-20 13:00:00	1.105420	1.050149	1.160691
+14	2020-06-20 14:00:00	1.979013	1.880062	2.077964
+15	2020-06-20 15:00:00	3.408440	3.238018	3.578862
+16	2020-06-20 16:00:00	5.337892	5.070997	5.604786
+17	2020-06-20 17:00:00	7.659332	7.276365	8.042299
+18	2020-06-20 18:00:00	10.104147	9.598940	10.609355
+19	2020-06-20 19:00:00	12.047168	11.444809	12.649526
+20	2020-06-20 20:00:00	12.880240	12.236228	13.524252
+21	2020-06-20 21:00:00	12.748750	12.111312	13.386187
+22	2020-06-20 22:00:00	12.128366	11.521947	12.734784
+23	2020-06-20 23:00:00	11.311866	10.746273	11.877459
+24	2020-06-21 00:00:00	10.419082	9.898128	10.940036
+25	2020-06-21 01:00:00	9.494399	9.019679	9.969119
+26	2020-06-21 02:00:00	8.551890	8.124296	8.979485
+27	2020-06-21 03:00:00	7.592260	7.212647	7.971873
+28	2020-06-21 04:00:00	6.613075	6.282421	6.943729
+29	2020-06-21 05:00:00	5.614669	5.333936	5.895402
+30	2020-06-21 06:00:00	4.605963	4.375664	4.836261
+31	2020-06-21 07:00:00	3.611552	3.430974	3.792129
+32	2020-06-21 08:00:00	2.679572	2.545593	2.813550
+33	2020-06-21 09:00:00	1.887442	1.793070	1.981814
+34	2020-06-21 10:00:00	1.340268	1.273255	1.407282
+35	2020-06-21 11:00:00	1.156494	1.098669	1.214318
+36	2020-06-21 12:00:00	1.440240	1.368228	1.512252
+37	2020-06-21 13:00:00	2.251431	2.138859	2.364002
+38	2020-06-21 14:00:00	3.592712	3.413076	3.772347
+39	2020-06-21 15:00:00	5.415959	5.145161	5.686757
+40	2020-06-21 16:00:00	7.613187	7.232528	7.993847
+41	2020-06-21 17:00:00	9.918564	9.422636	10.414493
+42	2020-06-21 18:00:00	11.755348	11.167580	12.343115
+43	2020-06-21 19:00:00	12.576593	11.947764	13.205423
+44	2020-06-21 20:00:00	12.489052	11.864599	13.113504
+45	2020-06-21 21:00:00	11.915885	11.320090	12.511679
+46	2020-06-21 22:00:00	11.133274	10.576610	11.689938
+47	2020-06-21 23:00:00	10.264495	9.751270	10.777719
+```
+
+We also use the built-in drawing method of `LSTMModel` to draw the training data (black curve) and prediction results (blue curve).
+
+```python
+# Plot the result of LSTMModel model.
+m.plot()
+```
+
+![Python output](figures/4-2-3-11.png)
+
+To evaluate the correctness of the prediction results, we also use another drawing method to draw the training data (black curve), test data (black curve), and prediction results (blue curve) at the same time. The figure shows that the blue and black curves are roughly consistent in the changing trend and value range, but overall, the data prediction result (blue curve) is slightly lower than the test data (black curve).
+
+```python
+# Create a figure and axis for the plot with a specified figsize.
+fig, ax = plt.subplots(figsize=(12, 7))
+
+# Plot the training data with a black color and label 'train'.
+train.plot(ax=ax, label='train', color='black')
+
+# Plot the testing data with a black color.
+test.plot(ax=ax, color='black')
+
+# Plot the LSTM model forecasts with a blue color.
+fcst.plot(x='time', y='fcst', ax=ax, color='blue')
+
+# Fill the area between the lower and upper forecast bounds with a slight transparency.
+ax.fill_between(test.index, fcst['fcst_lower'], fcst['fcst_upper'], alpha=0.1)
+
+# Remove the legend from the plot.
+ax.get_legend().remove()
+```
+
+![Python output](figures/4-2-3-12.png)
+
+### Holt-Winter
+
+We also use the Holt-Winter model provided by the kats package, a method that uses moving averages to assign weights to historical data for data forecasting. We first divide the dataset into training and prediction data and observe the changes in the training data by drawing.
+
+```python
+# Extract a time range from the 'air_hour' DataFrame: June 17th to June 21st, 2020.
+data_hw = air_hour.loc['2020-06-17':'2020-06-21']
+
+# Define the length of the training data (excluding the last 48 hours).
+train_len = -48
+
+# Split the 'data_hw' DataFrame into training and testing sets.
+train = data_hw.iloc[:train_len]
+test = data_hw.iloc[train_len:]
+
+# Create a TimeSeriesData object for the training data with a 'timestamp' column.
+trainData = TimeSeriesData(train.reset_index(), time_col_name='timestamp')
+
+# Plot the 'PM25' values from the training data.
+trainData.plot(cols=["PM25"])
+```
+
+![Python output](figures/4-2-3-13.png)
+
+Then we need to set the parameters of the Holt-Winter model, which are to select whether to use addition or multiplication to decompose the time series data (the following example uses multiplication, `mul`), and the length of the period (the following example uses 24 hours). Then we can perform model training and data prediction.
+
+```python
+# Ignore warnings for cleaner output.
+warnings.simplefilter(action='ignore')
+
+# Specify parameters for the Holt-Winters model.
+params = HoltWintersParams(
+    trend="multiplicative",  # Multiplicative trend component.
+    seasonal="multiplicative",  # Multiplicative seasonal component.
+    seasonal_periods=24,  # Seasonal period of 24 hours.
+)
+
+# Create an instance of the Holt-Winters model with the specified parameters.
+m = HoltWintersModel(
+    data=trainData,  # Training data provided as a TimeSeriesData object.
+    params=params  # Use the defined parameters.
+)
+
+# Fit the Holt-Winters model to the training data.
+m.fit()
+
+# Forecast future values for 48 time steps with a frequency of 'H' (hourly).
 fcst = m.predict(steps=48, freq='H')
+
+# Add the forecasted values to the 'data_hw' DataFrame with a 'timestamp' index.
 data_hw['forecast'] = fcst[['time', 'fcst']].set_index('time')
+
+# Display the forecast.
 fcst
 ```
 
@@ -1584,26 +2214,31 @@ fcst
 119	2020-06-21 23:00:00	11.594832
 ```
 
-To visually assess the performance of the Holt-Winters model, we utilize its built-in drawing method. This allows us to create a graph displaying the training data as a black curve and the prediction results as a blue curve. 
+We also use the built-in drawing method of `HoltWintersModel` to draw the training data (black curve) and prediction results (blue curve).
 
 ```python
+# Plot the results of the Holt-Winters model.
 m.plot()
 ```
 
 ![Python output](figures/4-2-3-14.png)
 
-For a comprehensive evaluation of the Holt-Winters model's predictions, we employ another drawing method to simultaneously plot the training data (black curve), test data (also depicted as a black curve), and prediction results (blue curve). This allows for a direct comparison between the model's forecasts and the actual data.
-
-The graph reveals that the predicted (blue curve) and actual (black curves) data align closely in terms of overall trends and value ranges. However, a notable observation is that the prediction results (blue curve) tend to respond a bit more slowly to upward trends compared to the test data (black curve). This lag in response indicates a potential area for improvement in the model's sensitivity to rapid changes in the data. Understanding these nuances helps in fine-tuning the model for more accurate and responsive predictions.
+To evaluate the correctness of the prediction results, we also use another drawing method to draw the training data (black curve), test data (black curve), and prediction results (blue curve) at the same time. The figure shows that the blue and black curves are roughly consistent in the changing trend and value range. Still, overall, the data prediction result (blue curve) responds slightly slower to the rising slope than the test data (black curve).
 
 ```python
+# Create a figure and axis for the plot with a specified figsize.
 fig, ax = plt.subplots(figsize=(12, 7))
 
+# Plot the training data with a label and black color.
 train.plot(ax=ax, label='train', color='black')
+
+# Plot the test data in black.
 test.plot(ax=ax, color='black')
+
+# Plot the forecasted data with 'time' as the x-axis and 'fcst' as the y-axis in blue.
 fcst.plot(x='time', y='fcst', ax=ax, color='blue')
 
-# ax.fill_between(test.index, fcst['fcst_lower'], fcst['fcst_upper'], alpha=0.1)
+# Remove the legend from the plot.
 ax.get_legend().remove()
 ```
 
@@ -1611,22 +2246,31 @@ ax.get_legend().remove()
 
 ### Comparison
 
-In the final step, to enable an effective comparison and observation of the performance of the six models we've explored, we plan to plot their prediction results simultaneously on the same graph. This comprehensive visualization will include the forecast outcomes of the ARIMA, SARIMAX, auto_arima, Prophet, LSTM, and Holt-Winters models.
-
-To view this comparative visualization, it's important to first ensure that all the code for the prediction models mentioned above has been executed. Once this is done, the graph can be generated, showcasing the prediction results of each model side by side.
-
-This graphical comparison allows us to observe and contrast the accuracy of each model under various time intervals and through different patterns of curve changes. Such a visual representation is incredibly useful for users to assess the strengths and weaknesses of each model in context. Based on this analysis, users can make more informed decisions regarding the most suitable model for their specific needs and potential future applications, especially considering the unique characteristics of their time series data.
+Finally, to facilitate observation and comparison, we will draw the prediction results of the six models introduced in the figure below simultaneously (Note: You must first run all the codes of the above prediction models to see the results of these six prediction models). We can observe and compare the prediction accuracy of the six models under different time intervals and curve change characteristics, which is convenient for users to decide on the final model selection and possible future applications.
 
 ```python
+# Create a figure with a 3x2 grid of subplots and a specified figsize.
 fig, axes = plt.subplots(nrows=3, ncols=2, figsize=(12, 8))
 
+# Plot the 'PM25' and 'forecast' data for ARIMA in the top-left subplot with the title 'ARIMA'.
 data_arima[['PM25', 'forecast']].plot(ax=axes[0, 0], title='ARIMA')
+
+# Plot the 'PM25' and 'forecast' data for SARIMAX in the middle-left subplot with the title 'SARIMAX'.
 data_sarimax[['PM25', 'forecast']].plot(ax=axes[1, 0], title='SARIMAX')
+
+# Plot the 'PM25' and 'forecast' data for auto_arima in the bottom-left subplot with the title 'auto_arima'.
 data_autoarima[['PM25', 'forecast']].plot(ax=axes[2, 0], title='auto_arima')
+
+# Plot the 'PM25' and 'forecast' data for Prophet in the top-right subplot with the title 'Prophet'.
 data_prophet[['PM25', 'forecast']].plot(ax=axes[0, 1], title='Prophet')
+
+# Plot the 'PM25' and 'forecast' data for LSTM in the middle-right subplot with the title 'LSTM'.
 data_lstm[['PM25', 'forecast']].plot(ax=axes[1, 1], title='LSTM')
+
+# Plot the 'PM25' and 'forecast' data for Holt-Winter in the bottom-right subplot with the title 'Holt-Winter'.
 data_hw[['PM25', 'forecast']].plot(ax=axes[2, 1], title='Holt-Winter')
 
+# Adjust the layout of subplots for better spacing.
 fig.tight_layout(pad=1, w_pad=2, h_pad=5)
 ```
 
