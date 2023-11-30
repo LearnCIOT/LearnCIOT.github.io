@@ -13,25 +13,27 @@ authors: ["Yu-Chi Peng"]
 
 {{< toc >}}
 
-The previous chapter has introduced various methods of processing time series data, including visual presentation of data, decomposition of time series data, etc. In this chapter, we will further extract the characteristics of these data and use various predictive models to find the law of the data and predict the future.
+In the last chapter, we explored different ways to handle and understand data that changes over time, like creating visual representations and breaking down the data into smaller parts. This chapter will delve deeper into these data sets, focusing on identifying their unique features. We'll also use a range of predictive models to uncover patterns within the data and make forecasts about future trends.
 
 ## Goal
+1. **Evaluating Stationarity in Time Series Data**: We aim to assess whether the time series data remains consistent over time or shows significant variations.
 
-- Stationary evaluation of time series data
-- Comparison of different forecasting models
-- The practice of time series data forecasting
+2. **Comparing Various Forecasting Models**: We'll compare different models used for forecasting to understand which ones work best for our specific data set.
 
-## Package Installation and Importing
+3. **Practical Application of Time Series Data Forecasting**: Finally, we'll put our learning into practice by actually forecasting future trends based on the time series data we have.
 
-In this article, we will use the pandas, matplotlib, numpy, statsmodels, and warnings packages, which are pre-installed on our development platform, Google Colab, and do not need to be installed manually. However, we will also use two additional packages that Colab does not have pre-installed: kats and pmdarima, which need to be installed by :
+## Setting Up the Environment
 
+For this tutorial, we'll primarily use a set of Python packages: pandas, matplotlib, numpy, statsmodels, and warnings. Good news! If you're using Google Colab as your development platform, these packages are already installed and ready to use. 
+
+However, we'll also need two additional packages that aren't included in Colab's default setup: **kats** and **pmdarima**. To get these up and running, we'll need to install them manually. This can be done with the following commands:
 ```python
 !pip install --upgrade pip
 !pip install kats==0.1 ax-platform==0.2.3 statsmodels==0.12.2
 !pip install pmdarima
 ```
 
-After the installation is complete, we can use the following syntax to import the relevant packages to complete the preparations in this article.
+Once the installation of kats and pmdarima is complete, we're ready to import all the required packages into our working environment. This step is crucial for ensuring that we have access to the various functions and tools each package offers for our analysis.
 
 ```python
 import warnings
@@ -54,14 +56,16 @@ from kats.models.holtwinters import HoltWintersParams, HoltWintersModel
 ```
 
 ## Data Access
+In this study, our primary focus is on analyzing and processing time series data. We'll be using real-world datasets from the Civil IoT Taiwan Data Service Platform, specifically focusing on air quality, water level, and meteorological (weather-related) data.
 
-The topic of this paper is the analysis and processing of time series data. We will use the air quality, water level and meteorological data on the Civil IoT Taiwan Data Service Platform for data access demonstration, and then use the air quality data for further data analysis. Among them, each type of data is the data observed by a collection of stations for a long time, and the time field name in the dataframe is set to `timestamp`. Because the value of the time field is unique, we also use this field as the index of the dataframe.
+For our demonstration of data access and in-depth analysis, we will particularly concentrate on the air quality data. This data, like the other types, is collected over a long period by various monitoring stations. In our dataframes (the tables where we organize this data), the time at which each observation is recorded is labeled as `timestamp`.
+
+Since each `timestamp` is unique, it serves a dual purpose. Not only does it indicate when the data was recorded, but it also acts as the index for our dataframe, helping us organize and access the data more efficiently.
 
 ### Air Quality Data
+For this project, we're focusing on long-term historical data. Instead of using the direct data access methods provided by the pyCIOT package, we'll take a different approach. We'll download the data archive titled “Academia Sinica - Micro Air Quality Sensors” from the Civil IoT Taiwan Data Service Platform's historical database. This archive will be stored in a folder named Air.
 
-Since we want to use long-term historical data in this article, we do not directly use the data access methods of the pyCIOT package, but directly download the data archive of “Academia Sinica - Micro Air Quality Sensors” from the historical database of the Civil IoT Taiwan Data Service Platform and store in the `Air` folder.
-
-At the same time, since the downloaded data is in the format of a zip compressed file, we need to decompress it to generate a number of compressed daily file, and then decompress the compressed daily file and store it in the `CSV_Air` folder.
+The data we download will be in a zip-compressed file format. To work with this data, our first step is to extract or decompress it. This process will produce a series of daily files, which are also compressed. We'll then need to decompress each of these daily files and save them in another folder, which we'll call CSV_Air.
 
 ```python
 !mkdir Air CSV_Air
@@ -107,7 +111,19 @@ for subfolder in os.listdir(folder):
             os.rename(path2, f'CSV_Air/{item}')
 ```
 
-The CSV_Air folder now contains all daily sensor data in CSV format. To filter out data for a single station (such as the station with code `74DA38C7D2AC`), we need to read each CSV file and put the data for that station into a dataframe called `air`. Finally, we delete all downloaded data and data generated after decompression to save storage space in the cloud.
+Now that we have decompressed our data into the `CSV_Air` folder, it contains daily sensor data in CSV (Comma-Separated Values) format. Our next step is to focus on data from a specific monitoring station. Let's say we're interested in the station with the code `74DA38C7D2AC`.
+
+Here's how we'll proceed:
+
+1. **Reading the Data**: We'll go through each CSV file in the `CSV_Air` folder. Each file represents a day's worth of data from all the sensors.
+
+2. **Filtering the Data**: While reading each file, we'll extract only the data that corresponds to our station of interest, `74DA38C7D2AC`.
+
+3. **Creating a DataFrame**: We'll compile this filtered data into a DataFrame named `air`. This DataFrame will consist of all the relevant data from our chosen station, organized for easy analysis.
+
+4. **Clean Up**: After we've successfully created the `air` DataFrame with all the necessary data, we'll delete all the downloaded files and any data generated during the decompression process. This step is important to free up storage space in the cloud environment, especially when working with large datasets.
+
+By following these steps, we ensure that we have a focused dataset that is relevant to our analysis, while also maintaining an efficient use of our storage resources.
 
 ```python
 folder = 'CSV_Air'
@@ -133,7 +149,15 @@ air.set_index('timestamp', inplace=True)
 !rm -rf Air CSV_Air
 ```
 
-Finally, we rearrange the data in the site, delete unnecessary field information, and sort them by time as follows:
+The last step in preparing our data for analysis involves reorganizing it to ensure it's in the most useful format. Here's what we'll do:
+
+1. **Rearranging the Data**: We'll adjust the data within our `air` DataFrame so that it's organized in a way that best suits our analysis needs, that is rearranging the Data in the site.
+
+2. **Removing Unnecessary Fields**: To streamline our analysis, we'll identify and remove any fields (columns) in the data that aren't necessary for our study. This makes the data cleaner and focuses our attention only on the relevant information.
+
+3. **Sorting by Time**: Since we're dealing with time series data, it's crucial to have our data sorted chronologically. We'll arrange the data in the `air` DataFrame in ascending order based on the `timestamp` field. This ensures that our analysis follows the natural order of time and provides accurate insights into trends and patterns.
+
+By completing these steps, our data is now well-organized, focused, and ready for in-depth time series analysis.
 
 ```python
 air.drop(columns=['device_id', 'SiteName'], inplace=True)
@@ -161,10 +185,15 @@ timestamp
 ```
 
 ### Water Level Data
+Similar to how we handled the air quality data, we will now focus on obtaining and preparing long-term historical data for groundwater levels. Here's the process we'll follow, paralleling our approach with the air quality data:
 
-Like the example of air quality data, since we are going to use long-term historical data this time, we do not directly use the data access methods of the pyCIOT suite, but directly download the data archive of “Water Resources Agency - Groundwater Level Station” from the historical database of the Civil IoT Taiwan Data Service Platform and store in the `Water` folder.
+1. **Data Download**: Instead of using the `pyCIOT` suite's direct data access methods, we will download the data archive titled “Water Resources Agency - Groundwater Level Station” from the historical database of the Civil IoT Taiwan Data Service Platform. This archive will be stored in a folder named `Water`.
 
-At the same time, since the downloaded data is in the format of a zip compressed file, we need to decompress it to generate a number of compressed daily file, and then decompress the compressed daily file and store it in the `CSV_Water` folder.
+2. **Decompressing the Archive**: The data from the Civil IoT Taiwan Data Service Platform is provided in a zip compressed file format. Our first task will be to decompress this main archive file. This action will reveal several smaller compressed files, each representing data for a single day.
+
+3. **Decompressing Daily Files**: We'll then proceed to decompress each of these daily compressed files. The decompressed files, which will be in CSV format, will be stored in a new folder called `CSV_Water`.
+
+By following these steps, we'll have all the necessary groundwater level data organized and ready for analysis, just like we did with the air quality data. The data in `CSV_Water` will then be primed for further processing and analysis as per our project's requirements.
 
 ```python
 !mkdir Water CSV_Water
@@ -208,8 +237,17 @@ for subfolder in os.listdir(folder):
           elif item.endswith(extension_csv):
             os.rename(path2, f'CSV_Water/{item}')
 ```
+With the groundwater level data now available in the `CSV_Water` folder in CSV format, our next steps will mirror what we did with the air quality data:
 
-The CSV_Water folder now contains all daily sensor data in CSV format. To filter out data for a single station (such as the station with code `338c9c1c-57d8-41d7-9af2-731fb86e632c`), we need to read each CSV file and put the data for that station into a dataframe called `water`. Finally, we delete all downloaded data and data generated after decompression to save storage space in the cloud.
+1. **Reading the Data**: We'll sequentially open each CSV file in the `CSV_Water` folder. Each file contains a day's worth of data from various monitoring stations.
+
+2. **Filtering by Station**: As we read through each file, we'll specifically extract data from the station with the code `338c9c1c-57d8-41d7-9af2-731fb86e632c`. This targeted approach ensures we only gather data relevant to our study.
+
+3. **Creating the `water` DataFrame**: All the data from the specified station will be compiled into a DataFrame named `water`. This DataFrame will serve as the central repository for all the groundwater level data we need for our analysis.
+
+4. **Cleanup**: After successfully gathering and organizing the data in the `water` DataFrame, we'll delete all the original downloaded files and any intermediate data created during the decompression process. This step is essential for managing storage space efficiently, especially when working in a cloud environment.
+
+By completing these steps, we ensure a streamlined and focused dataset for our groundwater level analysis, maintaining an efficient and organized workflow.
 
 ```python
 folder = 'CSV_Water'
@@ -234,8 +272,13 @@ water.set_index('timestamp', inplace=True)
 
 !rm -rf Water CSV_Water
 ```
+The last phase in preparing our groundwater level data for analysis involves a few key steps to ensure the data is both efficient and easy to work with:
 
-Finally, we rearrange the data in the site, delete unnecessary field information, and sort them by time as follows:
+Rearranging the Data in the site: We'll organize the data within the water DataFrame to ensure it's in the most effective format for our analysis. This could include ordering the columns in a specific sequence or grouping similar data types together for better clarity.
+
+Removing Unneeded Fields: To streamline our analysis, it's important to eliminate any fields (columns) in the data that aren't necessary for our study. This helps reduce clutter and focus our attention on the most relevant information.
+
+Sorting by Time: Given that we're dealing with time series data, sorting the data chronologically is essential. We'll arrange the data in the water DataFrame in ascending order based on the timestamp field. This step is crucial for maintaining a logical sequence of data, which is particularly important for identifying trends and patterns over time.
 
 ```python
 water.drop(columns=['station_id', 'ciOrgname', 'ciCategory', 'Organize_Name', 'CategoryInfos_Name', 'PQ_name', 'PQ_fullname', 'PQ_description', 'PQ_unit', 'PQ_id'], inplace=True)
@@ -264,9 +307,15 @@ timestamp
 
 ### Meteorological Data
 
-We download the data archive of “Central Weather Bureau - Automatic Weather Station” from the historical database of the Civil IoT Taiwan Data Service Platform and store in the `Weather` folder.
+For the meteorological data, we'll follow a similar process to what we did with the air quality and groundwater level data:
 
-At the same time, since the downloaded data is in the format of a zip compressed file, we need to decompress it to generate a number of compressed daily file, and then decompress the compressed daily file and store it in the `CSV_Weather` folder.
+1. **Downloading the Data Archive**: We'll download the "Central Weather Bureau - Automatic Weather Station" data archive from the Civil IoT Taiwan Data Service Platform. This archive will be saved in a folder named `Weather`.
+
+2. **Decompressing the Main Archive**: The downloaded data will be in a zip-compressed file format. Our first task is to decompress this main archive. This will reveal several smaller compressed files, each representing a day's worth of meteorological data.
+
+3. **Decompressing Daily Files**: We then decompress each of these daily compressed files. The resulting decompressed files, in CSV format, will be stored in a new folder called `CSV_Weather`.
+
+By following these steps, we'll have all the necessary meteorological data organized and ready for analysis. This data in `CSV_Weather` will be primed for further processing and analysis as required for our project.
 
 ```python
 !mkdir Weather CSV_Weather
@@ -311,7 +360,17 @@ for subfolder in os.listdir(folder):
             os.rename(path2, f'CSV_Weather/{item}')
 ```
 
-The CSV_Weather folder now contains all daily sensor data in CSV format. To filter out data for a single station (such as the station with code `C0U750`), we need to read each CSV file and put the data for that station into a dataframe called `weather`. Finally, we delete all downloaded data and data generated after decompression to save storage space in the cloud.
+With the meteorological data now available in the `CSV_Weather` folder, we'll process it similarly to the air quality and groundwater level data:
+
+1. **Reading the Data**: Each CSV file in the `CSV_Weather` folder contains a day's worth of data from various weather stations. We'll go through these files one by one.
+
+2. **Filtering by Station**: As we read each file, our goal is to extract data specifically from the station with the code `C0U750`. This selective process ensures we're only gathering the data relevant to our analysis needs.
+
+3. **Creating the `weather` DataFrame**: We'll compile all the data from station `C0U750` into a DataFrame named `weather`. This DataFrame becomes the central collection of all the meteorological data we need for our study.
+
+4. **Cleanup**: Once we've gathered and organized the necessary data in the `weather` DataFrame, we'll proceed to delete all the original downloaded files and any data generated during the decompression process. This step is crucial for effective cloud storage management, especially when dealing with large datasets.
+
+Following these steps, we ensure a focused and streamlined dataset for our meteorological analysis, maintaining an organized and efficient data processing workflow.
 
 ```python
 folder = 'CSV_Weather'
@@ -338,7 +397,15 @@ weather.set_index('timestamp', inplace=True)
 !rm -rf Weather CSV_Weather
 ```
 
-Finally, we rearrange the data in the site, delete unnecessary field information, and sort them by time as follows:
+The last step in preparing our meteorological data for analysis is to ensure that it is well-organized and free of any unnecessary information. Here's how we'll do it:
+
+1. **Rearranging the Data in the site**: We'll adjust the data within the `weather` DataFrame to best suit our analysis needs, that is rearranging the Data in the site.
+
+2. **Removing Unneeded Fields**: To make our analysis as efficient as possible, we'll identify and remove any fields (columns) in the data that aren't necessary for our study. This step helps to focus our analysis on the most relevant data points.
+
+3. **Sorting by Time**: Given the nature of time series data, it's crucial to have the data sorted in chronological order. We'll organize the data in the `weather` DataFrame based on the `timestamp` field, arranging it in ascending order. This chronological arrangement is key for accurately analyzing trends and patterns over time.
+
+With these steps completed, our meteorological data is now in an optimal format for analysis. It's streamlined, focused, and arranged in a logical sequence, setting the stage for effective and meaningful time series analysis.
 
 ```python
 weather.drop(columns=['station_id'], inplace=True)
@@ -387,11 +454,11 @@ timestamp
 2019-01-01 04:00:00  39.0   NaN  14.1   NaN  13.5   NaN
 ```
 
-Above, we have successfully demonstrated the reading example of air quality data (air), water level data (water) and meteorological data (weather). In the following discussion, we will use air quality data to demonstrate basic time series data processing. The same methods can also be easily applied to water level data or meteorological data and obtain similar results. You are encouraged to try it yourself.
+We have successfully illustrated how to access and prepare three different types of data from the Civil IoT Taiwan Data Service Platform: air quality data (air), water level data (water), and meteorological data (weather). Each dataset has been meticulously processed, filtered, and organized for our analysis. Our next steps - Basic Time Series Data Processing: By following along and applying these techniques to different datasets, you'll gain a comprehensive understanding of how to process and analyze time series data effectively. Whether for academic, professional, or personal projects, these skills are invaluable in extracting meaningful insights from temporal data.
 
 ## Data Preprocessing
 
-We first resample the data according to the method introduced in Section 4.1 and take the hourly average (`air_hour`), daily average (`air_day`), and monthly average (`air_month`) of the data, respectively.
+Resampling is a crucial technique in time series analysis, especially when working with datasets like air quality measurements, which can have numerous readings over short intervals. By resampling, we can aggregate these readings into more manageable time frames like hourly, daily, or monthly averages. This process not only simplifies the data but also helps in identifying broader trends and patterns.
 
 ```python
 air_hour = air.resample('H').mean()
@@ -399,7 +466,7 @@ air_day = air.resample('D').mean()
 air_month = air.resample('M').mean()
 ```
 
-Then we remove the outliers in the `air_hour` data according to the outlier detection method introduced in Section 4.1 and fill in the missing data with the Forward fill method.
+To clean up the `air_hour` data, we first eliminate any unusual values, known as outliers, using the method we explained in Section 4.1. After that, we address any gaps in the data by applying the Forward Fill technique, which replaces missing values with the nearest preceding non-missing value.
 
 ```python
 air_ts = TimeSeriesData(air_hour.reset_index(), time_col_name='timestamp')
@@ -421,13 +488,12 @@ air_hour.ffill(inplace=True)
 
 ## Stationary Evaluation
 
-Before proceeding to predict the data, we first check the [stationarity](https://www.itl.nist.gov/div898/handbook/pmc/section4/pmc442.htm) of the data. We select the period we want to detect (for example, 2020-06-10 ~ 2020-06-17) and store the data of this period in the `data` variable.
+Before we start predicting the data, it's important to first verify its  [stationarity](https://www.itl.nist.gov/div898/handbook/pmc/section4/pmc442.htm) , which means checking if its statistical properties like mean and variance stay constant over time. To do this, we choose a specific time period (like June 10 to June 17, 2020) and then gather all the data from this interval into a variable we call `data`.
 
 ```python
 data = air_hour.loc['2020-06-10':'2020-06-17']
 ```
-
-Then we calculate these data's mean (mean) and variation (var) and plot them.
+Next, we calculate the mean (mean) and the variation (var) of these data points. After calculating these, we visually represent them by plotting them on a graph.
 
 ```python
 nmp = data.PM25.to_numpy()
@@ -450,15 +516,14 @@ plt.show()
 ```
 
 ![Python output](figures/4-2-2-1.png)
+From the graph, we notice that the average (mean) of the data remains relatively consistent, but the spread (variance) shows significant variation. This indicates that the data are not very stable over time, a condition we refer to as poor stationarity. In contrast, stationary data would show little to no time-related changes in both mean and variance.
 
-It can be seen from the figure that the mean does not change much, but the variance varies greatly. We say that such data are poorly stationary; conversely, if the data is stationary, the change in its mean and variance will have nothing to do with time.
+Simply put, if the data's distribution shows a trend or pattern changing over time, it lacks stationarity. But if the data's distribution remains constant over time, with steady mean and variance, it is considered stationary. Understanding whether data is stationary is crucial for selecting the right model to predict future values.
 
-In other words, if the data distribution has a particular trend over time, it has no stationarity. If the data distribution does not change over time, while the mean and variance remain fixed, it has stationarity. The information on stationarity helps find a suitable model and predict future values.
+There are two common methods to test for stationarity:
 
-There are at least two common ways to check whether data is stationary:
-
-1. Augmented Dickey Fuller (ADF) test: Using the [unit root test](https://en.wikipedia.org/wiki/Unit_root_test)，the data are stationary if the *p-value* < 0.05.
-2. Kwiatkowski-Phillips-Schmidt-Shin (KPSS) test: Contrary to the ADF test, if *p-value* < 0.05, the data is not stationary.
+1. **Augmented Dickey Fuller (ADF) Test**: This uses a [unit root test](https://en.wikipedia.org/wiki/Unit_root_test) approach. Here, if the *p-value* is less than 0.05, the data is considered stationary.
+2. **Kwiatkowski-Phillips-Schmidt-Shin (KPSS) Test**: This test works oppositely to the ADF test. In this case, if the *p-value* is less than 0.05, it suggests the data is not stationary.
 
 ```python
 # ADF Test
@@ -499,10 +564,9 @@ Critial Values:
 Critial Values:
    1%, 0.739
 ```
+In our example with the sample data, the Augmented Dickey Fuller (ADF) test yields a *p-value* of 0.073. Since this value is greater than 0.05, it indicates that our data is not stationary. To address this, we proceed by differentiating the data. This means we subtract the value at each previous point (i-1) from the current point (i) in the data sequence. We then use these differentiated values for a retest.
 
-If we take the sample data we use as an example, the *p-value* obtained by the ADF test is 0.073, so the information is not stationary. To achieve stationarity, we next differentiate the data, subtract the i-1th data from the i-th data, and use the obtained results to test again.
-
-In the data format of the dataframe, we can directly use `data.diff()` to differentiate the data and name the differentiated data as `data_diff`.
+In terms of data handling, especially when working with a dataframe format, we can easily differentiate the data using the `data.diff()` function. The resulting differentiated data is then stored in a new variable named `data_diff`.
 
 ```python
 data_diff = data.diff()
@@ -525,7 +589,7 @@ timestamp
 2020-06-17 23:00:00	3.944444
 ```
 
-We can see that the first data is *Nan* because the first data cannot be subtracted from the previous data, so we have to discard the first data.
+When we differentiate the data using the method described, the first data point turns out to be *NaN* (Not a Number). This happens because there's no preceding data point for the first entry to be subtracted from. To address this, we need to remove or discard this first data point, which lacks a valid value.
 
 ```python
 data_diff = data_diff[1:]
@@ -548,7 +612,7 @@ timestamp
 2020-06-17 23:00:00	3.944444
 ```
 
-Then we plot the data to observe the relationship between the mean and variance of the data after differentiation over time.
+After discarding the first data point, we then plot the remaining differentiated data. This plot helps us observe how the mean (average) and variance (spread) of the data behave over time following the differentiation process. 
 
 ```python
 nmp = data_diff.PM25.to_numpy()
@@ -572,7 +636,11 @@ plt.show()
 
 ![Python output](figures/4-2-2-2.png)
 
-From the above results, we find that the change in the mean is still small, while the change in the variance becomes smaller. We then repeat the above stationarity evaluation steps:
+Based on the results from our plot of the differentiated data, we observe that the change in the mean remains minimal, while the variance shows a reduced level of change. This suggests an improvement towards stationarity. To confirm this, we'll repeat the earlier steps for evaluating stationarity:
+
+1. We'll re-calculate the mean and variance of this newly differentiated data.
+2. We'll create a new plot to visually assess these recalculated statistical properties.
+3. We'll perform the stationarity tests again (like the Augmented Dickey Fuller (ADF) and Kwiatkowski-Phillips-Schmidt-Shin (KPSS) tests) on this differentiated data to check if it now meets the criteria for stationarity.
 
 ```python
 # PM25
@@ -615,22 +683,42 @@ Critial Values:
    1%, 0.739
 ```
 
-After the test, the *p-value* of the ADF test is 5.68e-25, which shows that the data after a difference is stationary, and this result will be used in the subsequent prediction model in the following.
+Following the differentiation and re-testing, the Augmented Dickey Fuller (ADF) test gives a *p-value* of 5.68e-25. This extremely small value indicates that the data, after being differentiated, is now stationary. This result is significant as it confirms that the data is suitable for accurate analysis and prediction. We will use this stationary data in the prediction models we develop in the subsequent steps.
 
 ## Data Forecast
+After preparing the data, we move on to experimenting with different models for predicting time series data. The models we'll explore include:
 
-After data preprocessing, we demonstrate using different prediction models to predict time series data. We will use  [ARIMA](https://otexts.com/fpp2/arima.html), [SARIMAX](https://www.statsmodels.org/stable/examples/notebooks/generated/statespace_sarimax_stata.html), [auto_arima](https://alkaline-ml.com/pmdarima/modules/generated/pmdarima.arima.auto_arima.html), [Prophet](https://facebook.github.io/prophet/), [LSTM](https://en.wikipedia.org/wiki/Long_short-term_memory), and [Holt-Winter](https://otexts.com/fpp2/holt-winters.html) models.
+1. **[ARIMA](https://otexts.com/fpp2/arima.html)**: This stands for AutoRegressive Integrated Moving Average. It's a popular statistical model used for forecasting time series data, especially when the data is stationary.
+
+2. **[SARIMAX](https://www.statsmodels.org/stable/examples/notebooks/generated/statespace_sarimax_stata.html)**: This model extends ARIMA by incorporating Seasonal trends and potentially external or exogenous factors into the forecasting.
+
+3. **[auto_arima](https://alkaline-ml.com/pmdarima/modules/generated/pmdarima.arima.auto_arima.html)**: This is an automated version of ARIMA that simplifies the process of model selection by automatically finding the best parameters.
+
+4. **[Prophet](https://facebook.github.io/prophet/)**: Developed by Facebook, this model is designed for forecasting with daily observations that display patterns on different time scales.
+
+5. **[LSTM](https://en.wikipedia.org/wiki/Long_short-term_memory)**: Long Short-Term Memory networks are a type of deep learning model suited for making predictions based on time series data.
+
+6. **[Holt-Winter](https://otexts.com/fpp2/holt-winters.html)**: This model, also known as the Triple Exponential Smoothing method, is useful for forecasting data with seasonal patterns.
+
+Each of these models has its strengths and is suitable for different types of time series data. The choice of model depends on the specific characteristics of the data being analyzed.
 
 ### ARIMA
 
-The ARIMA model is an extended version of the ARMA model, so we first introduce the ARMA model and split the ARMA model into two parts, namely:
+The ARIMA model, which is an advanced form of the ARMA model, includes an additional component for handling non-stationary data. To understand ARIMA, let's first break down the ARMA model into its two core parts:
 
-1. Autoregressive model (AR): Use a parameter `p` and make a linear combination of the previous *p* historical values to predict the current value.
-2. Moving average model (MA): Use a parameter `q` and make a linear combination of the previous *q* prediction errors using the AR model to predict the current value.
+1. **Autoregressive model (AR)**: This part uses a parameter 'p' to make predictions based on a linear combination of the previous 'p' historical values. It's like saying that the future value is a function of the past 'p' values.
 
-The ARIMA model uses one more parameter, `d`, than the ARMA model. If the data is not stationary, it needs to be differentiated, and the parameter `d` represents the number of times to be differentiated.
+2. **Moving Average model (MA)**: This component, characterized by a parameter 'q', uses a linear combination of the previous 'q' forecast errors (made by the AR model) to predict the current value. It's akin to adjusting predictions based on how much we've been off in the recent past.
 
-Below we use air quality data to conduct an exercise. First, we plot the data to select the piece of data to use:
+The ARIMA model then adds an extra parameter 'd', which stands for the degree of differencing needed to make the data stationary. If the data isn't stationary (i.e., its statistical properties change over time), we use differencing to stabilize it. The 'd' parameter specifies how many times the data needs to be differenced to achieve stationarity.
+
+In practice, using the ARIMA model involves these steps:
+
+1. Plot the data to visually inspect it and select the appropriate portion for analysis.
+2. Determine the values of the parameters 'p', 'd', and 'q' for the ARIMA model. This involves identifying how many lags of historical data (p), how many times the data needs to be differenced (d), and how many lags of forecast errors (q) should be included in the model.
+3. Apply the ARIMA model to the selected data to forecast future values.
+
+For our exercise, we'll be using air quality data. The first step is to plot this data to identify the specific segment we want to analyze and model.
 
 ```python
 air_hour.loc['2020-06-01':'2020-06-30']['PM25'].plot(figsize=(12, 8))
@@ -638,12 +726,13 @@ air_hour.loc['2020-06-01':'2020-06-30']['PM25'].plot(figsize=(12, 8))
 
 ![Python output](figures/4-2-3-1.png)
 
-We select a piece of data that we want to use and divide the data into two parts:
+For our exercise with the air quality data, we first choose a specific segment of the data that we want to focus on. Then, we divide this chosen data into two distinct parts for the purposes of our analysis:
 
-1. Train data: used to train the model and find the most suitable parameters.
-2. Test data: used to evaluate the model's accuracy in data prediction.
+1. **Train Data**: This portion of the data is used to train our model. During training, the model learns and identifies the most suitable parameters for making accurate predictions based on this data.
 
-In our following example, we set the length of the test data to be 48 hours (`train_len=-48`) and the training data to be all the data minus the last 48 hours.
+2. **Test Data**: This set is used to evaluate how well our model performs. It tests the model's ability to accurately predict data values it hasn't seen before, which helps us gauge its effectiveness and reliability.
+
+In the example we're working on, we decide that the length of the test data will be the last 48 hours of our data set. This is achieved by setting `train_len=-48`. It means we take all the data available to us except for the last 48 hours, which we reserve for testing. The rest of the data, which is everything up to the last 48 hours, is used as training data. This approach allows us to train the model on a significant portion of the data while still keeping a meaningful and recent segment for testing its predictive accuracy.
 
 ```python
 data_arima = air_hour.loc['2020-06-17':'2020-06-21']
@@ -651,8 +740,7 @@ train_len = -48
 train = data_arima.iloc[:train_len]
 test = data_arima.iloc[train_len:]
 ```
-
-We first evaluate the stationarity of this piece of data. Then we determine the value of the `d` parameter by the number of differentiations required.
+We first assess the stationarity of our chosen air quality data segment. The number of times we need to differentiate this data to achieve stationarity determines the 'd' parameter value for the ARIMA model.
 
 ```python
 # Run Dicky-Fuller test
@@ -669,10 +757,15 @@ print("The p-value:",result[1])
 The test stastics: -3.1129543556288826
 The p-value: 0.025609243615341074
 ```
+Since the *p-value* from our stationarity test is less than 0.05, it means our data is already stationary. Thus, we don't need to differentiate the data, setting the 'd' parameter in the ARIMA model to 0. Next, we'll focus on determining the best values for the 'p' (autoregressive) and 'q' (moving average) parameters. Here's how we do it:
 
-Since the *p-value* is already smaller than 0.05, we can continue exploring the parameters `p` and `q` in the ARIMA model without differentiations (`d`=0). We take a simple method to combine the possible combinations of `p` and `q`, respectively, and determine the parameter values by evaluating the quality of the resulting models.
+1. **Combining 'p' and 'q' Values**: We explore different combinations of 'p' and 'q'. Initially, we can limit both parameters to a range between 0 and 2. This creates nine possible combinations (0,0; 0,1; 0,2; 1,0; 1,1; 1,2; 2,0; 2,1; 2,2).
 
-We can use the [AIC](https://en.wikipedia.org/wiki/Akaike_information_criterion) or [BIC](https://en.wikipedia.org/wiki/Bayesian_information_criterion) method to evaluate whether the model fits the training data. Generally speaking, the smaller the judged value, the better the effect of the model. For example, we first limit the range of `p` and `q` between 0 and 2 so that there are nine possible combinations. Then, we check the values of AIC and BIC, respectively, and use the combination of `p` and `q` with the smallest value as the decision value of the parameters.
+2. **Evaluating Model Quality**: To judge which combination of 'p' and 'q' works best, we use criteria like the Akaike Information Criterion ([AIC](https://en.wikipedia.org/wiki/Akaike_information_criterion)) or the Bayesian Information Criterion ([BIC](https://en.wikipedia.org/wiki/Bayesian_information_criterion)). These criteria help assess the model's fit to the training data.
+
+3. **Selecting Parameters Based on AIC/BIC**: Generally, the lower the AIC or BIC value, the better the model's performance. We'll test each of the nine combinations and observe their AIC and BIC values. The combination of 'p' and 'q' yielding the smallest AIC or BIC value will be chosen as our model's parameters.
+
+This methodical approach allows us to systematically identify the most suitable 'p' and 'q' values for our ARIMA model, ensuring an optimal balance between model complexity and fit.
 
 ```python
 warnings.filterwarnings('ignore')
@@ -734,7 +827,9 @@ Sorted by BIC
 8  0  0  493.148188  495.424854
 ```
 
-We found that when `(p,q) = (1,0)`, the values of AIC and BIC are the smallest, representing the best configuration of the model. Therefore, we set the three parameters `p`, `d`, and `q` to 1, 0, and 0, respectively, and then started training the model.
+Having determined that the combination (p, q) = (1, 0) yields the smallest values for both the Akaike Information Criterion (AIC) and the Bayesian Information Criterion (BIC), we conclude that this is the best configuration for our model. This means that the autoregressive component (p) is significant, but the moving average component (q) is not needed for this particular data set.
+
+Therefore, we set up our ARIMA model with the parameters p, d, and q as 1, 0, and 0, respectively. The 'p' value of 1 indicates we are using one lag value in the autoregressive part of the model. The 'd' value of 0 shows that no differencing is needed as the data is already stationary. Finally, the 'q' value of 0 indicates that we are not using the moving average component in this model.
 
 ```python
 # Instantiate model object
@@ -773,10 +868,13 @@ Prob(H) (two-sided):                  0.05   Kurtosis:                         7
 
 ![Python output](figures/4-2-3-2.png)
 
-We then use the test data to make predictions and evaluate the accuracy of the predictions. From the resulting graph, we can find that the curve of the data prediction result is too smooth, which is very different from the actual value. If you observe the changing trend of the overall data, you will find that the raw data itself fluctuates regularly, but ARIMA can only predict the trend of the data. If you want to predict the data's value accurately, there is still a considerable gap in the results.
+Upon using the test data for predictions with the ARIMA model, the resulting graph shows that the predicted curve is too smooth and differs significantly from the actual values. While ARIMA captures the data's general trend, it falls short in accurately predicting the regular fluctuations, indicating a need for more sophisticated modeling to close this gap.
 
 ```python
+# Add a 'forecast' column to the 'data_arima' DataFrame with ARIMA model predictions.
 data_arima['forecast'] = results.predict(start=24*5-48, end=24*5)
+
+# Plot the 'PM25' values along with the forecasted values.
 data_arima[['PM25', 'forecast']].plot(figsize=(12, 8))
 ```
 
@@ -785,13 +883,31 @@ data_arima[['PM25', 'forecast']].plot(figsize=(12, 8))
 ### SARIMAX
 
 ```python
+# Extract a time range from the 'air_hour' DataFrame: June 17th to June 21st, 2020.
 data_sarimax = air_hour.loc['2020-06-17':'2020-06-21']
+
+# Define the length of the training data (excluding the last 48 hours).
 train_len = -48
+
+# Split the 'data_sarimax' DataFrame into training and testing sets.
 train = data_sarimax.iloc[:train_len]
 test = data_sarimax.iloc[train_len:]
 ```
 
-We next introduce the SARIMAX model. The SARIMAX model has seven parameters, `p`, `d`, `q`, `P`, `D`, `Q`, `s`. These parameters can be divided into two groups: the first group is `order=(p, d, q)`, and they are the same as the parameters of the ARIMA model; the other group is `seasonal_order=(P, D, Q, s)`, and they are the periodic AR model parameters, the periodic differentiation times, the periodic MA model parameters, and the periodic length.
+The SARIMAX model, an extension of the ARIMA model, includes seven parameters: `p`, `d`, `q`, `P`, `D`, `Q`, and `s`. These parameters are divided into two groups:
+
+1. **`order=(p, d, q)`**: These are the same as in the ARIMA model. 
+   - `p`: Number of lag observations in the model (autoregressive part).
+   - `d`: Degree of differencing required to make the series stationary.
+   - `q`: Size of the moving average window.
+
+2. **`seasonal_order=(P, D, Q, s)`**: These relate to the model's seasonal components.
+   - `P`: Number of seasonal autoregressive terms.
+   - `D`: Degree of seasonal differencing.
+   - `Q`: Number of seasonal moving average terms.
+   - `s`: Length of the seasonal cycle.
+
+The SARIMAX model thus not only captures the non-seasonal aspects of the time series (through `p`, `d`, `q`) but also accounts for seasonality and external factors (through `P`, `D`, `Q`, `s`), making it more versatile for complex datasets with seasonal patterns.
 
 | 參數 | 說明 |
 | --- | --- |
@@ -803,7 +919,7 @@ We next introduce the SARIMAX model. The SARIMAX model has seven parameters, `p`
 | Q | 週期性的 MA 模型參數 |
 | s | 週期長度 |
 
-Since the previous observations demonstrated that these data generally have a periodic change of about 24 hours, we set `s=24` and use the following commands to build the model.
+Given our observation of a 24-hour periodic change in the data, we set `s=24` in the SARIMAX model. This aligns the model's seasonal component with the data's daily pattern, allowing us to build the model using this setting to better predict the observed trends.
 
 ```python
 # Instantiate model object
@@ -844,7 +960,10 @@ Prob(H) (two-sided):                  0.17   Kurtosis:                         4
 Next, we make predictions using the test data and visualize the prediction results. Although the SARIMA model's prediction results still have room to improve, they are already much better than the ARIMA model.
 
 ```python
+# Add a 'forecast' column to the 'data_sarimax' DataFrame with SARIMA model predictions.
 data_sarimax['forecast'] = results.predict(start=24*5-48, end=24*5)
+
+# Plot the 'PM25' values along with the forecasted values.
 data_sarimax[['PM25', 'forecast']].plot(figsize=(12, 8))
 ```
 
@@ -857,8 +976,13 @@ We use the [pmdarima](https://pypi.org/project/pmdarima/) Python package, which 
 Next, we will implement how to use `pmdarima.auto_arima`, and first divide the data set into training data and test data:
 
 ```python
+# Extract a time range from the 'air_hour' DataFrame: June 17th to June 21st, 2020.
 data_autoarima = air_hour.loc['2020-06-17':'2020-06-21']
+
+# Define the length of the training data (excluding the last 48 hours).
 train_len = -48
+
+# Split the 'data_autoarima' DataFrame into training and testing sets.
 train = data_autoarima.iloc[:train_len]
 test = data_autoarima.iloc[train_len:]
 ```
@@ -866,7 +990,10 @@ test = data_autoarima.iloc[train_len:]
 For the four parameters `p`, `q`, `P`, `Q`, we use `start` and `max` to specify the corresponding ranges. We also set the periodic parameter `seasonal` to True and the periodic variable `m` to 24 hours. Then we can directly get the best model parameter combination and model fitting results.
 
 ```python
-results = pm.auto_arima(train,start_p=0, d=0, start_q=0, max_p=5, max_d=5, max_q=5, start_P=0, D=1, start_Q=0, max_P=5, max_D=5, max_Q=5, m=24, seasonal=True, error_action='warn', trace = True, supress_warnings=True, stepwise = True, random_state=20, n_fits = 20)
+# Fit an AutoARIMA model to the training data.
+results = pm.auto_arima(train, start_p=0, d=0, start_q=0, max_p=5, max_d=5, max_q=5, start_P=0, D=1, start_Q=0, max_P=5, max_D=5, max_Q=5, m=24, seasonal=True, error_action='warn', trace=True, suppress_warnings=True, stepwise=True, random_state=20, n_fits=20)
+
+# Print a summary of the model's results.
 print(results.summary())
 ```
 
@@ -919,6 +1046,7 @@ Prob(H) (two-sided):                  0.17   Kurtosis:                         4
 Finally, we use the best model found for data prediction, and plot the prediction results and test data on the same graph in the form of an overlay. Since the best model found this time is the SARIMAX model just introduced, the results of both predictors are roughly the same.
 
 ```python
+# Generate forecasts for the next 10 periods using the fitted AutoARIMA model.
 results.predict(n_periods=10)
 ```
 
@@ -937,8 +1065,12 @@ Freq: H, dtype: float64
 ```
 
 ```python
-data_autoarima['forecast']= pd.DataFrame(results.predict(n_periods=48), index=test.index)
+# Generate forecasts for the next 48 periods using the fitted AutoARIMA model.
+data_autoarima['forecast'] = pd.DataFrame(results.predict(n_periods=48), index=test.index)
+
+# Plot the 'PM25' values along with the forecasted values.
 data_autoarima[['PM25', 'forecast']].plot(figsize=(12, 8))
+
 ```
 
 ![Python output](figures/4-2-3-6.png)
@@ -950,12 +1082,20 @@ Next, we use the [Prophet](https://facebook.github.io/prophet/) model provided i
 We first divide the dataset into training and prediction data and observe the changes in the training data by drawing.
 
 ```python
+# Extract a time range from the 'air_hour' DataFrame: June 17th to June 21st, 2020.
 data_prophet = air_hour.loc['2020-06-17':'2020-06-21']
+
+# Define the length of the training data (excluding the last 48 hours).
 train_len = -48
+
+# Split the 'data_prophet' DataFrame into training and testing sets.
 train = data_prophet.iloc[:train_len]
 test = data_prophet.iloc[train_len:]
 
+# Create a TimeSeriesData object for the training data with a 'timestamp' column.
 trainData = TimeSeriesData(train.reset_index(), time_col_name='timestamp')
+
+# Plot the 'PM25' values from the training data.
 trainData.plot(cols=["PM25"])
 ```
 
@@ -964,18 +1104,22 @@ trainData.plot(cols=["PM25"])
 We then use `ProphetParams` to set the Prophet model's parameters and the training data and parameters to initialize the `ProphetModel`. Then we use the `fit` method to build the model and use the `predict` method to predict the data, and then we can get the final prediction result.
 
 ```python
-# Specify parameters
+# Specify Prophet model parameters with seasonality mode as "multiplicative."
 params = ProphetParams(seasonality_mode="multiplicative")
 
-# Create a model instance
+# Create a Prophet model instance with the training data and specified parameters.
 m = ProphetModel(trainData, params)
 
-# Fit mode
+# Fit the Prophet model to the training data.
 m.fit()
 
-# Forecast
+# Generate forecasts for the next 48 hours with an hourly frequency.
 fcst = m.predict(steps=48, freq="H")
-data_prophet['forecast'] = fcst[['time','fcst']].set_index('time')
+
+# Add the forecasted values to the 'data_prophet' DataFrame.
+data_prophet['forecast'] = fcst[['time', 'fcst']].set_index('time')
+
+# Display the forecasts.
 fcst
 ```
 
@@ -1032,6 +1176,7 @@ fcst
 ```
 
 ```python
+# Display the dataframe.
 data_prophet
 ```
 
@@ -1053,6 +1198,7 @@ data_prophet
 We use the built-in drawing method of `ProphetModel` to draw the training data (black curve) and prediction results (blue curve).
 
 ```python
+# Plot the result of Prophet model.
 m.plot()
 ```
 
@@ -1061,13 +1207,22 @@ m.plot()
 To evaluate the correctness of the prediction results, we also use another drawing method to draw the training data (black curve), test data (black curve), and prediction results (blue curve) at the same time. The figure shows that the blue and black curves are roughly consistent in the changing trend and value range, and overall the data prediction results are satisfactory.
 
 ```python
+# Create a figure and axis for the plot with a specified figsize.
 fig, ax = plt.subplots(figsize=(12, 7))
 
+# Plot the training data with a black color and label 'train'.
 train.plot(ax=ax, label='train', color='black')
+
+# Plot the testing data with a black color.
 test.plot(ax=ax, color='black')
+
+# Plot the Prophet model forecasts with a blue color.
 fcst.plot(x='time', y='fcst', ax=ax, color='blue')
 
+# Fill the area between the lower and upper forecast bounds with a slight transparency.
 ax.fill_between(test.index, fcst['fcst_lower'], fcst['fcst_upper'], alpha=0.1)
+
+# Remove the legend from the plot.
 ax.get_legend().remove()
 ```
 
@@ -1080,12 +1235,20 @@ Next, we introduce the Long Short-Term Memory (LSTM) model for data prediction. 
 We first divide the dataset into training and prediction data and observe the changes in the training data by drawing.
 
 ```python
+# Extract a time range from the 'air_hour' DataFrame: June 17th to June 21st, 2020.
 data_lstm = air_hour.loc['2020-06-17':'2020-06-21']
+
+# Define the length of the training data (excluding the last 48 hours).
 train_len = -48
+
+# Split the 'data_lstm' DataFrame into training and testing sets.
 train = data_lstm.iloc[:train_len]
 test = data_lstm.iloc[train_len:]
 
+# Create a TimeSeriesData object for the training data with a 'timestamp' column.
 trainData = TimeSeriesData(train.reset_index(), time_col_name='timestamp')
+
+# Plot the 'PM25' values from the training data.
 trainData.plot(cols=["PM25"])
 ```
 
@@ -1094,16 +1257,26 @@ trainData.plot(cols=["PM25"])
 Then we select the parameters of the LSTM model in order, namely the number of training times (`num_epochs`), the time length of data read in at one time (`time_window`), and the number of neural network layers related to long-term and short-term memory (`hidden_size`). Then you can directly perform model training and data prediction.
 
 ```python
+# Specify LSTM model parameters, including the number of hidden layers, time window, and number of epochs.
 params = LSTMParams(
-    hidden_size=10, # number of hidden layers
-    time_window=24,
-    num_epochs=30
+    hidden_size=10,  # Number of hidden layers
+    time_window=24,  # Time window for model input
+    num_epochs=30  # Number of training epochs
 )
+
+# Create an LSTM model instance with the training data and specified parameters.
 m = LSTMModel(trainData, params)
+
+# Fit the LSTM model to the training data.
 m.fit()
 
+# Generate forecasts for the next 48 hours with an hourly frequency.
 fcst = m.predict(steps=48, freq="H")
+
+# Add the forecasted values to the 'data_lstm' DataFrame.
 data_lstm['forecast'] = fcst[['time', 'fcst']].set_index('time')
+
+# Display the forecasts.
 fcst
 ```
 
@@ -1162,6 +1335,7 @@ fcst
 We also use the built-in drawing method of `LSTMModel` to draw the training data (black curve) and prediction results (blue curve).
 
 ```python
+# Plot the result of LSTMModel model.
 m.plot()
 ```
 
@@ -1170,13 +1344,22 @@ m.plot()
 To evaluate the correctness of the prediction results, we also use another drawing method to draw the training data (black curve), test data (black curve), and prediction results (blue curve) at the same time. The figure shows that the blue and black curves are roughly consistent in the changing trend and value range, but overall, the data prediction result (blue curve) is slightly lower than the test data (black curve).
 
 ```python
+# Create a figure and axis for the plot with a specified figsize.
 fig, ax = plt.subplots(figsize=(12, 7))
 
+# Plot the training data with a black color and label 'train'.
 train.plot(ax=ax, label='train', color='black')
+
+# Plot the testing data with a black color.
 test.plot(ax=ax, color='black')
+
+# Plot the LSTM model forecasts with a blue color.
 fcst.plot(x='time', y='fcst', ax=ax, color='blue')
 
+# Fill the area between the lower and upper forecast bounds with a slight transparency.
 ax.fill_between(test.index, fcst['fcst_lower'], fcst['fcst_upper'], alpha=0.1)
+
+# Remove the legend from the plot.
 ax.get_legend().remove()
 ```
 
@@ -1187,12 +1370,20 @@ ax.get_legend().remove()
 We also use the Holt-Winter model provided by the kats package, a method that uses moving averages to assign weights to historical data for data forecasting. We first divide the dataset into training and prediction data and observe the changes in the training data by drawing.
 
 ```python
+# Extract a time range from the 'air_hour' DataFrame: June 17th to June 21st, 2020.
 data_hw = air_hour.loc['2020-06-17':'2020-06-21']
+
+# Define the length of the training data (excluding the last 48 hours).
 train_len = -48
+
+# Split the 'data_hw' DataFrame into training and testing sets.
 train = data_hw.iloc[:train_len]
 test = data_hw.iloc[train_len:]
 
+# Create a TimeSeriesData object for the training data with a 'timestamp' column.
 trainData = TimeSeriesData(train.reset_index(), time_col_name='timestamp')
+
+# Plot the 'PM25' values from the training data.
 trainData.plot(cols=["PM25"])
 ```
 
@@ -1201,26 +1392,32 @@ trainData.plot(cols=["PM25"])
 Then we need to set the parameters of the Holt-Winter model, which are to select whether to use addition or multiplication to decompose the time series data (the following example uses multiplication, `mul`), and the length of the period (the following example uses 24 hours). Then we can perform model training and data prediction.
 
 ```python
+# Ignore warnings for cleaner output.
 warnings.simplefilter(action='ignore')
 
-# Specify parameters
+# Specify parameters for the Holt-Winters model.
 params = HoltWintersParams(
-            trend="mul",
-            seasonal="mul",
-            seasonal_periods=24,
-        )
+    trend="multiplicative",  # Multiplicative trend component.
+    seasonal="multiplicative",  # Multiplicative seasonal component.
+    seasonal_periods=24,  # Seasonal period of 24 hours.
+)
 
-# Create a model instance
+# Create an instance of the Holt-Winters model with the specified parameters.
 m = HoltWintersModel(
-    data=trainData, 
-    params=params)
+    data=trainData,  # Training data provided as a TimeSeriesData object.
+    params=params  # Use the defined parameters.
+)
 
-# Fit mode
+# Fit the Holt-Winters model to the training data.
 m.fit()
 
-# Forecast
+# Forecast future values for 48 time steps with a frequency of 'H' (hourly).
 fcst = m.predict(steps=48, freq='H')
+
+# Add the forecasted values to the 'data_hw' DataFrame with a 'timestamp' index.
 data_hw['forecast'] = fcst[['time', 'fcst']].set_index('time')
+
+# Display the forecast.
 fcst
 ```
 
@@ -1279,6 +1476,7 @@ fcst
 We also use the built-in drawing method of `HoltWintersModel` to draw the training data (black curve) and prediction results (blue curve).
 
 ```python
+# Plot the results of the Holt-Winters model.
 m.plot()
 ```
 
@@ -1287,13 +1485,19 @@ m.plot()
 To evaluate the correctness of the prediction results, we also use another drawing method to draw the training data (black curve), test data (black curve), and prediction results (blue curve) at the same time. The figure shows that the blue and black curves are roughly consistent in the changing trend and value range. Still, overall, the data prediction result (blue curve) responds slightly slower to the rising slope than the test data (black curve).
 
 ```python
+# Create a figure and axis for the plot with a specified figsize.
 fig, ax = plt.subplots(figsize=(12, 7))
 
+# Plot the training data with a label and black color.
 train.plot(ax=ax, label='train', color='black')
+
+# Plot the test data in black.
 test.plot(ax=ax, color='black')
+
+# Plot the forecasted data with 'time' as the x-axis and 'fcst' as the y-axis in blue.
 fcst.plot(x='time', y='fcst', ax=ax, color='blue')
 
-# ax.fill_between(test.index, fcst['fcst_lower'], fcst['fcst_upper'], alpha=0.1)
+# Remove the legend from the plot.
 ax.get_legend().remove()
 ```
 
@@ -1304,15 +1508,28 @@ ax.get_legend().remove()
 Finally, to facilitate observation and comparison, we will draw the prediction results of the six models introduced in the figure below simultaneously (Note: You must first run all the codes of the above prediction models to see the results of these six prediction models). We can observe and compare the prediction accuracy of the six models under different time intervals and curve change characteristics, which is convenient for users to decide on the final model selection and possible future applications.
 
 ```python
+# Create a figure with a 3x2 grid of subplots and a specified figsize.
 fig, axes = plt.subplots(nrows=3, ncols=2, figsize=(12, 8))
 
+# Plot the 'PM25' and 'forecast' data for ARIMA in the top-left subplot with the title 'ARIMA'.
 data_arima[['PM25', 'forecast']].plot(ax=axes[0, 0], title='ARIMA')
+
+# Plot the 'PM25' and 'forecast' data for SARIMAX in the middle-left subplot with the title 'SARIMAX'.
 data_sarimax[['PM25', 'forecast']].plot(ax=axes[1, 0], title='SARIMAX')
+
+# Plot the 'PM25' and 'forecast' data for auto_arima in the bottom-left subplot with the title 'auto_arima'.
 data_autoarima[['PM25', 'forecast']].plot(ax=axes[2, 0], title='auto_arima')
+
+# Plot the 'PM25' and 'forecast' data for Prophet in the top-right subplot with the title 'Prophet'.
 data_prophet[['PM25', 'forecast']].plot(ax=axes[0, 1], title='Prophet')
+
+# Plot the 'PM25' and 'forecast' data for LSTM in the middle-right subplot with the title 'LSTM'.
 data_lstm[['PM25', 'forecast']].plot(ax=axes[1, 1], title='LSTM')
+
+# Plot the 'PM25' and 'forecast' data for Holt-Winter in the bottom-right subplot with the title 'Holt-Winter'.
 data_hw[['PM25', 'forecast']].plot(ax=axes[2, 1], title='Holt-Winter')
 
+# Adjust the layout of subplots for better spacing.
 fig.tight_layout(pad=1, w_pad=2, h_pad=5)
 ```
 
